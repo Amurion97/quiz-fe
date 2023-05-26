@@ -44,8 +44,6 @@ const StyledContent = styled('div')(({theme}) => ({
 // ----------------------------------------------------------------------
 
 export default function SearchPage() {
-    const mdUp = useResponsive('up', 'md');
-
     return (
         <>
             <Helmet>
