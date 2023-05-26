@@ -1,13 +1,67 @@
+:root {
+  --color-purple: 239, 39%, 45%;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',*/
+  /*  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',*/
+  /*  sans-serif;*/
+  font-family: 'Public Sans', 'sans-serif';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100vw;
+  height: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.flight-card__route {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  justify-content: center;
+  align-items: center;
+  padding: 0 4rem;
+}
+.route-line {
+  position: relative;
+  margin: 1rem 0 0;
+  width: 100%;
+  height: 1px;
+  border: 0.1rem dashed HSL(var(--color-purple));
+}
+.route-line__stop {
+  border-radius: 100%;
+  box-sizing: content-box;
+  width: 0.8rem;
+  height: 0.8rem;
+  position: absolute;
+  top: 50%;
+  background-color: HSL(var(--color-purple));
+  transform: translate3d(-50%, -50%, 0);
+}
+.route-line__stop-name {
+  margin-top: 1.5rem;
+  font-size: 1.4rem;
+  transform: translateX(-0.7rem);
+}
+.route-line__start {
+  left: 0;
+  border: 0.6rem solid HSL(var(--color-purple));
+  background-color: #fff;
+}
+.route-line__end {
+  right: 0;
+  border: 0.6rem solid HSL(var(--color-light-purple));
+  transform: translate3d(50%, -50%, 0);
+}
+
