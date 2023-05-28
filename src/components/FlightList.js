@@ -2,7 +2,7 @@ import axios from "axios";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {Grid, Container, Paper, Typography, Button} from '@mui/material';
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import BookingBar from "../components/BookingBar";
 import {useEffect, useState} from "react";
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
@@ -34,6 +34,7 @@ const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
 
 export default function FlightList(props) {
     const theme = useTheme();
+    const navigate = useNavigate();
     // const [flights, setFlights] = useState([]);
     const flights = useSelector(selectDeparture);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -50,9 +51,23 @@ export default function FlightList(props) {
     }, [])
     return (
         <>
-            <Typography variant="body1" gutterBottom color={theme.palette.primary.main}>
-                {flights.list.length} results
-            </Typography>
+            <Grid container spacing={3} alignItems="center" mb={3}>
+                <Grid item xs={6} sm={9} md={9}>
+                    <Typography variant="body1" gutterBottom color={theme.palette.primary.main}>
+                        {flights.list.length} results
+                    </Typography>
+                </Grid>
+                <Grid item xs={6} sm={3} md={3}>
+                    <Button variant="contained" color="primary" fullWidth
+                            onClick={() => {
+                                navigate("/search")
+                            }
+                            }>
+                        Change your search
+                    </Button>
+                </Grid>
+            </Grid>
+
             <Grid container spacing={3} alignItems="center">
                 {flights.list.map(item => {
                     // console.log("item:", item.id);

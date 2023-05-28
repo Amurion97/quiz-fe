@@ -115,6 +115,7 @@ export default function SearchForm() {
                                     from: values.from.id,
                                     to: values.to.id,
                                     start: values.start ? values.start.split(",")[0] : "",
+                                    "return": values.return ? values.return.split(",")[0] : "",
                                     class: values.class,
                                 }).toString()
                             })

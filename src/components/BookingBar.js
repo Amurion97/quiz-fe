@@ -98,7 +98,7 @@ export default function BookingBar(props) {
                     <Grid item xs={4} sm={4} md={4}>
                         <CssDatePicker label=""
                                        readOnly
-                                       defaultValue={dayjs(searchParams.get("end"))}
+                                       defaultValue={dayjs(searchParams.get("return"))}
                                        format="LL"
                         />
                     </Grid>
