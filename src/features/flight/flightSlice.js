@@ -25,11 +25,16 @@ export const fetchFlights = createAsyncThunk(
         console.log("arg:", arg)
         const response = await customAPIv1().get('flights', {
             params: {
-                from: arg.query.get("from"),
-                to: arg.query.get("to"),
-                start: arg.query.get("start"),
-                class: arg.query.get("class"),
-                skip: (arg.skip) ? arg.skip : ""
+                // from: arg.query.get("from"),
+                // to: arg.query.get("to"),
+                // start: arg.query.get("start"),
+                // class: arg.query.get("class"),
+                // skip: (arg.skip) ? arg.skip : "",
+                from: arg.query.from.id,
+                to: arg.query.to.id,
+                start: arg.query.start ? arg.query.start.split(",")[0] : "",
+                class: arg.query.class,
+                skip: (arg.skip) ? arg.skip : "",
             }
         })
         console.log("response data:", response.data)
@@ -66,7 +71,7 @@ export const flightSlice = createSlice({
                 state.departure.status = 'loading';
             })
             .addCase(fetchFlights.fulfilled, (state, action) => {
-                console.log("fetch flights success")
+                console.log("fetch flights success:", action.payload)
                 state.departure.status = 'idle';
                 console.log(state.departure.list instanceof Array, action.payload instanceof Array)
                 // state.departure.list = [...state.departure.list,...action.payload];

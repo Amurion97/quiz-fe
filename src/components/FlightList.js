@@ -43,13 +43,16 @@ export default function FlightList(props) {
     useEffect(() => {
         console.log("list did mount");
         console.log("search Params:", searchParams)
-        dispatch(fetchFlights({
-            query: searchParams,
-            skip: flights.length
-        }))
+        // dispatch(fetchFlights({
+        //     query: searchParams,
+        //     skip: flights.length
+        // }))
     }, [])
     return (
         <>
+            <Typography variant="body1" gutterBottom color={theme.palette.primary.main}>
+                {flights.list.length} results
+            </Typography>
             <Grid container spacing={3} alignItems="center">
                 {flights.list.map(item => {
                     // console.log("item:", item.id);

@@ -49,11 +49,6 @@ export default function FlightPage() {
 
                         <Grid item xs={12} sm={12} md={12}>
                             <Grid container spacing={3} alignItems="center">
-                                <Grid item xs={12} sm={12} md={12}>
-                                    <Typography variant="body1" gutterBottom color={theme.palette.primary.main}>
-                                        ... results
-                                    </Typography>
-                                </Grid>
 
                                 <Grid item xs={12} sm={12} md={12} >
                                     <FlightList handleClickOpen={handleClickOpen}></FlightList>

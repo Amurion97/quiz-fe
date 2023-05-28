@@ -111,7 +111,7 @@ export default function SeatChoosingWindow(props) {
                 maxWidth='md'
                 fullWidth={true}
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" style={{color:theme.palette.primary.main}}>
                     {"Choose your favorite seats"}
                 </DialogTitle>
                 <DialogContent sx={customStyleForPlane}>
