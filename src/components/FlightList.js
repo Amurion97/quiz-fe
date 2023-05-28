@@ -7,15 +7,12 @@ import BookingBar from "../components/BookingBar";
 import {useEffect, useState} from "react";
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import FlightLandIcon from '@mui/icons-material/FlightLand';
+import {useDispatch, useSelector} from "react-redux";
+import {selectCount} from "../features/counter/counterSlice";
+import {fetchFlights, selectDeparture} from "../features/flight/flightSlice";
 // components
 
 // sections
-const StyledRoot = styled('div')(({theme}) => ({
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-    },
-    backgroundImage: theme.palette.background.default,
-}));
 const Flight = styled(Paper)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : theme.palette.background.paper,
     ...theme.typography.body2,
@@ -35,41 +32,37 @@ const Flight = styled(Paper)(({theme}) => ({
 const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 // ----------------------------------------------------------------------
 
-export default function FlightList() {
+export default function FlightList(props) {
     const theme = useTheme();
-    const [flights, setFlights] = useState([]);
+    // const [flights, setFlights] = useState([]);
+    const flights = useSelector(selectDeparture);
     const [searchParams, setSearchParams] = useSearchParams();
+    const count = useSelector(selectDeparture);
+    console.log("departure:", count);
+    const dispatch = useDispatch();
     useEffect(() => {
         console.log("list did mount");
-        axios.get("http://127.0.0.1:5000/v1/flights", {
-            params: {
-                from: searchParams.get("from"),
-                to: searchParams.get("to"),
-                start: searchParams.get("start"),
-                class: searchParams.get("class"),
-            }
-        })
-            .then(res => {
-                console.log("flights:", res.data.data);
-                setFlights(res.data.data)
-            })
-            .catch(e => console.log("error in get flights:", e))
+        console.log("search Params:", searchParams)
+        dispatch(fetchFlights({
+            query: searchParams,
+            skip: flights.length
+        }))
     }, [])
     return (
         <>
             <Grid container spacing={3} alignItems="center">
-                {flights.map(item => {
-                    console.log("item:", item.id);
+                {flights.list.map(item => {
+                    // console.log("item:", item.id);
                     let start = new Date(item.start);
                     let end = new Date(item.end);
                     // let duration = new Date(end - start);
                     let duration = end - start;
                     // let hours = (duration.getFullYear() * 365 + duration.getMonth() * 30 + duration.getDate()) * 24 + duration.getHours();
-                    let minutes = Math.round(duration/(1000*60));
-                    let hours = Math.floor(minutes/60);
-                    minutes -= hours*60
-                    console.log("duration:", duration)
-                    console.log("hours:", hours, "minutes:", minutes)
+                    let minutes = Math.round(duration / (1000 * 60));
+                    let hours = Math.floor(minutes / 60);
+                    minutes -= hours * 60
+                    // console.log("duration:", duration)
+                    // console.log("hours:", hours, "minutes:", minutes)
                     return (
                         <Grid key={item.id} item xs={12} sm={12} md={12}>
                             <Flight>
@@ -137,7 +130,11 @@ export default function FlightList() {
                                                 fontWeight: "light"
                                             }}>VNĐ</sub>
                                         </Typography>
-                                        <Button variant="contained" color="secondary" fullWidth>
+                                        <Button variant="contained" color="secondary" fullWidth
+                                                onClick={() => {
+                                                    props.handleClickOpen(item.id)
+                                                }
+                                                }>
                                             Select
                                         </Button>
                                     </Grid>

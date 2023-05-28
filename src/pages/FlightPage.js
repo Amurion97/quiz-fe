@@ -4,6 +4,8 @@ import {Grid, Container, Paper, Typography, Button} from '@mui/material';
 import {useSearchParams} from "react-router-dom";
 import BookingBar from "../components/BookingBar";
 import FlightList from "../components/FlightList";
+import {useState} from "react";
+import SeatChoosingWindow from "../components/SeatChoosingWindow";
 // components
 
 // sections
@@ -24,6 +26,15 @@ const Flight = styled(Paper)(({theme}) => ({
 // ----------------------------------------------------------------------
 
 export default function FlightPage() {
+    const [flightToChooseSeat, setFlightToChooseSeat] = useState(null);
+
+    const handleClickOpen = (id) => {
+        setFlightToChooseSeat(id);
+    };
+
+    const handleClose = () => {
+        setFlightToChooseSeat(null);
+    };
     const theme = useTheme();
     return (
         <>
@@ -33,8 +44,7 @@ export default function FlightPage() {
                 }}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12} md={12}>
-                            <BookingBar>
-                            </BookingBar>
+                            <BookingBar/>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={12}>
@@ -46,12 +56,13 @@ export default function FlightPage() {
                                 </Grid>
 
                                 <Grid item xs={12} sm={12} md={12} >
-                                    <FlightList></FlightList>
+                                    <FlightList handleClickOpen={handleClickOpen}></FlightList>
                                 </Grid>
 
                             </Grid>
                         </Grid>
                     </Grid>
+                    <SeatChoosingWindow flight={flightToChooseSeat} handleClickOpen={handleClickOpen} handleClose={handleClose}/>
                 </Container>
             </StyledRoot>
         </>

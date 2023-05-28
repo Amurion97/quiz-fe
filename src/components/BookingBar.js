@@ -44,7 +44,7 @@ const CssDatePicker = styled(DatePicker)(({theme}) => ({
 export default function BookingBar(props) {
     const theme = useTheme();
     const [searchParams, setSearchParams] = useSearchParams();
-    console.log("searchParams:", searchParams);
+    console.log("searchParams in Booking Bar:", searchParams);
     // const from = searchParams.get("from");
     const [from, setFrom] = useState("");
     return (
