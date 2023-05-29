@@ -8,8 +8,8 @@ import useResponsive from '../hooks/useResponsive';
 import Logo from '../components/logo';
 import Iconify from '../components/iconify';
 // sections
-import SearchForm from "../sections/SearchForm";
 import palette from "../theme/palette";
+import SearchForm from "../components/SearchForm";
 
 // ----------------------------------------------------------------------
 

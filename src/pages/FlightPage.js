@@ -1,6 +1,6 @@
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
-import {Grid, Container, Paper, Typography, Button} from '@mui/material';
+import {Grid, Container, Paper, Typography, Button, Slide} from '@mui/material';
 import {useSearchParams} from "react-router-dom";
 import BookingBar from "../components/BookingBar";
 import FlightList from "../components/FlightList";
@@ -39,26 +39,29 @@ export default function FlightPage() {
     return (
         <>
             <StyledRoot>
-                <Container maxWidth="lg" style={{
-                    padding: "15px 25px 25px"
-                }}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={12} md={12}>
-                            <BookingBar/>
-                        </Grid>
+                <Slide direction="up" in={true} mountOnEnter unmountOnExit>
+                    <Container maxWidth="lg" style={{
+                        padding: "15px 25px 25px"
+                    }}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={12} md={12}>
+                                <BookingBar/>
+                            </Grid>
 
-                        <Grid item xs={12} sm={12} md={12}>
-                            <Grid container spacing={3} alignItems="center">
+                            <Grid item xs={12} sm={12} md={12}>
+                                <Grid container spacing={3} alignItems="center">
 
-                                <Grid item xs={12} sm={12} md={12} >
-                                    <FlightList handleClickOpen={handleClickOpen}></FlightList>
+                                    <Grid item xs={12} sm={12} md={12}>
+                                        <FlightList handleClickOpen={handleClickOpen}></FlightList>
+                                    </Grid>
+
                                 </Grid>
-
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <SeatChoosingWindow flight={flightToChooseSeat} handleClickOpen={handleClickOpen} handleClose={handleClose}/>
-                </Container>
+                        <SeatChoosingWindow flight={flightToChooseSeat} handleClickOpen={handleClickOpen}
+                                            handleClose={handleClose}/>
+                    </Container>
+                </Slide>
             </StyledRoot>
         </>
     );

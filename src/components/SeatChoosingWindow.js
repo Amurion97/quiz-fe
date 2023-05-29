@@ -149,7 +149,7 @@ export default function SeatChoosingWindow(props) {
                                                                             name: name
                                                                         })
                                                                     }}/>
-                                                                    <label htmlFor={name}>{name}</label>
+                                                                    <label className='noselect' htmlFor={name}>{name}</label>
                                                                 </li>
                                                             )
                                                         })
@@ -180,7 +180,7 @@ export default function SeatChoosingWindow(props) {
                                                 <Avatar sx={{bgcolor: theme.palette.primary.light}}>{item.name}</Avatar>
                                             </ListItemAvatar>
                                             <ListItemText
-                                                primary={item.price}
+                                                primary={item.price.toLocaleString("de-DE")}
                                                 // secondary={secondary ? 'Secondary text' : null}
                                             />
                                         </ListItem>
@@ -199,7 +199,7 @@ export default function SeatChoosingWindow(props) {
                                         <ListItemText
                                             primary={chosenSeats.reduce(function (sum, item) {
                                                 return sum + item.price
-                                            }, 0)}
+                                            }, 0).toLocaleString("de-DE")}
                                             // secondary={secondary ? 'Secondary text' : null}
                                         />
                                     </ListItem>

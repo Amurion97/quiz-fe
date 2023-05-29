@@ -142,7 +142,7 @@ export default function FlightList(props) {
                                             {/*<sup style={{*/}
                                             {/*    fontSize: "0.6em"*/}
                                             {/*}}>$</sup>*/}
-                                            {item.rows[0].price}
+                                            {item.rows[0].price.toLocaleString("de-DE")}
                                             <sub style={{
                                                 fontSize: "0.7rem",
                                                 fontWeight: "light"

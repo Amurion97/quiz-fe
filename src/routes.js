@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import SearchPage from "./pages/SearchPage";
 import FlightPage from "./pages/FlightPage";
+import HorizontalLinearStepper from "./pages/BookingFinalization";
 // import ProductsPage from './pages/ProductsPage';
 // import DashboardAppPage from './pages/DashboardAppPage';
 
@@ -34,23 +35,16 @@ export default function Router() {
                 {
                     path: 'login',
                     element: <LoginPage/>,
-                    // element: <LoginForm />,
                 },
-
-                // {
-                //     element: <SimpleLayout/>,
-                //     children: [
-                //         {element: <Navigate to="/dashboard/app"/>, index: true},
-                //
-                //         {path: '*', element: <Navigate to="/404"/>},
-                //     ],
-                // },
-
             ]
         },
         {
             path: 'results',
             element: <FlightPage/>,
+        },
+        {
+            path: 'finalize',
+            element: <HorizontalLinearStepper/>
         },
         {
             path: '404',
@@ -60,11 +54,6 @@ export default function Router() {
             path: '*',
             element: <Navigate to="/404" replace/>,
         },
-        // {
-        //     path: '/flight',
-        //     element: <DashboardLayout/>,
-        // },
-
     ]);
 
     return routes;
