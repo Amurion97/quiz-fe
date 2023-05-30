@@ -9,7 +9,7 @@ import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import SearchPage from "./pages/SearchPage";
 import FlightPage from "./pages/FlightPage";
-import HorizontalLinearStepper from "./pages/BookingFinalization";
+import BookingFinalization from "./pages/BookingFinalization";
 // import ProductsPage from './pages/ProductsPage';
 // import DashboardAppPage from './pages/DashboardAppPage';
 
@@ -44,7 +44,7 @@ export default function Router() {
         },
         {
             path: 'finalize',
-            element: <HorizontalLinearStepper/>
+            element: <BookingFinalization/>
         },
         {
             path: '404',

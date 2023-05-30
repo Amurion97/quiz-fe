@@ -7,10 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {styled} from "@mui/material/styles";
 import {Container, Grid, Paper} from "@mui/material";
-import BookingBar from "../components/BookingBar";
-import FlightList from "../components/FlightList";
-import SeatChoosingWindow from "../components/SeatChoosingWindow";
-import IdentityForm from "../components/IdentityForm";
+import FinalizeForm from "../components/FinalizeForm";
 
 const StyledRoot = styled('div')(({theme}) => ({
     [theme.breakpoints.up('md')]: {
@@ -21,7 +18,7 @@ const StyledRoot = styled('div')(({theme}) => ({
 
 const steps = ['Fill in your personal information', 'Confirm chosen seats and flights', 'Payment'];
 
-export default function HorizontalLinearStepper() {
+export default function BookingFinalization() {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
@@ -35,19 +32,18 @@ export default function HorizontalLinearStepper() {
     const handleReset = () => {
         setActiveStep(0);
     };
-
-    // function stepRenderSwitch(param) {
-    //     switch(param) {
-    //         case 0:
-    //             return (<IdentityForm/>);
-    //         default:
-    //             return 'foo'
-    //     }
-    // }
+    let childFunc
+    const pullChildFunc = (func) => {
+        childFunc = func
+        console.log(func, childFunc)
+    }
+    const runChildFunc = () => {
+        childFunc()
+    }
 
     return (
         <StyledRoot>
-            <Paper elevation={3} />
+            <Paper elevation={3}/>
             <Container maxWidth="lg" style={{
                 padding: "15px 25px 25px"
             }}>
@@ -73,7 +69,7 @@ export default function HorizontalLinearStepper() {
                 ) : (
                     <React.Fragment>
                         <Typography sx={{mt: 2, mb: 1}}>Step {activeStep + 1}</Typography>
-                        <IdentityForm activeStep={activeStep}/>
+                        <FinalizeForm activeStep={activeStep} pullChildFunc={pullChildFunc}/>
                         <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
                             <Button
                                 color="inherit"
@@ -84,9 +80,11 @@ export default function HorizontalLinearStepper() {
                                 Back
                             </Button>
                             <Box sx={{flex: '1 1 auto'}}/>
-                            <Button onClick={handleNext}>
-                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                            </Button>
+                            {activeStep < steps.length - 1 ?
+                                <Button onClick={handleNext}>
+                                    'Next'
+                                </Button>:""}
+
                         </Box>
                     </React.Fragment>
                 )}

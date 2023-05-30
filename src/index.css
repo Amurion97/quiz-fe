@@ -304,10 +304,10 @@ code {
   grid-template-columns: 28% 42% 30%;
   height: 300px;
   margin: auto;
-  width: 750px;
+  width: 900px;
 }
 
-img {
+.ticket-img {
   width: 60px;
   margin-top: 20px;
 }
@@ -317,7 +317,16 @@ a {
   color: #d3b779;
 }
 
-.item {
+.m-item {
+  color: #919EAB;
+  font-family: "Average Sans", sans-serif;
+  font-size: 14px;
+  margin: 20px auto 0 auto;
+  text-transform: uppercase;
+  font-weight: bolder;
+}
+
+.l-item {
   color: #9091c6;
   font-family: "Average Sans", sans-serif;
   font-size: 14px;
@@ -337,6 +346,10 @@ a {
   font-family: "Average Sans", sans-serif;
   font-size: 21px;
   text-transform: capitalize;
+}
+
+.mid-detail {
+  color: white;
 }
 
 /* start ticket-left*/
@@ -374,7 +387,7 @@ a {
 
 /*start ticket-middle*/
 .ticket-middle {
-  background-color: #fcaf9a;
+  background-color: #4647a0;
   border-right: 1.7px dotted black;
   clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
   display: grid;
@@ -397,14 +410,14 @@ a {
 }
 
 .serial {
-  background-color: #fff;
   font-family: "Cutive Mono";
   grid-column: 1 / span 3;
   line-height: 21px;
   margin-left: 30px;
-  margin-top: 7px;
+  margin-top: 10px;
   text-align: center;
   text-transform: uppercase;
+  color: #fff;
 }
 /*end ticket-middle*/
 
@@ -426,7 +439,7 @@ a {
   color: #4647a0;
   font-family: "Average Sans", sans-serif;
   font-size: 18px;
-  text-transform: ;
+  text-transform: uppercase;
 }
 
 .stub-flight {

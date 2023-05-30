@@ -5,23 +5,17 @@ import {
     Button, CircularProgress, Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText,
     Paper,
-    Typography
 } from '@mui/material';
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-import {useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {fetchFlights} from "../features/flight/flightSlice";
 import {customAPIv1} from "../features/customAPI";
-import BookingBar from "./BookingBar";
-import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {deepPurple, green} from "@mui/material/colors";
 import FunctionsIcon from '@mui/icons-material/Functions';
+import {useDispatch} from "react-redux";
+import {setDepartureSeats} from "../features/seat/SeatSlice";
+import {useNavigate} from "react-router-dom";
 // components
 
 // sections
@@ -32,35 +26,13 @@ const StyledRoot = styled(Paper)(({theme}) => ({
     textAlign: 'center',
     color: theme.palette.primary.contrastText,
 }));
-const CssDatePicker = styled(DatePicker)(({theme}) => ({
-    color: "red",
-    '& label.Mui-focused': {
-        color: theme.palette.secondary.main,
-    },
-    '& .MuiInput-underline:after': {
-        borderBottomColor: '#B2BAC2',
-    },
-    '& .MuiOutlinedInput-root': {
-        backgroundColor: theme.palette.primary.contrastText,
-        height: "2.5rem",
-        color: theme.palette.primary.main,
-        // '& fieldset': {
-        //     borderColor: theme.palette.secondary.main,
-        // },
-        // '&:hover fieldset': {
-        //     borderColor: theme.palette.secondary.main,
-        // },
-        // '&.Mui-focused fieldset': {
-        //     borderColor: theme.palette.secondary.main,
-        // },
-    },
-}));
-
 // ----------------------------------------------------------------------
 
 export default function SeatChoosingWindow(props) {
     console.log("props:", props)
+    const navigate = useNavigate();
     const theme = useTheme();
+    const dispatch = useDispatch()
     const [flightDetails, setFlightDetails] = useState(null);
     let maxSeatInARow = 1;
     if (flightDetails) {
@@ -111,7 +83,7 @@ export default function SeatChoosingWindow(props) {
                 maxWidth='md'
                 fullWidth={true}
             >
-                <DialogTitle id="alert-dialog-title" style={{color:theme.palette.primary.main}}>
+                <DialogTitle id="alert-dialog-title" style={{color: theme.palette.primary.main}}>
                     {"Choose your favorite seats"}
                 </DialogTitle>
                 <DialogContent sx={customStyleForPlane}>
@@ -126,7 +98,8 @@ export default function SeatChoosingWindow(props) {
                             <Grid item xs={12} sm={8} md={8}>
                                 <div className="plane">
                                     <div className="cockpit">
-                                        <h1>{flightDetails.from.city} <br/>to<br/> {flightDetails.to.city}<br/>Seat Selection</h1>
+                                        <h1>{flightDetails.from.city} <br/>to<br/> {flightDetails.to.city}<br/>Seat
+                                            Selection</h1>
                                     </div>
                                     <div className="exit exit--front fuselage">
                                     </div>
@@ -146,10 +119,12 @@ export default function SeatChoosingWindow(props) {
                                                                         handleCheck({
                                                                             id: seat.id,
                                                                             price: row.price,
-                                                                            name: name
+                                                                            name: name,
+                                                                            class: row.class.name
                                                                         })
                                                                     }}/>
-                                                                    <label className='noselect' htmlFor={name}>{name}</label>
+                                                                    <label className='noselect'
+                                                                           htmlFor={name}>{name}</label>
                                                                 </li>
                                                             )
                                                         })
@@ -212,7 +187,14 @@ export default function SeatChoosingWindow(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={props.handleClose}>Close</Button>
-                    <Button onClick={props.handleClose} autoFocus>
+                    <Button onClick={() => {
+                        console.log("trying to dispatch")
+                        dispatch(setDepartureSeats({
+                            flight: flightDetails,
+                            seats: chosenSeats
+                        }))
+                        navigate("/finalize");
+                    }} autoFocus>
                         Finish
                     </Button>
                 </DialogActions>

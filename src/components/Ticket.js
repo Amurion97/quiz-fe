@@ -61,93 +61,80 @@ const CssDatePicker = styled(DatePicker)(({theme}) => ({
 export default function Ticket(props) {
     console.log("props:", props)
     const theme = useTheme();
-    const [flightDetails, setFlightDetails] = useState(null);
-    let maxSeatInARow = 1;
-    if (flightDetails) {
-        maxSeatInARow = flightDetails.rows.reduce((max, row) => (max > row.seats.length) ? max : row.seats.length);
-        console.log("maxSeatInARow:", maxSeatInARow)
-    }
-    console.log("flightDetails:", flightDetails)
-    useEffect(() => {
-        customAPIv1().get(`flights/${props.flight}`)
-            .then(res => {
-                console.log("res:", res)
-                setFlightDetails(res.data.data);
-            })
-    }, [props.flight])
+    let start = new Date(props.flight.start);
+    let startTime =
+        `${(start.getHours() > 12) ? start.getHours() - 12 : start.getHours()}:${start.getMinutes()} ${(start.getHours() >= 12) ? "PM" : "AM"}`
+    let fullName = `${(props.values[`lastName-${props.index}`]) ? props.values[`lastName-${props.index}`] : ""}` +
+        ', ' +
+        `${(props.values[`firstName-${props.index}`]) ? props.values[`firstName-${props.index}`] : ""} ` +
+        `${props.values[`middleName-${props.index}`] ? (props.values[`middleName-${props.index}`]).slice(0, 1) : ""}`
+    let seatName = props.name
+    let flight = props.flight.name
 
-    let [chosenSeats, setChosenSeats] = useState([]);
-    const handleCheck = (seat) => {
-        console.log("chosenSeats:", chosenSeats)
-        let index = chosenSeats.findIndex(item => item.id === seat.id);
-        if (index < 0) {
-            setChosenSeats([...chosenSeats, seat]);
-        } else {
-            chosenSeats.splice(index, 1);
-            setChosenSeats([...chosenSeats])
-        }
-    }
     return (
         <div className="container-ticket">
             <div className="ticket">
                 <div className="ticket-left">
                     <div className="corner-seat-container">
-                        <div className="item">seat</div>
-                        <div className="lgdetail">25a</div>
+                        <div className="l-item">seat</div>
+                        <div className="lgdetail">{seatName}</div>
                     </div>
                     <div className="airplane-container">
-                        <img src="https://assets.codepen.io/1026437/blackAirplane.png" alt="airplane-img"/>
+                        <img className="ticket-img" src="https://assets.codepen.io/1026437/blackAirplane.png"
+                             alt="airplane-img"/>
                     </div>
                     <div className="departure-time">
-                        <div className="item">departure time</div>
-                        <div className="lgdetail">5:19am</div>
+                        <div className="l-item">departure time</div>
+                        <div className="lgdetail">{startTime}</div>
                     </div>
                     <div className="departing">
-                        <div className="item">departing</div>
-                        <div className="smdetail">knoxville(TYS)</div>
+                        <div className="l-item">departing</div>
+                        <div className="smdetail">{props.flight.from.city.slice(0, 8)}({props.flight.from.code})</div>
                     </div>
                 </div>
                 <div className="ticket-middle">
                     <div className="passenger-name">
-                        <div className="item">passenger</div>
-                        <div className="smdetail">smith, john r</div>
+                        <div className="m-item">passenger</div>
+                        <div className="smdetail mid-detail">{fullName}</div>
                     </div>
                     <div className="gate">
-                        <div className="item">gate</div>
-                        <div className="lgdetail">***</div>
+                        <div className="m-item">gate</div>
+                        <div className="lgdetail mid-detail">***</div>
                     </div>
                     <div className="flight">
-                        <div className="item">flight</div>
-                        <div className="lgdetail">402rd</div>
+                        <div className="m-item">flight</div>
+                        <div className="lgdetail mid-detail">{flight}</div>
                     </div>
                     <div className="destination">
-                        <div className="item">destination</div>
-                        <div className="smdetail">miami(MIA)</div>
+                        <div className="m-item">destination</div>
+                        <div
+                            className="smdetail mid-detail">{props.flight.to.city.slice(0, 8)}({props.flight.to.code})
+                        </div>
                     </div>
                     <div className="group">
-                        <div className="item">class</div>
-                        <div className="smdetail">Premium Eco</div>
+                        <div className="m-item">class</div>
+                        <div className="smdetail mid-detail">{props.class.slice(0, 11)}</div>
                     </div>
                     <div className="serial">
-                        <div>** **** *** **** </div>
+                        <div>** **** *** ****</div>
                     </div>
                 </div>
                 <div className="ticket-right">
                     <div className="stub-flight">
                         <div className="smitem">flight</div>
-                        <div className="exsmdetail">402rd</div>
+                        <div className="exsmdetail">{flight}</div>
                     </div>
                     <div className="stub-seat">
                         <div className="smitem">seat</div>
-                        <div className="exsmdetail">25a</div>
+                        <div className="exsmdetail">{seatName}</div>
                     </div>
                     <div className="stub-depart">
                         <div className="smitem">depart</div>
-                        <div className="exsmdetail">5:19am</div>
+                        <div className="exsmdetail">{startTime}</div>
                     </div>
                     <div className="stub-passenger">
                         <div className="smitem">passenger</div>
-                        <div className="exsmdetail">Smith, John, R</div>
+                        <div className="exsmdetail">{fullName}</div>
                     </div>
                     <div className="barcode">3859384847</div>
                 </div>
