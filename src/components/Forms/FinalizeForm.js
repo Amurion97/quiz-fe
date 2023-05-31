@@ -13,12 +13,15 @@ import {Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {TextField,} from 'formik-mui';
 import {useSelector} from "react-redux";
-import UpperCasingTextField from "./UpperCasingTextField";
-import Ticket from "./Ticket";
+
+
 import IdentityForm from "./IdentityForm";
-import {selectDepartureSeats} from "../features/seat/SeatSlice";
+
 import PaymentIcon from '@mui/icons-material/Payment';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import {selectDepartureSeats} from "../../features/seat/SeatSlice";
+import Ticket from "../Ticket";
+import UpperCasingTextField from "../UpperCasingTextField";
 
 // components
 

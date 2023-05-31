@@ -1,33 +1,15 @@
-import {useEffect, useState} from 'react';
-import {createSearchParams, useNavigate} from 'react-router-dom';
+
 // @mui
 import {
-    FormControlLabel,
-    Radio,
-    InputLabel,
-    MenuItem,
     FormControl,
     Grid,
-    Button,
-    DialogTitle,
-    DialogContent, DialogActions, DialogContentText, Dialog, Box,
 } from '@mui/material';
-import {LoadingButton} from '@mui/lab';
-import {styled, useTheme} from "@mui/material/styles";
-import axios from "axios";
-import SearchIcon from '@mui/icons-material/Search';
-import MuiTextField from '@mui/material/TextField';
-import {ErrorMessage, Field, Form, Formik, useFormik} from "formik";
-import * as yup from 'yup';
+import {Field} from "formik";
 import {
-    Autocomplete,
-    TextField,
-    Select,
-    RadioGroup,
+    TextField
 } from 'formik-mui';
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import UpperCasingTextField from "./UpperCasingTextField";
-// import {DatePicker} from 'formik-mui-lab';
+import UpperCasingTextField from "../UpperCasingTextField";
 
 // components
 

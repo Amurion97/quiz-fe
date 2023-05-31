@@ -5,8 +5,9 @@ import { Container, Typography} from '@mui/material';
 // hooks
 // components
 import Logo from '../components/logo';
+import SearchForm from "../components/Forms/SearchForm";
 // sections
-import SearchForm from "../components/SearchForm";
+
 
 // ----------------------------------------------------------------------
 

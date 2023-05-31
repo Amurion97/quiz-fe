@@ -1,20 +1,11 @@
 import {Navigate, useRoutes} from 'react-router-dom';
-// layouts
-// import DashboardLayout from './layouts/dashboard';
-import SimpleLayout from './layouts/simple';
-//
-// import BlogPage from './pages/BlogPage';
-// import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import SearchPage from "./pages/SearchPage";
 import FlightPage from "./pages/FlightPage";
 import BookingFinalization from "./pages/BookingFinalization";
-import DashboardAppPage from "./pages/DashboardAppPage";
 import DashboardLayout from "./layouts/DashboardLayout";
-// import ProductsPage from './pages/ProductsPage';
-// import DashboardAppPage from './pages/DashboardAppPage';
-
+import FlightCreationPage from "./pages/FlightCreationPage";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -24,8 +15,7 @@ export default function Router() {
             element: <DashboardLayout/>,
             children: [
                 {element: <Navigate to="/dashboard/app"/>, index: true},
-                {path: 'app', element: <DashboardAppPage/>},
-                {path: 'createFlight', element: <FlightPage/>},
+                {path: 'createFlight', element: <FlightCreationPage/>},
                 {path: 'search', element: <SearchPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},

@@ -7,6 +7,7 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import Box from '@mui/material/Box';
 import {useNavigate} from "react-router-dom";
+import FlightIcon from '@mui/icons-material/Flight';
 
 // components
 
@@ -19,7 +20,7 @@ const StyledRoot = styled(Paper)(({theme}) => ({
     color: theme.palette.primary.contrastText,
     borderRight: "2px dotted lightgrey",
     borderRadius: 0,
-    height: "100%",
+    // height: "100%",
 }));
 
 const Item = styled(Paper)(({theme}) => ({
@@ -68,110 +69,64 @@ export default function NavBar(props) {
     };
     return (
         <>
-            <StyledRoot>
-                <div className="navbar-wrapper" style={{
-                    color: "red"
-                }}>
-                    <div className="navbar-item1">
-                        <Logo
-                            sx={{
-                                position: 'fixed',
-                                top: {xs: 16, sm: 24, md: 40},
-                                left: {xs: 16, sm: 24, md: 40},
-                            }}
-                        />
-                    </div>
-                    <div className="navbar-item2">
-                        <UserInfoBox>
-                            <Grid container spacing={0} justifyContent="center" direction="row"
-                                  alignItems="center"
-                                  style={{
-                                      height: "100%"
-                                  }}>
-                                <Grid xs={3}>
-                                    <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
-                                </Grid>
-                                <Grid xs={9}>
-                                    Paperrrrrrrr
-                                </Grid>
-                            </Grid>
-                        </UserInfoBox>
-                    </div>
-                    <div className="navbar-item3">
-                        <Box sx={{width: '100%', maxWidth: 360}}>
-                            <List component="nav" aria-label="main mailbox folders">
-                                <StyledListItemButton
-                                    selected={selectedIndex === 0}
-                                    onClick={(event) => {
-                                        handleListItemClick(event, 0)
-                                        navigate("/dashboard/createFlight")
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <InboxIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary="Inbox" style={{color: theme.palette.text.primary}}/>
-                                </StyledListItemButton>
-                                <StyledListItemButton
-                                    selected={selectedIndex === 1}
-                                    onClick={(event) => {
-                                        handleListItemClick(event, 1)
-                                        navigate("/dashboard/search")
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <DraftsIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary="Drafts" style={{color: theme.palette.text.primary}}/>
-                                </StyledListItemButton>
-                            </List>
-                        </Box>
-                    </div>
+            <StyledRoot className="navbar-wrapper">
+                {/*<div className="navbar-wrapper">*/}
+                <div className="navbar-item1">
+                    <Logo
+                        sx={{
+                            position: 'fixed',
+                            top: {xs: 16, sm: 24, md: 40},
+                            left: {xs: 16, sm: 24, md: 40},
+                        }}
+                    />
                 </div>
-
-                {/*<Grid container spacing={0} direction="column" xs={{*/}
-                {/*    height: "100%"*/}
-                {/*}} style={{*/}
-                {/*    height: "100%", zIndex: 999, color: "black", backgroundColor: "yellow",*/}
-                {/*    // width: "100%"*/}
-                {/*}} fullWidth>*/}
-                {/*    <Grid xs={1}>*/}
-                {/*        <Logo*/}
-                {/*            sx={{*/}
-                {/*                position: 'fixed',*/}
-                {/*                top: {xs: 16, sm: 24, md: 40},*/}
-                {/*                left: {xs: 16, sm: 24, md: 40},*/}
-                {/*            }}*/}
-                {/*        />*/}
-                {/*    </Grid>*/}
-                {/*    <Grid xs={2} style={{*/}
-                {/*        boxSizing: "border-box", width: "100%", border: "solid #5B6DCD 10px", padding: "5px"*/}
-                {/*    }}>*/}
-                {/*        <Grid container spacing={0} style={{*/}
-                {/*            backgroundColor: "black",*/}
-                {/*            width: "100%"*/}
-                {/*        }}>*/}
-                {/*            <Grid item xs={12} sm={12} md={12} fullWidth>*/}
-                {/*                <UserInfoBox fullWidth>*/}
-                {/*                    Paperrrrrr*/}
-                {/*                </UserInfoBox>*/}
-                {/*            </Grid>*/}
-                {/*        </Grid>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid xs={4}>*/}
-                {/*        2*/}
-                {/*    </Grid>*/}
-                {/*    <Grid xs={4}>*/}
-                {/*        3*/}
-                {/*    </Grid>*/}
-                {/*</Grid>*/}
-                {/*<StyledStack spacing={2}>*/}
-                {/*    <Item sx={{*/}
-                {/*        height: "20%"*/}
-                {/*    }}>Item 1</Item>*/}
-                {/*    <Item>Item 2</Item>*/}
-                {/*    <Item>Item 3</Item>*/}
-                {/*</StyledStack>*/}
+                <div className="navbar-item2">
+                    <UserInfoBox>
+                        <Grid container spacing={0} justifyContent="center" direction="row"
+                              alignItems="center"
+                              style={{
+                                  height: "100%"
+                              }}>
+                            <Grid item xs={3}>
+                                <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
+                            </Grid>
+                            <Grid item xs={9}>
+                                Paperrrrrrrr
+                            </Grid>
+                        </Grid>
+                    </UserInfoBox>
+                </div>
+                <div className="navbar-item3">
+                    <Box sx={{width: '100%', maxWidth: 360}}>
+                        <List component="nav" aria-label="main mailbox folders">
+                            <StyledListItemButton
+                                selected={selectedIndex === 0}
+                                onClick={(event) => {
+                                    handleListItemClick(event, 0)
+                                    navigate("/dashboard/createFlight")
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <FlightIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Create A Flight" style={{color: theme.palette.text.primary}}/>
+                            </StyledListItemButton>
+                            <StyledListItemButton
+                                selected={selectedIndex === 1}
+                                onClick={(event) => {
+                                    handleListItemClick(event, 1)
+                                    navigate("/dashboard/search")
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <DraftsIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Drafts" style={{color: theme.palette.text.primary}}/>
+                            </StyledListItemButton>
+                        </List>
+                    </Box>
+                </div>
+                {/*</div>*/}
             </StyledRoot>
         </>
     )

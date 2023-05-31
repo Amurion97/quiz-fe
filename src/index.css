@@ -474,9 +474,9 @@ a {
   display: grid;
   /*grid-template-columns: repeat(8, 1fr);*/
   width: 100%;
-  height: 100%;
+  height: 100vh;
   gap: 10px;
-  grid-auto-rows: 100px;
+  grid-auto-rows: 10%;
   grid-template-areas:
     "a"
     "b"
@@ -488,6 +488,7 @@ a {
     "c"
     "c"
     "c";
+  position: sticky;
 }
 .navbar-item1 {
   grid-area: a;

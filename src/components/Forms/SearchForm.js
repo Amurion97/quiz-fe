@@ -5,13 +5,9 @@ import {
 
     FormControlLabel,
     Radio,
-    InputLabel,
     MenuItem,
     FormControl,
     Grid,
-    Button,
-    DialogTitle,
-    DialogContent, DialogActions, DialogContentText, Dialog, Box,
 } from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import {styled, useTheme} from "@mui/material/styles";
@@ -22,13 +18,12 @@ import {ErrorMessage, Field, Form, Formik, useFormik} from "formik";
 import * as yup from 'yup';
 import {
     Autocomplete,
-    TextField,
     Select,
     RadioGroup,
 } from 'formik-mui';
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import {fetchFlights} from "../features/flight/flightSlice";
 import {useDispatch} from "react-redux";
+import {fetchFlights} from "../../features/flight/flightSlice";
 // import {DatePicker} from 'formik-mui-lab';
 
 // components
