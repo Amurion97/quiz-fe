@@ -301,7 +301,7 @@ code {
   border-radius: 50px;
   box-shadow: 0px 0px 35px -25px;
   display: grid;
-  grid-template-columns: 28% 42% 30%;
+  grid-template-columns: 23% 47% 30%;
   height: 300px;
   margin: auto;
   width: 900px;
@@ -468,4 +468,34 @@ a {
   text-orientation: mixed;
   text-align: center;
   writing-mode: vertical-rl;
+}
+
+.navbar-wrapper {
+  display: grid;
+  /*grid-template-columns: repeat(8, 1fr);*/
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+  grid-auto-rows: 100px;
+  grid-template-areas:
+    "a"
+    "b"
+    "c"
+    "c"
+    "c"
+    "c"
+    "c"
+    "c"
+    "c"
+    "c";
+}
+.navbar-item1 {
+  grid-area: a;
+}
+.navbar-item2 {
+  grid-area: b;
+  padding: 0 20px;
+}
+.navbar-item3 {
+  grid-area: c;
 }

@@ -1,7 +1,6 @@
 // @mui
-import {styled, useTheme} from '@mui/material/styles';
-import {Grid, Container, Paper, Typography, Button, Slide} from '@mui/material';
-import {useSearchParams} from "react-router-dom";
+import {styled} from '@mui/material/styles';
+import {Grid, Container, Slide} from '@mui/material';
 import BookingBar from "../components/BookingBar";
 import FlightList from "../components/FlightList";
 import {useState} from "react";
@@ -15,14 +14,6 @@ const StyledRoot = styled('div')(({theme}) => ({
     },
     backgroundImage: theme.palette.background.default,
 }));
-const Flight = styled(Paper)(({theme}) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : theme.palette.background.paper,
-    ...theme.typography.body2,
-    padding: theme.spacing(3),
-    textAlign: 'center',
-    color: theme.palette.primary.main,
-}));
-
 // ----------------------------------------------------------------------
 
 export default function FlightPage() {
@@ -35,7 +26,6 @@ export default function FlightPage() {
     const handleClose = () => {
         setFlightToChooseSeat(null);
     };
-    const theme = useTheme();
     return (
         <>
             <StyledRoot>

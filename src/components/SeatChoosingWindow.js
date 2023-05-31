@@ -32,6 +32,7 @@ export default function SeatChoosingWindow(props) {
     console.log("props:", props)
     const navigate = useNavigate();
     const theme = useTheme();
+    console.log("theme in Seat Chossing:", theme)
     const dispatch = useDispatch()
     const [flightDetails, setFlightDetails] = useState(null);
     let maxSeatInARow = 1;

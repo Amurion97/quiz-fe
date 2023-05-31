@@ -89,7 +89,7 @@ export default function Ticket(props) {
                     </div>
                     <div className="departing">
                         <div className="l-item">departing</div>
-                        <div className="smdetail">{props.flight.from.city.slice(0, 8)}({props.flight.from.code})</div>
+                        <div className="smdetail">{props.flight.from.city.slice(0, 11)}{props.flight.from.city.length > 11 ? "..." : ""}({props.flight.from.code})</div>
                     </div>
                 </div>
                 <div className="ticket-middle">
@@ -108,12 +108,12 @@ export default function Ticket(props) {
                     <div className="destination">
                         <div className="m-item">destination</div>
                         <div
-                            className="smdetail mid-detail">{props.flight.to.city.slice(0, 8)}({props.flight.to.code})
+                            className="smdetail mid-detail">{props.flight.to.city.slice(0, 11)}{props.flight.to.city.length > 11 ? "..." : ""}({props.flight.to.code})
                         </div>
                     </div>
                     <div className="group">
                         <div className="m-item">class</div>
-                        <div className="smdetail mid-detail">{props.class.slice(0, 11)}</div>
+                        <div className="smdetail mid-detail">{props.class}</div>
                     </div>
                     <div className="serial">
                         <div>** **** *** ****</div>

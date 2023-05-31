@@ -36,11 +36,7 @@ import UpperCasingTextField from "./UpperCasingTextField";
 export default function IdentityForm(props) {
     return (
         <>
-            <Grid container spacing={{xs: 1, md: 2}} columns={{xs: 4, sm: 8, md: 12}}
-                  // style={{
-                  //     display: (props.activeStep == 0) ? "flex" : "none"
-                  // }}
-            >
+            <Grid container spacing={{xs: 1, md: 2}} columns={{xs: 4, sm: 8, md: 12}}>
                 <Grid item xs={4} sm={8} md={12}>
                     <p>Person at seat {props.name} </p>
                 </Grid>

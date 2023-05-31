@@ -1,33 +1,18 @@
-import {useEffect, useState} from 'react';
-import {createSearchParams, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 // @mui
 import {
-    FormControlLabel,
-    Radio,
-    InputLabel,
-    MenuItem,
-    FormControl,
     Grid,
     Button,
     DialogTitle,
-    DialogContent, DialogActions, DialogContentText, Dialog, Box,
+    DialogContent,
+    DialogActions,
+    Dialog,
 } from '@mui/material';
-import {LoadingButton} from '@mui/lab';
 import {styled, useTheme} from "@mui/material/styles";
-import axios from "axios";
-import SearchIcon from '@mui/icons-material/Search';
-import MuiTextField from '@mui/material/TextField';
-import {ErrorMessage, Field, Form, Formik, useFormik} from "formik";
+import {Field, Form, Formik} from "formik";
 import * as yup from 'yup';
-import {
-    Autocomplete,
-    TextField,
-    Select,
-    RadioGroup,
-} from 'formik-mui';
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import {fetchFlights} from "../features/flight/flightSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {TextField,} from 'formik-mui';
+import {useSelector} from "react-redux";
 import UpperCasingTextField from "./UpperCasingTextField";
 import Ticket from "./Ticket";
 import IdentityForm from "./IdentityForm";
@@ -69,24 +54,26 @@ export default function FinalizeForm(props) {
                     initialValues={{}}
                     validate={(values) => {
                         const errors = {};
-                        if (!values["email-1"]) {
-                            errors["email-1"] = 'Required';
-                        } else if (
-                            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-                        ) {
-                            errors.email = 'Invalid email address';
-                        }
+                        // if (!values["email"]) {
+                        //     errors["email"] = 'Required';
+                        // } else if (
+                        //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+                        // ) {
+                        //     errors.email = 'Invalid email address';
+                        // }
                         return errors;
                     }}
                     onSubmit={(values, {setSubmitting}) => {
-                        console.log("trying to submit:", values)
+                        console.log("trying to submit:", values);
+                        setTimeout(() => {
+                            setSubmitting(false)
+                        }, 2000)
                     }}
                 >
-                    {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) => {
-                        props.pullChildFunc(submitForm)
-                        return (
+                    {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) =>
+                        (
                             <Form>
-                                <p>{JSON.stringify(values)}</p>
+                                {/*<p>{JSON.stringify(values)}{isSubmitting.toString()}{JSON.stringify(errors)}</p>*/}
                                 <Grid container spacing={{xs: 1, md: 2}}
                                       style={{
                                           display: (props.activeStep == 0) ? "flex" : "none"
@@ -156,19 +143,42 @@ export default function FinalizeForm(props) {
                                         <p>Choose your payment method</p>
                                     </Grid>
                                     <Grid item xs={6} sm={6} md={6}>
-                                        <Button fullWidth size="large" color="inherit" variant="outlined">
+                                        <Button type="button" fullWidth size="large" color="inherit" variant="outlined"
+                                                onClick={() => {
+                                                    console.log("clicked")
+                                                    submitForm()
+                                                }}>
                                             <PaymentIcon/>Pay with card
                                         </Button>
                                     </Grid>
                                     <Grid item xs={6} sm={6} md={6}>
-                                        <Button fullWidth size="large" color="inherit" variant="outlined">
+                                        <Button type="button" fullWidth size="large" color="inherit" variant="outlined"
+                                                onClick={submitForm}>
                                             <AccountBalanceIcon/> Online Banking
                                         </Button>
                                     </Grid>
                                 </Grid>
+
+                                <Dialog
+                                    open={isSubmitting}
+                                    onClose={props.handleClose}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description"
+                                    maxWidth='xs'
+                                    fullWidth
+                                >
+                                    <DialogTitle id="alert-dialog-title" style={{color: theme.palette.primary.main}}>
+                                        {"Notification"}
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        Thank you!
+                                    </DialogContent>
+                                    <DialogActions>
+                                    </DialogActions>
+                                </Dialog>
                             </Form>
                         )
-                    }}
+                    }
                 </Formik>
             </StyledContent>
         </>

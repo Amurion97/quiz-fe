@@ -1,14 +1,11 @@
 import {Helmet} from 'react-helmet-async';
 // @mui
-import {styled} from '@mui/material/styles';
-import {Link, Container, Typography, Divider, Stack, Button} from '@mui/material';
+import {styled, useTheme} from '@mui/material/styles';
+import { Container, Typography} from '@mui/material';
 // hooks
-import useResponsive from '../hooks/useResponsive';
 // components
 import Logo from '../components/logo';
-import Iconify from '../components/iconify';
 // sections
-import palette from "../theme/palette";
 import SearchForm from "../components/SearchForm";
 
 // ----------------------------------------------------------------------
@@ -16,7 +13,6 @@ import SearchForm from "../components/SearchForm";
 const StyledRoot = styled('div')(({theme}) => ({
     [theme.breakpoints.up('md')]: {
         display: 'flex',
-
     },
     backgroundImage: "url(/assets/images/background.jpg)",
     backgroundSize: "cover",
@@ -44,6 +40,7 @@ const StyledContent = styled('div')(({theme}) => ({
 // ----------------------------------------------------------------------
 
 export default function SearchPage() {
+    const theme = useTheme();
     return (
         <>
             <Helmet>
@@ -62,7 +59,7 @@ export default function SearchPage() {
                 <Container>
                     <StyledContent className={"ggg"}>
                         <Container >
-                            <Typography variant="h3" color={palette.primary.main} marginTop="45px" gutterBottom>
+                            <Typography variant="h3" color={theme.palette.primary.main} marginTop="45px" gutterBottom>
                                 BOOK YOUR FLIGHT TODAY
                             </Typography>
 

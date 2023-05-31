@@ -101,12 +101,6 @@ const palette = {
     hoverOpacity: 0.08,
     disabledOpacity: 0.48,
   },
-
-  one: '#f6f6f9',
-  two: '#ffffff',
-  three: '#4647a0',
-  four: '#e8e8f8',
-  five: '#fa7a57'
 };
 
 export default palette;

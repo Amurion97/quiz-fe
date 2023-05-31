@@ -29,18 +29,6 @@ export default function BookingFinalization() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleReset = () => {
-        setActiveStep(0);
-    };
-    let childFunc
-    const pullChildFunc = (func) => {
-        childFunc = func
-        console.log(func, childFunc)
-    }
-    const runChildFunc = () => {
-        childFunc()
-    }
-
     return (
         <StyledRoot>
             <Paper elevation={3}/>
@@ -55,39 +43,25 @@ export default function BookingFinalization() {
                         )
                     )}
                 </Stepper>
-                {activeStep === steps.length ? (
-                    <React.Fragment>
-                        <Typography sx={{mt: 2, mb: 1}}>
-                            All steps completed - you&apos;re finished!
-                            Please check your email for ticket information
-                        </Typography>
-                        <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
-                            <Box sx={{flex: '1 1 auto'}}/>
-                            <Button onClick={handleReset}>Reset</Button>
-                        </Box>
-                    </React.Fragment>
-                ) : (
-                    <React.Fragment>
-                        <Typography sx={{mt: 2, mb: 1}}>Step {activeStep + 1}</Typography>
-                        <FinalizeForm activeStep={activeStep} pullChildFunc={pullChildFunc}/>
-                        <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
-                            <Button
-                                color="inherit"
-                                disabled={activeStep === 0}
-                                onClick={handleBack}
-                                sx={{mr: 1}}
-                            >
-                                Back
-                            </Button>
-                            <Box sx={{flex: '1 1 auto'}}/>
-                            {activeStep < steps.length - 1 ?
-                                <Button onClick={handleNext}>
-                                    'Next'
-                                </Button>:""}
-
-                        </Box>
-                    </React.Fragment>
-                )}
+                <React.Fragment>
+                    <Typography sx={{mt: 2, mb: 1}}>Step {activeStep + 1}</Typography>
+                    <FinalizeForm activeStep={activeStep}/>
+                    <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
+                        <Button
+                            color="inherit"
+                            disabled={activeStep === 0}
+                            onClick={handleBack}
+                            sx={{mr: 1}}
+                        >
+                            Back
+                        </Button>
+                        <Box sx={{flex: '1 1 auto'}}/>
+                        {activeStep < steps.length - 1 ?
+                            <Button onClick={handleNext}>
+                                'Next'
+                            </Button> : ""}
+                    </Box>
+                </React.Fragment>
             </Container>
         </StyledRoot>
 

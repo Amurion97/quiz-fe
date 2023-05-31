@@ -6,25 +6,22 @@ import {HelmetProvider} from "react-helmet-async";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {createTheme} from "@mui/material/styles";
-import palette from "./theme/palette";
 import ThemeProvider from "./theme";
 
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: "#4647a0",
-            // main: palette.three,
-        },
-        secondary: {
-            main: '#fa7a57'
-            // main: palette.five
-        }
-    },
-});
+// const theme = createTheme({
+//     palette: {
+//         primary: {
+//             main: "#4647a0",
+//         },
+//         secondary: {
+//             main: '#fa7a57'
+//         }
+//     },
+// });
 
 function App() {
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider>
             <HelmetProvider>
                 <BrowserRouter>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
