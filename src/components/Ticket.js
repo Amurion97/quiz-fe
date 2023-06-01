@@ -1,66 +1,14 @@
 // @mui
-import {styled, useTheme} from '@mui/material/styles';
-import {
-    Avatar,
-    Button, CircularProgress, Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText,
-    Paper,
-    Typography
-} from '@mui/material';
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-import {useSearchParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {fetchFlights} from "../features/flight/flightSlice";
-import {customAPIv1} from "../features/customAPI";
-import BookingBar from "./BookingBar";
-import FolderIcon from '@mui/icons-material/Folder';
-import DeleteIcon from '@mui/icons-material/Delete';
-import {deepPurple, green} from "@mui/material/colors";
-import FunctionsIcon from '@mui/icons-material/Functions';
+
 // components
 
 // sections
-const StyledRoot = styled(Paper)(({theme}) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : theme.palette.primary.main,
-    ...theme.typography.body2,
-    padding: theme.spacing(3),
-    textAlign: 'center',
-    color: theme.palette.primary.contrastText,
-}));
-const CssDatePicker = styled(DatePicker)(({theme}) => ({
-    color: "red",
-    '& label.Mui-focused': {
-        color: theme.palette.secondary.main,
-    },
-    '& .MuiInput-underline:after': {
-        borderBottomColor: '#B2BAC2',
-    },
-    '& .MuiOutlinedInput-root': {
-        backgroundColor: theme.palette.primary.contrastText,
-        height: "2.5rem",
-        color: theme.palette.primary.main,
-        // '& fieldset': {
-        //     borderColor: theme.palette.secondary.main,
-        // },
-        // '&:hover fieldset': {
-        //     borderColor: theme.palette.secondary.main,
-        // },
-        // '&.Mui-focused fieldset': {
-        //     borderColor: theme.palette.secondary.main,
-        // },
-    },
-}));
+
 
 // ----------------------------------------------------------------------
 
 export default function Ticket(props) {
     console.log("props:", props)
-    const theme = useTheme();
     let start = new Date(props.flight.start);
     let startTime =
         `${(start.getHours() > 12) ? start.getHours() - 12 : start.getHours()}:${start.getMinutes()} ${(start.getHours() >= 12) ? "PM" : "AM"}`
@@ -89,7 +37,9 @@ export default function Ticket(props) {
                     </div>
                     <div className="departing">
                         <div className="l-item">departing</div>
-                        <div className="smdetail">{props.flight.from.city.slice(0, 11)}{props.flight.from.city.length > 11 ? "..." : ""}({props.flight.from.code})</div>
+                        <div
+                            className="smdetail">{props.flight.from.city.slice(0, 11)}{props.flight.from.city.length > 11 ? "..." : ""}({props.flight.from.code})
+                        </div>
                     </div>
                 </div>
                 <div className="ticket-middle">

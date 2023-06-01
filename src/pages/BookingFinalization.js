@@ -6,7 +6,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {styled} from "@mui/material/styles";
-import {Container, Grid, Paper} from "@mui/material";
+import {Container, Paper} from "@mui/material";
 import FinalizeForm from "../components/Forms/FinalizeForm";
 
 const StyledRoot = styled('div')(({theme}) => ({

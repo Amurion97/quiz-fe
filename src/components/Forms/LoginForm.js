@@ -16,10 +16,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {Field, Form, Formik} from "formik";
 import {useDispatch} from "react-redux";
 import {TextField} from 'formik-mui';
-import {login} from "../../../features/user/userSlice";
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
+import {login} from "../../features/user/userSlice";
 // components
 
 // ----------------------------------------------------------------------
@@ -122,15 +120,6 @@ export default function LoginForm() {
                     </Form>
                 )}
             </Formik>
-            <Box sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                zIndex: 999,
-                transform: "translateY(-50%) translateX(-50%)"
-            }}>
-
-            </Box>
         </>
     )
 }

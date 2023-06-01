@@ -4,8 +4,6 @@ import {styled} from '@mui/material/styles';
 import {Grid} from "@mui/material";
 import NavBar from "../components/NavBar";
 //
-// import Header from './header';
-// import Nav from './nav';
 
 // ----------------------------------------------------------------------
 

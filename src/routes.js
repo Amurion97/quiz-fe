@@ -14,7 +14,7 @@ export default function Router() {
             path: '/dashboard',
             element: <DashboardLayout/>,
             children: [
-                {element: <Navigate to="/dashboard/app"/>, index: true},
+                {element: <Navigate to="/dashboard/createFlight"/>, index: true},
                 {path: 'createFlight', element: <FlightCreationPage/>},
                 {path: 'search', element: <SearchPage/>},
                 {path: '404', element: <Page404/>},
@@ -22,7 +22,7 @@ export default function Router() {
             ],
         },
         {
-            path: 'login',
+            path: '/login',
             element: <LoginPage/>,
         },
         {
@@ -30,15 +30,15 @@ export default function Router() {
             element: <SearchPage/>,
         },
         {
-            path: 'results',
+            path: '/results',
             element: <FlightPage/>,
         },
         {
-            path: 'finalize',
+            path: '/finalize',
             element: <BookingFinalization/>
         },
         {
-            path: '404',
+            path: '/404',
             element: <Page404/>
         },
         {

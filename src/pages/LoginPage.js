@@ -1,12 +1,12 @@
 import {Helmet} from 'react-helmet-async';
 // @mui
 import {styled} from '@mui/material/styles';
-import {Link, Container, Typography, Divider, Stack, Button} from '@mui/material';
+import {Link, Container, Typography} from '@mui/material';
 // hooks
 // components
 import Logo from '../components/logo';
 // sections
-import {LoginForm} from '../sections/auth/login';
+import LoginForm from '../components/Forms/LoginForm';
 
 // ----------------------------------------------------------------------
 

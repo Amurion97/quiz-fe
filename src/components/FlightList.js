@@ -1,14 +1,12 @@
-import axios from "axios";
+
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {Grid, Container, Paper, Typography, Button, Avatar} from '@mui/material';
 import {useNavigate, useSearchParams} from "react-router-dom";
-import BookingBar from "../components/BookingBar";
 import {useEffect, useState} from "react";
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import FlightLandIcon from '@mui/icons-material/FlightLand';
 import {useDispatch, useSelector} from "react-redux";
-import {selectCount} from "../features/counter/counterSlice";
 import {fetchFlights, selectDeparture} from "../features/flight/flightSlice";
 // components
 

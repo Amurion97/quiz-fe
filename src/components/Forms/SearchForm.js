@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react';
 import {createSearchParams, useNavigate} from 'react-router-dom';
 // @mui
 import {
-
     FormControlLabel,
     Radio,
     MenuItem,
@@ -14,7 +13,7 @@ import {styled, useTheme} from "@mui/material/styles";
 import axios from "axios";
 import SearchIcon from '@mui/icons-material/Search';
 import MuiTextField from '@mui/material/TextField';
-import {ErrorMessage, Field, Form, Formik, useFormik} from "formik";
+import {Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {
     Autocomplete,
@@ -24,9 +23,6 @@ import {
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {useDispatch} from "react-redux";
 import {fetchFlights} from "../../features/flight/flightSlice";
-import {DateRangeCalendar} from '@mui/x-date-pickers-pro/DateRangeCalendar';
-import {DateRangePicker} from "@mui/x-date-pickers-pro";
-// import {DatePicker} from 'formik-mui-lab';
 
 // components
 

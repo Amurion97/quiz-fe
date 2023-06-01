@@ -1,4 +1,11 @@
 import {useNavigate} from 'react-router-dom';
+import {Field, Form, Formik} from "formik";
+import * as yup from 'yup';
+import {TextField,} from 'formik-mui';
+// redux
+import {useSelector} from "react-redux";
+import {customAPIv1} from "../../features/customAPI";
+import {selectDepartureSeats} from "../../features/seat/SeatSlice";
 // @mui
 import {
     Grid,
@@ -9,22 +16,14 @@ import {
     Dialog,
 } from '@mui/material';
 import {styled, useTheme} from "@mui/material/styles";
-import {Field, Form, Formik} from "formik";
-import * as yup from 'yup';
-import {TextField,} from 'formik-mui';
-import {useSelector} from "react-redux";
-
-
-import IdentityForm from "./IdentityForm";
-
 import PaymentIcon from '@mui/icons-material/Payment';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import {selectDepartureSeats} from "../../features/seat/SeatSlice";
+// components
 import Ticket from "../Ticket";
 import UpperCasingTextField from "./Field/UpperCasingTextField";
-import {customAPIv1} from "../../features/customAPI";
+import IdentityForm from "./IdentityForm";
 
-// components
+
 
 const StyledContent = styled('div')(({theme}) => ({
     display: 'flex',
@@ -98,9 +97,6 @@ export default function FinalizeForm(props) {
                     onSubmit={(values, {setSubmitting}) => {
                         console.log("trying to submit:", values);
                         formSubmition(values, departureSeats, setSubmitting)
-                        // setTimeout(() => {
-                        //     setSubmitting(false)
-                        // }, 2000)
                     }}
                 >
                     {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) =>

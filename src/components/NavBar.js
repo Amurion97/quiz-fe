@@ -1,14 +1,31 @@
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
-import {Avatar, Grid, List, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography} from '@mui/material';
-import Logo from "./logo";
-import {useState} from "react";
+import {
+    Avatar,
+    Grid,
+    IconButton,
+    List,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Paper,
+    Stack,
+    Typography
+} from '@mui/material';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import Box from '@mui/material/Box';
-import {useNavigate} from "react-router-dom";
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 // components
+import Logo from "./logo";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {useDispatch} from "react-redux";
+import {logout} from "../features/user/userSlice";
 
 // sections
 const StyledRoot = styled(Paper)(({theme}) => ({
@@ -54,10 +71,20 @@ const StyledListItemButton = styled(ListItemButton)(({theme}) => ({
 export default function NavBar(props) {
     const theme = useTheme();
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
+    };
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
     };
     return (
         <>
@@ -73,7 +100,7 @@ export default function NavBar(props) {
                     />
                 </div>
                 <div className="navbar-item2">
-                    <UserInfoBox>
+                    <UserInfoBox onClick={handleClick}>
                         <Grid container spacing={0} justifyContent="center" direction="row"
                               alignItems="center"
                               style={{
@@ -84,9 +111,37 @@ export default function NavBar(props) {
                             </Grid>
                             <Grid item xs={9}>
                                 Paperrrrrrrr
+                                <IconButton size="large" color="inherit" onClick={handleClick}>
+                                    <MoreVertIcon fontSize="small"/>
+                                </IconButton>
+                                <Menu
+                                    id="basic-menu"
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleClose}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                >
+                                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                                    <MenuItem onClick={() => {
+                                        dispatch(logout());
+                                        navigate("/login");
+                                    }}>Logout</MenuItem>
+                                </Menu>
                             </Grid>
                         </Grid>
                     </UserInfoBox>
+
                 </div>
                 <div className="navbar-item3">
                     <Box sx={{width: '100%', maxWidth: 360}}>
