@@ -1,20 +1,15 @@
 import {useEffect, useState} from 'react';
-import {createSearchParams, useNavigate} from 'react-router-dom';
 // @mui
 import {
 
-    FormControlLabel,
-    Radio,
     MenuItem,
     FormControl,
     Grid, Paper,
 } from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import {styled, useTheme} from "@mui/material/styles";
-import axios from "axios";
-import SearchIcon from '@mui/icons-material/Search';
 import MuiTextField from '@mui/material/TextField';
-import {ErrorMessage, Field, Form, Formik, useFormik} from "formik";
+import { Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {
     Autocomplete, Select,
@@ -75,7 +70,7 @@ const formSubmition = (values, {setSubmitting}) => {
 }
 // ----------------------------------------------------------------------
 
-export default function FlightCreateForm() {
+export default function FlightCreationForm() {
     const theme = useTheme();
     const [airlines, setAirlines] = useState([]);
     const [chosenAirline, setChosenAirline] = useState(0);
@@ -136,7 +131,7 @@ export default function FlightCreateForm() {
             })
             .catch(e => console.log("error in get airlines:", e))
 
-        axios.get("http://127.0.0.1:5000/v1/airports")
+        customAPIv1().get("/airports")
             .then(res => {
                 console.log("airports:", res.data.data);
                 setAirports(res.data.data.map(item => {
@@ -148,7 +143,7 @@ export default function FlightCreateForm() {
             })
             .catch(e => console.log("error in get airport:", e))
 
-        axios.get("http://127.0.0.1:5000/v1/classes")
+        customAPIv1().get("/classes")
             .then(res => {
                 console.log("classes:", res.data.data);
                 setClassOptions(res.data.data)
@@ -184,9 +179,6 @@ export default function FlightCreateForm() {
                         <StyleForm container spacing={1}>
                             <Grid item xs={6}>
                                 <Grid container spacing={{xs: 1, md: 2}} columns={{xs: 4, sm: 8, md: 12}}>
-                                    <Grid item xs={12} sm={12} md={12}>
-                                        <p>{JSON.stringify(values)}</p>
-                                    </Grid>
                                     <Grid item xs={4} sm={4} md={6}>
                                         <Field
                                             name="airline"

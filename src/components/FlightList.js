@@ -1,7 +1,7 @@
 import axios from "axios";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
-import {Grid, Container, Paper, Typography, Button} from '@mui/material';
+import {Grid, Container, Paper, Typography, Button, Avatar} from '@mui/material';
 import {useNavigate, useSearchParams} from "react-router-dom";
 import BookingBar from "../components/BookingBar";
 import {useEffect, useState} from "react";
@@ -118,6 +118,16 @@ export default function FlightList(props) {
                                             <div className="route-line__stop route-line__end"
                                                  aria-hidden="true"></div>
                                         </div>
+                                        <br/>
+                                        <Avatar alt={item.aircraft.airline.name} src={item.aircraft.airline.imageURL} />
+                                        <Typography variant="body1" gutterBottom
+                                                    sx={{
+                                                        fontWeight: 'light',
+                                                        fontSize: '1em'
+                                                    }}>
+
+                                            {item.aircraft.airline.name}
+                                        </Typography>
                                     </Grid>
                                     <Grid item xs={3} sm={3} md={3} align='right'>
                                         <Typography variant="h5" gutterBottom
@@ -139,9 +149,9 @@ export default function FlightList(props) {
                                     <Grid item xs={3} sm={3} md={3}>
                                         <Typography variant="h3" gutterBottom
                                                     my={2}>
-                                            {/*<sup style={{*/}
-                                            {/*    fontSize: "0.6em"*/}
-                                            {/*}}>$</sup>*/}
+                                            <sup style={{
+                                                fontSize: "0.4em"
+                                            }}>from</sup>
                                             {item.rows[0].price.toLocaleString("de-DE")}
                                             <sub style={{
                                                 fontSize: "0.7rem",

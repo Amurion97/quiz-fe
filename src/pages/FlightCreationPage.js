@@ -6,7 +6,7 @@ import {Container, Grid, Typography} from '@mui/material';
 // components
 import Logo from '../components/logo';
 // sections
-import FlightCreateForm from "../components/Forms/FlightCreateForm";
+import FlightCreationForm from "../components/Forms/FlightCreationForm";
 
 // ----------------------------------------------------------------------
 const StyledRoot = styled('div')(({theme}) => ({
@@ -43,7 +43,7 @@ export default function FlightCreationPage() {
     return (
         <>
             <Helmet>
-                <title> Flight Creation | Minimal UI </title>
+                <title> Flight Creation | Flight </title>
             </Helmet>
             <Grid
                 container
@@ -56,7 +56,7 @@ export default function FlightCreationPage() {
                 }}
             >
                 <Grid item xs={12}>
-                    <FlightCreateForm/>
+                    <FlightCreationForm/>
                 </Grid>
             </Grid>
         </>

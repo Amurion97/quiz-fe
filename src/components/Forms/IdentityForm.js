@@ -9,7 +9,6 @@ import {
     TextField
 } from 'formik-mui';
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import UpperCasingTextField from "../UpperCasingTextField";
 
 // components
 
@@ -54,7 +53,7 @@ export default function IdentityForm(props) {
                 <Grid item xs={4} sm={4} md={6}>
                     <Field
                         component={TextField}
-                        name={`id-${props.index}`}
+                        name={`idNo-${props.index}`}
                         type="text"
                         label="ID No."
                         helperText="Please Enter Your Identification Number"

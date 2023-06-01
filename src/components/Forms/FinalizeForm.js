@@ -21,7 +21,8 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import {selectDepartureSeats} from "../../features/seat/SeatSlice";
 import Ticket from "../Ticket";
-import UpperCasingTextField from "../UpperCasingTextField";
+import UpperCasingTextField from "./Field/UpperCasingTextField";
+import {customAPIv1} from "../../features/customAPI";
 
 // components
 
@@ -43,13 +44,41 @@ const validationSchema = yup.object({
         .min(8, 'Password should be of minimum 8 characters length')
         .required('Password is required'),
 });
+const formSubmition = (values, departureSeats, setSubmitting) => {
+    console.log("trying to submit:", values);
+    let tickets = [];
+    for (let i = 0; i < parseInt(departureSeats.seats.length); i++) {
+        tickets.push({
+            seat: departureSeats.seats[i].id,
+            firstName: values[`firstName-${i}`],
+            middleName: values[`middleName-${i}`],
+            lastName: values[`lastName-${i}`],
+            dob: values[`dob-${i}`],
+            idNo: values[`idNo-${i}`],
+        })
+    }
+    console.log("tickets:", tickets)
+    try {
+        customAPIv1().post("/bookings", {
+            fullName: values.fullName,
+            phoneNumber: values.phoneNumber,
+            email: values.email,
+            tickets: tickets
+        })
+            .then(() => {
+                setSubmitting(false)
+            })
+    } catch (e) {
+        console.log("error in save booking:", e);
+    }
+}
 // ----------------------------------------------------------------------
 
 export default function FinalizeForm(props) {
     const navigate = useNavigate();
     const theme = useTheme();
-    const departure = useSelector(selectDepartureSeats)
-    console.log("departure:", departure)
+    const departureSeats = useSelector(selectDepartureSeats)
+    console.log("departure:", departureSeats)
     return (
         <>
             <StyledContent>
@@ -68,9 +97,10 @@ export default function FinalizeForm(props) {
                     }}
                     onSubmit={(values, {setSubmitting}) => {
                         console.log("trying to submit:", values);
-                        setTimeout(() => {
-                            setSubmitting(false)
-                        }, 2000)
+                        formSubmition(values, departureSeats, setSubmitting)
+                        // setTimeout(() => {
+                        //     setSubmitting(false)
+                        // }, 2000)
                     }}
                 >
                     {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) =>
@@ -106,14 +136,14 @@ export default function FinalizeForm(props) {
                                     <Grid item xs={12} sm={12} md={6}>
                                         <Field
                                             component={TextField}
-                                            name={`phone`}
+                                            name={`phoneNumber`}
                                             type="text"
                                             label="Phone Number"
                                             helperText="Please Enter Phone Number for contact"
                                             fullWidth
                                         />
                                     </Grid>
-                                    {departure.seats.map((item, index) => (
+                                    {departureSeats.seats.map((item, index) => (
                                         <Grid item xs={12} sm={12} md={12}>
                                             <IdentityForm activeStep={props.activeStep}
                                                           name={item.name}
@@ -131,10 +161,10 @@ export default function FinalizeForm(props) {
                                     <Grid item xs={12} sm={12} md={12}>
                                         <p>Please make sure the tickets details are correct!</p>
                                     </Grid>
-                                    {departure.seats.map((item, index) => (
+                                    {departureSeats.seats.map((seat, index) => (
                                         <Grid item xs={12} sm={12} md={12}>
-                                            <Ticket index={index} name={item.name} values={values}
-                                                    flight={departure.flight} class={item.class}/>
+                                            <Ticket index={index} name={seat.name} values={values}
+                                                    flight={departureSeats.flight} class={seat.class}/>
                                         </Grid>
                                     ))}
                                 </Grid>

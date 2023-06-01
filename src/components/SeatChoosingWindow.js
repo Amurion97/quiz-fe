@@ -187,7 +187,10 @@ export default function SeatChoosingWindow(props) {
                     }
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={props.handleClose}>Close</Button>
+                    <Button onClick={() => {
+                        setChosenSeats([])
+                        props.handleClose()
+                    }}>Close</Button>
                     <Button onClick={() => {
                         console.log("trying to dispatch")
                         dispatch(setDepartureSeats({

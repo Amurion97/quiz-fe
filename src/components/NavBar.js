@@ -3,11 +3,10 @@ import {styled, useTheme} from '@mui/material/styles';
 import {Avatar, Grid, List, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography} from '@mui/material';
 import Logo from "./logo";
 import {useState} from "react";
-import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import Box from '@mui/material/Box';
 import {useNavigate} from "react-router-dom";
-import FlightIcon from '@mui/icons-material/Flight';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 // components
 
@@ -29,13 +28,6 @@ const Item = styled(Paper)(({theme}) => ({
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-}));
-const StyledStack = styled(Stack)(({theme}) => ({
-    // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    // ...theme.typography.body2,
-    // padding: theme.spacing(1),
-    // textAlign: 'center',
-    // color: theme.palette.text.secondary,
 }));
 const UserInfoBox = styled(Paper)(({theme}) => ({
     // backgroundColor: theme.palette.grey[400],
@@ -107,7 +99,7 @@ export default function NavBar(props) {
                                 }}
                             >
                                 <ListItemIcon>
-                                    <FlightIcon/>
+                                    <AddBoxIcon/>
                                 </ListItemIcon>
                                 <ListItemText primary="Create A Flight" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
@@ -121,7 +113,7 @@ export default function NavBar(props) {
                                 <ListItemIcon>
                                     <DraftsIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="Drafts" style={{color: theme.palette.text.primary}}/>
+                                <ListItemText primary="Search" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
                         </List>
                     </Box>

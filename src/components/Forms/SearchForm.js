@@ -24,6 +24,8 @@ import {
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {useDispatch} from "react-redux";
 import {fetchFlights} from "../../features/flight/flightSlice";
+import {DateRangeCalendar} from '@mui/x-date-pickers-pro/DateRangeCalendar';
+import {DateRangePicker} from "@mui/x-date-pickers-pro";
 // import {DatePicker} from 'formik-mui-lab';
 
 // components
@@ -91,7 +93,6 @@ export default function SearchForm() {
                 <Formik
                     initialValues={{
                         way: 'one',
-                        // class:''
                     }}
                     validate={(values) => {
                         const errors = {};
@@ -101,22 +102,25 @@ export default function SearchForm() {
                         console.log("trying to submit:", values)
                         dispatch(fetchFlights({
                             query: values
-                        })).then(data => {
-                            console.log("submit success:", data);
-                            setSubmitting(false);
-                            navigate({
-                                pathname: "/results",
-                                search: createSearchParams({
-                                    from: values.from.id,
-                                    to: values.to.id,
-                                    start: values.start ? values.start.split(",")[0] : "",
-                                    "return": values.return ? values.return.split(",")[0] : "",
-                                    class: values.class,
-                                }).toString()
+                        }))
+                            .then(data => {
+                                console.log("thunk data:", data);
+                                if (data.type.includes("rejected")) {
+                                    setSubmitting(false);
+                                } else if (data.type.includes("fulfilled")) {
+                                    setSubmitting(false);
+                                    navigate({
+                                        pathname: "/results",
+                                        search: createSearchParams({
+                                            from: values.from.id,
+                                            to: values.to.id,
+                                            start: values.start ? values.start.split(",")[0] : "",
+                                            "return": values.return ? values.return.split(",")[0] : "",
+                                            class: values.class,
+                                        }).toString()
+                                    })
+                                }
                             })
-                        }).catch(e => {
-                            console.log("error in submitting:", e)
-                        })
                     }}
                 >
                     {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) => (
@@ -143,7 +147,6 @@ export default function SearchForm() {
                                         </Grid>
                                     </Field>
                                 </Grid>
-
 
                                 <Grid item xs={4} sm={4} md={6}>
                                     <Field
@@ -205,6 +208,7 @@ export default function SearchForm() {
                                         }}
                                     />
                                 </Grid>
+
                                 <Grid item xs={4} sm={4} md={6}>
                                     <FormControl fullWidth>
                                         <Field
@@ -234,33 +238,10 @@ export default function SearchForm() {
                                         <span>{(isSubmitting) ? "Searching…" : "Search flights"}</span>
                                     </LoadingButton>
                                 </Grid>
-
-
                             </Grid>
                         </Form>
                     )}
                 </Formik>
-
-
-                {/*<form onSubmit={formik.handleSubmit}>*/}
-
-
-                {/*    <Grid container spacing={{xs: 1, md: 2}} columns={{xs: 4, sm: 8, md: 12}}>*/}
-
-
-                {/*        <Grid item xs={4} sm={4} md={6}>*/}
-                {/*            <Autocomplete*/}
-                {/*                disablePortal*/}
-                {/*                id="to"*/}
-                {/*                options={airports}*/}
-                {/*                sx={{width: "100%"}}*/}
-                {/*                renderInput={(params) => <TextField {...params} label="Flying To"/>}*/}
-                {/*            />*/}
-                {/*        </Grid>*/}
-
-
-                {/*    </Grid>*/}
-                {/*</form>*/}
 
             </StyledContent>
 

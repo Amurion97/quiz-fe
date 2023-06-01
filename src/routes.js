@@ -19,20 +19,15 @@ export default function Router() {
                 {path: 'search', element: <SearchPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
-                // { path: 'user', element: <UserPage /> },
-                // { path: 'products', element: <ProductsPage /> },
-                // { path: 'blog', element: <BlogPage /> },
             ],
+        },
+        {
+            path: 'login',
+            element: <LoginPage/>,
         },
         {
             path: "/search",
             element: <SearchPage/>,
-            children: [
-                {
-                    path: 'login',
-                    element: <LoginPage/>,
-                },
-            ]
         },
         {
             path: 'results',

@@ -45,7 +45,7 @@ export default function SearchPage() {
     return (
         <>
             <Helmet>
-                <title> Search | Minimal UI </title>
+                <title> Search | Flight </title>
             </Helmet>
 
             <StyledRoot>

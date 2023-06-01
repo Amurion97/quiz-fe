@@ -1,18 +1,13 @@
-import {useState} from 'react';
 import {Outlet} from 'react-router-dom';
 // @mui
 import {styled} from '@mui/material/styles';
 import {Grid} from "@mui/material";
-import BookingBar from "../components/BookingBar";
 import NavBar from "../components/NavBar";
 //
 // import Header from './header';
 // import Nav from './nav';
 
 // ----------------------------------------------------------------------
-
-const APP_BAR_MOBILE = 64;
-const APP_BAR_DESKTOP = 92;
 
 const StyledRoot = styled('div')({
     display: 'flex',
@@ -24,7 +19,6 @@ const StyledRoot = styled('div')({
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout() {
-    const [open, setOpen] = useState(false);
 
     return (
         <>
