@@ -1,6 +1,8 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-
+// redux
+import {useDispatch} from "react-redux";
+import {logout} from "../features/user/userSlice";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {
@@ -12,21 +14,18 @@ import {
     ListItemIcon,
     ListItemText,
     Paper,
-    Stack,
-    Typography
 } from '@mui/material';
-import DraftsIcon from '@mui/icons-material/Drafts';
 import Box from '@mui/material/Box';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 // components
 import Logo from "./logo";
 
-import {useDispatch} from "react-redux";
-import {logout} from "../features/user/userSlice";
+
 
 // sections
 const StyledRoot = styled(Paper)(({theme}) => ({
@@ -147,6 +146,7 @@ export default function NavBar(props) {
                 <div className="navbar-item3">
                     <Box sx={{width: '100%', maxWidth: 360}}>
                         <List component="nav" aria-label="main mailbox folders">
+
                             <StyledListItemButton
                                 selected={selectedIndex === 0}
                                 onClick={(event) => {
@@ -159,6 +159,7 @@ export default function NavBar(props) {
                                 </ListItemIcon>
                                 <ListItemText primary="Create A Flight" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
+
                             <StyledListItemButton
                                 selected={selectedIndex === 1}
                                 onClick={(event) => {
@@ -170,6 +171,19 @@ export default function NavBar(props) {
                                     <SupervisedUserCircleIcon/>
                                 </ListItemIcon>
                                 <ListItemText primary="Users" style={{color: theme.palette.text.primary}}/>
+                            </StyledListItemButton>
+
+                            <StyledListItemButton
+                                selected={selectedIndex === 2}
+                                onClick={(event) => {
+                                    handleListItemClick(event, 2)
+                                    navigate("/dashboard/aircraft")
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <AirplanemodeActiveIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Aircraft" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
                         </List>
                     </Box>

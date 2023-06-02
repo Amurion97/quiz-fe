@@ -18,23 +18,23 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
-import AddUserForm from "../../components/Forms/AddUserForm";
 import {customAPIv1} from "../../features/customAPI";
 import EditUserForm from "../../components/Forms/EditUserForm";
+import AddAircraftForm from "../../components/Forms/AddAircraftForm";
+import EditAircraftForm from "../../components/Forms/EditAircraftForm";
 
 const columns = [
+    {id: 'id', label: 'ID', minWidth: 50, align: "center"},
     {id: 'name', label: 'Name', minWidth: 150},
-    {id: 'role', label: 'Role', minWidth: 100},
-    {id: 'username', label: 'Username', minWidth: 100},
-    {id: 'isLocked', label: 'Status', minWidth: 100, align: "center"},
+    {id: 'airline', label: 'Airline', minWidth: 100},
     {id: '', label: 'Action', minWidth: 40, align: "right"},
 ];
 
 export default function AircraftPage() {
     const theme = useTheme()
-    const [users, setUsers] = useState([]);
+    const [aircraft, setAircraft] = useState([]);
     const [openMenu, setOpenMenu] = useState(null);
-    const [currentUser, setCurrentUser] = useState(0);
+    const [currentAircraft, setCurrentAircraft] = useState(0);
 
     const handleOpenMenu = (event) => {
         setOpenMenu(event.currentTarget);
@@ -72,22 +72,22 @@ export default function AircraftPage() {
     const handleCloseConfirm = () => {
         setOpenConfirm(false);
     };
-    const updateUsers = () => {
-        customAPIv1().get("/users")
+    const updateAircraft = () => {
+        customAPIv1().get("/aircraft")
             .then(res => {
-                console.log("users:", res.data);
-                setUsers(res.data.data);
+                console.log("aircraft:", res.data);
+                setAircraft(res.data.data);
             })
-            .catch(e => console.log("error in get users:", e))
+            .catch(e => console.log("error in get aircraft:", e))
     }
     useEffect(() => {
         console.log("form did mount");
-        updateUsers();
+        updateAircraft();
     }, [])
     return (
         <>
             <Helmet>
-                <title> User Management | Flight </title>
+                <title> Aircraft Management | Flight </title>
             </Helmet>
             <Grid
                 container
@@ -103,11 +103,11 @@ export default function AircraftPage() {
                 <Grid item xs={12}>
                     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
                         <Typography variant="h4" gutterBottom>
-                            User
+                            Aircraft
                         </Typography>
                         <Button variant="contained" startIcon={<AddIcon fontSize="small"/>}
                                 onClick={handleClickOpenDialog}>
-                            New User
+                            New Aircraft
                         </Button>
                     </Stack>
                 </Grid>
@@ -136,33 +136,35 @@ export default function AircraftPage() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {users.map((row, index) => {
-                                        const {id, name, role, username, avatarUrl, isLocked, password} = row;
+                                    {aircraft.map((row, index) => {
+                                        const {id, name, airline} = row;
 
                                         return (
                                             <TableRow hover key={id} tabIndex={-1} role="checkbox">
+                                                <TableCell align="center" component="th" scope="row">
+                                                    {id}
+                                                </TableCell>
                                                 <TableCell component="th" scope="row" padding="none">
                                                     <Stack direction="row" alignItems="center" spacing={2} pl={2}>
-                                                        <Avatar alt={name}
-                                                                src={`/assets/images/avatars/avatar_${index % 24 + 1}.jpg`}/>
                                                         <Typography variant="subtitle2" noWrap>
                                                             {name}
                                                         </Typography>
                                                     </Stack>
                                                 </TableCell>
 
-                                                <TableCell align="left">{role.name}</TableCell>
-                                                <TableCell align="left">{username}</TableCell>
-                                                <TableCell align="center">
-                                                    {isLocked ?
-                                                        <Chip label="Locked" color="error"/>
-                                                        :
-                                                        <Chip label="OK" color="success"/>}
+                                                <TableCell align="left">
+                                                    <Stack direction="row" alignItems="center" spacing={2}>
+                                                        <Avatar alt={name}
+                                                                src={airline.imageURL}/>
+                                                        <Typography variant="subtitle3" noWrap>
+                                                            {airline.name}
+                                                        </Typography>
+                                                    </Stack>
                                                 </TableCell>
 
                                                 <TableCell align="right">
                                                     <IconButton size="large" color="inherit" onClick={(e) => {
-                                                        setCurrentUser(id)
+                                                        setCurrentAircraft(id)
                                                         handleOpenMenu(e)
                                                     }}>
                                                         <MoreVertIcon fontSize="small"/>
@@ -213,24 +215,24 @@ export default function AircraftPage() {
             </Grid>
 
             <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
-                <DialogTitle>Add New User</DialogTitle>
+                <DialogTitle>Add New Aircraft</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Enter username, field, name
+                        Choose airline and enter the aircraft name
                     </DialogContentText>
-                    <AddUserForm updateUsers={updateUsers}></AddUserForm>
+                    <AddAircraftForm updateAircraft={updateAircraft}></AddAircraftForm>
                 </DialogContent>
                 <DialogActions>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={openEditDialog} onClose={handleCloseEditDialog} fullWidth="md">
-                <DialogTitle>Edit User</DialogTitle>
+                <DialogTitle>Edit Aircraft</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Edit name, username, password
+                        Edit name
                     </DialogContentText>
-                    <EditUserForm currentUser={currentUser} updateUsers={updateUsers}></EditUserForm>
+                    <EditAircraftForm currentUser={currentAircraft} updateUsers={updateAircraft}></EditAircraftForm>
                 </DialogContent>
                 <DialogActions>
                 </DialogActions>
@@ -243,7 +245,7 @@ export default function AircraftPage() {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure to delete this user?"}
+                    {"Are you sure to delete this aircraft?"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -253,21 +255,20 @@ export default function AircraftPage() {
                 <DialogActions>
                     <Button onClick={handleCloseConfirm}>Cancel</Button>
                     <Button onClick={() => {
-                        customAPIv1().delete(`/users/${currentUser}`)
+                        customAPIv1().delete(`/aircraft/${currentAircraft}`)
                             .then(res => {
-                                updateUsers()
+                                updateAircraft()
                                 handleCloseConfirm()
                             })
                             .catch(e => {
                                 console.log("error in delete:", e)
                             })
                     }} autoFocus variant="contained" color="error">
-                        Remove User
+                        Remove Aircraft
                     </Button>
                 </DialogActions>
             </Dialog>
         </>
 
     )
-        ;
 }
