@@ -1,11 +1,13 @@
 import {Helmet} from 'react-helmet-async';
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
-import { Container, Typography} from '@mui/material';
+import {Button, Container, Grid, Typography} from '@mui/material';
 // hooks
 // components
 import Logo from '../../components/logo';
 import SearchForm from "../../components/Forms/SearchForm";
+import {useState} from "react";
+import TicketCheckForm from "../../components/Forms/TicketCheckForm";
 // sections
 
 
@@ -42,6 +44,7 @@ const StyledContent = styled('div')(({theme}) => ({
 
 export default function SearchPage() {
     const theme = useTheme();
+    const [searchForm, setSearchForm] = useState(true)
     return (
         <>
             <Helmet>
@@ -58,17 +61,28 @@ export default function SearchPage() {
                 />
 
                 <Container>
-                    <StyledContent className={"ggg"}>
-                        <Container >
+                    <StyledContent>
+                        <Container>
                             <Typography variant="h3" color={theme.palette.primary.main} marginTop="45px" gutterBottom>
                                 BOOK YOUR FLIGHT TODAY
                             </Typography>
 
                             <Typography variant="p" sx={{mb: 5}}>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate laboriosam numquam at
+                                If you have already booked, check your tickets here!
                             </Typography>
+                            <Grid container spacing={{xs: 1, md: 2}}>
+                                <Grid item xs={12} sm={8} md={6}>
+                                    <Button fullWidth size="large" type="button" variant="contained" onClick={() => {
+                                        setSearchForm((pre) => !pre)
+                                    }}>
+                                        {searchForm ? "Find my booking" : "Back to search"}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+
                         </Container>
-                        <SearchForm/>
+                        {searchForm ? <SearchForm/> : <TicketCheckForm/>}
+
                     </StyledContent>
                 </Container>
             </StyledRoot>
