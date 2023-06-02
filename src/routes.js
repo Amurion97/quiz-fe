@@ -1,12 +1,14 @@
 import {Navigate, useRoutes} from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
-import SearchPage from "./pages/SearchPage";
-import FlightPage from "./pages/FlightPage";
-import BookingFinalization from "./pages/BookingFinalization";
 import DashboardLayout from "./layouts/DashboardLayout";
-import FlightCreationPage from "./pages/FlightCreationPage";
-import UsersPage from "./pages/UsersPage";
+import FlightCreationPage from "./pages/User/FlightCreationPage";
+import UsersPage from "./pages/AdminPrivilege/UsersPage";
+import SearchPage from "./pages/Booking/SearchPage";
+import ResultsPage from "./pages/Booking/ResultsPage";
+import BookingFinalization from "./pages/Booking/BookingFinalization";
+import AircraftPage from "./pages/User/AircraftPage";
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -18,6 +20,7 @@ export default function Router() {
                 {element: <Navigate to="/dashboard/createFlight"/>, index: true},
                 {path: 'createFlight', element: <FlightCreationPage/>},
                 {path: 'users', element: <UsersPage/>},
+                {path: 'aircraft', element: <AircraftPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
             ],
@@ -32,7 +35,7 @@ export default function Router() {
         },
         {
             path: '/results',
-            element: <FlightPage/>,
+            element: <ResultsPage/>,
         },
         {
             path: '/finalize',

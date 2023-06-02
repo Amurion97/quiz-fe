@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {styled} from "@mui/material/styles";
 import {Container, Paper} from "@mui/material";
-import FinalizeForm from "../components/Forms/FinalizeForm";
+import FinalizeForm from "../../components/Forms/FinalizeForm";
 
 const StyledRoot = styled('div')(({theme}) => ({
     [theme.breakpoints.up('md')]: {

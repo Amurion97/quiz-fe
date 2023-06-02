@@ -18,9 +18,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
-import AddUserForm from "../components/Forms/AddUserForm";
-import {customAPIv1} from "../features/customAPI";
-import EditUserForm from "../components/Forms/EditUserForm";
+import AddUserForm from "../../components/Forms/AddUserForm";
+import {customAPIv1} from "../../features/customAPI";
+import EditUserForm from "../../components/Forms/EditUserForm";
 
 const columns = [
     {id: 'name', label: 'Name', minWidth: 150},
@@ -30,7 +30,7 @@ const columns = [
     {id: '', label: 'Action', minWidth: 40, align: "right"},
 ];
 
-export default function UsersPage() {
+export default function AircraftPage() {
     const theme = useTheme()
     const [users, setUsers] = useState([]);
     const [openMenu, setOpenMenu] = useState(null);

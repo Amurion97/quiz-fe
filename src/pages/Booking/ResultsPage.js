@@ -1,10 +1,10 @@
 // @mui
 import {styled} from '@mui/material/styles';
 import {Grid, Container, Slide} from '@mui/material';
-import BookingBar from "../components/BookingBar";
-import FlightList from "../components/FlightList";
+import BookingBar from "../../components/BookingBar";
+import FlightList from "../../components/FlightList";
 import {useState} from "react";
-import SeatChoosingWindow from "../components/SeatChoosingWindow";
+import SeatChoosingWindow from "../../components/SeatChoosingWindow";
 // components
 
 // sections
@@ -16,7 +16,7 @@ const StyledRoot = styled('div')(({theme}) => ({
 }));
 // ----------------------------------------------------------------------
 
-export default function FlightPage() {
+export default function ResultsPage() {
     const [flightToChooseSeat, setFlightToChooseSeat] = useState(null);
 
     const handleClickOpen = (id) => {
