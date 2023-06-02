@@ -6,6 +6,7 @@ import FlightPage from "./pages/FlightPage";
 import BookingFinalization from "./pages/BookingFinalization";
 import DashboardLayout from "./layouts/DashboardLayout";
 import FlightCreationPage from "./pages/FlightCreationPage";
+import UsersPage from "./pages/UsersPage";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -16,7 +17,7 @@ export default function Router() {
             children: [
                 {element: <Navigate to="/dashboard/createFlight"/>, index: true},
                 {path: 'createFlight', element: <FlightCreationPage/>},
-                {path: 'search', element: <SearchPage/>},
+                {path: 'users', element: <UsersPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
             ],

@@ -9,9 +9,9 @@ import NavBar from "../components/NavBar";
 
 const StyledRoot = styled('div')({
     display: 'flex',
-    minHeight: '100%',
+    // minHeight: '100%',
     maxHeight: '100vh',
-    overflow: 'scroll',
+    // overflow: 'scroll',
 });
 
 // ----------------------------------------------------------------------

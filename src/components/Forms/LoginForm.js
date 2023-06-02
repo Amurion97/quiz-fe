@@ -27,6 +27,7 @@ export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
+    const [statusCode, setStatusCode] = useState(0);
 
     return (
         <>
@@ -43,7 +44,12 @@ export default function LoginForm() {
                         .then(data => {
                             console.log("thunk data:", data)
                             if (data.type.includes("rejected")) {
-                                setOpen(true)
+                                setOpen(true);
+                                if (data.error.message.includes("401")) {
+                                    setStatusCode(401)
+                                } else if (data.error.message.includes("403")) {
+                                    setStatusCode(403)
+                                }
                                 setSubmitting(false);
                             } else if (data.type.includes("fulfilled")) {
                                 setSubmitting(false);
@@ -74,7 +80,8 @@ export default function LoginForm() {
                                     sx={{mb: 2}}
                                     variant="filled" severity="error"
                                 >
-                                    Wrong username or password, please try again!
+                                    {statusCode >= 403 ? "Account is locked, please contact admin"
+                                        : "Wrong username or password, please try again!"}
                                 </Alert>
                             </Collapse>
                             <Field

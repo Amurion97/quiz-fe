@@ -20,10 +20,11 @@ import Box from '@mui/material/Box';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 // components
 import Logo from "./logo";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 import {useDispatch} from "react-redux";
 import {logout} from "../features/user/userSlice";
 
@@ -100,7 +101,7 @@ export default function NavBar(props) {
                     />
                 </div>
                 <div className="navbar-item2">
-                    <UserInfoBox onClick={handleClick}>
+                    <UserInfoBox>
                         <Grid container spacing={0} justifyContent="center" direction="row"
                               alignItems="center"
                               style={{
@@ -162,13 +163,13 @@ export default function NavBar(props) {
                                 selected={selectedIndex === 1}
                                 onClick={(event) => {
                                     handleListItemClick(event, 1)
-                                    navigate("/dashboard/search")
+                                    navigate("/dashboard/users")
                                 }}
                             >
                                 <ListItemIcon>
-                                    <DraftsIcon/>
+                                    <SupervisedUserCircleIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="Search" style={{color: theme.palette.text.primary}}/>
+                                <ListItemText primary="Users" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
                         </List>
                     </Box>
