@@ -11,11 +11,20 @@ export default function Ticket(props) {
     console.log("props:", props)
     let start = new Date(props.flight.start);
     let startTime =
-        `${(start.getHours() > 12) ? start.getHours() - 12 : start.getHours()}:${start.getMinutes()} ${(start.getHours() >= 12) ? "PM" : "AM"}`
-    let fullName = `${(props.values[`lastName-${props.index}`]) ? props.values[`lastName-${props.index}`] : ""}` +
-        ', ' +
-        `${(props.values[`firstName-${props.index}`]) ? props.values[`firstName-${props.index}`] : ""} ` +
-        `${props.values[`middleName-${props.index}`] ? (props.values[`middleName-${props.index}`]).slice(0, 1) : ""}`
+        `${(start.getHours() > 12) ? start.getHours() - 12 : start.getHours()}:${start.getMinutes()} ${(start.getHours() >= 12) ? "PM" : "AM"}`;
+    let fullName
+    if (props.notFinal) {
+        fullName = `${(props.lastName) ? props.lastName : ""}` +
+            ', ' +
+            `${(props.firstName) ? props.firstName : ""} ` +
+            `${props.middleName ? props.middleName.slice(0, 1) : ""}`
+    } else {
+        fullName = `${(props.values[`lastName-${props.index}`]) ? props.values[`lastName-${props.index}`] : ""}` +
+            ', ' +
+            `${(props.values[`firstName-${props.index}`]) ? props.values[`firstName-${props.index}`] : ""} ` +
+            `${props.values[`middleName-${props.index}`] ? (props.values[`middleName-${props.index}`]).slice(0, 1) : ""}`
+    }
+
     let seatName = props.name
     let flight = props.flight.name
 

@@ -8,6 +8,9 @@ import SearchPage from "./pages/Booking/SearchPage";
 import ResultsPage from "./pages/Booking/ResultsPage";
 import BookingFinalization from "./pages/Booking/BookingFinalization";
 import AircraftPage from "./pages/User/AircraftPage";
+import FlightPage from "./pages/User/FlightPage";
+import AirportPage from "./pages/User/AirportPage";
+import BookingDetailsPage from "./pages/Booking/BookingDetailsPage";
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +24,8 @@ export default function Router() {
                 {path: 'createFlight', element: <FlightCreationPage/>},
                 {path: 'users', element: <UsersPage/>},
                 {path: 'aircraft', element: <AircraftPage/>},
+                {path: 'flights', element: <FlightPage/>},
+                {path: 'airports', element: <AirportPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
             ],
@@ -34,6 +39,10 @@ export default function Router() {
             element: <SearchPage/>,
         },
         {
+            path: "/booking",
+            element: <BookingDetailsPage/>,
+        },
+        {
             path: '/results',
             element: <ResultsPage/>,
         },
@@ -44,6 +53,10 @@ export default function Router() {
         {
             path: '/404',
             element: <Page404/>
+        },
+        {
+            path: "/",
+            element: <SearchPage/>,
         },
         {
             path: '*',

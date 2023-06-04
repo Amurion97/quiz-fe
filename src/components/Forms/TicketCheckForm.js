@@ -6,9 +6,11 @@ import {TextField} from "formik-mui";
 import {useState} from "react";
 import {customAPIv1} from "../../features/customAPI";
 import UpperCasingTextField from "./Field/UpperCasingTextField";
+import {useNavigate} from "react-router-dom";
 
 
 export default function TicketCheckForm(props) {
+    const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     return (
         <Paper style={{
@@ -16,7 +18,7 @@ export default function TicketCheckForm(props) {
             // backgroundColor: '#ffffff',
             padding: "15px 25px 25px",
         }}
-        padding={3}>
+               padding={3}>
 
 
             <Formik
@@ -28,13 +30,14 @@ export default function TicketCheckForm(props) {
                 onSubmit={(values, {setSubmitting, resetForm}) => {
                     console.log("trying to submit:", values)
                     // try {
-                    customAPIv1().post("/users", values)
+                    customAPIv1().post("/bookings/search", values)
                         .then((response) => {
-                            console.log("Add user success");
-                            resetForm();
+                            console.log("Search for booking success");
                             setSubmitting(false);
                             setOpen(false);
-                            props.updateUsers();
+                            navigate('/booking', {
+                                state: response.data.data
+                            })
                         })
                         .catch(e => {
                             console.log("error:", e);

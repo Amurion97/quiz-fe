@@ -11,7 +11,7 @@ import {fetchFlights, selectDeparture} from "../features/flight/flightSlice";
 // components
 
 // sections
-const Flight = styled(Paper)(({theme}) => ({
+export const Flight = styled(Paper)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : theme.palette.background.paper,
     ...theme.typography.body2,
     padding: theme.spacing(3),
@@ -27,7 +27,7 @@ const Flight = styled(Paper)(({theme}) => ({
 //     5 : "Friday",
 //     6 : "Saturday",
 // }
-const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+export const dayFormatOptions = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 // ----------------------------------------------------------------------
 
 export default function FlightList(props) {
@@ -68,6 +68,9 @@ export default function FlightList(props) {
 
             <Grid container spacing={3} alignItems="center">
                 {flights.list.map(item => {
+                    if (item.isCanceled === true) {
+                        return <></>
+                    }
                     // console.log("item:", item.id);
                     let start = new Date(item.start);
                     let end = new Date(item.end);
@@ -98,7 +101,7 @@ export default function FlightList(props) {
                                                         fontWeight: 'light'
                                                     }}>
                                             {/*{DAY[start.getDay()]}, Apr 21, 2020*/}
-                                            {start.toLocaleDateString(undefined, options)}
+                                            {start.toLocaleDateString(undefined, dayFormatOptions)}
                                         </Typography>
 
                                     </Grid>
@@ -141,7 +144,7 @@ export default function FlightList(props) {
                                                         fontSize: "0.8rem",
                                                         fontWeight: 'light'
                                                     }}>
-                                            {end.toLocaleDateString(undefined, options)}
+                                            {end.toLocaleDateString(undefined, dayFormatOptions)}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={3} sm={3} md={3}>

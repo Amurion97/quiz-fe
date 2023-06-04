@@ -1,12 +1,12 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 // redux
-import {useDispatch} from "react-redux";
-import {logout} from "../features/user/userSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {logout, selectUser} from "../features/user/userSlice";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {
-    Avatar,
+    Avatar, Divider,
     Grid,
     IconButton,
     List,
@@ -22,9 +22,10 @@ import MenuItem from '@mui/material/MenuItem';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import EditRoadIcon from '@mui/icons-material/EditRoad';
 // components
 import Logo from "./logo";
-
 
 
 // sections
@@ -72,6 +73,7 @@ export default function NavBar(props) {
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch()
+    const user = useSelector(selectUser)
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const handleListItemClick = (event, index) => {
@@ -110,7 +112,7 @@ export default function NavBar(props) {
                                 <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
                             </Grid>
                             <Grid item xs={9}>
-                                Paperrrrrrrr
+                                {user.info.username}
                                 <IconButton size="large" color="inherit" onClick={handleClick}>
                                     <MoreVertIcon fontSize="small"/>
                                 </IconButton>
@@ -160,17 +162,18 @@ export default function NavBar(props) {
                                 <ListItemText primary="Create A Flight" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
 
+
                             <StyledListItemButton
                                 selected={selectedIndex === 1}
                                 onClick={(event) => {
                                     handleListItemClick(event, 1)
-                                    navigate("/dashboard/users")
+                                    navigate("/dashboard/flights")
                                 }}
                             >
                                 <ListItemIcon>
-                                    <SupervisedUserCircleIcon/>
+                                    <FlightTakeoffIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="Users" style={{color: theme.palette.text.primary}}/>
+                                <ListItemText primary="Flights" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
 
                             <StyledListItemButton
@@ -185,6 +188,36 @@ export default function NavBar(props) {
                                 </ListItemIcon>
                                 <ListItemText primary="Aircraft" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
+
+                            {(user.info.role == 1) && (
+                                <>
+                                    <Divider/>
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 3}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 3)
+                                            navigate("/dashboard/users")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <SupervisedUserCircleIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Users" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
+
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 4}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 4)
+                                            navigate("/dashboard/airports")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <EditRoadIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Airports" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
+                                </>)}
                         </List>
                     </Box>
                 </div>
