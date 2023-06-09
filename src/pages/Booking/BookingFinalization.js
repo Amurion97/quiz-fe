@@ -58,7 +58,7 @@ export default function BookingFinalization() {
                         <Box sx={{flex: '1 1 auto'}}/>
                         {activeStep < steps.length - 1 ?
                             <Button onClick={handleNext}>
-                                'Next'
+                                Next
                             </Button> : ""}
                     </Box>
                 </React.Fragment>

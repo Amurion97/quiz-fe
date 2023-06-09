@@ -5,7 +5,7 @@ import {TextField,} from 'formik-mui';
 // redux
 import {useSelector} from "react-redux";
 import {customAPIv1} from "../../features/customAPI";
-import {selectDepartureSeats} from "../../features/seat/SeatSlice";
+import {selectDepartureSeats, selectDepartureTotal} from "../../features/seat/SeatSlice";
 // @mui
 import {
     Grid,
@@ -13,7 +13,7 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Dialog,
+    Dialog, IconButton, Collapse,
 } from '@mui/material';
 import {styled, useTheme} from "@mui/material/styles";
 import PaymentIcon from '@mui/icons-material/Payment';
@@ -22,7 +22,9 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import Ticket from "../Ticket";
 import UpperCasingTextField from "./Field/UpperCasingTextField";
 import IdentityForm from "./IdentityForm";
-
+import {useState} from "react";
+import {Alert} from "@mui/lab";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const StyledContent = styled('div')(({theme}) => ({
@@ -43,7 +45,7 @@ const validationSchema = yup.object({
         .min(8, 'Password should be of minimum 8 characters length')
         .required('Password is required'),
 });
-const formSubmition = (values, departureSeats, setSubmitting) => {
+const formSubmition = (values, departureSeats, setSubmitting, setOpenFailedDelete) => {
     console.log("trying to submit:", values);
     let tickets = [];
     for (let i = 0; i < parseInt(departureSeats.seats.length); i++) {
@@ -67,8 +69,14 @@ const formSubmition = (values, departureSeats, setSubmitting) => {
             .then(() => {
                 setSubmitting(false)
             })
+            .catch(e => {
+                console.log("error in save booking:", e);
+                setOpenFailedDelete(true);
+                setSubmitting(false)
+            })
     } catch (e) {
         console.log("error in save booking:", e);
+        setOpenFailedDelete(true)
     }
 }
 // ----------------------------------------------------------------------
@@ -76,8 +84,19 @@ const formSubmition = (values, departureSeats, setSubmitting) => {
 export default function FinalizeForm(props) {
     const navigate = useNavigate();
     const theme = useTheme();
-    const departureSeats = useSelector(selectDepartureSeats)
-    console.log("departure:", departureSeats)
+    const departureSeats = useSelector(selectDepartureSeats);
+    const total = useSelector(selectDepartureTotal);
+    const [openFailedDelete, setOpenFailedDelete] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleClickOpenDialog = () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+    console.log("departure:", departureSeats);
     return (
         <>
             <StyledContent>
@@ -96,7 +115,8 @@ export default function FinalizeForm(props) {
                     }}
                     onSubmit={(values, {setSubmitting}) => {
                         console.log("trying to submit:", values);
-                        formSubmition(values, departureSeats, setSubmitting)
+                        formSubmition(values, departureSeats, setSubmitting, setOpenFailedDelete);
+                        handleClickOpenDialog();
                     }}
                 >
                     {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) =>
@@ -170,6 +190,10 @@ export default function FinalizeForm(props) {
                                       }}>
                                     <Grid item xs={12} sm={12} md={12}>
                                         <p>Choose your payment method</p>
+                                        {/*<p>Total: {total}</p>*/}
+                                        <p>Total: {departureSeats.seats.reduce(function (sum, item) {
+                                            return sum + item.price
+                                        }, 0).toLocaleString("de-DE")} VND</p>
                                     </Grid>
                                     <Grid item xs={6} sm={6} md={6}>
                                         <Button type="button" fullWidth size="large" color="inherit" variant="outlined"
@@ -189,8 +213,11 @@ export default function FinalizeForm(props) {
                                 </Grid>
 
                                 <Dialog
-                                    open={isSubmitting}
-                                    onClose={props.handleClose}
+                                    open={openDialog}
+                                    onClose={() => {
+                                        handleCloseDialog()
+                                        setOpenFailedDelete(false)
+                                    }}
                                     aria-labelledby="alert-dialog-title"
                                     aria-describedby="alert-dialog-description"
                                     maxWidth='xs'
@@ -200,7 +227,27 @@ export default function FinalizeForm(props) {
                                         {"Notification"}
                                     </DialogTitle>
                                     <DialogContent>
-                                        Thank you!
+                                        <Collapse in={openFailedDelete}>
+                                            <Alert
+                                                action={
+                                                    <IconButton
+                                                        aria-label="close"
+                                                        color="inherit"
+                                                        size="small"
+                                                        onClick={() => {
+                                                            setOpenFailedDelete(false);
+                                                        }}
+                                                    >
+                                                        <CloseIcon fontSize="inherit"/>
+                                                    </IconButton>
+                                                }
+                                                sx={{mb: 2}}
+                                                variant="filled" severity="error"
+                                            >
+                                                Error! Please check the form missing field.
+                                            </Alert>
+                                        </Collapse>
+                                        {!openFailedDelete && "Thank you!"}
                                     </DialogContent>
                                     <DialogActions>
                                     </DialogActions>

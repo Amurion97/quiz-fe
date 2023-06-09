@@ -100,6 +100,7 @@ export default function BookingBar(props) {
                                        readOnly
                                        defaultValue={dayjs(searchParams.get("return"))}
                                        format="LL"
+
                         />
                     </Grid>
                 </Grid>

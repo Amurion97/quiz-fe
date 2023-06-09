@@ -1,12 +1,11 @@
 import {Helmet} from 'react-helmet-async';
+import {useState} from "react";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {Button, Container, Grid, Typography} from '@mui/material';
-// hooks
 // components
 import Logo from '../../components/logo';
 import SearchForm from "../../components/Forms/SearchForm";
-import {useState} from "react";
 import TicketCheckForm from "../../components/Forms/TicketCheckForm";
 // sections
 

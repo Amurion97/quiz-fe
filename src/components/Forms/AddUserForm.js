@@ -17,9 +17,12 @@ export default function AddUserForm(props) {
     const [openSuccess, setOpenSuccess] = useState(false);
     return (
         <Formik
-            initialValues={{}}
+            initialValues={{username: ""}}
             validate={(values) => {
                 const errors = {};
+                if (values.username.length < 5) {
+                    errors.username = "Username too short"
+                }
                 return errors;
             }}
             onSubmit={(values, {setSubmitting, resetForm}) => {

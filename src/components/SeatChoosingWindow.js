@@ -14,7 +14,7 @@ import {customAPIv1} from "../features/customAPI";
 import DeleteIcon from '@mui/icons-material/Delete';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import {useDispatch} from "react-redux";
-import {setDepartureSeats} from "../features/seat/SeatSlice";
+import {setDepartureSeats, setTotal} from "../features/seat/SeatSlice";
 import {useNavigate} from "react-router-dom";
 // components
 
@@ -196,7 +196,12 @@ export default function SeatChoosingWindow(props) {
                         dispatch(setDepartureSeats({
                             flight: flightDetails,
                             seats: chosenSeats
-                        }))
+                        }));
+                        let total = chosenSeats.reduce(function (sum, item) {
+                            return sum + item.price
+                        }, 0);
+                        console.log("chosenSeats:", chosenSeats, total)
+                        dispatch(setTotal(total))
                         navigate("/finalize");
                     }} autoFocus>
                         Finish

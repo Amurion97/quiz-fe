@@ -40,6 +40,20 @@ const validationSchema = yup.object({
 });
 const formSubmition = (values, {setSubmitting}) => {
     console.log("trying to submit:", values);
+    if (values.start && values.end) {
+        console.log(values.start, values.end);
+        let start = new Date(values.start)
+        let end = new Date(values.end);
+        console.log(start, end)
+        if (start >= end) {
+            // errors.start = 'Start time must smaller than arrival time'
+            // errors.end = 'Start time must smaller than arrival time'
+            window.alert('Start time must smaller than arrival time');
+            setSubmitting(false)
+            return
+        }
+    }
+
     let rows = [];
     for (let i = 0; i < parseInt(values.rows); i++) {
         rows.push({
@@ -65,6 +79,8 @@ const formSubmition = (values, {setSubmitting}) => {
             })
     } catch (e) {
         console.log("error in save flight:", e);
+        window.alert('failed, try again');
+        setSubmitting(false)
     }
     console.log()
 }
@@ -170,6 +186,7 @@ export default function FlightCreationForm() {
                 initialValues={{}}
                 validate={(values) => {
                     const errors = {};
+
                     return errors;
                 }}
                 onSubmit={formSubmition}
@@ -180,6 +197,7 @@ export default function FlightCreationForm() {
                             <Grid item xs={6}>
                                 <Grid container spacing={{xs: 1, md: 2}} columns={{xs: 4, sm: 8, md: 12}}>
                                     <Grid item xs={4} sm={4} md={6}>
+                                        <p>{JSON.stringify(errors)}</p>
                                         <Field
                                             name="airline"
                                             component={Autocomplete}
@@ -282,6 +300,7 @@ export default function FlightCreationForm() {
                                                    onChange={(e) => {
                                                        let end = new Date(e.$d);
                                                        setFieldValue("end", end.toLocaleString());
+
                                                    }}/>
                                         </FormControl>
                                     </Grid>
@@ -328,7 +347,7 @@ export default function FlightCreationForm() {
                                     </Grid>
 
                                     <Grid item xs={4} sm={4} md={6}>
-                                        <LoadingButton fullWidth size="large" type="submit" variant="contained"
+                                        <LoadingButton fullWidth size="large" type="button" variant="contained"
                                                        onClick={
                                                            submitForm
                                                        }

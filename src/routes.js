@@ -11,6 +11,10 @@ import AircraftPage from "./pages/User/AircraftPage";
 import FlightPage from "./pages/User/FlightPage";
 import AirportPage from "./pages/User/AirportPage";
 import BookingDetailsPage from "./pages/Booking/BookingDetailsPage";
+import PhonePage from "./pages/Test/PhonePage";
+import AddPhoneForm from "./pages/Test/AddPhoneForm";
+import EditPhoneForm from "./pages/Test/EditPhoneForm";
+import Detail from "./pages/Test/Detail";
 
 // ----------------------------------------------------------------------
 
@@ -57,6 +61,22 @@ export default function Router() {
         {
             path: "/",
             element: <SearchPage/>,
+        },
+        {
+            path: 'test',
+            element: <PhonePage/>,
+        },
+        {
+            path: 'test/add',
+            element: <AddPhoneForm/>,
+        },
+        {
+            path: 'test/edit',
+            element: <EditPhoneForm/>,
+        },
+        {
+            path: 'test/detail',
+            element: <Detail/>,
         },
         {
             path: '*',
