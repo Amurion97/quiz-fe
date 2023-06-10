@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 // @mui
 import {
-    Link,
     Stack,
     IconButton,
     InputAdornment,
@@ -25,18 +24,18 @@ const SchemaError = Yup.object().shape({
     name: Yup.string()
         .min(2, "Too Short!")
         .required("Required"),
-    phoneNumber:Yup.string().required().matches(phoneRegExp, 'Phone number is not valid'),
+    phoneNumber: Yup.string().required().matches(phoneRegExp, 'Phone number is not valid'),
     email: Yup.string().email()
         .required("Required"),
     password: Yup.string()
         .min(6, "Too Short!")
         .required('Vui lòng nhập mật khẩu'),
-    confirmPassword:Yup.string()
+    confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Mật khẩu không khớp')
         .required('Vui lòng xác nhận mật khẩu'),
-    address: Yup.string()
-        .min(6, "Too Short!")
-        .required("Required")
+    // address: Yup.string()
+    //     .min(6, "Too Short!")
+    //     .required("Required")
 });
 
 // ----------------------------------------------------------------------
@@ -51,163 +50,168 @@ export default function RegisterForm() {
     return (
         <>
             <Formik
-                initialValues={{}}
-                validate={(values) => {
-                    const errors = {};
-                    if (values.password !== values.confirmPassword) {
-                        errors.confirmPassword = "Mật khẩu không trùng khớp";
-                    }
-                    return errors;
+                initialValues={{
+                    name: "",
+                    phoneNumber: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: ""
                 }}
                 validationSchema={SchemaError}
                 onSubmit={(values, {setSubmitting}) => {
                     console.log("trying to submit:", values)
-                    window.alert("Register Success")
-                    // try {
+
+                    //dùng axios thuần k cần dùng redux, xoá hết redux đi
                     dispatch(register(values))
                         .then(data => {
                             console.log("thunk data:", data)
                             if (data.type.includes("rejected")) {
                                 setOpen(true);
-                                if (data.error.message.includes("401")) {
-                                    setStatusCode(401)
-                                } else if (data.error.message.includes("403")) {
-                                    setStatusCode(403)
-                                }
+                                // if (data.error.message.includes("401")) {
+                                //     setStatusCode(401)
+                                // } else if (data.error.message.includes("403")) {
+                                //     setStatusCode(403)
+                                // }
                                 setSubmitting(false);
                             } else if (data.type.includes("fulfilled")) {
+                                window.alert("Register Success")
                                 setSubmitting(false);
-                                navigate("/login")
+                                // navigate("/login")
                             }
-
                         })
                 }}
             >
-                {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) => (
-
-                    <Form>
-                        <Stack spacing={3}>
-                            <Collapse in={open}>
-                                <Alert
-                                    action={
-                                        <IconButton
-                                            aria-label="close"
-                                            color="inherit"
-                                            size="small"
-                                            onClick={() => {
-                                                setOpen(false);
+                {({
+                      values,
+                      submitForm,
+                      resetForm,
+                      isSubmitting,
+                      touched,
+                      errors,
+                      setFieldValue,
+                      isValidating
+                  }) => {
+                    // console.log("formik re-rendering", isValidating)
+                    return (
+                        <Form>
+                            <Stack spacing={3}>
+                                {/*{JSON.stringify(errors)}*/}
+                                <Collapse in={open}>
+                                    <Alert
+                                        action={
+                                            <IconButton
+                                                aria-label="close"
+                                                color="inherit"
+                                                size="small"
+                                                onClick={() => {
+                                                    setOpen(false);
+                                                }}
+                                            >
+                                                <CloseIcon fontSize="inherit"/>
+                                            </IconButton>
+                                        }
+                                        sx={{mb: 2}}
+                                        variant="filled" severity="error"
+                                    >
+                                        {statusCode >= 403 ? "Account is locked, please contact admin"
+                                            : "Wrong email or password, please try again!"}
+                                    </Alert>
+                                </Collapse>
+                                <Grid container spacing={0}>
+                                    <Grid item xs={7}>
+                                        <Field
+                                            component={TextField}
+                                            type="text"
+                                            label="Name"
+                                            name="name"
+                                            fullWidth
+                                            initialTouched={true}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={5} pl={1}>
+                                        <Field
+                                            component={TextField}
+                                            type="number"
+                                            label="Phone"
+                                            name="phoneNumber"
+                                            InputProps={{
+                                                startAdornment: <InputAdornment
+                                                    position="start">+84</InputAdornment>,
                                             }}
-                                        >
-                                            <CloseIcon fontSize="inherit"/>
-                                        </IconButton>
-                                    }
-                                    sx={{mb: 2}}
-                                    variant="filled" severity="error"
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Field
+                                    component={TextField}
+                                    type="text"
+                                    label="Email"
+                                    name="email"
+                                    fullWidth
+                                />
+
+                                <Field
+                                    component={TextField}
+                                    type={showPassword ? 'text' : 'password'}
+                                    label="Password"
+                                    name="password"
+                                    fullWidth
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    edge="end">
+                                                    {showPassword ? (
+                                                        <VisibilityIcon fontSize="small"/>) : (
+                                                        <VisibilityOffIcon fontSize="small"/>)}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                                <Field
+                                    component={TextField}
+                                    type={showPassword ? 'text' : 'password'}
+                                    label="Re-enter the password"
+                                    name="confirmPassword"
+                                    fullWidth
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    edge="end">
+                                                    {showPassword ? (
+                                                        <VisibilityIcon fontSize="small"/>) : (
+                                                        <VisibilityOffIcon fontSize="small"/>)}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+
+                                <Field
+                                    component={TextField}
+                                    type="text"
+                                    label="Address"
+                                    name="address"
+                                    fullWidth
+                                />
+
+                                <LoadingButton fullWidth size="large" type="submit"
+                                               variant="contained"
+                                               loading={isSubmitting}
+                                    // onClick={submitForm}
                                 >
-                                    {statusCode >= 403 ? "Account is locked, please contact admin"
-                                        : "Wrong email or password, please try again!"}
-                                </Alert>
-                            </Collapse>
-                            {console.log(values)}
-                            <Grid container spacing={2}>
-                                <Grid xs={7}>
-                                    <Field
-                                        component={TextField}
-                                        type="text"
-                                        label="Name"
-                                        name="name"
-                                        fullWidth
-                                    />
+                                    <span>{(isSubmitting) ? "Registering…" : "Submit"}</span>
+                                </LoadingButton>
+                            </Stack>
 
-                                </Grid>
-                                <Grid xs={5}>
-                                    <Field
-                                        component={TextField}
-                                        type="number"
-                                        label="Phone"
-                                        name="phoneNumber"
-                                        InputProps={{
-                                            startAdornment: <InputAdornment position="start">+84</InputAdornment>,
-                                        }}
-                                        fullWidth
-                                    />
-
-                                </Grid>
-                            </Grid>
-                            <Field
-                                component={TextField}
-                                type="text"
-                                label="Email"
-                                name="email"
-                                fullWidth
-                            />
-
-                            <Field
-                                component={TextFieldMUI}
-                                type={showPassword ? 'text' : 'password'}
-                                label="Password"
-                                name="password"
-                                fullWidth
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                                                {showPassword ? (<VisibilityIcon fontSize="small"/>) : (
-                                                    <VisibilityOffIcon fontSize="small"/>)}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                onChange={(e) => {
-                                    setFieldValue("password", e.target.value)
-                                }}
-                            />
-                            <p style={{color: 'red'}}><ErrorMessage name={'password'}/></p>
-                            <Field
-                                component={TextFieldMUI}
-                                type={showPassword ? 'text' : 'password'}
-                                label="Re-enter the password"
-                                name="confirmPassword"
-                                fullWidth
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                                                {showPassword ? (<VisibilityIcon fontSize="small"/>) : (
-                                                    <VisibilityOffIcon fontSize="small"/>)}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                onChange={(e) => {
-                                    setFieldValue("confirmPassword", e.target.value)
-                                }}
-                            />
-                            <p style={{color: 'red'}}><ErrorMessage name={'confirmPassword'}/></p>
-
-                            <Field
-                                component={TextField}
-                                type="text"
-                                label="Address"
-                                name="address"
-                                fullWidth
-                            />
-
-                        </Stack>
-
-                        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{my: 2}}>
-                            <Grid></Grid>
-                            {/*<Link variant="subtitle2" underline="hover">*/}
-                            {/*    Forgot password?*/}
-                            {/*</Link>*/}
-                        </Stack>
-
-                        <LoadingButton fullWidth size="large" type="button" variant="contained" onClick={submitForm}>
-                            Submit
-                        </LoadingButton>
-                    </Form>
-                )}
-
+                        </Form>
+                    )
+                }
+                }
             </Formik>
         </>
     )
