@@ -21,21 +21,6 @@ export const login = createAsyncThunk(
             password: arg.password
         })
         return response.data.data;
-
-        return true
-
-        try {
-            const response = await customAPIv1().post('users/login', {
-                email: arg.email,
-                password: arg.password
-            })
-            return response.data.data;
-        } catch (err) {
-            if (!err.response) {
-                throw err
-            }
-            return rejectWithValue(err.response.data)
-        }
     }
 );
 export const register = createAsyncThunk(

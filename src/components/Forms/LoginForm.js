@@ -52,11 +52,12 @@ export default function LoginForm() {
                                 }
                                 setSubmitting(false);
                             } else if (data.type.includes("fulfilled")) {
-                                setSubmitting(false);
                                 let role = data.payload.info.role;
-                                if(role===1)
+                                console.log("role", role)
+                                setSubmitting(false);
+                                if (role === 1)
                                     navigate("/dashboard/SearchPage")
-                                else if (role===2)
+                                else if (role === 2)
                                     navigate("/dashboard/FlightCreation")
                                 else
                                     navigate("/dashboard")
@@ -65,7 +66,15 @@ export default function LoginForm() {
                         })
                 }}
             >
-                {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) => (
+                {({
+                      values,
+                      submitForm,
+                      resetForm,
+                      isSubmitting,
+                      touched,
+                      errors,
+                      setFieldValue
+                  }) => (
 
                     <Form>
                         <Stack spacing={3}>
@@ -107,8 +116,11 @@ export default function LoginForm() {
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                                                {showPassword ? (<VisibilityIcon fontSize="small"/>) : (
+                                            <IconButton
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                edge="end">
+                                                {showPassword ? (
+                                                    <VisibilityIcon fontSize="small"/>) : (
                                                     <VisibilityOffIcon fontSize="small"/>)}
                                             </IconButton>
                                         </InputAdornment>
@@ -120,14 +132,16 @@ export default function LoginForm() {
                             />
                         </Stack>
 
-                        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{my: 2}}>
+                        <Stack direction="row" alignItems="center" justifyContent="space-between"
+                               sx={{my: 2}}>
                             <Grid></Grid>
                             <Link variant="subtitle2" underline="hover">
                                 Forgot password?
                             </Link>
                         </Stack>
 
-                        <LoadingButton fullWidth size="large" type="button" variant="contained" onClick={submitForm}>
+                        <LoadingButton fullWidth size="large" type="button" variant="contained"
+                                       onClick={submitForm}>
                             Login
                         </LoadingButton>
                     </Form>

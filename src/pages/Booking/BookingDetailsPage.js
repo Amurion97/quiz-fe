@@ -1,8 +1,8 @@
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {Grid, Container, Slide, Typography, Button} from '@mui/material';
-import {useEffect, useState} from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Field, Form, Formik} from "formik";
 import {TextField} from "formik-mui";
 import UpperCasingTextField from "../../components/Forms/Field/UpperCasingTextField";
@@ -27,9 +27,8 @@ const StyledContent = styled('div')(({theme}) => ({
 // ----------------------------------------------------------------------
 
 export default function BookingDetailsPage() {
-    const params = useParams();
     const {state} = useLocation();
-    const [booking, setBooking] = useState(state);
+    const [booking] = useState(state);
     const theme = useTheme();
     const navigate = useNavigate();
 

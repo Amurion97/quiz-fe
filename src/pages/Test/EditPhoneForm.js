@@ -2,20 +2,14 @@ import {Field, Form, Formik} from "formik";
 import {
     Button,
     Collapse,
-    FormControlLabel,
     Grid,
-    IconButton,
-    InputAdornment, Link,
+    IconButton, Link,
     Stack,
-    TextField as TextFieldMUI
 } from "@mui/material";
 import {Alert, LoadingButton} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
-import {Switch, TextField} from "formik-mui";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import {TextField} from "formik-mui";
 import {useEffect, useState} from "react";
-import {customAPIv1} from "../../features/customAPI";
 import axios from "axios";
 import {useLocation} from "react-router-dom";
 
