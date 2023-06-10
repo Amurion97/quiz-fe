@@ -65,12 +65,12 @@ export default function LoginPage() {
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Sign in to Flight
+                            Sign in to Quiz
                         </Typography>
 
                         <Typography variant="body2" sx={{mb: 5}}>
                             Don’t have an account? {''}
-                            <Link variant="subtitle2">Get started</Link>
+                            <Link href="/register">Get started</Link>
                         </Typography>
 
                         <LoginForm/>

@@ -39,7 +39,7 @@ const StyledContent = styled('div')(({theme}) => ({
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage() {
+export default function RegisterPage() {
     return (
         <>
             <Helmet>
@@ -65,12 +65,13 @@ export default function LoginPage() {
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Sign in to Flight
+                            Register in to Quiz
                         </Typography>
 
                         <Typography variant="body2" sx={{mb: 5}}>
-                            Don’t have an account? {''}
-                            <Link variant="subtitle2">Get started</Link>
+                            Do you already have an account? {''}
+                            <Link href="/login">Get started</Link>
+                            {/*<Link to={"login"}>Get started</Link>*/}
                         </Typography>
 
                         <RegisterForm/>

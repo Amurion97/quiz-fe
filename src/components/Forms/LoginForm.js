@@ -43,6 +43,8 @@ export default function LoginForm() {
                     dispatch(login(values))
                         .then(data => {
                             console.log("thunk data:", data)
+                            let role = data.payload.info.role;
+                            console.log("role",role)
                             if (data.type.includes("rejected")) {
                                 setOpen(true);
                                 if (data.error.message.includes("401")) {
@@ -53,7 +55,12 @@ export default function LoginForm() {
                                 setSubmitting(false);
                             } else if (data.type.includes("fulfilled")) {
                                 setSubmitting(false);
-                                navigate("/dashboard")
+                                if(role===1)
+                                    navigate("/dashboard/SearchPage")
+                                else if (role===2)
+                                    navigate("/dashboard/FlightCreation")
+                                else
+                                    navigate("/dashboard")
                             }
 
                         })
@@ -81,12 +88,12 @@ export default function LoginForm() {
                                     variant="filled" severity="error"
                                 >
                                     {statusCode >= 403 ? "Account is locked, please contact admin"
-                                        : "Wrong username or password, please try again!"}
+                                        : "Wrong email or password, please try again!"}
                                 </Alert>
                             </Collapse>
                             <Field
                                 component={TextField}
-                                type="text"
+                                type="email"
                                 label="Email"
                                 name="email"
                                 fullWidth
