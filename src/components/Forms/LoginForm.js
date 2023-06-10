@@ -43,8 +43,6 @@ export default function LoginForm() {
                     dispatch(login(values))
                         .then(data => {
                             console.log("thunk data:", data)
-                            let role = data.payload.info.role;
-                            console.log("role",role)
                             if (data.type.includes("rejected")) {
                                 setOpen(true);
                                 if (data.error.message.includes("401")) {
@@ -55,6 +53,7 @@ export default function LoginForm() {
                                 setSubmitting(false);
                             } else if (data.type.includes("fulfilled")) {
                                 setSubmitting(false);
+                                let role = data.payload.info.role;
                                 if(role===1)
                                     navigate("/dashboard/SearchPage")
                                 else if (role===2)
