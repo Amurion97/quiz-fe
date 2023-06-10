@@ -17,7 +17,7 @@ export const login = createAsyncThunk(
     async (arg, {rejectWithValue}) => {
         console.log("arg:", arg)
         let response = await customAPIv1().post('users/login', {
-            username: arg.username,
+            email: arg.email,
             password: arg.password
         })
         return response.data.data;
@@ -26,7 +26,7 @@ export const login = createAsyncThunk(
 
         try {
             const response = await customAPIv1().post('users/login', {
-                username: arg.username,
+                email: arg.email,
                 password: arg.password
             })
             return response.data.data;
