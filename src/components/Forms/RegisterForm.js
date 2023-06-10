@@ -5,14 +5,13 @@ import {
     Stack,
     IconButton,
     InputAdornment,
-    TextField as TextFieldMUI,
     Grid,
     Collapse
 } from '@mui/material';
 import {Alert, LoadingButton} from '@mui/lab';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import {ErrorMessage, Field, Form, Formik} from "formik";
+import {Field, Form, Formik} from "formik";
 import {useDispatch} from "react-redux";
 import {TextField} from 'formik-mui';
 import CloseIcon from '@mui/icons-material/Close';
@@ -82,20 +81,11 @@ export default function RegisterForm() {
                 }}
             >
                 {({
-                      values,
-                      submitForm,
-                      resetForm,
                       isSubmitting,
-                      touched,
-                      errors,
-                      setFieldValue,
-                      isValidating
                   }) => {
-                    // console.log("formik re-rendering", isValidating)
                     return (
                         <Form>
                             <Stack spacing={3}>
-                                {/*{JSON.stringify(errors)}*/}
                                 <Collapse in={open}>
                                     <Alert
                                         action={
