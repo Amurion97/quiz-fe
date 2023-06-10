@@ -17,12 +17,12 @@ import {Field, Form, Formik} from "formik";
 import {useDispatch} from "react-redux";
 import {TextField} from 'formik-mui';
 import CloseIcon from '@mui/icons-material/Close';
-import {login} from "../../features/user/userSlice";
+import {register} from "../../features/user/userSlice";
 // components
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+export default function RegisterForm() {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch()
@@ -35,16 +35,17 @@ export default function LoginForm() {
                 initialValues={{}}
                 validate={(values) => {
                     const errors = {};
+                    if (values.password !== values.confirmPassword) {
+                        errors.confirmPassword = "Mật khẩu không trùng khớp";
+                    }
                     return errors;
                 }}
                 onSubmit={(values, {setSubmitting}) => {
                     console.log("trying to submit:", values)
                     // try {
-                    dispatch(login(values))
+                    dispatch(register(values))
                         .then(data => {
                             console.log("thunk data:", data)
-                            let role = data.payload.info.role;
-                            console.log("role",role)
                             if (data.type.includes("rejected")) {
                                 setOpen(true);
                                 if (data.error.message.includes("401")) {
@@ -55,12 +56,7 @@ export default function LoginForm() {
                                 setSubmitting(false);
                             } else if (data.type.includes("fulfilled")) {
                                 setSubmitting(false);
-                                if(role===1)
-                                    navigate("/dashboard/SearchPage")
-                                else if (role===2)
-                                    navigate("/dashboard/FlightCreation")
-                                else
-                                    navigate("/dashboard")
+                                navigate("/login")
                             }
 
                         })
@@ -91,9 +87,33 @@ export default function LoginForm() {
                                         : "Wrong email or password, please try again!"}
                                 </Alert>
                             </Collapse>
+                            {console.log(values)}
+                            <Grid container spacing={2}>
+                                <Grid xs={7}>
+                                    <Field
+                                        component={TextField}
+                                        type="text"
+                                        label="Name"
+                                        name="name"
+                                        fullWidth
+                                    />
+                                </Grid>
+                                <Grid xs={5}>
+                                    <Field
+                                        component={TextField}
+                                        type="number"
+                                        label="Phone"
+                                        name="phoneNumber"
+                                        InputProps={{
+                                            startAdornment: <InputAdornment position="start">+84</InputAdornment>,
+                                        }}
+                                        fullWidth
+                                    />
+                                </Grid>
+                            </Grid>
                             <Field
                                 component={TextField}
-                                type="email"
+                                type="text"
                                 label="Email"
                                 name="email"
                                 fullWidth
@@ -119,20 +139,52 @@ export default function LoginForm() {
                                     setFieldValue("password", e.target.value)
                                 }}
                             />
+                            <Field
+                                component={TextFieldMUI}
+                                type={showPassword ? 'text' : 'password'}
+                                label="Re-enter the password"
+                                name="confirmPassword"
+                                fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                                {showPassword ? (<VisibilityIcon fontSize="small"/>) : (
+                                                    <VisibilityOffIcon fontSize="small"/>)}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                onChange={(e) => {
+                                    setFieldValue("confirmPassword", e.target.value)
+                                }}
+                            />
+                            {touched.confirmPassword && errors.confirmPassword && (
+                                <Grid>{errors.confirmPassword}</Grid>
+                            )}
+                            <Field
+                                component={TextField}
+                                type="text"
+                                label="Address"
+                                name="address"
+                                fullWidth
+                            />
+
                         </Stack>
 
                         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{my: 2}}>
                             <Grid></Grid>
-                            <Link variant="subtitle2" underline="hover">
-                                Forgot password?
-                            </Link>
+                            {/*<Link variant="subtitle2" underline="hover">*/}
+                            {/*    Forgot password?*/}
+                            {/*</Link>*/}
                         </Stack>
 
                         <LoadingButton fullWidth size="large" type="button" variant="contained" onClick={submitForm}>
-                            Login
+                            Submit
                         </LoadingButton>
                     </Form>
                 )}
+
             </Formik>
         </>
     )

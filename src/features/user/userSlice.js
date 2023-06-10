@@ -17,7 +17,7 @@ export const login = createAsyncThunk(
     async (arg, {rejectWithValue}) => {
         console.log("arg:", arg)
         let response = await customAPIv1().post('users/login', {
-            username: arg.username,
+            email: arg.email,
             password: arg.password
         })
         return response.data.data;
@@ -26,8 +26,40 @@ export const login = createAsyncThunk(
 
         try {
             const response = await customAPIv1().post('users/login', {
-                username: arg.username,
+                email: arg.email,
                 password: arg.password
+            })
+            return response.data.data;
+        } catch (err) {
+            if (!err.response) {
+                throw err
+            }
+            return rejectWithValue(err.response.data)
+        }
+    }
+);
+export const register = createAsyncThunk(
+    'user/register',
+    async (arg, {rejectWithValue}) => {
+        console.log("arg:", arg)
+        let response = await customAPIv1().post('users/', {
+            email: arg.email,
+            password: arg.password,
+            name:arg.name,
+            phoneNumber:arg.phoneNumber,
+            address:arg.address
+        })
+        return response.data.data;
+
+        return true
+
+        try {
+            const response = await customAPIv1().post('users/', {
+                email: arg.email,
+                password: arg.password,
+                name:arg.name,
+                phoneNumber:arg.phoneNumber,
+                address:arg.address
             })
             return response.data.data;
         } catch (err) {
@@ -65,6 +97,16 @@ export const userSlice = createSlice({
             })
             .addCase(login.rejected, (state) => {
                 console.log("error in login")
+                state.status = 'idle';
+            })
+            .addCase(register.fulfilled, (state, action) => {
+                console.log("register success:", action.payload)
+                state.status = 'idle';
+                state.info = action.payload.info;
+                state.token = action.payload.token;
+            })
+            .addCase(register.rejected, (state) => {
+                console.log("error in register")
                 state.status = 'idle';
             });
     },

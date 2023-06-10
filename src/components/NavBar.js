@@ -112,7 +112,7 @@ export default function NavBar(props) {
                                 <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
                             </Grid>
                             <Grid item xs={9}>
-                                {user.info.username}
+                                {user.info.name}
                                 <IconButton size="large" color="inherit" onClick={handleClick}>
                                     <MoreVertIcon fontSize="small"/>
                                 </IconButton>

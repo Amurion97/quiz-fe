@@ -1,5 +1,6 @@
 import {Navigate, useRoutes} from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import Page404 from './pages/Page404';
 import DashboardLayout from "./layouts/DashboardLayout";
 import FlightCreationPage from "./pages/User/FlightCreationPage";
@@ -37,6 +38,10 @@ export default function Router() {
         {
             path: '/login',
             element: <LoginPage/>,
+        },
+        {
+            path: '/register',
+            element: <RegisterPage/>,
         },
         {
             path: "/search",
