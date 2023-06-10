@@ -17,6 +17,7 @@ import {TextField} from 'formik-mui';
 import CloseIcon from '@mui/icons-material/Close';
 import {register} from "../../features/user/userSlice";
 import * as Yup from 'yup';
+import {customAPIv1} from "../../features/customAPI";
 // components
 const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
 const SchemaError = Yup.object().shape({
@@ -59,15 +60,13 @@ export default function RegisterForm() {
                 validationSchema={SchemaError}
                 onSubmit={(values, {setSubmitting}) => {
                     console.log("trying to submit:", values)
-
-                    //dùng axios thuần k cần dùng redux, xoá hết redux đi
-                    dispatch(register(values))
+                    customAPIv1().post('users/',values)
                         .then(data => {
                             console.log("thunk data:", data)
                             if (data.type.includes("rejected")) {
                                 setOpen(true);
-                                // if (data.error.message.includes("401")) {
-                                //     setStatusCode(401)
+                                // if (data.error.message.includes("409")) {
+                                //     setStatusCode(409)
                                 // } else if (data.error.message.includes("403")) {
                                 //     setStatusCode(403)
                                 // }
@@ -78,6 +77,15 @@ export default function RegisterForm() {
                                 // navigate("/login")
                             }
                         })
+                        .catch(error => {
+                            setOpen(true);
+                            if (error.message.includes("409")) {
+                                setStatusCode(409);
+                            } else {
+                                console.log("Error:", error);
+                            }
+                            setSubmitting(false);
+                        });
                 }}
             >
                 {({
@@ -103,7 +111,7 @@ export default function RegisterForm() {
                                         sx={{mb: 2}}
                                         variant="filled" severity="error"
                                     >
-                                        {statusCode >= 403 ? "Account is locked, please contact admin"
+                                        {statusCode >= 409 ? "Email already exists, please reset email"
                                             : "Wrong email or password, please try again!"}
                                     </Alert>
                                 </Collapse>
