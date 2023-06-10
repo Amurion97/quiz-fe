@@ -13,12 +13,31 @@ import {
 import {Alert, LoadingButton} from '@mui/lab';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import {useDispatch} from "react-redux";
 import {TextField} from 'formik-mui';
 import CloseIcon from '@mui/icons-material/Close';
 import {register} from "../../features/user/userSlice";
+import * as Yup from 'yup';
 // components
+const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
+const SchemaError = Yup.object().shape({
+    name: Yup.string()
+        .min(2, "Too Short!")
+        .required("Required"),
+    phoneNumber:Yup.string().required().matches(phoneRegExp, 'Phone number is not valid'),
+    email: Yup.string().email()
+        .required("Required"),
+    password: Yup.string()
+        .min(6, "Too Short!")
+        .required('Vui lòng nhập mật khẩu'),
+    confirmPassword:Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Mật khẩu không khớp')
+        .required('Vui lòng xác nhận mật khẩu'),
+    address: Yup.string()
+        .min(6, "Too Short!")
+        .required("Required")
+});
 
 // ----------------------------------------------------------------------
 
@@ -40,8 +59,10 @@ export default function RegisterForm() {
                     }
                     return errors;
                 }}
+                validationSchema={SchemaError}
                 onSubmit={(values, {setSubmitting}) => {
                     console.log("trying to submit:", values)
+                    window.alert("Register Success")
                     // try {
                     dispatch(register(values))
                         .then(data => {
@@ -97,6 +118,7 @@ export default function RegisterForm() {
                                         name="name"
                                         fullWidth
                                     />
+
                                 </Grid>
                                 <Grid xs={5}>
                                     <Field
@@ -109,6 +131,7 @@ export default function RegisterForm() {
                                         }}
                                         fullWidth
                                     />
+
                                 </Grid>
                             </Grid>
                             <Field
@@ -139,6 +162,7 @@ export default function RegisterForm() {
                                     setFieldValue("password", e.target.value)
                                 }}
                             />
+                            <p style={{color: 'red'}}><ErrorMessage name={'password'}/></p>
                             <Field
                                 component={TextFieldMUI}
                                 type={showPassword ? 'text' : 'password'}
@@ -159,9 +183,8 @@ export default function RegisterForm() {
                                     setFieldValue("confirmPassword", e.target.value)
                                 }}
                             />
-                            {touched.confirmPassword && errors.confirmPassword && (
-                                <Grid>{errors.confirmPassword}</Grid>
-                            )}
+                            <p style={{color: 'red'}}><ErrorMessage name={'confirmPassword'}/></p>
+
                             <Field
                                 component={TextField}
                                 type="text"
