@@ -43,7 +43,7 @@ export default function RegisterPage() {
     return (
         <>
             <Helmet>
-                <title> Login | Flight </title>
+                <title> Register | Quiz </title>
             </Helmet>
 
             <StyledRoot>
