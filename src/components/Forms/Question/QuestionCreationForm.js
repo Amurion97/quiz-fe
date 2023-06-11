@@ -1,32 +1,37 @@
 import {useEffect, useState} from 'react';
 // @mui
 import {
-
-    MenuItem,
-    FormControl,
-    Grid, Paper,
+    Grid, IconButton,
+    CardHeader, Card, CardContent, Radio, FormControlLabel, Typography, FormControl, Paper,
 } from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import {styled, useTheme} from "@mui/material/styles";
-import MuiTextField from '@mui/material/TextField';
-import { Field, Form, Formik} from "formik";
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {Favorite, FavoriteBorder} from "@mui/icons-material";
+import MenuItem from "@mui/material/MenuItem";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
+// formik
+import {Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {
-    Autocomplete, Select,
-    TextField
+    TextField, RadioGroup, Select
 } from 'formik-mui';
-import {customAPIv1} from "../../../features/customAPI";
-import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
-import NumberField from "../Field/NumberField";
-import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+
+// functions
 import VNNumParser from "../../../functions/NumberParser";
+import {customAPIv1} from "../../../features/customAPI";
 
 // components
 const StyleForm = styled(Grid)(({theme}) => ({
     width: "100%",
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.primary.light,
+    // backgroundColor: theme.palette.secondary.main,
+    // backgroundColor: theme.palette.background.paper,
     padding: "15px 25px 25px",
-    borderRadius: "4px",
+    borderRadius: theme.shape.borderRadius,
 }));
 const validationSchema = yup.object({
     email: yup
@@ -38,414 +43,400 @@ const validationSchema = yup.object({
         .min(8, 'Password should be of minimum 8 characters length')
         .required('Password is required'),
 });
-const formSubmition = (values, {setSubmitting}) => {
-    console.log("trying to submit:", values);
-    if (values.start && values.end) {
-        console.log(values.start, values.end);
-        let start = new Date(values.start)
-        let end = new Date(values.end);
-        console.log(start, end)
-        if (start >= end) {
-            // errors.start = 'Start time must smaller than arrival time'
-            // errors.end = 'Start time must smaller than arrival time'
-            window.alert('Start time must smaller than arrival time');
-            setSubmitting(false)
-            return
-        }
-    }
 
-    let rows = [];
-    for (let i = 0; i < parseInt(values.rows); i++) {
-        rows.push({
-            name: String.fromCharCode(65 + i),
-            price: values[`price-${i}`] ? VNNumParser.parse(values[`price-${i}`]) : null,
-            class: parseInt(values[`class-${i}`]),
-        })
-    }
-    console.log("rows:", rows)
-    try {
-        customAPIv1().post("/flights", {
-            name: values.name,
-            aircraft: values.aircraft.id,
-            start: values.start,
-            end: values.end,
-            from: values.from.id,
-            to: values.to.id,
-            rows: rows,
-            seats: parseInt(values.seats)
-        })
-            .then(() => {
-                setSubmitting(false)
-            })
-    } catch (e) {
-        console.log("error in save flight:", e);
-        window.alert('failed, try again');
-        setSubmitting(false)
-    }
-    console.log()
-}
 // ----------------------------------------------------------------------
 
 export default function QuestionCreationForm() {
     const theme = useTheme();
-    const [airlines, setAirlines] = useState([]);
-    const [chosenAirline, setChosenAirline] = useState(0);
-    const [aircraft, setAircraft] = useState([]);
-    const [airports, setAirports] = useState([]);
-    const [classOptions, setClassOptions] = useState([]);
-    const [maxSeatInARow, setMaxSeatInARow] = useState(1);
-    const [rowNumber, setRowNumber] = useState(0);
-
-    let rows = new Array(rowNumber ? rowNumber : 0);
-    rows.fill(0)
-    rows = rows.map((item, index) => {
-        let row = new Object()
-        row.name = String.fromCharCode(65 + index)
-        return row
-    })
-    let seats = new Array(maxSeatInARow ? maxSeatInARow : 0)
-    seats.fill(0)
-
-    let customStyleForPlane = {
-        '.plane': {
-            maxWidth: `${50 * (maxSeatInARow + 1)}px`,
-        },
-        '.seat': {
-            flex: `0 0 ${100 / (maxSeatInARow + 1)}%`,
-        },
-        '.cockpit': {
-            height: "150px",
-            position: "relative",
-            overflow: "hidden",
-            textAlign: "center",
-            borderBottom: "5px solid #d8d8d8",
-        },
-        ".cockpit:before": {
-            height: "300px",
-            width: "100%",
-            borderRadius: "50%",
-        },
-
-        [`.seat:nth-child(${Math.floor(maxSeatInARow / 2)})`]: {
-            // [`.seat:nth-child(3)`]: {
-            marginRight: `${100 / (maxSeatInARow + 1)}%`,
-        },
-        color: theme.palette.primary.main
+    const [answerNumber, setAnswerNumber] = useState(2);
+    const addOneAnswer = () => {
+        setAnswerNumber((prevState) => prevState + 1)
     }
+    const removeOneAnswer = () => {
+        setAnswerNumber((prevState) => prevState - 1)
+    }
+    const formSubmition = (values, {setSubmitting}) => {
+        console.log("trying to submit:", values);
+        values.trueIndex = parseInt(values.trueIndex);
+        values.type = parseInt(values.type);
 
-    useEffect(() => {
-        console.log("form did mount");
-        customAPIv1().get("airlines")
-            .then(res => {
-                console.log("airlines:", res.data);
-                setAirlines(res.data.data.map(item => {
-                    return {
-                        label: item.name,
-                        id: item.id
-                    }
-                }))
+        let answers = [];
+        for (let i = 0; i < answerNumber; i++) {
+            answers.push({
+                content: values[`content-${i}`],
             })
-            .catch(e => console.log("error in get airlines:", e))
+        }
+        values.answers = answers;
 
-        customAPIv1().get("/airports")
-            .then(res => {
-                console.log("airports:", res.data.data);
-                setAirports(res.data.data.map(item => {
-                    return {
-                        label: `${item.name}, ${item.city}, ${item.country}`,
-                        id: item.id
-                    }
-                }))
+        console.log("processed values:", values);
+        try {
+            customAPIv1().post("/flights", {
+                name: values.name,
+                aircraft: values.aircraft.id,
+                start: values.start,
+                end: values.end,
+                from: values.from.id,
+                to: values.to.id,
+                rows: answers,
+                seats: parseInt(values.seats)
             })
-            .catch(e => console.log("error in get airport:", e))
-
-        customAPIv1().get("/classes")
-            .then(res => {
-                console.log("classes:", res.data.data);
-                setClassOptions(res.data.data)
-            })
-            .catch(e => console.log("error in get classes:", e))
-    }, [])
-
-    useEffect(() => {
-        customAPIv1().get(`aircraft/airlines/${chosenAirline}`)
-            .then(res => {
-                console.log("aircraft:", res.data);
-                setAircraft(res.data.data.map(item => {
-                    return {
-                        label: `${item.name}`,
-                        id: item.id
-                    }
-                }))
-            })
-            .catch(e => console.log("error in get aircraft:", e))
-    }, [chosenAirline])
+                .then(() => {
+                    setSubmitting(false)
+                })
+        } catch (e) {
+            console.log("error in save flight:", e);
+            window.alert('failed, try again');
+            setSubmitting(false)
+        }
+        console.log()
+    }
     return (
         <>
             <Formik
-                initialValues={{}}
+                initialValues={{
+                    trueIndex: 0,
+                    type: 1
+                }}
                 validate={(values) => {
                     const errors = {};
-
                     return errors;
                 }}
                 onSubmit={formSubmition}
             >
-                {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) => (
+                {({
+                      values,
+                      submitForm,
+                      resetForm,
+                      isSubmitting,
+                      touched,
+                      errors,
+                      setFieldValue
+                  }) => (
                     <Form>
                         <StyleForm container spacing={1}>
-                            <Grid item xs={6}>
-                                <Grid container spacing={{xs: 1, md: 2}} columns={{xs: 4, sm: 8, md: 12}}>
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <p>{JSON.stringify(errors)}</p>
-                                        <Field
-                                            name="airline"
-                                            component={Autocomplete}
-                                            options={airlines}
-                                            fullWidth
-                                            getOptionLabel={(option) => option.label}
-                                            onChange={(event, value) => {
-                                                console.log(value)
-                                                setChosenAirline(value.id)
-                                                setFieldValue("airline", value)
+                            <Grid item xs={12}>
+                                <Field
+                                    component={TextField}
+                                    type="text"
+                                    // label="Flight name"
+                                    name="content"
+                                    sx={{
+                                        // height: "300px",
+                                        // '& .MuiOutlinedInput-root': {
+                                        //     backgroundColor: theme.palette.primary.contrastText,
+                                        //     // height: "2.5rem",
+                                        //     color: theme.palette.primary.main,
+                                        // }
+                                        "& .MuiFilledInput-root": {
+                                            // bgcolor: 'secondary.darker',
+                                            // bgcolor: 'primary.lighter',
+                                            // bgcolor: 'primary.main',
+                                            bgcolor: 'secondary.main',
+                                            textAlign: 'center',
+                                            borderRadius: "8px",
+                                            borderWidth: '10px',
+                                            borderColor: 'red',
+                                            color: 'primary.lighter',
+                                            '&:hover': {
+                                                bgcolor: 'secondary.dark',
+                                                color: 'primary.contrastText',
+                                            },
+                                            '&.Mui-focused': {
+                                                borderColor: 'red',
+                                                borderWidth: '10px',
+                                                // bgcolor: 'primary.dark',
+                                                bgcolor: 'secondary.darker',
+                                                color: 'primary.contrastText',
+                                            },
+                                        },
+                                        "& .MuiFilledInput-input": {
+                                            // bgcolor: 'primary.dark',
+                                            textAlign: 'center',
+                                            verticalAlign: 'center',
+                                            // color: 'secondary.contrastText',
+                                            fontSize: '2rem',
+                                            lineHeight: '2rem',
+                                            // borderRadius: "8px",
+                                            alignSelf: 'center',
+                                        },
+
+                                    }}
+                                    multiline
+                                    rows={5}
+                                    fullWidth
+                                    variant="filled"
+                                    placeholder={"Type your question here"}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <p>{JSON.stringify(values)}</p>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Field component={RadioGroup} name="trueIndex">
+
+                                    <Grid container spacing={{xs: 0.5, md: 1}} columns={{xs: 13}}>
+
+                                        <Grid item xs={6} sm={6} md={6}>
+                                            <Card sx={{
+                                                boxShadow: `0 8px ${theme.palette.primary.main}`,
+                                                mb: 1
                                             }}
-                                            renderInput={(params) => (
-                                                <MuiTextField
-                                                    {...params}
-                                                    name="airline"
-                                                    error={touched['airline'] && !!errors['airline']}
-                                                    helperText={touched['airline'] && errors['airline']}
-                                                    label="Airline"
-                                                    variant="outlined"
-                                                />
-                                            )}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <Field
-                                            name="aircraft"
-                                            component={Autocomplete}
-                                            options={aircraft}
-                                            fullWidth
-                                            getOptionLabel={(option) => option.label}
-                                            renderInput={(params) => (
-                                                <MuiTextField
-                                                    {...params}
-                                                    name="aircraft"
-                                                    error={touched['aircraft'] && !!errors['aircraft']}
-                                                    helperText={touched['aircraft'] && errors['aircraft']}
-                                                    label="Aircraft"
-                                                    variant="outlined"
-                                                />
-                                            )}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <Field
-                                            name="from"
-                                            component={Autocomplete}
-                                            options={airports}
-                                            style={{width: "100%"}}
-                                            getOptionLabel={(option) => option.label}
-                                            renderInput={(params) => (
-                                                <MuiTextField
-                                                    {...params}
-                                                    name="from"
-                                                    error={touched['from'] && !!errors['from']}
-                                                    helperText={touched['from'] && errors['from']}
-                                                    label="Flying From"
-                                                    variant="outlined"
-                                                />
-                                            )}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <Field
-                                            name="to"
-                                            component={Autocomplete}
-                                            options={airports}
-                                            style={{width: "100%"}}
-                                            getOptionLabel={(option) => option.label}
-                                            renderInput={(params) => (
-                                                <MuiTextField
-                                                    {...params}
-                                                    name="to"
-                                                    error={touched['to'] && !!errors['to']}
-                                                    helperText={touched['to'] && errors['to']}
-                                                    label="Flying To"
-                                                    variant="outlined"
-                                                />
-                                            )}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <FormControl fullWidth>
-                                            <Field
-                                                component={DateTimePicker}
-                                                name="start"
-                                                label="Departure Time"
-                                                onChange={(e) => {
-                                                    let start = new Date(e.$d);
-                                                    setFieldValue("start", start.toLocaleString());
-                                                }}
-                                            />
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <FormControl fullWidth>
-                                            <Field component={DateTimePicker}
-                                                   name="end"
-                                                   label="Arrival Time"
-                                                   onChange={(e) => {
-                                                       let end = new Date(e.$d);
-                                                       setFieldValue("end", end.toLocaleString());
-
-                                                   }}/>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <FormControl fullWidth>
-                                            <Field
-                                                component={TextField}
-                                                type="number"
-                                                label="Number of Rows"
-                                                name="rows"
-                                                onChange={(e) => {
-                                                    console.log(e.target.value);
-                                                    setRowNumber(parseInt(e.target.value));
-                                                    setFieldValue("rows", e.target.value)
-                                                }}
-                                            />
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <FormControl fullWidth>
-                                            <Field
-                                                component={TextField}
-                                                type="number"
-                                                label="Number of Seats each Row"
-                                                name="seats"
-                                                onChange={(e) => {
-                                                    console.log(e.target.value);
-                                                    setMaxSeatInARow(parseInt(e.target.value));
-                                                    setFieldValue("seats", e.target.value)
-                                                }}
-                                            />
-                                        </FormControl>
-                                    </Grid>
-
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <FormControl fullWidth>
-                                            <Field
-                                                component={TextField}
-                                                type="text"
-                                                label="Flight name"
-                                                name="name"
-                                            />
-                                        </FormControl>
-                                    </Grid>
-
-                                    <Grid item xs={4} sm={4} md={6}>
-                                        <LoadingButton fullWidth size="large" type="button" variant="contained"
-                                                       onClick={
-                                                           submitForm
-                                                       }
-                                                       style={{
-                                                           height: "100%"
-                                                       }}
-                                                       loading={isSubmitting}
-                                                       loadingPosition="start"
-                                                       startIcon={<DoneOutlineIcon/>}>
-                                            <span>{(isSubmitting) ? "Saving…" : "Save this flight"}</span>
-                                        </LoadingButton>
-                                    </Grid>
-
-                                    {rows.map((row, index) => (
-                                        <Grid item xs={4} sm={8} md={12}>
-                                            <Grid container spacing={{xs: 1, md: 2}}>
-                                                <Grid item xs={2}>
-                                                    <Paper elevation={3} sx={{
-                                                        height: "100%",
-                                                        width: "100%",
-                                                        textAlign: 'center',
-                                                        verticalAlign: "middle",
-                                                        color: theme.palette.primary.contrastText,
-                                                        backgroundColor: theme.palette.primary.main,
-                                                        lineHeight: '60px',
-
-                                                    }}>
-                                                        {`Row ${row.name}`}
-                                                    </Paper>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <FormControl fullWidth>
-                                                        <Field
-                                                            component={Select}
-                                                            type="text"
-                                                            label="Travel Class"
-                                                            name={`class-${index}`}
-                                                            inputProps={{
-                                                                name: `class-${index}`,
-                                                                id: 'class'
-                                                            }}
-                                                        >
-                                                            {classOptions.map(item => (
-                                                                <MenuItem value={item.id}>{item.name}</MenuItem>
-                                                            ))}
-                                                        </Field>
-                                                    </FormControl>
-                                                </Grid>
-                                                <Grid item xs={6}>
-                                                    <FormControl fullWidth>
-                                                        <Field
-                                                            component={NumberField}
-                                                            // type="number"
-                                                            label="Price"
-                                                            name={`price-${index}`}
-                                                        />
-                                                    </FormControl>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    ))}
-
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={6} sx={customStyleForPlane}>
-                                <div className="plane">
-                                    <div className="cockpit">
-                                        {/*<h1>{values["from"]["label"]} <br/>to<br/> {values["to"]["label"]}<br/>Seat*/}
-                                        {/*    Selection</h1>*/}
-                                    </div>
-                                    <div className="exit exit--front fuselage">
-                                    </div>
-                                    <ol className="cabin fuselage">
-                                        {rows.map((row, rowIndex) => (
-                                            <li key={row.name} className={`row`}>
-                                                <ol className="seats" type={"A"}>
-                                                    {
-                                                        seats.map((seat, index) => {
-                                                            let name = `${row.name}${index + 1}`
-                                                            return (
-                                                                <li key={name} className="seat">
-                                                                    <input
-                                                                        type="checkbox"/>
-                                                                    <label className='noselect'
-                                                                           htmlFor={name}>{name}</label>
-                                                                </li>
-                                                            )
-                                                        })
+                                            >
+                                                <CardHeader
+                                                    avatar={
+                                                        <IconButton aria-label="settings"
+                                                                    color={"error"}
+                                                                    {...((answerNumber <= 2) && {disabled: true})}>
+                                                            <DeleteOutlineIcon/>
+                                                        </IconButton>
                                                     }
-                                                </ol>
-                                            </li>
-                                        ))}
-                                    </ol>
-                                    <div className="exit exit--back fuselage">
+                                                    action={
+                                                        <FormControlLabel
+                                                            value={0}
+                                                            control={<Radio
+                                                                disabled={isSubmitting}/>}
+                                                            label=""
+                                                            disabled={isSubmitting}
+                                                            icon={<FavoriteBorder/>}
+                                                            checkedIcon={<Favorite/>}
+                                                        />
+                                                    }
+                                                    title=""
+                                                    subheader=""
+                                                    sx={{
+                                                        p: 1,
+                                                        pt: 0.5,
+                                                    }}
+                                                />
+                                                <CardContent sx={{
+                                                    textAlign: 'center',
+                                                    verticalAlign: 'center',
+                                                    pt: 0,
+                                                }}>
+                                                    <Typography variant={'h4'}>
+                                                        True
+                                                    </Typography>
+                                                </CardContent>
+                                            </Card>
+                                        </Grid>
 
-                                    </div>
-                                </div>
+                                        <Grid item xs={6} sm={6} md={6}>
+                                            <Card sx={{
+                                                boxShadow: `0 8px ${theme.palette.primary.main}`,
+                                                mb: 1
+                                            }}
+                                            >
+                                                <CardHeader
+                                                    avatar={
+                                                        <IconButton aria-label="settings"
+                                                                    color={"error"}
+                                                                    {...((answerNumber <= 2) && {disabled: true})}>
+                                                            <DeleteOutlineIcon/>
+                                                        </IconButton>
+                                                    }
+                                                    action={
+                                                        <FormControlLabel
+                                                            value={1}
+                                                            control={<Radio
+                                                                disabled={isSubmitting}/>}
+                                                            label=""
+                                                            disabled={isSubmitting}
+                                                            // onChange={(event) => {
+                                                            //     setFieldValue("trueIndex", parseInt(event.target.value))
+                                                            // }}
+                                                        />
+                                                    }
+                                                    title=""
+                                                    subheader=""
+                                                    sx={{
+                                                        p: 1,
+                                                        pt: 0.5,
+                                                    }}
+                                                />
+                                                <CardContent sx={{
+                                                    textAlign: 'center',
+                                                    verticalAlign: 'center',
+                                                    pt: 0,
+                                                }}>
+                                                    <Typography variant={'h4'}>
+                                                        False
+                                                    </Typography>
+                                                </CardContent>
+                                            </Card>
+                                        </Grid>
+
+                                        {[...Array(answerNumber)].map((x, index) => (
+                                            <Grid item xs={12 / answerNumber}
+                                                // sm={6} md={6}
+                                                  sx={{
+                                                      transition: theme.transitions.create([
+                                                              'width'
+                                                          ],
+                                                          {
+                                                              duration: theme.transitions.duration.standard,
+                                                          }),
+                                                  }}
+                                            >
+                                                <Card sx={{
+                                                    boxShadow: `0 8px ${theme.palette.primary.main}`,
+                                                    mb: 1
+                                                }}
+                                                >
+                                                    <CardHeader
+                                                        avatar={
+                                                            <IconButton aria-label="settings"
+                                                                        color={"error"}
+                                                                        {...((answerNumber <= 2) && {disabled: true})}
+                                                                        onClick={removeOneAnswer}
+                                                            >
+                                                                <DeleteOutlineIcon/>
+                                                            </IconButton>
+                                                        }
+                                                        action={
+                                                            <FormControlLabel
+                                                                value={1}
+                                                                control={<Radio
+                                                                    disabled={isSubmitting}/>}
+                                                                label=""
+                                                                disabled={isSubmitting}
+                                                                // onChange={(event) => {
+                                                                //     setFieldValue("trueIndex", parseInt(event.target.value))
+                                                                // }}
+                                                            />
+                                                        }
+                                                        title=""
+                                                        subheader=""
+                                                        sx={{
+                                                            p: 1,
+                                                            pt: 0.5,
+                                                        }}
+                                                    />
+                                                    <CardContent sx={{
+                                                        textAlign: 'center',
+                                                        verticalAlign: 'center',
+                                                        pt: 0,
+                                                    }}>
+                                                        <Field
+                                                            component={TextField}
+                                                            type="text"
+                                                            // label="Flight name"
+                                                            name={`question-${index}`}
+                                                            sx={{
+                                                                // height: "300px",
+                                                                // '& .MuiOutlinedInput-root': {
+                                                                //     backgroundColor: theme.palette.primary.contrastText,
+                                                                //     // height: "2.5rem",
+                                                                //     color: theme.palette.primary.main,
+                                                                // }
+                                                                "& .MuiFilledInput-root": {
+                                                                    // bgcolor: 'secondary.darker',
+                                                                    // bgcolor: 'primary.lighter',
+                                                                    // bgcolor: 'primary.main',
+                                                                    bgcolor: 'secondary.main',
+                                                                    textAlign: 'center',
+                                                                    borderRadius: "8px",
+                                                                    borderWidth: '10px',
+                                                                    borderColor: 'red',
+                                                                    color: 'primary.lighter',
+                                                                    '&:hover': {
+                                                                        bgcolor: 'secondary.dark',
+                                                                        color: 'primary.contrastText',
+                                                                    },
+                                                                    '&.Mui-focused': {
+                                                                        borderColor: 'red',
+                                                                        borderWidth: '10px',
+                                                                        // bgcolor: 'primary.dark',
+                                                                        bgcolor: 'secondary.darker',
+                                                                        color: 'primary.contrastText',
+                                                                    },
+                                                                },
+                                                                "& .MuiFilledInput-input": {
+                                                                    // bgcolor: 'primary.dark',
+                                                                    textAlign: 'center',
+                                                                    verticalAlign: 'center',
+                                                                    // color: 'secondary.contrastText',
+                                                                    fontSize: '2rem',
+                                                                    lineHeight: '2rem',
+                                                                    // borderRadius: "8px",
+                                                                    alignSelf: 'center',
+                                                                },
+
+                                                            }}
+                                                            multiline
+                                                            rows={5}
+                                                            fullWidth
+                                                            variant="filled"
+                                                            placeholder={"Type your question here"}
+                                                        />
+                                                    </CardContent>
+                                                </Card>
+                                            </Grid>
+                                        ))}
+
+                                        <Grid item xs={1}>
+                                            <IconButton aria-label="settings"
+                                                        color={"error"}
+                                                        {...((answerNumber >= 5) && {disabled: true})}
+                                                        onClick={addOneAnswer}
+                                                // sx={{
+                                                //     position: "fixed",
+                                                //     top: "50%",
+                                                //     left: "50%",
+                                                // }}
+                                            >
+                                                <DeleteOutlineIcon/>
+                                            </IconButton>
+                                        </Grid>
+
+                                    </Grid>
+
+                                </Field>
+
+
                             </Grid>
+                            <Grid item xs={4}>
+                                <Paper sx={{
+                                    bgcolor: theme.palette.secondary.lighter,
+                                    borderRadius: `${theme.shape.borderRadius}px`,
+                                    p: 1,
+                                }}>
+                                    <FormControl fullWidth>
+                                        <Field
+                                            component={Select}
+                                            id="type"
+                                            name="type"
+                                            labelId="age-simple"
+                                            label="Question type"
+                                        >
+                                            <MenuItem value={1}>True/False</MenuItem>
+                                            <MenuItem value={2}>Multiple choices</MenuItem>
+                                            <MenuItem value={3}>More than one correct
+                                                option</MenuItem>
+                                        </Field>
+                                    </FormControl>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={4}>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <LoadingButton fullWidth size="large" type="button"
+                                               variant="contained"
+                                               color="secondary"
+                                               onClick={
+                                                   submitForm
+                                               }
+                                               style={{
+                                                   height: "100%"
+                                               }}
+                                               loading={isSubmitting}
+                                               loadingPosition="start"
+                                               startIcon={<DoneOutlineIcon/>}>
+                                    <span>{(isSubmitting) ? "Saving…" : "Save this flight"}</span>
+                                </LoadingButton>
+                            </Grid>
+
                         </StyleForm>
                     </Form>
                 )}

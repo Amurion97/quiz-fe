@@ -24,6 +24,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import EditRoadIcon from '@mui/icons-material/EditRoad';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 // components
 import Logo from "./logo";
 
@@ -189,7 +190,37 @@ export default function NavBar(props) {
                                 <ListItemText primary="Aircraft" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
 
-                            {(user.info.role == 1) && (
+                            {(user.info.role <= 2) && (
+                                <>
+                                    <Divider/>
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 3}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 3)
+                                            navigate("/dashboard/createQuestion")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <AddCircleIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Create a question" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
+
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 4}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 4)
+                                            navigate("/dashboard/airports")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <EditRoadIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Airports" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
+                                </>)}
+
+                            {(user.info.role === 1) && (
                                 <>
                                     <Divider/>
                                     <StyledListItemButton
