@@ -27,6 +27,7 @@ const SchemaError = Yup.object().shape({
         .required("Required"),
     password: Yup.string()
         .min(6, "Too Short!")
+        .max(8,"Too long")
         .required('Vui lòng nhập mật khẩu'),
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Mật khẩu không khớp')
@@ -47,7 +48,7 @@ export default function RegisterForm() {
     const [countdown, setCountdown] = useState(5);
     useEffect(() => {
         if (openSuccess && countdown > 0) {
-            // Giảm thời gian đếm ngược sau mỗi giây khi open là true và countdown > 0
+            // Giảm thời gian đếm ngược sau mỗi giây khi openSuccess là true và countdown > 0
             const timer = setInterval(() => {
                 console.log("countdown",countdown)
                 setCountdown(prevCountdown => prevCountdown - 1);
