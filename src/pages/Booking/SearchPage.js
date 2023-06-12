@@ -5,8 +5,8 @@ import {styled, useTheme} from '@mui/material/styles';
 import {Button, Container, Grid, Typography} from '@mui/material';
 // components
 import Logo from '../../components/logo';
-import SearchForm from "../../components/Forms/SearchForm";
 import TicketCheckForm from "../../components/Forms/TicketCheckForm";
+import SearchForm from "../../components/Forms/SearchForm";
 // sections
 
 

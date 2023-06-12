@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {customAPIv1} from "../customAPI";
+import {useNavigate} from "react-router-dom";
 
 const initialState = {
     state: "idle",
@@ -38,6 +39,19 @@ export const login = createAsyncThunk(
         }
     }
 );
+export const changePassword = createAsyncThunk(
+    'user/password-change',
+    async (value) => {
+        console.log("day la value", value)
+       let changePass=  await customAPIv1().put(`users/password-change`,value);
+        if (changePass.status===500){
+            alert("sai mat khau");
+        }else {
+            alert("doi mat khau thanh cong");
+        }
+    }
+);
+
 
 export const userSlice = createSlice({
     name: 'user',
@@ -66,7 +80,10 @@ export const userSlice = createSlice({
             .addCase(login.rejected, (state) => {
                 console.log("error in login")
                 state.status = 'idle';
-            });
+            })
+
+
+
     },
 });
 

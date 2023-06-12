@@ -15,6 +15,8 @@ import PhonePage from "./pages/Test/PhonePage";
 import AddPhoneForm from "./pages/Test/AddPhoneForm";
 import EditPhoneForm from "./pages/Test/EditPhoneForm";
 import Detail from "./pages/Test/Detail";
+import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
+
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +29,7 @@ export default function Router() {
                 {element: <Navigate to="/dashboard/createFlight"/>, index: true},
                 {path: 'createFlight', element: <FlightCreationPage/>},
                 {path: 'users', element: <UsersPage/>},
+                {path: 'changePassword', element: <ChangePasswordForm/>},
                 {path: 'aircraft', element: <AircraftPage/>},
                 {path: 'flights', element: <FlightPage/>},
                 {path: 'airports', element: <AirportPage/>},

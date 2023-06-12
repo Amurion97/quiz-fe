@@ -26,6 +26,11 @@ import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import EditRoadIcon from '@mui/icons-material/EditRoad';
 // components
 import Logo from "./logo";
+import {Search} from "./Forms/NewNavbarComponent/Search";
+import {InputBase} from "formik-mui";
+import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from '@mui/icons-material/Menu';
+import DirectionsIcon from '@mui/icons-material/Directions';
 
 
 // sections
@@ -75,6 +80,11 @@ export default function NavBar(props) {
     const dispatch = useDispatch()
     const user = useSelector(selectUser)
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [searchValue, setSearchValue] = useState('');
+    const handleSearch = () => {
+
+        console.log(searchValue);
+    }
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -90,6 +100,7 @@ export default function NavBar(props) {
     };
     return (
         <>
+
             <StyledRoot className="navbar-wrapper">
                 {/*<div className="navbar-wrapper">*/}
                 <div className="navbar-item1">
@@ -111,7 +122,7 @@ export default function NavBar(props) {
                             <Grid item xs={3}>
                                 <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
                             </Grid>
-                            <Grid item xs={9}>
+                            <Grid item xs={6}>
                                 {user.info.username}
                                 <IconButton size="large" color="inherit" onClick={handleClick}>
                                     <MoreVertIcon fontSize="small"/>
@@ -133,15 +144,23 @@ export default function NavBar(props) {
                                         horizontal: 'right',
                                     }}
                                 >
-                                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                    <MenuItem onClick={() => {
+
+                                    }
+                                    }>Profile</MenuItem>
                                     <MenuItem onClick={handleClose}>My account</MenuItem>
                                     <MenuItem onClick={() => {
                                         dispatch(logout());
                                         navigate("/login");
                                     }}>Logout</MenuItem>
                                 </Menu>
+
                             </Grid>
                         </Grid>
+                        <Grid item xs={4}>
+                        </Grid>
+
+
                     </UserInfoBox>
 
                 </div>

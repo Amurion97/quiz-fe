@@ -4,7 +4,7 @@ import {Grid} from '@mui/material';
 // hooks
 // components
 // sections
-import FlightCreationForm from "../../components/Forms/FlightCreationForm";
+import FlightCreationForm from "../../components/Forms/NewNavbarComponent/FlightCreationForm";
 
 // ----------------------------------------------------------------------
 
