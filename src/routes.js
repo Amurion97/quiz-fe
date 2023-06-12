@@ -16,6 +16,7 @@ import PhonePage from "./pages/Test/PhonePage";
 import AddPhoneForm from "./pages/Test/AddPhoneForm";
 import EditPhoneForm from "./pages/Test/EditPhoneForm";
 import Detail from "./pages/Test/Detail";
+import TagPage from "./pages/User/TagPage";
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +34,7 @@ export default function Router() {
                 {path: 'airports', element: <AirportPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
+                {path: 'tag', element: <TagPage/>},
             ],
         },
         {

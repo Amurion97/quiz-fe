@@ -24,6 +24,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import EditRoadIcon from '@mui/icons-material/EditRoad';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 // components
 import Logo from "./logo";
 
@@ -188,6 +189,19 @@ export default function NavBar(props) {
                                     <AirplanemodeActiveIcon/>
                                 </ListItemIcon>
                                 <ListItemText primary="Aircraft" style={{color: theme.palette.text.primary}}/>
+                            </StyledListItemButton>
+
+                            <StyledListItemButton
+                                selected={selectedIndex === 5}
+                                onClick={(event) => {
+                                    handleListItemClick(event, 5)
+                                    navigate("/dashboard/tag")
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <LocalOfferIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Tag" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
 
                             {(user.info.role == 1) && (
