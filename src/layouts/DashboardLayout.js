@@ -25,21 +25,6 @@ export default function DashboardLayout() {
     return (
         <>
             <StyledRoot>
-                {/*<Grid content>*/}
-                {/*    <Grid container >*/}
-
-                {/*<Grid>*/}
-
-                {/*    <NewNavbar>*/}
-
-                {/*    </NewNavbar>*/}
-
-                {/*</Grid>*/}
-                {/*<ListResult></ListResult>*/}
-                {/*</Grid>*/}
-
-                {/*</Grid>*/}
-
                 <Grid container spacing={0} columns={{xs: 4, sm: 5, md: 6, lg: 7}}>
                     <Grid item xs={1} sm={1} md={1} lg={1}>
                         <NavBar/>

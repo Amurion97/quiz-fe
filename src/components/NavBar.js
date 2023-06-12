@@ -6,7 +6,7 @@ import {logout, selectUser} from "../features/user/userSlice";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {
-    Avatar, Divider,
+    Avatar, Button, Dialog, Divider,
     Grid,
     IconButton,
     List,
@@ -31,6 +31,13 @@ import {InputBase} from "formik-mui";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from '@mui/icons-material/Menu';
 import DirectionsIcon from '@mui/icons-material/Directions';
+import AddIcon from "@mui/icons-material/Add";
+import ChangePasswordForm from "./Forms/ChangePasswordForm";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import AddAircraftForm from "./Forms/AddAircraftForm";
+import DialogActions from "@mui/material/DialogActions";
 
 
 // sections
@@ -98,6 +105,14 @@ export default function NavBar(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleClickOpenDialog = () => {
+        setOpenDialog(true);
+    };
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
     return (
         <>
 
@@ -145,29 +160,37 @@ export default function NavBar(props) {
                                     }}
                                 >
                                     <MenuItem onClick={() => {
-
-                                    }
-                                    }>Profile</MenuItem>
+                                        handleClickOpenDialog()
+                                    }}>Profile</MenuItem>
                                     <MenuItem onClick={handleClose}>My account</MenuItem>
                                     <MenuItem onClick={() => {
                                         dispatch(logout());
                                         navigate("/login");
                                     }}>Logout</MenuItem>
                                 </Menu>
-
                             </Grid>
                         </Grid>
                         <Grid item xs={4}>
                         </Grid>
-
-
                     </UserInfoBox>
-
                 </div>
+                <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
+                    <DialogTitle>Change password</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Mật khẩu dài tối đa 8 kí tự,
+                            Mật khẩu mới phải khác mật khẩu cũ
+                        </DialogContentText>
+                        <ChangePasswordForm>
+                        </ChangePasswordForm>
+
+                    </DialogContent>
+                    <DialogActions>
+                    </DialogActions>
+                </Dialog>
                 <div className="navbar-item3">
                     <Box sx={{width: '100%', maxWidth: 360}}>
                         <List component="nav" aria-label="main mailbox folders">
-
                             <StyledListItemButton
                                 selected={selectedIndex === 0}
                                 onClick={(event) => {
@@ -180,8 +203,6 @@ export default function NavBar(props) {
                                 </ListItemIcon>
                                 <ListItemText primary="Create A Flight" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
-
-
                             <StyledListItemButton
                                 selected={selectedIndex === 1}
                                 onClick={(event) => {
@@ -240,7 +261,7 @@ export default function NavBar(props) {
                         </List>
                     </Box>
                 </div>
-                {/*</div>*/}
+
             </StyledRoot>
         </>
     )
