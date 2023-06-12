@@ -30,7 +30,7 @@ export default function Router() {
             children: [
                 {element: <Navigate to="/dashboard/createFlight"/>, index: true},
                 {path: 'createFlight', element: <FlightCreationPage/>},
-                {path: 'users', element: (user.info.role <= 1 ? <UsersPage/>: <Page404/>)},
+                {path: 'users', element: (user.info.role === 1 ? <UsersPage/>: <Page404/>)},
                 {path: 'aircraft', element: <AircraftPage/>},
                 {path: 'flights', element: <FlightPage/>},
                 {path: 'airports', element: <AirportPage/>},
