@@ -70,7 +70,7 @@ export default function RegisterPage() {
 
                         <Typography variant="body2" sx={{mb: 5}}>
                             Do you already have an account? {''}
-                            <Link href="/login">Get started</Link>
+                            <Link href="/login">Login Here</Link>
                             {/*<Link to={"login"}>Get started</Link>*/}
                         </Typography>
 
