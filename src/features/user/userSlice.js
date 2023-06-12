@@ -4,7 +4,8 @@ import {customAPIv1} from "../customAPI";
 const initialState = {
     state: "idle",
     info: {},
-    token: {}
+    token: {},
+    // currenState: JSON.parse(localStorage.getItem("user"))
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -57,9 +58,10 @@ export const userSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(login.fulfilled, (state, action) => {
-                console.log("login success:", action.payload)
+                // console.log("login success:", action.payload)
                 state.status = 'idle';
                 state.info = action.payload.info;
+                // console.log("infor state:", state.info)
                 state.token = action.payload.token;
                 localStorage.setItem("user", JSON.stringify(action.payload))
             })
