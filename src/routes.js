@@ -17,6 +17,8 @@ import AddPhoneForm from "./pages/Test/AddPhoneForm";
 import EditPhoneForm from "./pages/Test/EditPhoneForm";
 import Detail from "./pages/Test/Detail";
 import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
+import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
+
 
 // ----------------------------------------------------------------------
 

@@ -3,15 +3,17 @@ import {Outlet} from 'react-router-dom';
 import {styled} from '@mui/material/styles';
 import {Grid} from "@mui/material";
 import NavBar from "../components/NavBar";
+
+
 //
 
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')({
     display: 'flex',
-    // minHeight: '100%',
+    minHeight: '100%',
     maxHeight: '100vh',
-    // overflow: 'scroll',
+    overflow: 'scroll',
 });
 
 // ----------------------------------------------------------------------
@@ -29,6 +31,7 @@ export default function DashboardLayout() {
                         <Outlet/>
                     </Grid>
                 </Grid>
+
             </StyledRoot>
         </>
     );
