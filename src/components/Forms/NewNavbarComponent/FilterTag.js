@@ -1,11 +1,10 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FormGroup from '@mui/material/FormGroup';
@@ -13,11 +12,31 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import YoutubeSearchedForTwoToneIcon from "@mui/icons-material/YoutubeSearchedForTwoTone";
 
-export default function FilterTag() {
-    const [open, setOpen] = React.useState(true);
+const FilterTag = () => {
+    const [open, setOpen] = useState(true);
 
     const handleClick = () => {
         setOpen(!open);
+    };
+
+    const [checkedValues, setCheckedValues] = useState({
+        Toan: true,
+        Hoa: false,
+        Anh: false,
+        Su: false,
+    });
+
+    const handleCheck = (event) => {
+        const { name, checked } = event.target;
+        setCheckedValues((prevState) => ({ ...prevState, [name]: checked }));
+        handleFilter();
+    };
+
+    const handleFilter = () => {
+        const selectedSubjects = Object.keys(checkedValues).filter(
+            (subject) => checkedValues[subject]
+        );
+        console.log(selectedSubjects, "day la filter bên tags");
     };
 
     return (
@@ -26,7 +45,11 @@ export default function FilterTag() {
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
-                <ListSubheader component="div" id="nested-list-subheader">
+                <ListSubheader
+                    component="div"
+                    id="nested-list-subheader"
+                    sx={{ mt: 1 }}
+                >
                     Tìm kiếm theo môn học
                 </ListSubheader>
             }
@@ -39,15 +62,36 @@ export default function FilterTag() {
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" sx={{pl: 3}}>
+                <List component="div" sx={{ pl: 3 }}>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Toan" />
-                        <FormControlLabel required control={<Checkbox />} label="Hoa" />
-                        <FormControlLabel disabled control={<Checkbox />} label="Anh" />
-                        <FormControlLabel disabled control={<Checkbox />} label="Su" />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    defaultChecked
+                                    name="Toan"
+                                    onChange={handleCheck}
+                                />
+                            }
+                            label="Toan"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox name="Hoa" onChange={handleCheck} />}
+                            label="Hoa"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox name="Anh" onChange={handleCheck} />}
+                            label="Anh"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox name="Su" onChange={handleCheck} />}
+                            label="Su"
+                        />
                     </FormGroup>
                 </List>
             </Collapse>
+            <button onClick={handleFilter}>Lọc</button>
         </List>
     );
-}
+};
+
+export default FilterTag;

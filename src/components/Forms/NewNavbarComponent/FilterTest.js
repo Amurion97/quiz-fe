@@ -1,52 +1,51 @@
-import * as React from 'react';
-import ListSubheader from '@mui/material/ListSubheader';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import YoutubeSearchedForTwoToneIcon from "@mui/icons-material/YoutubeSearchedForTwoTone";
+import React, { useState } from "react";
+import {FormControlLabel, Grid, Paper} from "@mui/material";
+import FormGroup from "@mui/material/FormGroup";
+import Checkbox from "@mui/material/Checkbox";
+import {makeStyles} from "@mui/styles";
 
-export default function FilterTest() {
-    const [open, setOpen] = React.useState(true);
 
-    const handleClick = () => {
-        setOpen(!open);
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: "center",
+        color: theme.palette.text.secondary,
+        height: "100%",
+    },
+}));
+
+const FilterTest = (props) => {
+    const classes = useStyles();
+
+
+    const [checkedValues, setCheckedValues] = useState({
+        label: true,
+        required: false,
+        disabled: false
+    });
+
+    const handleCheck = (event) => {
+        setCheckedValues({ ...checkedValues, [event.target.name]: event.target.checked });
     };
+    console.log(checkedValues,"day la value trong filter Test")
 
     return (
-        <List
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-            component="nav"
-            aria-labelledby="nested-list-subheader"
-            subheader={
-                <ListSubheader component="div" id="nested-list-subheader">
-                    Tìm kiếm theo nội dung
-                </ListSubheader>
-            }
-        >
-            <ListItemButton onClick={handleClick}>
-                <ListItemIcon>
-                    <YoutubeSearchedForTwoToneIcon />
-                </ListItemIcon>
-                <ListItemText primary="Sắp xếp" />
-                {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" sx={{pl: 3}}>
+        <Grid container spacing={3}>
+            <Grid item xs={12}>
+                <Paper className={classes.paper}>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-                        <FormControlLabel required control={<Checkbox />} label="Required" />
-                        <FormControlLabel disabled control={<Checkbox />} label="Required" />
+                        {["label", "required", "disabled"].map((criteria) => (
+                            <FormControlLabel
+                                key={criteria}
+                                control={<Checkbox checked={checkedValues[criteria]} onChange={handleCheck} name={criteria} />}
+                                label={criteria}
+                            />
+                        ))}
                     </FormGroup>
-                </List>
-            </Collapse>
-        </List>
+                </Paper>
+            </Grid>
+        </Grid>
     );
-}
+};
+
+export default FilterTest;
