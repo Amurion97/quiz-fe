@@ -16,6 +16,7 @@ import AddPhoneForm from "./pages/Test/AddPhoneForm";
 import EditPhoneForm from "./pages/Test/EditPhoneForm";
 import Detail from "./pages/Test/Detail";
 import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
+import StudentLayout from "./layouts/StudentLayout";
 
 
 // ----------------------------------------------------------------------
@@ -33,10 +34,13 @@ export default function Router() {
                 {path: 'aircraft', element: <AircraftPage/>},
                 {path: 'flights', element: <FlightPage/>},
                 {path: 'airports', element: <AirportPage/>},
+
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
             ],
         },
+        {path: 'student',
+            element: <StudentLayout/>},
         {
             path: '/login',
             element: <LoginPage/>,

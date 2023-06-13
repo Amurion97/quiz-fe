@@ -1,7 +1,9 @@
 import {Outlet} from 'react-router-dom';
 import {styled} from '@mui/material/styles';
 import {Grid} from "@mui/material";
-import NavBar from "../components/NavBar";
+import NavBar from "../../NavBar";
+import SizeBar from "./SizeBar";
+import CustomizedMenus from "./FilterTest";
 
 
 //
@@ -17,18 +19,20 @@ const StyledRoot = styled('div')({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout() {
+export default function DemoListData() {
 
     return (
         <>
             <StyledRoot>
                 <Grid container spacing={0} columns={{xs: 4, sm: 5, md: 6, lg: 7}}>
                     <Grid item xs={1} sm={1} md={1} lg={1}>
-                        <NavBar/>
+                        {/*<NavBar></NavBar>*/}
                     </Grid>
                     <Grid item xs={3} sm={4} md={5} lg={6}>
+                        {/*<Outlet/>*/}
+                        <SizeBar>
+                        </SizeBar>
 
-                        <Outlet/>
                     </Grid>
                 </Grid>
             </StyledRoot>

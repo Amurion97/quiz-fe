@@ -4,6 +4,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import Typography from "@mui/material/Typography";
 
 export default function Search() {
     const [searchValue, setSearchValue] = useState('');
@@ -21,15 +22,54 @@ export default function Search() {
             sx={{p: '2px 4px', alignItems: 'center'}}
         >
             <InputBase
-                sx={{ml: 3, flex: 1,width : "90%"}}
+                sx={{ml: 3, flex: 1,width : 200}}
                 placeholder="Search Here"
                 inputProps={{'aria-label': 'search '}}
                 onChange={handleInputChange}
                 value={searchValue}
             />
-            <IconButton type="button" sx={{p: '10px'}} aria-label="search" onClick={handleSearch}>
+            <IconButton type="button" fontSize="small" aria-label="search" onClick={handleSearch}>
                 <SearchIcon/>
             </IconButton>
         </Paper>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
