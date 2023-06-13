@@ -133,8 +133,10 @@ export default function NavBar(props) {
                             <Grid item xs={3}>
                                 <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
                             </Grid>
-                            <Grid item xs={9}>
+                            <Grid item xs={7}>
                                 {user.info.name}
+                            </Grid>
+                            <Grid item xs={2}>
                                 <IconButton size="large" color="inherit" onClick={handleClick}>
                                     <MoreVertIcon fontSize="small"/>
                                 </IconButton>

@@ -25,6 +25,7 @@ export const login = createAsyncThunk(
         return response.data.data;
     }
 );
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -43,7 +44,7 @@ export const userSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(login.fulfilled, (state, action) => {
-                console.log("login success:", action.payload)
+                // console.log("login success:", action.payload)
                 state.status = 'idle';
                 state.info = action.payload.info;
                 state.token = action.payload.token;

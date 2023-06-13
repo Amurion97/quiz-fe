@@ -16,6 +16,7 @@ import PhonePage from "./pages/Test/PhonePage";
 import AddPhoneForm from "./pages/Test/AddPhoneForm";
 import EditPhoneForm from "./pages/Test/EditPhoneForm";
 import Detail from "./pages/Test/Detail";
+import { useSelector } from 'react-redux';
 import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
 
@@ -23,6 +24,9 @@ import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
 // ----------------------------------------------------------------------
 
 export default function Router() {
+    let user = useSelector(({user}) => {
+        return user;
+      });
     const routes = useRoutes([
         {
             path: '/dashboard',
@@ -30,7 +34,7 @@ export default function Router() {
             children: [
                 {element: <Navigate to="/dashboard/createFlight"/>, index: true},
                 {path: 'createFlight', element: <FlightCreationPage/>},
-                {path: 'users', element: <UsersPage/>},
+                {path: 'users', element: (user.info? (user.info.role === 1 ? <UsersPage/>: <Page404/>):<Page404/>)},
                 {path: 'aircraft', element: <AircraftPage/>},
                 {path: 'flights', element: <FlightPage/>},
                 {path: 'airports', element: <AirportPage/>},
