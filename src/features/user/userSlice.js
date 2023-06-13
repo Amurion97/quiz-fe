@@ -4,7 +4,7 @@ import {customAPIv1} from "../customAPI";
 const initialState = {
 
         state: "idle",
-        info: JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")).info : undefined ,
+        info: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).info : undefined ,
         token: {}
 
 }

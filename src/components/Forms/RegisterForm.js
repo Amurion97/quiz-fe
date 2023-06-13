@@ -119,9 +119,10 @@ export default function RegisterForm() {
                                         variant="filled" severity="error"
                                     >
                                         {statusCode === 409 ?
-                                            "Email already exists, please reset email"
+                                            "Email already exists, please use another email or" +
+                                            " Reset password"
                                             :
-                                            "server error during registration"
+                                            "Server error during registration, please try again"
                                         }
                                     </Alert>
                                 </Collapse>
