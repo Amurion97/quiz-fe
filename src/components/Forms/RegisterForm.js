@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 // @mui
 import {
@@ -12,11 +12,10 @@ import {Alert, LoadingButton} from '@mui/lab';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {Field, Form, Formik} from "formik";
-import {useDispatch} from "react-redux";
 import {TextField} from 'formik-mui';
 import CloseIcon from '@mui/icons-material/Close';
-import {register} from "../../features/user/userSlice";
 import * as Yup from 'yup';
+import {customAPIv1} from "../../features/customAPI";
 // components
 const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
 const SchemaError = Yup.object().shape({
@@ -28,6 +27,7 @@ const SchemaError = Yup.object().shape({
         .required("Required"),
     password: Yup.string()
         .min(6, "Too Short!")
+        .max(8,"Too long")
         .required('Vui lòng nhập mật khẩu'),
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Mật khẩu không khớp')
@@ -40,11 +40,29 @@ const SchemaError = Yup.object().shape({
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
-    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
     const [statusCode, setStatusCode] = useState(0);
+    const [openSuccess, setOpenSuccess] = useState(false);
+    const navigate = useNavigate()
+    const [countdown, setCountdown] = useState(5);
+    useEffect(() => {
+        if (openSuccess && countdown > 0) {
+            // Giảm thời gian đếm ngược sau mỗi giây khi openSuccess là true và countdown > 0
+            const timer = setInterval(() => {
+                console.log("countdown",countdown)
+                setCountdown(prevCountdown => prevCountdown - 1);
+            }, 1000);
+            // Xóa timer khi countdown đạt giá trị 0
+            return () => {
+                clearInterval(timer);
+
+            };
+        }else if (openSuccess && countdown === 0) {
+            navigate('/login')
+        }
+    }, [openSuccess, countdown]);
+
 
     return (
         <>
@@ -59,25 +77,22 @@ export default function RegisterForm() {
                 validationSchema={SchemaError}
                 onSubmit={(values, {setSubmitting}) => {
                     console.log("trying to submit:", values)
-
-                    //dùng axios thuần k cần dùng redux, xoá hết redux đi
-                    dispatch(register(values))
+                    customAPIv1().post('users/', values)
                         .then(data => {
                             console.log("thunk data:", data)
-                            if (data.type.includes("rejected")) {
-                                setOpen(true);
-                                // if (data.error.message.includes("401")) {
-                                //     setStatusCode(401)
-                                // } else if (data.error.message.includes("403")) {
-                                //     setStatusCode(403)
-                                // }
-                                setSubmitting(false);
-                            } else if (data.type.includes("fulfilled")) {
-                                window.alert("Register Success")
-                                setSubmitting(false);
-                                // navigate("/login")
-                            }
+                            setOpen(false);
+                            setOpenSuccess(true);
+                            setSubmitting(false);
                         })
+                        .catch(error => {
+                            setOpen(true);
+                            if (error.message.includes("409")) {
+                                setStatusCode(409);
+                            } else {
+                                console.log("Error:", error);
+                            }
+                            setSubmitting(false);
+                        });
                 }}
             >
                 {({
@@ -103,8 +118,32 @@ export default function RegisterForm() {
                                         sx={{mb: 2}}
                                         variant="filled" severity="error"
                                     >
-                                        {statusCode >= 403 ? "Account is locked, please contact admin"
-                                            : "Wrong email or password, please try again!"}
+                                        {statusCode === 409 ?
+                                            "Email already exists, please reset email"
+                                            :
+                                            "server error during registration"
+                                        }
+                                    </Alert>
+                                </Collapse>
+                                <Collapse in={openSuccess}>
+                                    <Alert
+                                        action={
+                                            <IconButton
+                                                aria-label="close"
+                                                color="inherit"
+                                                size="small"
+                                                onClick={() => {
+                                                    setOpenSuccess(false);
+                                                }}
+                                            >
+                                                <CloseIcon fontSize="inherit"/>
+                                            </IconButton>
+                                        }
+                                        sx={{mb: 2}}
+                                        variant="filled" severity="success"
+                                    >
+                                        Register Success!
+                                        Redirecting to login page in {countdown} seconds...
                                     </Alert>
                                 </Collapse>
                                 <Grid container spacing={0}>

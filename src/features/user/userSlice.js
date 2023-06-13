@@ -2,10 +2,12 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {customAPIv1} from "../customAPI";
 
 const initialState = {
-    state: "idle",
-    info: {},
-    token: {}
-};
+
+        state: "idle",
+        info: JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")).info : undefined ,
+        token: {}
+
+}
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
@@ -23,39 +25,6 @@ export const login = createAsyncThunk(
         return response.data.data;
     }
 );
-export const register = createAsyncThunk(
-    'user/register',
-    async (arg, {rejectWithValue}) => {
-        console.log("arg:", arg)
-        let response = await customAPIv1().post('users/', {
-            email: arg.email,
-            password: arg.password,
-            name:arg.name,
-            phoneNumber:arg.phoneNumber,
-            address:arg.address
-        })
-        return response.data.data;
-
-        return true
-
-        try {
-            const response = await customAPIv1().post('users/', {
-                email: arg.email,
-                password: arg.password,
-                name:arg.name,
-                phoneNumber:arg.phoneNumber,
-                address:arg.address
-            })
-            return response.data.data;
-        } catch (err) {
-            if (!err.response) {
-                throw err
-            }
-            return rejectWithValue(err.response.data)
-        }
-    }
-);
-
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -84,16 +53,6 @@ export const userSlice = createSlice({
                 console.log("error in login")
                 state.status = 'idle';
             })
-            .addCase(register.fulfilled, (state, action) => {
-                console.log("register success:", action.payload)
-                state.status = 'idle';
-                state.info = action.payload.info;
-                state.token = action.payload.token;
-            })
-            .addCase(register.rejected, (state) => {
-                console.log("error in register")
-                state.status = 'idle';
-            });
     },
 });
 

@@ -86,7 +86,8 @@ export default function NavBar(props) {
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch()
-    const user = useSelector(selectUser)
+    const user = useSelector(selectUser);
+    console.log("user:", user)
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const handleListItemClick = (event, index) => {
