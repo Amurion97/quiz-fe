@@ -28,12 +28,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 // components
 import Logo from "./logo";
-import {Search} from "./Forms/NewNavbarComponent/Search";
-import {InputBase} from "formik-mui";
-import SearchIcon from "@mui/icons-material/Search";
-import MenuIcon from '@mui/icons-material/Menu';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import AddIcon from "@mui/icons-material/Add";
 import ChangePasswordForm from "./Forms/ChangePasswordForm";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";

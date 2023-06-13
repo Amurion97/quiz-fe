@@ -17,10 +17,10 @@ import EditPhoneForm from "./pages/Test/EditPhoneForm";
 import Detail from "./pages/Test/Detail";
 import { useSelector } from 'react-redux';
 import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
-import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
 import StudentLayout from "./layouts/StudentLayout";
-
 import TagPage from "./pages/User/TagPage";
+import RegisterPage from "./pages/RegisterPage";
+import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 
 // ----------------------------------------------------------------------
 
@@ -39,15 +39,20 @@ export default function Router() {
                 {path: 'aircraft', element: <AircraftPage/>},
                 {path: 'flights', element: <FlightPage/>},
                 {path: 'airports', element: <AirportPage/>},
-
                 {path: 'createQuestion', element: <QuestionCreationPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
                 {path: 'tag', element: <TagPage/>},
             ],
         },
-        {path: 'student',
-            element: <StudentLayout/>},
+        {path: '/students',
+            element: <StudentLayout/>,
+            children:[
+                {element: <Navigate to="/students/listData"/>, index: true},
+                {path: 'listData', element: <QuestionSearchResults/>},
+                {path: 'users', element: (user.info? (user.info.role === 1 ? <UsersPage/>: <Page404/>):<Page404/>)},
+            ]},
+
         {
             path: '/login',
             element: <LoginPage/>,

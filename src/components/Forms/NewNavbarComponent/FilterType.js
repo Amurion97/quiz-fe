@@ -11,9 +11,9 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import YoutubeSearchedForTwoToneIcon from "@mui/icons-material/YoutubeSearchedForTwoTone";
+import YoutubeSearchedForTwoToneIcon from '@mui/icons-material/YoutubeSearchedForTwoTone';
 
-export default function FilterTest() {
+export default function FilterType() {
     const [open, setOpen] = React.useState(true);
 
     const handleClick = () => {
@@ -27,7 +27,7 @@ export default function FilterTest() {
             aria-labelledby="nested-list-subheader"
             subheader={
                 <ListSubheader component="div" id="nested-list-subheader">
-                    Tìm kiếm theo nội dung
+                    Tìm kiếm theo loại câu hỏi
                 </ListSubheader>
             }
         >
@@ -35,7 +35,7 @@ export default function FilterTest() {
                 <ListItemIcon>
                     <YoutubeSearchedForTwoToneIcon />
                 </ListItemIcon>
-                <ListItemText primary="Sắp xếp" />
+                <ListItemText primary="Tìm kiếm theo" />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
@@ -43,7 +43,7 @@ export default function FilterTest() {
                     <FormGroup>
                         <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
                         <FormControlLabel required control={<Checkbox />} label="Required" />
-                        <FormControlLabel disabled control={<Checkbox />} label="Required" />
+                        <FormControlLabel required control={<Checkbox />} label="Required2" />
                     </FormGroup>
                 </List>
             </Collapse>
