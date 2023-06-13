@@ -225,7 +225,7 @@ export default function TagPage() {
                                 {statusCode === 500 ?
                                     "Tag is in use, cannot be deleted!!"
                                     :
-                                    "server error during registration"
+                                    "Server error during delete, please try again"
                                 }
                             </Alert>
                         </Collapse>
