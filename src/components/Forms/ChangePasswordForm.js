@@ -70,7 +70,6 @@ export default function ChangePasswordForm() {
                 validationSchema={SchemaError}
                 onSubmit={(values, {setSubmitting}) => {
                     console.log("trying to submit:", values)
-                    changePassword(values)
                     customAPIv1().put("/users/password-change", values)
                         .then(data => {
                             console.log("axios data:", data);
@@ -134,7 +133,7 @@ export default function ChangePasswordForm() {
                                     sx={{mb: 2}}
                                     variant="filled" severity="success"
                                 >
-                                    Register Success!
+                                    Update Password Successfully!
                                 </Alert>
                             </Collapse>
                             <Field
@@ -164,7 +163,7 @@ export default function ChangePasswordForm() {
                             <Field
                                 component={TextField}
                                 type={showPassword ? 'text' : 'password'}
-                                label="New the password"
+                                label="New password"
                                 name="newPassword"
                                 fullWidth
 
@@ -188,7 +187,7 @@ export default function ChangePasswordForm() {
                             <Field
                                 component={TextField}
                                 type={showPassword ? 'text' : 'password'}
-                                label="the password"
+                                label="Password comfirmation"
                                 name="confirmNewPassword"
                                 fullWidth
                                 InputProps={{

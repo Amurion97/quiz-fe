@@ -1,12 +1,13 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {customAPIv1} from "../customAPI";
-import {useNavigate} from "react-router-dom";
 
 const initialState = {
-    state: "idle",
-    info: {},
-    token: {}
-};
+
+        state: "idle",
+        info: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).info : undefined ,
+        token: {}
+
+}
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
@@ -18,40 +19,12 @@ export const login = createAsyncThunk(
     async (arg, {rejectWithValue}) => {
         console.log("arg:", arg)
         let response = await customAPIv1().post('users/login', {
-            username: arg.username,
+            email: arg.email,
             password: arg.password
         })
         return response.data.data;
-
-        return true
-
-        try {
-            const response = await customAPIv1().post('users/login', {
-                username: arg.username,
-                password: arg.password
-            })
-            return response.data.data;
-        } catch (err) {
-            if (!err.response) {
-                throw err
-            }
-            return rejectWithValue(err.response.data)
-        }
     }
 );
-export const changePassword = createAsyncThunk(
-    'user/password-change',
-    async (value) => {
-        console.log("day la value", value)
-       let changePass=  await customAPIv1().put(`users/password-change`,value);
-        if (changePass.status===500){
-            alert("sai mat khau");
-        }else {
-            alert("doi mat khau thanh cong");
-        }
-    }
-);
-
 
 export const userSlice = createSlice({
     name: 'user',
@@ -71,7 +44,7 @@ export const userSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(login.fulfilled, (state, action) => {
-                console.log("login success:", action.payload)
+                // console.log("login success:", action.payload)
                 state.status = 'idle';
                 state.info = action.payload.info;
                 state.token = action.payload.token;
@@ -81,9 +54,6 @@ export const userSlice = createSlice({
                 console.log("error in login")
                 state.status = 'idle';
             })
-
-
-
     },
 });
 

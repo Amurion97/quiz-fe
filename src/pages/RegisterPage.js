@@ -6,7 +6,7 @@ import {Link, Container, Typography} from '@mui/material';
 // components
 import Logo from '../components/logo';
 // sections
-import LoginForm from '../components/Forms/LoginForm';
+import RegisterForm from '../components/Forms/RegisterForm';
 
 // ----------------------------------------------------------------------
 
@@ -39,11 +39,11 @@ const StyledContent = styled('div')(({theme}) => ({
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage() {
+export default function RegisterPage() {
     return (
         <>
             <Helmet>
-                <title> Login | Quiz </title>
+                <title> Register | Quiz </title>
             </Helmet>
 
             <StyledRoot>
@@ -65,15 +65,15 @@ export default function LoginPage() {
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Sign in to Quiz
+                            Register in to Quiz
                         </Typography>
 
                         <Typography variant="body2" sx={{mb: 5}}>
-                            Don’t have an account? {''}
-                            <Link href="/register">Get started</Link>
+                            Do you already have an account? {''}
+                            <Link href="/login">Login Here</Link>
                         </Typography>
 
-                        <LoginForm/>
+                        <RegisterForm/>
                     </StyledContent>
                 </Container>
             </StyledRoot>

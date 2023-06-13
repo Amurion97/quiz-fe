@@ -24,6 +24,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import EditRoadIcon from '@mui/icons-material/EditRoad';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 // components
 import Logo from "./logo";
 import {Search} from "./Forms/NewNavbarComponent/Search";
@@ -85,13 +87,9 @@ export default function NavBar(props) {
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch()
-    const user = useSelector(selectUser)
+    const user = useSelector(selectUser);
+    console.log("user:", user)
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [searchValue, setSearchValue] = useState('');
-    const handleSearch = () => {
-
-        console.log(searchValue);
-    }
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -115,7 +113,6 @@ export default function NavBar(props) {
 
     return (
         <>
-
             <StyledRoot className="navbar-wrapper">
                 {/*<div className="navbar-wrapper">*/}
                 <div className="navbar-item1">
@@ -137,8 +134,10 @@ export default function NavBar(props) {
                             <Grid item xs={3}>
                                 <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
                             </Grid>
-                            <Grid item xs={6}>
-                                {user.info.username}
+                            <Grid item xs={7}>
+                                {user.info.name}
+                            </Grid>
+                            <Grid item xs={2}>
                                 <IconButton size="large" color="inherit" onClick={handleClick}>
                                     <MoreVertIcon fontSize="small"/>
                                 </IconButton>
@@ -170,9 +169,8 @@ export default function NavBar(props) {
                                 </Menu>
                             </Grid>
                         </Grid>
-                        <Grid item xs={4}>
-                        </Grid>
                     </UserInfoBox>
+
                 </div>
                 <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
                     <DialogTitle>Change password</DialogTitle>
@@ -191,6 +189,7 @@ export default function NavBar(props) {
                 <div className="navbar-item3">
                     <Box sx={{width: '100%', maxWidth: 360}}>
                         <List component="nav" aria-label="main mailbox folders">
+
                             <StyledListItemButton
                                 selected={selectedIndex === 0}
                                 onClick={(event) => {
@@ -203,6 +202,8 @@ export default function NavBar(props) {
                                 </ListItemIcon>
                                 <ListItemText primary="Create A Flight" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
+
+
                             <StyledListItemButton
                                 selected={selectedIndex === 1}
                                 onClick={(event) => {
@@ -229,7 +230,50 @@ export default function NavBar(props) {
                                 <ListItemText primary="Aircraft" style={{color: theme.palette.text.primary}}/>
                             </StyledListItemButton>
 
-                            {(user.info.role == 1) && (
+                            <StyledListItemButton
+                                selected={selectedIndex === 5}
+                                onClick={(event) => {
+                                    handleListItemClick(event, 5)
+                                    navigate("/dashboard/tag")
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <LocalOfferIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Tag" style={{color: theme.palette.text.primary}}/>
+                            </StyledListItemButton>
+
+                            {(user.info.role <= 2) && (
+                                <>
+                                    <Divider/>
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 3}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 3)
+                                            navigate("/dashboard/createQuestion")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <AddCircleIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Create a question" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
+
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 4}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 4)
+                                            navigate("/dashboard/airports")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <EditRoadIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Airports" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
+                                </>)}
+
+                            {(user.info.role === 1) && (
                                 <>
                                     <Divider/>
                                     <StyledListItemButton

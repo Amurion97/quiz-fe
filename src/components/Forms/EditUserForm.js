@@ -15,7 +15,7 @@ export default function EditUserForm(props) {
     const [openSuccess, setOpenSuccess] = useState(false);
     const [userInfo, setUserInfo] = useState({})
     const [loading, setLoading] = useState(true);
-    console.log(props.currentUser);
+    console.log('props.currentUser  ', props.currentUser);
     useEffect(() => {
         console.log("edit form did mount");
         customAPIv1().get(`/users/${props.currentUser}`)

@@ -4,13 +4,13 @@ import {Grid} from '@mui/material';
 // hooks
 // components
 // sections
-import FlightCreationForm from "../../components/Forms/FlightCreationForm";
+import QuestionCreationForm from "../../components/Forms/Question/QuestionCreationForm";
 
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 
-export default function FlightCreationPage() {
+export default function QuestionCreationPage() {
     return (
         <>
             <Helmet>
@@ -27,7 +27,7 @@ export default function FlightCreationPage() {
                 }}
             >
                 <Grid item xs={12}>
-                    <FlightCreationForm/>
+                    <QuestionCreationForm/>
                 </Grid>
             </Grid>
         </>

@@ -10,24 +10,13 @@ import {
 import {Alert, LoadingButton} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 import {TextField} from "formik-mui";
-import {useEffect, useState} from "react";
-import {customAPIv1} from "../../features/customAPI";
+import {useState} from "react";
 import axios from "axios";
 
 
 export default function AddPhoneForm(props) {
     const [openSuccess, setOpenSuccess] = useState(false);
-    const [airlines, setAirlines] = useState([]);
 
-    useEffect(() => {
-        console.log("form did mount");
-        customAPIv1().get("airlines")
-            .then(res => {
-                console.log("airlines:", res.data);
-                setAirlines(res.data.data)
-            })
-            .catch(e => console.log("error in get airlines:", e))
-    }, [])
     return (
         <Formik
             initialValues={{

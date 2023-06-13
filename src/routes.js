@@ -15,13 +15,19 @@ import PhonePage from "./pages/Test/PhonePage";
 import AddPhoneForm from "./pages/Test/AddPhoneForm";
 import EditPhoneForm from "./pages/Test/EditPhoneForm";
 import Detail from "./pages/Test/Detail";
+import { useSelector } from 'react-redux';
+import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
 import StudentLayout from "./layouts/StudentLayout";
 
+import TagPage from "./pages/User/TagPage";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
+    let user = useSelector(({user}) => {
+        return user;
+      });
     const routes = useRoutes([
         {
             path: '/dashboard',
@@ -29,14 +35,15 @@ export default function Router() {
             children: [
                 {element: <Navigate to="/dashboard/createFlight"/>, index: true},
                 {path: 'createFlight', element: <FlightCreationPage/>},
-                {path: 'users', element: <UsersPage/>},
-                {path: 'changePassword', element: <ChangePasswordForm/>},
+                {path: 'users', element: (user.info? (user.info.role === 1 ? <UsersPage/>: <Page404/>):<Page404/>)},
                 {path: 'aircraft', element: <AircraftPage/>},
                 {path: 'flights', element: <FlightPage/>},
                 {path: 'airports', element: <AirportPage/>},
 
+                {path: 'createQuestion', element: <QuestionCreationPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
+                {path: 'tag', element: <TagPage/>},
             ],
         },
         {path: 'student',
@@ -44,6 +51,10 @@ export default function Router() {
         {
             path: '/login',
             element: <LoginPage/>,
+        },
+        {
+            path: '/register',
+            element: <RegisterPage/>,
         },
         {
             path: "/search",
