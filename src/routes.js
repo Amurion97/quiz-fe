@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
 
+import TagPage from "./pages/User/TagPage";
 
 // ----------------------------------------------------------------------
 
@@ -41,6 +42,7 @@ export default function Router() {
                 {path: 'createQuestion', element: <QuestionCreationPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
+                {path: 'tag', element: <TagPage/>},
             ],
         },
         {
