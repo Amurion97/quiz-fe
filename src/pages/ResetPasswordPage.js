@@ -6,7 +6,7 @@ import { Link, Container, Typography } from "@mui/material";
 // components
 import Logo from "../components/logo";
 // sections
-import ForgotPasswordForm from "../components/Forms/ForgotPasswordForm";
+import ResetPasswordForm from "../components/Forms/ResetPasswordForm";
 
 // ----------------------------------------------------------------------
 
@@ -39,11 +39,11 @@ const StyledContent = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function ForgotPasswordPage() {
+export default function ResetPasswordPage() {
     return (
         <>
             <Helmet>
-                <title> Forgot Password | Quiz </title>
+                <title> Reset Password | Quiz </title>
             </Helmet>
 
             <StyledRoot>
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
                             Do you remember your password? {""}
                             <Link href="/login">Login Here</Link>
                         </Typography>
-                        <ForgotPasswordForm />
+                        <ResetPasswordForm />
                     </StyledContent>
                 </Container>
             </StyledRoot>

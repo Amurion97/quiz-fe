@@ -26,6 +26,17 @@ export const login = createAsyncThunk(
     }
 );
 
+export const forgotPassword = createAsyncThunk(
+    'user/forgot-password',
+    async (arg, {rejectWithValue}) => {
+        console.log("arg:", arg)
+        let response = await customAPIv1().post('users/reset-request', {
+            email: arg.email,
+        })
+        return response.data.data;
+    }
+);
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,

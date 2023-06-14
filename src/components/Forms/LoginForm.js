@@ -135,7 +135,7 @@ export default function LoginForm() {
                         <Stack direction="row" alignItems="center" justifyContent="space-between"
                                sx={{my: 2}}>
                             <Grid></Grid>
-                            <Link variant="subtitle2" underline="hover">
+                            <Link variant="subtitle2" underline="hover" href="/forgot-password">
                                 Forgot password?
                             </Link>
                         </Stack>
