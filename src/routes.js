@@ -21,6 +21,7 @@ import StudentLayout from "./layouts/StudentLayout";
 import TagPage from "./pages/User/TagPage";
 import RegisterPage from "./pages/RegisterPage";
 import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
+import QuestionManagement from "./pages/Teacher/QuestionManagement";
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +37,7 @@ export default function Router() {
                 {element: <Navigate to="/dashboard/createFlight"/>, index: true},
                 {path: 'createFlight', element: <FlightCreationPage/>},
                 {path: 'users', element: (user.info? (user.info.role === 1 ? <UsersPage/>: <Page404/>):<Page404/>)},
+                {path: 'questions', element: <QuestionManagement/>},
                 {path: 'aircraft', element: <AircraftPage/>},
                 {path: 'flights', element: <FlightPage/>},
                 {path: 'airports', element: <AirportPage/>},

@@ -13,7 +13,10 @@ export function GroupFilter({
                             }) {
     return (
         <>
-            <Grid container>
+            <Grid container sx={{
+                overflow: 'scroll',
+                maxHeight: '90vh'
+            }}>
                 <Grid item xs={12}>
                     <FilterDifficulty handleCheckDifficulties={handleCheckDifficulties}
                                       difficultiesIDs={difficultiesIDs}>
