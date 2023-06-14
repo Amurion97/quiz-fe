@@ -1,50 +1,80 @@
-import React, { useState } from "react";
-import {FormControlLabel, Grid, Paper} from "@mui/material";
-import FormGroup from "@mui/material/FormGroup";
-import Checkbox from "@mui/material/Checkbox";
-import {makeStyles} from "@mui/styles";
+import React, { useState } from 'react';
+import ListSubheader from '@mui/material/ListSubheader';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import YoutubeSearchedForTwoToneIcon from '@mui/icons-material/YoutubeSearchedForTwoTone';
 
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: "center",
-        color: theme.palette.text.secondary,
-        height: "100%",
-    },
-}));
-
-const FilterTest = (props) => {
-    const classes = useStyles();
-
-
+const FilterTest = () => {
+    const [open, setOpen] = useState(true);
     const [checkedValues, setCheckedValues] = useState({
         label: true,
-        required: false,
-        disabled: false
     });
 
-    const handleCheck = (event) => {
-        setCheckedValues({ ...checkedValues, [event.target.name]: event.target.checked });
+    const handleClick = () => {
+        setOpen(!open);
     };
-    console.log(checkedValues,"day la value trong filter Test")
+
+    const handleCheck = (event) => {
+        const { name, checked } = event.target;
+        setCheckedValues((prevState) => ({ ...prevState, [name]: checked }));
+        handleFilter();
+    };
+
+    const handleFilter = () => {
+        const selectedTypes = Object.keys(checkedValues).filter(
+            (key) => checkedValues[key]
+        );
+        console.log(selectedTypes, 'day la filter ben test');
+
+    };
 
     return (
-        <Grid container spacing={3}>
-            <Grid item xs={12}>
-                <Paper className={classes.paper}>
+        <List
+            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+            subheader={
+                <ListSubheader
+                    component="div"
+                    id="nested-list-subheader"
+                    sx={{ mt: 1 }}
+                >
+                    Tìm kiếm theo loại noi dung
+                </ListSubheader>
+            }
+        >
+            <ListItemButton onClick={handleClick}>
+                <ListItemIcon>
+                    <YoutubeSearchedForTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Tìm kiếm theo" />
+                {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" sx={{ pl: 3 }}>
                     <FormGroup>
-                        {["label", "required", "disabled"].map((criteria) => (
-                            <FormControlLabel
-                                key={criteria}
-                                control={<Checkbox checked={checkedValues[criteria]} onChange={handleCheck} name={criteria} />}
-                                label={criteria}
-                            />
-                        ))}
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    defaultChecked
+                                    name="label"
+                                    onChange={handleCheck}
+                                />
+                            }
+                            label="Label"
+                        />
                     </FormGroup>
-                </Paper>
-            </Grid>
-        </Grid>
+                </List>
+            </Collapse>
+        </List>
     );
 };
 
