@@ -24,7 +24,7 @@ const StyledSection = styled('div')(({theme}) => ({
     justifyContent: 'center',
     // boxShadow: theme.customShadows.card,
     // backgroundColor: theme.palette.background.default,
-    backgroundColor: '#f9fafb',
+    // backgroundColor: '#f9fafb',
 }));
 
 const StyledContent = styled('div')(({theme}) => ({
@@ -59,7 +59,7 @@ export default function RegisterPage() {
                     <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
                         Hi, Welcome Back
                     </Typography>
-                    <img src="/assets/illustrations/illustration_login.png" alt="login"/>
+                    <img src="/assets/illustrations/All the data-rafiki.png" alt="login"/>
                 </StyledSection>
 
                 <Container maxWidth="sm">

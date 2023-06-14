@@ -21,6 +21,7 @@ import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
 
 import TagPage from "./pages/User/TagPage";
+import ForgotPasswordPage from './pages/ForgotPassword';
 
 // ----------------------------------------------------------------------
 
@@ -97,6 +98,10 @@ export default function Router() {
             path: '*',
             element: <Navigate to="/404" replace/>,
         },
+        {
+            path: '/forgot',
+            element: <ForgotPasswordPage/>,
+        }
     ]);
 
     return routes;
