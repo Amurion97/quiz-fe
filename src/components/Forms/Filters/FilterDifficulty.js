@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -11,34 +11,29 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import YoutubeSearchedForTwoToneIcon from '@mui/icons-material/YoutubeSearchedForTwoTone';
+import {customAPIv1} from "../../../features/customAPI";
 
-const FilterType = () => {
+const FilterDifficulty = ({handleCheckDifficulties,difficultiesIDs}) => {
     const [open, setOpen] = useState(true);
     const [checkedValues, setCheckedValues] = useState({
-
-        Easy: false,
-        Hard: false,
-        Medium: false
-
+        label: true,
     });
-
     const handleClick = () => {
         setOpen(!open);
     };
-
-    const handleCheck = (event) => {
-        const {name, checked} = event.target;
-        setCheckedValues((prevState) => ({...prevState, [name]: checked}));
-        handleFilter();
-    };
-
-    const handleFilter = () => {
-        const selectedTypes = Object.keys(checkedValues).filter(
-            (key) => checkedValues[key]
-        );
-        console.log(selectedTypes, 'day la filter ben type');
-
-    };
+    const [listDifficulties, setListDifficulties] = useState([]);
+    useEffect(() => {
+        customAPIv1().get(`/difficulties`)
+            .then(res => {
+                setListDifficulties(res.data.data);
+                const initialCheckedValues = {};
+                res.data.data.map((item) => (
+                    initialCheckedValues[item.id] = false
+                ));
+                setCheckedValues(initialCheckedValues);
+            })
+            .catch(e => console.log("error in get users:", e))
+    }, []);
 
     return (
         <List
@@ -59,28 +54,23 @@ const FilterType = () => {
                 <ListItemIcon>
                     <YoutubeSearchedForTwoToneIcon/>
                 </ListItemIcon>
+                <ListItemText primary="Tìm kiếm theo"/>
                 {open ? <ExpandLess/> : <ExpandMore/>}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" sx={{pl: 3}}>
                     <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    name="Easy"
-                                    onClick={handleCheck}
-                                />
-                            }
-                            label="Easy"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox name="Hard" onClick={handleCheck}/>}
-                            label="Hard"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox name="Medium" onClick={handleCheck}/>}
-                            label="Medium"
-                        />
+                        {listDifficulties.map((item) => (
+                            <FormControlLabel
+                                key={item.id}
+                                control={<Checkbox
+                                    checked={difficultiesIDs[item.id]}
+                                    onChange={handleCheckDifficulties}
+                                    name={item.id.toString()}
+                                />}
+                                label={item.name}
+                            />
+                        ))}
                     </FormGroup>
                 </List>
             </Collapse>
@@ -88,4 +78,4 @@ const FilterType = () => {
     );
 };
 
-export default FilterType;
+export default FilterDifficulty;
