@@ -22,6 +22,7 @@ import TagPage from "./pages/User/TagPage";
 import RegisterPage from "./pages/RegisterPage";
 import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 import QuestionManagement from "./pages/Teacher/QuestionManagement";
+import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ export default function Router() {
                 {path: 'flights', element: <FlightPage/>},
                 {path: 'airports', element: <AirportPage/>},
                 {path: 'createQuestion', element: <QuestionCreationPage/>},
+                {path: 'editQuestion', element: <QuestionEditPage/>},
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
                 {path: 'tag', element: <TagPage/>},

@@ -28,8 +28,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {useNavigate} from "react-router-dom";
 
 export default function QuestionDetails({currentQuestion, updateQuestions}) {
+    const navigate = useNavigate()
     const [openMenu, setOpenMenu] = useState(null);
     const [currentQuestionId, setCurrentQuestionId] = useState(0);
     const [openConfirm, setOpenConfirm] = useState(false);
@@ -40,7 +42,6 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
     const handleCloseMenu = () => {
         setOpenMenu(null);
     };
-
 
 
     const handleClickOpenConfirm = () => {
@@ -147,6 +148,9 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
 
                 <MenuItem
                     onClick={() => {
+                        navigate("/dashboard/editQuestion", {
+                            state: {question: currentQuestion}
+                        })
                         handleCloseMenu();
                     }}>
                     <EditIcon fontSize="small"/>
