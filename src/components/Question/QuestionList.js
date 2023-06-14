@@ -6,207 +6,25 @@ import {Divider, List, ListItem, ListItemIcon, ListItemText} from "@mui/material
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import Stack from '@mui/material/Stack';
-const listQuestion = [{
-    "id": 1,
-    "content": "Hello",
-    "answers": [
-        {
-            "id": 27,
-            "content": "13233",
-            "isTrue": true
-        },
-        {
-            "id": 28,
-            "content": "1333",
-            "isTrue": true
-        },
-        {
-            "id": 29,
-            "content": "12",
-            "isTrue": false
-        },
-        {
-            "id": 30,
-            "content": "333",
-            "isTrue": true
-        },
-        {
-            "id": 31,
-            "content": "444",
-            "isTrue": false
-        }
-    ],
-    "type": {
-        "id": 3,
-        "name": "More than one correct option"
-    },
-    "tags": [
-        {
-            "id": 21,
-            "name": "GGG123"
-        },
-        {
-            "id": 22,
-            "name": "GGG1234"
-        }
-    ],
-    "difficulty": {
-        "id": 2,
-        "name": "Medium"
-    }
-}, {
-    "id": 2,
-    "content": "Hello",
-    "answers": [
-        {
-            "id": 27,
-            "content": "13233",
-            "isTrue": true
-        },
-        {
-            "id": 28,
-            "content": "1333",
-            "isTrue": true
-        },
-        {
-            "id": 29,
-            "content": "12",
-            "isTrue": false
-        },
-        {
-            "id": 30,
-            "content": "333",
-            "isTrue": true
-        },
-        {
-            "id": 31,
-            "content": "444",
-            "isTrue": false
-        }
-    ],
-    "type": {
-        "id": 3,
-        "name": "More than one correct option"
-    },
-    "tags": [
-        {
-            "id": 21,
-            "name": "GGG123"
-        },
-        {
-            "id": 22,
-            "name": "GGG1234"
-        }
-    ],
-    "difficulty": {
-        "id": 2,
-        "name": "Medium"
-    }
-}, {
-    "id": 3,
-    "content": "Hello",
-    "answers": [
-        {
-            "id": 27,
-            "content": "13233",
-            "isTrue": true
-        },
-        {
-            "id": 28,
-            "content": "1333",
-            "isTrue": true
-        },
-        {
-            "id": 29,
-            "content": "12",
-            "isTrue": false
-        },
-        {
-            "id": 30,
-            "content": "333",
-            "isTrue": true
-        },
-        {
-            "id": 31,
-            "content": "444",
-            "isTrue": false
-        }
-    ],
-    "type": {
-        "id": 3,
-        "name": "More than one correct option"
-    },
-    "tags": [
-        {
-            "id": 21,
-            "name": "GGG123"
-        },
-        {
-            "id": 22,
-            "name": "GGG1234"
-        }
-    ],
-    "difficulty": {
-        "id": 2,
-        "name": "Medium"
-    }
-}, {
-    "id": 4,
-    "content": "Hello",
-    "answers": [
-        {
-            "id": 27,
-            "content": "13233",
-            "isTrue": true
-        },
-        {
-            "id": 28,
-            "content": "1333",
-            "isTrue": true
-        },
-        {
-            "id": 29,
-            "content": "12",
-            "isTrue": false
-        },
-        {
-            "id": 30,
-            "content": "333",
-            "isTrue": true
-        },
-        {
-            "id": 31,
-            "content": "444",
-            "isTrue": false
-        }
-    ],
-    "type": {
-        "id": 3,
-        "name": "More than one correct option"
-    },
-    "tags": [
-        {
-            "id": 21,
-            "name": "GGG123"
-        },
-        {
-            "id": 22,
-            "name": "GGG1234"
-        }
-    ],
-    "difficulty": {
-        "id": 2,
-        "name": "Medium"
-    }
-}
-]
-export default function QuestionList() {
+import {useEffect, useState} from "react";
+import {customAPIv1} from "../../features/customAPI";
+export default function QuestionList({selectedTagIDs}) {
+const [listQuestion,setListQuestion]=useState([]);
+
+    useEffect(() => {
+        console.log("edit form did mount");
+        customAPIv1().get(`/questions`)
+            .then(res => {
+                console.log("questions:", res.data);
+                setListQuestion(res.data.data);
+            })
+            .catch(e => console.log("error in get users:", e))
+    }, [])
+    console.log(listQuestion)
 
     return (
         <>
             <Stack spacing={1}>
-
-
             {
                 listQuestion.map((item) => {
                     const {

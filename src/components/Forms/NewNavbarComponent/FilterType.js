@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,7 +15,11 @@ import YoutubeSearchedForTwoToneIcon from '@mui/icons-material/YoutubeSearchedFo
 const FilterType = () => {
     const [open, setOpen] = useState(true);
     const [checkedValues, setCheckedValues] = useState({
-        label: true,
+
+        Easy: false,
+        Hard: false,
+        Medium: false
+
     });
 
     const handleClick = () => {
@@ -23,8 +27,8 @@ const FilterType = () => {
     };
 
     const handleCheck = (event) => {
-        const { name, checked } = event.target;
-        setCheckedValues((prevState) => ({ ...prevState, [name]: checked }));
+        const {name, checked} = event.target;
+        setCheckedValues((prevState) => ({...prevState, [name]: checked}));
         handleFilter();
     };
 
@@ -38,38 +42,44 @@ const FilterType = () => {
 
     return (
         <List
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+            sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
                 <ListSubheader
                     component="div"
                     id="nested-list-subheader"
-                    sx={{ mt: 1 }}
+                    sx={{mt: 1}}
                 >
-                    Tìm kiếm theo loại câu hỏi
+                    Tìm kiếm theo Độ khó
                 </ListSubheader>
             }
         >
             <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
-                    <YoutubeSearchedForTwoToneIcon />
+                    <YoutubeSearchedForTwoToneIcon/>
                 </ListItemIcon>
-                <ListItemText primary="Tìm kiếm theo" />
-                {open ? <ExpandLess /> : <ExpandMore />}
+                {open ? <ExpandLess/> : <ExpandMore/>}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" sx={{ pl: 3 }}>
+                <List component="div" sx={{pl: 3}}>
                     <FormGroup>
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    defaultChecked
-                                    name="label"
-                                    onChange={handleCheck}
+                                    name="Easy"
+                                    onClick={handleCheck}
                                 />
                             }
-                            label="Label"
+                            label="Easy"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox name="Hard" onClick={handleCheck}/>}
+                            label="Hard"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox name="Medium" onClick={handleCheck}/>}
+                            label="Medium"
                         />
                     </FormGroup>
                 </List>

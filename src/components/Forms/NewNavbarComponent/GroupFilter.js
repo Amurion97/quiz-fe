@@ -3,7 +3,7 @@ import FilterTest from "./FilterTest";
 import FilterType from "./FilterType";
 import FilterTag from "./FilterTag";
 
-export function GroupFilter(){
+export function GroupFilter({handleCheck}){
     return(
         <>
             <Grid container>
@@ -16,7 +16,7 @@ export function GroupFilter(){
                     </FilterType>
                 </Grid>
                 <Grid item xs={12}>
-                    <FilterTag>
+                    <FilterTag handleCheck={handleCheck}>
                     </FilterTag>
                 </Grid>
             </Grid>

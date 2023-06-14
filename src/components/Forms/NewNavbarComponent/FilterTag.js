@@ -12,32 +12,29 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import YoutubeSearchedForTwoToneIcon from "@mui/icons-material/YoutubeSearchedForTwoTone";
 
-const FilterTag = () => {
+const FilterTag = ({handleCheck}) => {
     const [open, setOpen] = useState(true);
 
     const handleClick = () => {
         setOpen(!open);
     };
 
+    const [tags, setTags] = useState([]);
+
+
     const [checkedValues, setCheckedValues] = useState({
-        Toan: true,
+        Toan: false,
         Hoa: false,
         Anh: false,
         Su: false,
     });
 
-    const handleCheck = (event) => {
-        const { name, checked } = event.target;
-        setCheckedValues((prevState) => ({ ...prevState, [name]: checked }));
-        handleFilter();
-    };
-
-    const handleFilter = () => {
-        const selectedSubjects = Object.keys(checkedValues).filter(
-            (subject) => checkedValues[subject]
-        );
-        console.log(selectedSubjects, "day la filter bên tags");
-    };
+    // const handleFilter = () => {
+    //     const selectedSubjects = Object.keys(checkedValues).filter(
+    //         (subject) => checkedValues[subject]
+    //     );
+    //     console.log(selectedSubjects, "day la filter bên tags");
+    // };
 
     return (
         <List
@@ -67,7 +64,6 @@ const FilterTag = () => {
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    defaultChecked
                                     name="Toan"
                                     onChange={handleCheck}
                                 />
@@ -75,21 +71,20 @@ const FilterTag = () => {
                             label="Toan"
                         />
                         <FormControlLabel
-                            control={<Checkbox name="Hoa" onChange={handleCheck} />}
+                            control={<Checkbox name={1} onChange={handleCheck} />}
                             label="Hoa"
                         />
                         <FormControlLabel
-                            control={<Checkbox name="Anh" onChange={handleCheck} />}
+                            control={<Checkbox name={2} onChange={handleCheck} />}
                             label="Anh"
                         />
                         <FormControlLabel
-                            control={<Checkbox name="Su" onChange={handleCheck} />}
+                            control={<Checkbox name={3} onChange={handleCheck} />}
                             label="Su"
                         />
                     </FormGroup>
                 </List>
             </Collapse>
-            <button onClick={handleFilter}>Lọc</button>
         </List>
     );
 };
