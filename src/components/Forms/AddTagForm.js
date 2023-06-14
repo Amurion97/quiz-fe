@@ -15,6 +15,7 @@ import * as Yup from "yup";
 
 export default function AddTagForm(props) {
     const [openSuccess, setOpenSuccess] = useState(false);
+    const [open, setOpen] = useState(false);
     const SchemaError = Yup.object().shape({
         name: Yup.string()
             .min(2, "Too Short!")
@@ -22,7 +23,9 @@ export default function AddTagForm(props) {
     })
     return (
         <Formik
-            initialValues={{}}
+            initialValues={{
+                name: "",
+            }}
             validate={(values) => {
                 const errors = {};
                 return errors;
@@ -37,10 +40,13 @@ export default function AddTagForm(props) {
                         resetForm();
                         setSubmitting(false);
                         setOpenSuccess(true);
+                        setOpen(false)
                         props.updateTag();
                     })
                     .catch(e => {
                         console.log("error:", e);
+                        setOpen(true)
+                        setOpenSuccess(false)
                         setSubmitting(false);
                     })
             }}
@@ -48,7 +54,30 @@ export default function AddTagForm(props) {
             {({values, submitForm, resetForm, isSubmitting, touched, errors, setFieldValue}) => (
 
                 <Form>
-                    <Stack spacing={3} mb={3}>
+                    <Stack spacing={1} mb={3}>
+                        <Collapse in={open}>
+                            <Alert
+                                action={
+                                    <IconButton
+                                        aria-label="close"
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            setOpen(false);
+                                        }}
+                                    >
+                                        <CloseIcon fontSize="inherit"/>
+                                    </IconButton>
+                                }
+                                sx={{mb: 2}}
+                                variant="filled" severity="error"
+                            >
+                                Tag already available
+                            </Alert>
+                        </Collapse>
+                        <FormControl fullWidth>
+
+                        </FormControl>
                         <Collapse in={openSuccess}>
                             <Alert
                                 action={

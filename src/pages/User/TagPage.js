@@ -54,6 +54,15 @@ export default function TagPage() {
         setOpenConfirm(false);
         setOpen(false)
     };
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleClickOpenDialog = () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
     const updateTag = () => {
         customAPIv1().get("/tags")
             .then(res => {
@@ -173,6 +182,20 @@ export default function TagPage() {
                             </Popover>
                         </Paper>
                     </Grid>
+
+                    <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
+                        <DialogTitle>Delete Tag</DialogTitle>
+                        <DialogContent>
+                            <Alert severity="success" >
+                               Tag deleted successfully!
+                            </Alert>
+
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDialog}>OK</Button>
+                        </DialogActions>
+                    </Dialog>
+
                     <Grid item xs={5}>
                         <Paper>
                             <DialogTitle sx={{
@@ -240,6 +263,7 @@ export default function TagPage() {
                             .then(res => {
                                 updateTag()
                                 handleCloseConfirm()
+                                handleClickOpenDialog()
                             })
                             .catch(e => {
                                 setOpen(true);
