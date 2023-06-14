@@ -31,7 +31,7 @@ export default function AddTagForm(props) {
             onSubmit={(values, {setSubmitting, resetForm}) => {
                 console.log("trying to submit:", values)
                 // try {
-                customAPIv1().post("/tag", values)
+                customAPIv1().post("/tags", values)
                     .then((response)=> {
                         console.log("Add Tag success");
                         resetForm();

@@ -55,15 +55,15 @@ export default function TagPage() {
         setOpen(false)
     };
     const updateTag = () => {
-        customAPIv1().get("/tag")
+        customAPIv1().get("/tags")
             .then(res => {
                 console.log("tag:", res.data);
                 setTag(res.data.data);
             })
-            .catch(e => console.log("error in get aircraft:", e))
+            .catch(e => console.log("error in get tags:", e))
     }
     useEffect(() => {
-        console.log("form did mount");
+        console.log("tag page did mount");
         updateTag();
     }, [])
     return (
@@ -225,7 +225,7 @@ export default function TagPage() {
                                 {statusCode === 500 ?
                                     "Tag is in use, cannot be deleted!!"
                                     :
-                                    "server error during registration"
+                                    "Server error during delete, please try again"
                                 }
                             </Alert>
                         </Collapse>
@@ -236,7 +236,7 @@ export default function TagPage() {
                 <DialogActions>
                     <Button onClick={handleCloseConfirm}>Cancel</Button>
                     <Button onClick={() => {
-                        customAPIv1().delete(`/tag/${currentTag}`)
+                        customAPIv1().delete(`/tags/${currentTag}`)
                             .then(res => {
                                 updateTag()
                                 handleCloseConfirm()

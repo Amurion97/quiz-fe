@@ -10,7 +10,7 @@ import {
     FormControlLabel,
     Typography,
     FormControl,
-    Paper
+    Paper, Button
 } from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import {alpha, styled, useTheme} from "@mui/material/styles";
@@ -19,18 +19,24 @@ import MenuItem from "@mui/material/MenuItem";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Slide from '@mui/material/Slide';
 import Checkbox from '@mui/material/Checkbox';
+import MuiTextField from '@mui/material/TextField';
 
 // formik
 import {Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {
-    TextField, RadioGroup, Select,
+    TextField, RadioGroup, Select, Autocomplete,
     // ToggleButtonGroup
 } from 'formik-mui';
 
 // functions
 import {customAPIv1} from "../../../features/customAPI";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Dialog from "@mui/material/Dialog";
 
 // components
 const StyleForm = styled(Grid)(({theme}) => ({
@@ -43,14 +49,13 @@ const StyleForm = styled(Grid)(({theme}) => ({
     borderRadius: theme.shape.borderRadius,
 }));
 const validationSchema = yup.object({
-    email: yup
+    content: yup
         .string('Enter your email')
-        .email('Enter a valid email')
-        .required('Email is required'),
-    password: yup
-        .string('Enter your password')
-        .min(8, 'Password should be of minimum 8 characters length')
-        .required('Password is required'),
+        .required('Question content must not be blank'),
+    // password: yup
+    //     .string('Enter your password')
+    //     .min(8, 'Password should be of minimum 8 characters length')
+    //     .required('Password is required'),
 });
 const BG_COLOR = ['#2BA687', '#1976D2', '#F0A001', '#F200BE', '#CD1E3F'];
 const BORDER_COLOR = ['#155142', '#042164', '#9A6601', '#9B007A', '#850E24']
@@ -61,8 +66,12 @@ export default function QuestionCreationForm() {
     console.log("component rendering")
     const theme = useTheme();
     const [trueIndexes, setTrueIndexes] = useState(() => []);
+    const [message, setMessage] = useState("");
+    const [diffcultyOptions, setDiffcultyOptions] = useState([]);
+    const [typeOptions, setTypeOptions] = useState([]);
+    const [tags, setTags] = useState([]);
 
-    const handleFormat = (newAnswerIndex, setFieldValue) => {
+    const handleTrueIndexes = (newAnswerIndex, setFieldValue) => {
         console.log("trueIndexes pre-process", trueIndexes)
         let index = trueIndexes.findIndex(item => item === newAnswerIndex);
         if (index < 0) {
@@ -75,6 +84,19 @@ export default function QuestionCreationForm() {
         }
 
     }
+
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
+
+    const handleCloseSuccessDialog = () => {
+        setOpenSuccessDialog(false);
+    };
+
     const [answerNumber, setAnswerNumber] = useState(2);
     const addOneAnswer = () => {
         setAnswerNumber((prevState) => prevState + 1)
@@ -93,63 +115,111 @@ export default function QuestionCreationForm() {
         }, 300)
 
     }
+
+    useEffect(() => {
+        console.log("form did mount");
+        customAPIv1().get("/types")
+            .then(res => {
+                console.log("types:", res.data.data);
+                setTypeOptions(res.data.data)
+            })
+            .catch(e => console.log("error in get types:", e))
+
+        customAPIv1().get("/tags")
+            .then(res => {
+                console.log("tags:", res.data.data);
+                setTags(res.data.data.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id
+                    }
+                }))
+            })
+            .catch(e => console.log("error in get tags:", e))
+
+        customAPIv1().get("/difficulties")
+            .then(res => {
+                console.log("difficulties:", res.data.data);
+                setDiffcultyOptions(res.data.data)
+            })
+            .catch(e => console.log("error in get difficulties:", e))
+    }, [])
+
+
     const formSubmition = (values, {setSubmitting}) => {
         console.log("trying to submit:", values);
+        let error = false;
+        let answers = [];
         values.trueIndex = parseInt(values.trueIndex);
         values.type = parseInt(values.type);
 
-        let answers = [];
-        if (values.type === 1) {
-            answers = [
-                {
-                    content: "True",
-                    isTrue: values.trueIndex === 0
-                },
-                {
-                    content: "False",
-                    isTrue: values.trueIndex === 1
-                }
-            ]
+        if (values.content === "") {
+            setMessage("Question content must not be blank");
+            setOpenDialog(true)
+            error = true;
+        } else if (values.type === 3 && trueIndexes.length < 2) {
+            setMessage("Please select at least 2 answers");
+            setOpenDialog(true)
+            error = true;
         } else {
-            for (let i = 0; i < answerNumber; i++) {
-                answers.push({
-                    content: values[`answer-${i}`],
-                    isTrue: values.type <= 2 ? values.trueIndex === i : trueIndexes.includes(i)
-                })
+            if (values.type === 1) {
+                answers = [
+                    {
+                        content: "True",
+                        isTrue: values.trueIndex === 0
+                    },
+                    {
+                        content: "False",
+                        isTrue: values.trueIndex === 1
+                    }
+                ]
+            } else {
+                for (let i = 0; i < answerNumber; i++) {
+                    answers.push({
+                        content: values[`answer-${i}`],
+                        isTrue: values.type <= 2 ? values.trueIndex === i : trueIndexes.includes(i)
+                    })
+                }
             }
+            values.answers = answers;
         }
-
-        values.answers = answers;
 
         console.log("processed values:", values);
-        try {
-            customAPIv1().post("/questions", values)
-                .then(() => {
-                    setSubmitting(false)
-                })
-                .catch(e => {
-                    console.log("error in save question:", e);
-                    window.alert('failed, try again');
-                    setSubmitting(false)
-                })
-        } catch (e) {
-            console.log("error in save question:", e);
-            window.alert('failed, try again');
-            setSubmitting(false)
+        if (!error) {
+            try {
+                customAPIv1().post("/questions", values)
+                    .then(() => {
+                        setSubmitting(false);
+                        setOpenSuccessDialog(true);
+                    })
+                    .catch(e => {
+                        console.log("error in save question:", e);
+                        window.alert('failed, try again');
+                        setSubmitting(false)
+                    })
+            } catch (e) {
+                console.log("error in save question:", e);
+                window.alert('failed, try again');
+                setSubmitting(false)
+            }
+        } else {
+            setSubmitting(false);
         }
-        console.log()
+
     }
     return (
         <>
             <Formik
                 initialValues={{
                     trueIndex: 0,
-                    type: 1
+                    type: 1,
+                    content: "",
                 }}
                 validate={(values) => {
                     const errors = {};
                     return errors;
                 }}
+                // validationSchema={validationSchema}
                 onSubmit={formSubmition}
                 enableReinitialize={true}
             >
@@ -214,34 +284,19 @@ export default function QuestionCreationForm() {
 
                                     }}
                                     multiline
-                                    rows={7}
+                                    rows={6}
                                     fullWidth
                                     variant="filled"
                                     placeholder={"Type your question here"}
                                 />
                             </Grid>
 
-                            <Grid item xs={12}>
-                                <p>{JSON.stringify(values)}</p>
-                            </Grid>
+                            {/*<Grid item xs={12}>*/}
+                            {/*    <p>{JSON.stringify(values)}</p>*/}
+                            {/*</Grid>*/}
 
                             <Grid item xs={12}>
                                 <Field component={RadioGroup} name={'trueIndex'}>
-                                    {/*<Field {...(parseInt(values.type) <= 2 ? {*/}
-                                    {/*    component: RadioGroup,*/}
-                                    {/*    name: "trueIndex"*/}
-                                    {/*} : {*/}
-                                    {/*    component: ToggleButtonGroup,*/}
-
-                                    {/*    value: trueIndexes,*/}
-                                    {/*    onChange: handleFormat,*/}
-                                    {/*    ariaLabel: "text formatting",*/}
-
-                                    {/*    name: "toggle",*/}
-
-                                    {/*    // type: "checkbox",*/}
-                                    {/*})}>*/}
-
 
                                     <Grid container spacing={{xs: 0.5, md: 1}}
                                           columns={{xs: (parseInt(values.type) === 1) ? 12 : 13}}>
@@ -444,7 +499,7 @@ export default function QuestionCreationForm() {
                                                                                     checked={trueIndexes.includes(index)}
                                                                                     color="success"
                                                                                     onClick={(e) => {
-                                                                                        setFieldValue("trueIndexes", handleFormat(index, setFieldValue));
+                                                                                        setFieldValue("trueIndexes", handleTrueIndexes(index, setFieldValue));
                                                                                     }}
 
                                                                                 />
@@ -590,6 +645,32 @@ export default function QuestionCreationForm() {
 
                             </Grid>
 
+                            <Grid item xs={12}>
+                                <Paper sx={{
+                                    p: 1,
+                                    pt: 2,
+                                }}>
+                                    <Field
+                                        name="tags"
+                                        multiple
+                                        component={Autocomplete}
+                                        options={tags}
+                                        getOptionLabel={(option) => option.name}
+                                        fullWidth
+                                        renderInput={(params) => (
+                                            <MuiTextField
+                                                {...params}
+                                                name="tag"
+                                                error={touched['tag'] && !!errors['tag']}
+                                                helperText={touched['tag'] && errors['tag']}
+                                                label="Tags"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    />
+                                </Paper>
+                            </Grid>
+
                             <Grid item xs={4}>
                                 <Paper sx={{
                                     bgcolor: theme.palette.primary.main,
@@ -622,22 +703,49 @@ export default function QuestionCreationForm() {
                                             labelId="age-simple"
                                             label="Question type"
                                         >
-                                            <MenuItem value={1}>True/False</MenuItem>
-                                            <MenuItem value={2}>Multiple choices</MenuItem>
-                                            <MenuItem value={3}>More than one correct
-                                                option</MenuItem>
+                                            {/*<MenuItem value={1}>True/False</MenuItem>*/}
+                                            {/*<MenuItem value={2}>Multiple choices</MenuItem>*/}
+                                            {/*<MenuItem value={3}>More than one correct*/}
+                                            {/*    option</MenuItem>*/}
+                                            {typeOptions.map(item => (
+                                                <MenuItem value={item.id}>{item.name}</MenuItem>
+                                            ))}
                                         </Field>
                                     </FormControl>
                                 </Paper>
                             </Grid>
 
-                            <Grid item xs={4}>
+                            <Grid item xs={1}>
+
                             </Grid>
 
-                            <Grid item xs={2}>
+                            <Grid item xs={3}>
+                                <Paper sx={{
+                                    p: 1,
+                                    pt: 2,
+                                }}>
+                                    <FormControl fullWidth>
+                                        <Field
+                                            component={Select}
+                                            id="difficulty"
+                                            name="difficulty"
+                                            labelId="difficulty"
+                                            label="Difficulty"
+                                        >
+
+                                            {diffcultyOptions.map(item => (
+                                                <MenuItem value={item.id}>{item.name}</MenuItem>
+                                            ))}
+                                        </Field>
+                                    </FormControl>
+                                </Paper>
                             </Grid>
 
-                            <Grid item xs={2}>
+                            <Grid item xs={1}>
+
+                            </Grid>
+
+                            <Grid item xs={3}>
                                 <LoadingButton fullWidth size="large" type="button"
                                                variant="contained"
                                                color="primary"
@@ -658,6 +766,42 @@ export default function QuestionCreationForm() {
                     </Form>
                 )}
             </Formik>
+
+            <Dialog
+                open={openDialog}
+                onClose={handleCloseDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title">
+                    Error
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {message}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog}>OK, I got it!</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                open={openSuccessDialog}
+                onClose={handleCloseSuccessDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title">
+                    Success
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Question created!
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseSuccessDialog}>OK</Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
         ;
