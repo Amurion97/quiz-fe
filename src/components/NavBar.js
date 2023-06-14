@@ -166,7 +166,7 @@ export default function NavBar(props) {
                     </UserInfoBox>
 
                 </div>
-                <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
+                <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
                     <DialogTitle>Change password</DialogTitle>
                     <DialogContent>
                         <DialogContentText>

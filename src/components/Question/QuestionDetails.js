@@ -113,7 +113,7 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                             <Divider/>
                             <List>
                                 {answers.map((item) => (
-                                    <ListItem>
+                                    <ListItem key={item.id}>
                                         <ListItemIcon>
                                             {item.isTrue === false ?
                                                 <ClearIcon sx={{color: "red"}}></ClearIcon> :

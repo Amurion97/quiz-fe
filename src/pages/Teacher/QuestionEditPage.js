@@ -8,6 +8,8 @@ import QuestionCreationForm from "../../components/Forms/Question/QuestionCreati
 import {useLocation, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Page404 from "../Page404";
+import QuestionEditForm from "../../components/Forms/Question/QuestionEditForm";
+import {customAPIv1} from "../../features/customAPI";
 
 // ----------------------------------------------------------------------
 
@@ -15,9 +17,27 @@ import Page404 from "../Page404";
 
 export default function QuestionEditPage() {
     const location = useLocation();
+    const [tags, setTags] = useState(null);
     console.log("location in edit:", location)
-    const {state: {question: question}} = location;
-    console.log("question in edit:", question)
+    const {state} = location;
+    let question;
+    if (state) {
+        ({question} = state)
+    }
+    console.log("question in edit:", question);
+    useEffect(() => {
+        customAPIv1().get("/tags")
+            .then(res => {
+                console.log("tags:", res.data.data);
+                setTags(res.data.data.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id
+                    }
+                }))
+            })
+            .catch(e => console.log("error in get tags:", e))
+    }, [])
     return (
         <>
             <Helmet>
@@ -34,7 +54,7 @@ export default function QuestionEditPage() {
                 }}
             >
                 <Grid item xs={12}>
-                    {question ? <QuestionEditPage question={question}/> : <Page404/>}
+                    {question && tags ? <QuestionEditForm question={question} tags={tags}/> : <Page404/>}
 
                 </Grid>
             </Grid>

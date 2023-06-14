@@ -35,7 +35,7 @@ export default function QuestionListManagement({selectedTagIDs, setCurrentQuesti
                             type,
                         } = item;
                         return (
-                            <Card onClick={(e) => {
+                            <Card key={id} onClick={(e) => {
                                 setCurrentQuestion(item);
                             }}>
                                 <CardContent>
