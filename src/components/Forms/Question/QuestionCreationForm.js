@@ -146,12 +146,13 @@ export default function QuestionCreationForm() {
     }, [])
 
 
-    const formSubmition = (values, {setSubmitting}) => {
+    const formSubmition = (values, {setSubmitting, resetForm}) => {
         console.log("trying to submit:", values);
         let error = false;
         let answers = [];
         values.trueIndex = parseInt(values.trueIndex);
         values.type = parseInt(values.type);
+        values.difficulty = parseInt(values.difficulty);
 
         if (values.content === "") {
             setMessage("Question content must not be blank");
@@ -159,6 +160,14 @@ export default function QuestionCreationForm() {
             error = true;
         } else if (values.type === 3 && trueIndexes.length < 2) {
             setMessage("Please select at least 2 answers");
+            setOpenDialog(true)
+            error = true;
+        } else if (values.type < 3 && values.trueIndex < 0) {
+            setMessage("Please select 1 answers");
+            setOpenDialog(true)
+            error = true;
+        } else if (isNaN(values.difficulty)) {
+            setMessage("Please choose difficulty for the question");
             setOpenDialog(true)
             error = true;
         } else {
@@ -175,6 +184,11 @@ export default function QuestionCreationForm() {
                 ]
             } else {
                 for (let i = 0; i < answerNumber; i++) {
+                    if (values[`answer-${i}`] === "" || values[`answer-${i}`] === undefined) {
+                        setMessage("Please fill in or delete empty answers ");
+                        setOpenDialog(true)
+                        error = true;
+                    }
                     answers.push({
                         content: values[`answer-${i}`],
                         isTrue: values.type <= 2 ? values.trueIndex === i : trueIndexes.includes(i)
@@ -191,6 +205,7 @@ export default function QuestionCreationForm() {
                     .then(() => {
                         setSubmitting(false);
                         setOpenSuccessDialog(true);
+                        resetForm();
                     })
                     .catch(e => {
                         console.log("error in save question:", e);
@@ -211,9 +226,10 @@ export default function QuestionCreationForm() {
         <>
             <Formik
                 initialValues={{
-                    trueIndex: 0,
+                    trueIndex: -1,
                     type: 1,
                     content: "",
+                    difficulty: -1,
                 }}
                 validate={(values) => {
                     const errors = {};
