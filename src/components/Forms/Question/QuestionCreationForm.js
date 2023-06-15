@@ -230,6 +230,7 @@ export default function QuestionCreationForm() {
                     type: 1,
                     content: "",
                     difficulty: -1,
+                    tags: [],
                 }}
                 validate={(values) => {
                     const errors = {};
