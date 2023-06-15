@@ -65,13 +65,16 @@ export default function QuestionManagement() {
 
     };
 
+
     const updateQuestions = () => {
         customAPIv1().get(`/questions`, {
             params: {
                 content: contentQuery,
                 selectedTagIDs: selectedTagIDs,
                 selectedTypesIDs: selectedTypesIDs,
-                difficultiesIDs: difficultiesIDs
+                difficultiesIDs: difficultiesIDs,
+
+
             }
         })
             .then(res => {
@@ -83,14 +86,12 @@ export default function QuestionManagement() {
     useEffect(() => {
         console.log("edit form did mount");
         updateQuestions();
-    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs])
+    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs,contentQuery])
     console.log(listQuestion);
-    const [searchValue, setSearchValue] = useState('');
+
     const handleInputChange = (event) => {
-        setSearchValue(event.target.value);
+        setContentQuery(event.target.value);
     };
-
-
     return (
 
 
@@ -105,7 +106,6 @@ export default function QuestionManagement() {
                 // height: '90vh',
             }}>
                 <Grid item xs={3}>
-                    {JSON.stringify(searchValue)}
                     <Paper
                         component="form"
                         sx={{p: '2px 4px', alignItems: 'center'}}
@@ -113,9 +113,9 @@ export default function QuestionManagement() {
                         <InputBase
                             sx={{ml: 3, flex: 1,width : 200}}
                             placeholder="Search Here"
-                            inputProps={{'aria-label': 'search '}}
+                            inputProps={{'label': 'search '}}
                             onChange={handleInputChange}
-                            value={searchValue}
+                            value={currentQuestion}
                         />
                         <IconButton type="button" sx={{ p: '10px',width :80}} aria-label="search">
                             <SearchIcon />
