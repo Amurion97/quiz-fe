@@ -56,11 +56,11 @@ export default function LoginForm() {
                                 console.log("role", role)
                                 setSubmitting(false);
                                 if (role === 1)
-                                    navigate("/dashboard/SearchPage")
+                                    navigate("/dashboard/users")
                                 else if (role === 2)
-                                    navigate("/dashboard/FlightCreation")
+                                    navigate("/dashboard/questions")
                                 else
-                                    navigate("/dashboard")
+                                    navigate("/dashboard/404")
                             }
 
                         })
