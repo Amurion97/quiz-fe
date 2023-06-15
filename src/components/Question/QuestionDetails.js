@@ -230,6 +230,7 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                     <Button onClick={handleCloseDialog}>OK</Button>
                 </DialogActions>
             </Dialog>
+
             <DialogContentText id="alert-dialog-description">
                 <Collapse in={open}>
                     <Alert
