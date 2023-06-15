@@ -37,6 +37,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
+import {useNavigate} from "react-router-dom";
 
 // components
 const StyleForm = styled(Grid)(({theme}) => ({
@@ -64,6 +65,7 @@ const FOCUS_COLOR = ['#1E745F', '#0C4497', '#C08001', '#C20098', '#A61732']
 
 export default function QuestionEditForm({question, tags}) {
     console.log("question edit form rendering:", question)
+    const navigate = useNavigate()
     const theme = useTheme();
     const [trueIndexes, setTrueIndexes] = useState(question.answers
         .map((item, index) => item.isTrue ? index : null)
@@ -201,6 +203,9 @@ export default function QuestionEditForm({question, tags}) {
                     .then(() => {
                         setSubmitting(false);
                         setOpenSuccessDialog(true);
+                        setTimeout(() => {
+                            navigate('/dashboard/questions')
+                        }, 3000)
                     })
                     .catch(e => {
                         console.log("error in save question:", e);
@@ -832,6 +837,7 @@ export default function QuestionEditForm({question, tags}) {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Question edited successfully!
+                        Navigating to question list ...
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
