@@ -1,5 +1,4 @@
 import {Outlet} from 'react-router-dom';
-// @mui
 import {styled} from '@mui/material/styles';
 import {Grid} from "@mui/material";
 import NavBar from "../components/NavBar";

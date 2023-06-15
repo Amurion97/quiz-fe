@@ -6,7 +6,7 @@ import {logout, selectUser} from "../features/user/userSlice";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {
-    Avatar, Button, Dialog, Divider,
+    Avatar, Button, Collapse, Dialog, Divider,
     Grid,
     IconButton,
     List,
@@ -26,20 +26,17 @@ import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import EditRoadIcon from '@mui/icons-material/EditRoad';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 // components
 import Logo from "./logo";
-import {Search} from "./Forms/NewNavbarComponent/Search";
-import {InputBase} from "formik-mui";
-import SearchIcon from "@mui/icons-material/Search";
-import MenuIcon from '@mui/icons-material/Menu';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import AddIcon from "@mui/icons-material/Add";
 import ChangePasswordForm from "./Forms/ChangePasswordForm";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import AddAircraftForm from "./Forms/AddAircraftForm";
 import DialogActions from "@mui/material/DialogActions";
+import {Alert} from "@mui/lab";
+import CloseIcon from "@mui/icons-material/Close";
+import {customAPIv1} from "../features/customAPI";
 
 
 // sections
@@ -90,7 +87,13 @@ export default function NavBar(props) {
     const user = useSelector(selectUser);
     console.log("user:", user)
     const [selectedIndex, setSelectedIndex] = useState(0);
-
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const handleCloseConfirm = () => {
+        setOpenConfirm(false);
+    };
+    const handleClickOpenConfirm = () => {
+        setOpenConfirm(true);
+    };
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
@@ -163,8 +166,7 @@ export default function NavBar(props) {
                                     }}>Profile</MenuItem>
                                     <MenuItem onClick={handleClose}>My account</MenuItem>
                                     <MenuItem onClick={() => {
-                                        dispatch(logout());
-                                        navigate("/login");
+                                        handleClickOpenConfirm()
                                     }}>Logout</MenuItem>
                                 </Menu>
                             </Grid>
@@ -172,7 +174,7 @@ export default function NavBar(props) {
                     </UserInfoBox>
 
                 </div>
-                <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
+                <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
                     <DialogTitle>Change password</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -256,20 +258,21 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <AddCircleIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Create a question" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Create a question"
+                                                      style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
                                         selected={selectedIndex === 4}
                                         onClick={(event) => {
                                             handleListItemClick(event, 4)
-                                            navigate("/dashboard/airports")
+                                            navigate("/dashboard/questions")
                                         }}
                                     >
                                         <ListItemIcon>
-                                            <EditRoadIcon/>
+                                            <QuestionMarkIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Airports" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Questions" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
                                 </>)}
 
@@ -307,6 +310,27 @@ export default function NavBar(props) {
                 </div>
 
             </StyledRoot>
+            <Dialog
+                open={openConfirm}
+                onClose={handleCloseConfirm}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Are you sure you want to sign out?"}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={handleCloseConfirm}>Cancel</Button>
+                    <Button
+                        onClick={() => {
+                            dispatch(logout())
+                            navigate("/login")
+                        }}
+                        autoFocus variant="contained" color="primary">
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
         ;

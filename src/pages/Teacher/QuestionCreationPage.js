@@ -14,7 +14,7 @@ export default function QuestionCreationPage() {
     return (
         <>
             <Helmet>
-                <title> Flight Creation | Flight </title>
+                <title> Question Creation | Flight </title>
             </Helmet>
             <Grid
                 container
@@ -23,7 +23,7 @@ export default function QuestionCreationPage() {
                 alignItems="center"
                 style={{
                     height: "100%",
-                    padding: "5%"
+                    padding: "2% 5%"
                 }}
             >
                 <Grid item xs={12}>
