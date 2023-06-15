@@ -3,7 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import {
-    Button,
+    Button, Collapse,
     Divider,
     Grid,
     IconButton,
@@ -28,11 +28,19 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {useNavigate} from "react-router-dom";
+import {Alert} from "@mui/lab";
+import CloseIcon from "@mui/icons-material/Close";
 
-export default function QuestionDetails({currentQuestion, updateQuestions}) {
+export default function QuestionDetails({currentQuestion, setCurrentQuestion, updateQuestions}) {
+    const navigate = useNavigate()
     const [openMenu, setOpenMenu] = useState(null);
     const [currentQuestionId, setCurrentQuestionId] = useState(0);
     const [openConfirm, setOpenConfirm] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [openSuccess, setOpenSuccess] = useState(false);
+
+
     const handleOpenMenu = (event) => {
         setOpenMenu(event.currentTarget);
     };
@@ -42,13 +50,13 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
     };
 
 
-
     const handleClickOpenConfirm = () => {
         setOpenConfirm(true);
     };
 
     const handleCloseConfirm = () => {
         setOpenConfirm(false);
+        setOpen(false)
     };
 
     let id,
@@ -112,7 +120,7 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                             <Divider/>
                             <List>
                                 {answers.map((item) => (
-                                    <ListItem>
+                                    <ListItem key={item.id}>
                                         <ListItemIcon>
                                             {item.isTrue === false ?
                                                 <ClearIcon sx={{color: "red"}}></ClearIcon> :
@@ -147,6 +155,9 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
 
                 <MenuItem
                     onClick={() => {
+                        navigate("/dashboard/editQuestion", {
+                            state: {question: currentQuestion}
+                        })
                         handleCloseMenu();
                     }}>
                     <EditIcon fontSize="small"/>
@@ -166,17 +177,62 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
 
             <Dialog
                 open={openConfirm}
-                onClose={handleCloseConfirm}
+                onClose={() => {
+                    handleCloseConfirm()
+                    setOpenSuccess(false);
+                    setOpen(false);
+                }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
                     {"Are you sure to delete this question?"}
                 </DialogTitle>
+                <Collapse in={openSuccess}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpenSuccess(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit"/>
+                            </IconButton>
+                        }
+                        sx={{mb: 2}}
+                        variant="filled" severity="success"
+                    >
+                        Question delete Success!
+                    </Alert>
+                </Collapse>
+                <Collapse in={open}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit"/>
+                            </IconButton>
+                        }
+                        sx={{mb: 2}}
+                        variant="filled" severity="error"
+                    >
+                        Error in delete question
+                    </Alert>
+                </Collapse>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         This action can not be undone
                     </DialogContentText>
                 </DialogContent>
+
                 <DialogActions>
                     <Button onClick={handleCloseConfirm}>Cancel</Button>
                     <Button
@@ -185,9 +241,12 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                                 .delete(`/questions/${currentQuestionId}`)
                                 .then((res) => {
                                     updateQuestions();
-                                    handleCloseConfirm();
+                                    // handleCloseConfirm();
+                                    setOpenSuccess(true);
+                                    setCurrentQuestion(null);
                                 })
                                 .catch((e) => {
+                                    setOpen(true);
                                     console.log("error in delete:", e);
                                 });
                         }}
@@ -198,6 +257,7 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                     </Button>
                 </DialogActions>
             </Dialog>
+
         </>
     )
 }

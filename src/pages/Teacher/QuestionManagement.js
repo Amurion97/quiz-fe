@@ -125,6 +125,7 @@ export default function QuestionManagement() {
                         handleCheckTags={handleCheckTags} selectedTagIDs={selectedTagIDs}
                         handleCheckTypes={handleCheckTypes} selectedTypesIDs={selectedTypesIDs}
                         handleCheckDifficulties={handleCheckDifficulties} difficultiesIDs={difficultiesIDs}
+
                     >
                     </GroupFilter>
                 </Grid>
@@ -137,6 +138,7 @@ export default function QuestionManagement() {
                 <Grid item xs={5}>
                     <QuestionDetails currentQuestion={currentQuestion} updateQuestions={updateQuestions}/>
                 </Grid>
+
             </Grid>
         </Box>
     );

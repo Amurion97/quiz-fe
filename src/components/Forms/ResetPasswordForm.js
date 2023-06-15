@@ -1,25 +1,41 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Collapse, IconButton, InputAdornment, Stack } from "@mui/material";
 import { Alert, LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Field, Form, Formik } from "formik";
-import { changePassword } from "../../features/user/userSlice";
 import * as Yup from "yup";
 import { TextField } from "formik-mui";
 
 import { customAPIv1 } from "../../features/customAPI";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function ChangePasswordForm() {
+export default function ResetPasswordForm() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get("email");
+    const otp = urlParams.get("otp");
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [open, setOpen] = useState(false);
     const [openSuccess, setOpenSuccess] = useState(false);
-    const [countdown, setCountdown] = useState(5);
+    const [countdown, setCountdown] = useState(2);
     const [statusCode, setStatusCode] = useState(0);
+    useEffect(() => {
+        customAPIv1()
+            .post("users/otp-check", {
+                email: email,
+                OTP: otp,
+            })
+            .then((data) => {
+                console.log("data cua useEffect", data);
+            })
+            .catch(e=>{
+                console.log("error", e);
+                navigate('/404');
+            });
+    }, []);
     useEffect(() => {
         if (openSuccess && countdown > 0) {
             // Giảm thời gian đếm ngược sau mỗi giây khi open là true và countdown > 0
@@ -38,10 +54,6 @@ export default function ChangePasswordForm() {
     }, [openSuccess, countdown]);
 
     const SchemaError = Yup.object().shape({
-        password: Yup.string()
-            .min(1, "Too Short!")
-            .max(8, "too long")
-            .required("Vui lòng nhập mật khẩu"),
         newPassword: Yup.string()
             .min(6, "Too Short!")
             .max(8, "too long")
@@ -54,7 +66,8 @@ export default function ChangePasswordForm() {
         <>
             <Formik
                 initialValues={{
-                    password: "",
+                    email: email,
+                    OTP: otp,
                     newPassword: "",
                     confirmNewPassword: "",
                 }}
@@ -62,8 +75,9 @@ export default function ChangePasswordForm() {
                 onSubmit={(values, { setSubmitting }) => {
                     console.log("trying to submit:", values);
                     customAPIv1()
-                        .put("/users/password-change", values)
+                        .post("users/reset-password", values)
                         .then((data) => {
+                            
                             console.log("axios data:", data);
                             setOpenSuccess(true);
                             setSubmitting(false);
@@ -72,8 +86,8 @@ export default function ChangePasswordForm() {
                             setSubmitting(false);
                             console.log("axios error:", e);
                             setOpen(true);
-                            if (e.message.includes("400")) {
-                                setStatusCode(400);
+                            if (e.message.includes("404")) {
+                                setStatusCode(404);
                             } else if (e.message.includes("500")) {
                                 setStatusCode(500);
                             }
@@ -98,7 +112,7 @@ export default function ChangePasswordForm() {
                                     sx={{ mb: 2 }}
                                     variant="filled"
                                     severity="error">
-                                    {statusCode >= 400
+                                    {statusCode === 404
                                         ? " Wrong password, please try again!"
                                         : "unknown password"}
                                 </Alert>
@@ -120,34 +134,9 @@ export default function ChangePasswordForm() {
                                     variant="filled"
                                     severity="success">
                                     Update Password Successfully!
+                                    Redirecting to login page in {countdown} seconds...
                                 </Alert>
                             </Collapse>
-                            <Field
-                                component={TextField}
-                                type={showPassword ? "text" : "password"}
-                                label="Password"
-                                name="password"
-                                fullWidth
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                onClick={() =>
-                                                    setShowPassword(
-                                                        !showPassword
-                                                    )
-                                                }
-                                                edge="end">
-                                                {showPassword ? (
-                                                    <VisibilityIcon fontSize="small" />
-                                                ) : (
-                                                    <VisibilityOffIcon fontSize="small" />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
 
                             <Field
                                 component={TextField}

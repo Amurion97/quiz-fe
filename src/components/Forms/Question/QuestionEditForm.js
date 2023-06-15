@@ -37,6 +37,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
+import {useNavigate} from "react-router-dom";
 
 // components
 const StyleForm = styled(Grid)(({theme}) => ({
@@ -62,14 +63,22 @@ const BORDER_COLOR = ['#155142', '#042164', '#9A6601', '#9B007A', '#850E24']
 const FOCUS_COLOR = ['#1E745F', '#0C4497', '#C08001', '#C20098', '#A61732']
 // ----------------------------------------------------------------------
 
-export default function QuestionCreationForm() {
-    console.log("component rendering")
+export default function QuestionEditForm({question, tags}) {
+    console.log("question edit form rendering:", question)
+    const navigate = useNavigate()
     const theme = useTheme();
-    const [trueIndexes, setTrueIndexes] = useState(() => []);
+    const [trueIndexes, setTrueIndexes] = useState(question.answers
+        .map((item, index) => item.isTrue ? index : null)
+        .filter(item => item !== null))
+    ;
     const [message, setMessage] = useState("");
-    const [diffcultyOptions, setDiffcultyOptions] = useState([]);
+    const [difficultyOptions, setDifficultyOptions] = useState([]);
     const [typeOptions, setTypeOptions] = useState([]);
-    const [tags, setTags] = useState([]);
+
+    const preAnswers = {}
+    question.answers.forEach((item, index) => {
+        preAnswers[`answer-${index}`] = item.content
+    });
 
     const handleTrueIndexes = (newAnswerIndex, setFieldValue) => {
         console.log("trueIndexes pre-process", trueIndexes)
@@ -79,6 +88,7 @@ export default function QuestionCreationForm() {
             return [...trueIndexes, newAnswerIndex];
         } else {
             trueIndexes.splice(index, 1);
+
             setTrueIndexes([...trueIndexes])
             return [...trueIndexes];
         }
@@ -97,7 +107,7 @@ export default function QuestionCreationForm() {
         setOpenSuccessDialog(false);
     };
 
-    const [answerNumber, setAnswerNumber] = useState(2);
+    const [answerNumber, setAnswerNumber] = useState(question.answers.length);
     const addOneAnswer = () => {
         setAnswerNumber((prevState) => prevState + 1)
     }
@@ -125,28 +135,16 @@ export default function QuestionCreationForm() {
             })
             .catch(e => console.log("error in get types:", e))
 
-        customAPIv1().get("/tags")
-            .then(res => {
-                console.log("tags:", res.data.data);
-                setTags(res.data.data.map(item => {
-                    return {
-                        name: item.name,
-                        id: item.id
-                    }
-                }))
-            })
-            .catch(e => console.log("error in get tags:", e))
-
         customAPIv1().get("/difficulties")
             .then(res => {
                 console.log("difficulties:", res.data.data);
-                setDiffcultyOptions(res.data.data)
+                setDifficultyOptions(res.data.data)
             })
             .catch(e => console.log("error in get difficulties:", e))
     }, [])
 
 
-    const formSubmition = (values, {setSubmitting, resetForm}) => {
+    const formSubmition = (values, {setSubmitting}) => {
         console.log("trying to submit:", values);
         let error = false;
         let answers = [];
@@ -201,11 +199,13 @@ export default function QuestionCreationForm() {
         console.log("processed values:", values);
         if (!error) {
             try {
-                customAPIv1().post("/questions", values)
+                customAPIv1().put(`/questions/${question.id}`, values)
                     .then(() => {
                         setSubmitting(false);
                         setOpenSuccessDialog(true);
-                        resetForm();
+                        setTimeout(() => {
+                            navigate('/dashboard/questions')
+                        }, 3000)
                     })
                     .catch(e => {
                         console.log("error in save question:", e);
@@ -224,23 +224,40 @@ export default function QuestionCreationForm() {
         }
 
     }
+    const tagsDefault = tags.filter(item => {
+        // console.log(item)
+        let check = question.tags.some(tag => {
+            // console.log("item id:", item.id, "tag id:", tag.id)
+            return tag.id === item.id
+        })
+        // console.log("item id:", item.id, check)
+        return check;
+    });
+    console.log(tagsDefault)
     return (
         <>
             <Formik
-                initialValues={{
-                    trueIndex: -1,
-                    type: 1,
-                    content: "",
-                    difficulty: -1,
-                    tags: [],
-                }}
+                initialValues={
+                    {
+                        trueIndex: question.answers.findIndex(item => item.isTrue),
+                        type: question.type.id,
+                        content: question.content,
+                        // tags: question.tags,
+                        // tags: [tags[1]],
+                        tags: tagsDefault,
+                        difficulty: question.difficulty.id,
+                        trueIndexes: trueIndexes,
+                        ...preAnswers,
+                    }
+                    // question
+                }
                 validate={(values) => {
                     const errors = {};
                     return errors;
                 }}
                 // validationSchema={validationSchema}
                 onSubmit={formSubmition}
-                enableReinitialize={true}
+                // enableReinitialize={true}
             >
                 {({
                       values,
@@ -312,6 +329,7 @@ export default function QuestionCreationForm() {
 
                             {/*<Grid item xs={12}>*/}
                             {/*    <p>{JSON.stringify(values)}</p>*/}
+                            {/*    <p>id: {question.id}</p>*/}
                             {/*</Grid>*/}
 
                             <Grid item xs={12}>
@@ -676,6 +694,10 @@ export default function QuestionCreationForm() {
                                         options={tags}
                                         getOptionLabel={(option) => option.name}
                                         fullWidth
+                                        // defaultValue={tags.filter(item => question.tags.includes(item.id))}
+                                        // sx={{
+                                        //     defaultValue: [tags[1]]
+                                        // }}
                                         renderInput={(params) => (
                                             <MuiTextField
                                                 {...params}
@@ -752,7 +774,7 @@ export default function QuestionCreationForm() {
                                             label="Difficulty"
                                         >
 
-                                            {diffcultyOptions.map(item => (
+                                            {difficultyOptions.map(item => (
                                                 <MenuItem value={item.id}>{item.name}</MenuItem>
                                             ))}
                                         </Field>
@@ -814,7 +836,8 @@ export default function QuestionCreationForm() {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Question created!
+                        Question edited successfully!
+                        Navigating to question list ...
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
