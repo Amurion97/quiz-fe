@@ -29,12 +29,23 @@ import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {useNavigate} from "react-router-dom";
+import {Alert} from "@mui/lab";
 
 export default function QuestionDetails({currentQuestion, updateQuestions}) {
     const navigate = useNavigate()
     const [openMenu, setOpenMenu] = useState(null);
     const [currentQuestionId, setCurrentQuestionId] = useState(0);
     const [openConfirm, setOpenConfirm] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleClickOpenDialog = () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
     const handleOpenMenu = (event) => {
         setOpenMenu(event.currentTarget);
     };
@@ -190,8 +201,10 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                                 .then((res) => {
                                     updateQuestions();
                                     handleCloseConfirm();
+                                    handleClickOpenDialog()
                                 })
                                 .catch((e) => {
+                                    setOpen(true);
                                     console.log("error in delete:", e);
                                 });
                         }}
@@ -200,6 +213,18 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                         color="error">
                         Remove Question
                     </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
+                <DialogTitle>Delete Question</DialogTitle>
+                <DialogContent>
+                    <Alert severity="success" >
+                        Question deleted successfully!
+                    </Alert>
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog}>OK</Button>
                 </DialogActions>
             </Dialog>
         </>
