@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
                         </Typography>
 
                         <Typography variant="body2" sx={{ mb: 5 }}>
-                            Please enter your email or mobile number to search
+                            Please enter your email to search
                             for your account. <br/>
                             Do you remember your password? {""}
                             <Link href="/login">Login Here</Link>

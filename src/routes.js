@@ -79,26 +79,7 @@ export default function Router() {
             path: "/",
             element: <SearchPage/>,
         },
-        {
-            path: 'test',
-            element: <PhonePage/>,
-        },
-        {
-            path: 'test/add',
-            element: <AddPhoneForm/>,
-        },
-        {
-            path: 'test/edit',
-            element: <EditPhoneForm/>,
-        },
-        {
-            path: 'test/detail',
-            element: <Detail/>,
-        },
-        {
-            path: '*',
-            element: <Navigate to="/404" replace/>,
-        },
+
         {
             path: '/forgot-password',
             element: <ForgotPasswordPage/>,
@@ -106,7 +87,13 @@ export default function Router() {
         {
             path: '/reset-password',
             element: <ResetPasswordPage/>,
-        }
+        },
+
+
+        {
+            path: '*',
+            element: <Navigate to="/404" replace/>,
+        },
     ]);
 
     return routes;

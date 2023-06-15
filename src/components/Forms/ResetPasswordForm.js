@@ -33,6 +33,7 @@ export default function ResetPasswordForm() {
             })
             .catch(e=>{
                 console.log("error", e);
+                navigate('/404');
             });
     }, []);
     useEffect(() => {

@@ -68,16 +68,11 @@ export default function ResetPasswordPage() {
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Find your account
+                            Enter your new password below
                         </Typography>
 
-                        <Typography variant="body2" sx={{ mb: 5 }}>
-                            Please enter your email or mobile number to search
-                            for your account. <br/>
-                            Do you remember your password? {""}
-                            <Link href="/login">Login Here</Link>
-                        </Typography>
                         <ResetPasswordForm />
+
                     </StyledContent>
                 </Container>
             </StyledRoot>
