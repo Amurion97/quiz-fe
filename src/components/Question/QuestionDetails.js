@@ -3,7 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import {
-    Button,
+    Button, Collapse,
     Divider,
     Grid,
     IconButton,
@@ -30,6 +30,7 @@ import Dialog from "@mui/material/Dialog";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {useNavigate} from "react-router-dom";
 import {Alert} from "@mui/lab";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function QuestionDetails({currentQuestion, updateQuestions}) {
     const navigate = useNavigate()
@@ -61,6 +62,7 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
 
     const handleCloseConfirm = () => {
         setOpenConfirm(false);
+        setOpen(false)
     };
 
     let id,
@@ -219,7 +221,7 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
                 <DialogTitle>Delete Question</DialogTitle>
                 <DialogContent>
-                    <Alert severity="success" >
+                    <Alert severity="success">
                         Question deleted successfully!
                     </Alert>
 
@@ -228,6 +230,30 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                     <Button onClick={handleCloseDialog}>OK</Button>
                 </DialogActions>
             </Dialog>
+            <DialogContentText id="alert-dialog-description">
+                <Collapse in={open}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit"/>
+                            </IconButton>
+                        }
+                        sx={{mb: 2}}
+                        variant="filled" severity="error"
+                    >
+                        Error in delete question
+                        }
+                    </Alert>
+                </Collapse>
+                This action can not be undone
+            </DialogContentText>
         </>
     )
 }
