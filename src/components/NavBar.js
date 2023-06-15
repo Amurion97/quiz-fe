@@ -6,7 +6,7 @@ import {logout, selectUser} from "../features/user/userSlice";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {
-    Avatar, Button, Dialog, Divider,
+    Avatar, Button, Collapse, Dialog, Divider,
     Grid,
     IconButton,
     List,
@@ -34,6 +34,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
+import {Alert} from "@mui/lab";
+import CloseIcon from "@mui/icons-material/Close";
+import {customAPIv1} from "../features/customAPI";
 
 
 // sections
@@ -84,7 +87,13 @@ export default function NavBar(props) {
     const user = useSelector(selectUser);
     console.log("user:", user)
     const [selectedIndex, setSelectedIndex] = useState(0);
-
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const handleCloseConfirm = () => {
+        setOpenConfirm(false);
+    };
+    const handleClickOpenConfirm = () => {
+        setOpenConfirm(true);
+    };
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
@@ -157,8 +166,7 @@ export default function NavBar(props) {
                                     }}>Profile</MenuItem>
                                     <MenuItem onClick={handleClose}>My account</MenuItem>
                                     <MenuItem onClick={() => {
-                                        dispatch(logout());
-                                        navigate("/login");
+                                        handleClickOpenConfirm()
                                     }}>Logout</MenuItem>
                                 </Menu>
                             </Grid>
@@ -301,6 +309,25 @@ export default function NavBar(props) {
                 </div>
 
             </StyledRoot>
+            <Dialog
+                open={openConfirm}
+                onClose={handleCloseConfirm}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                        {"Are you sure you want to sign out?"}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={handleCloseConfirm}>Cancel</Button>
+                    <Button onClick={() => {
+                        dispatch(logout())
+                        navigate("/login")
+                    }} autoFocus variant="contained" color="primary">
+                       OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
         ;
