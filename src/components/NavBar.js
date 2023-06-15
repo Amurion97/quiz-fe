@@ -258,7 +258,8 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <AddCircleIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Create a question" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Create a question"
+                                                      style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
@@ -316,15 +317,17 @@ export default function NavBar(props) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                        {"Are you sure you want to sign out?"}
+                    {"Are you sure you want to sign out?"}
                 </DialogTitle>
                 <DialogActions>
                     <Button onClick={handleCloseConfirm}>Cancel</Button>
-                    <Button onClick={() => {
-                        dispatch(logout())
-                        navigate("/login")
-                    }} autoFocus variant="contained" color="primary">
-                       OK
+                    <Button
+                        onClick={() => {
+                            dispatch(logout())
+                            navigate("/login")
+                        }}
+                        autoFocus variant="contained" color="primary">
+                        OK
                     </Button>
                 </DialogActions>
             </Dialog>
