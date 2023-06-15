@@ -30,6 +30,9 @@ export default function ResetPasswordForm() {
             })
             .then((data) => {
                 console.log("data cua useEffect", data);
+            })
+            .catch(e=>{
+                console.log("error", e);
             });
     }, []);
     useEffect(() => {
