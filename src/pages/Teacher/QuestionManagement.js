@@ -19,20 +19,20 @@ export default function QuestionManagement() {
     console.log("selectedType:", selectedTypesIDs)
     console.log("selectedDifficulties:", difficultiesIDs);
     const filteredQuestions = listQuestion
-        .filter(item => {
-            return (selectedTypesIDs.length === 0 ? true :
-                selectedTypesIDs.includes(item.type.id))
-        })
-        .filter((item) => {
-            return difficultiesIDs.length === 0 ? true :
-                difficultiesIDs.includes(item.difficulty.id)
-        })
-        .filter((item) => {
-            return selectedTagIDs.length === 0 ? true :
-                item.tags.some(tag => {
-                    return selectedTagIDs.includes(tag.id)
-                })
-        })
+        // .filter(item => {
+        //     return (selectedTypesIDs.length === 0 ? true :
+        //         selectedTypesIDs.includes(item.type.id))
+        // })
+        // .filter((item) => {
+        //     return difficultiesIDs.length === 0 ? true :
+        //         difficultiesIDs.includes(item.difficulty.id)
+        // })
+        // .filter((item) => {
+        //     return selectedTagIDs.length === 0 ? true :
+        //         item.tags.some(tag => {
+        //             return selectedTagIDs.includes(tag.id)
+        //         })
+        // })
     const handleCheckTags = (event) => {
         const {name, checked} = event.target;
         let index = selectedTagIDs.findIndex(id => id === parseInt(name));
@@ -73,8 +73,6 @@ export default function QuestionManagement() {
                 selectedTagIDs: selectedTagIDs,
                 selectedTypesIDs: selectedTypesIDs,
                 difficultiesIDs: difficultiesIDs,
-
-
             }
         })
             .then(res => {
@@ -108,8 +106,11 @@ export default function QuestionManagement() {
                 <Grid item xs={3}>
                     <Paper
                         component="form"
-                        sx={{p: '2px 4px', alignItems: 'center'}}
+                        sx={{p: '2px 4px', display: 'flex', alignItems: 'center',}}
                     >
+                        <IconButton type="button" sx={{ p: '10px'}} aria-label="search" disabled>
+                            <SearchIcon />
+                        </IconButton>
                         <InputBase
                             sx={{ml: 3, flex: 1,width : 200}}
                             placeholder="Search Here"
@@ -117,9 +118,7 @@ export default function QuestionManagement() {
                             onChange={handleInputChange}
                             value={currentQuestion}
                         />
-                        <IconButton type="button" sx={{ p: '10px',width :80}} aria-label="search">
-                            <SearchIcon />
-                        </IconButton>
+
                     </Paper>
 
                     <GroupFilter
