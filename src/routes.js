@@ -15,7 +15,7 @@ import PhonePage from "./pages/Test/PhonePage";
 import AddPhoneForm from "./pages/Test/AddPhoneForm";
 import EditPhoneForm from "./pages/Test/EditPhoneForm";
 import Detail from "./pages/Test/Detail";
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import StudentLayout from "./layouts/StudentLayout";
 import TagPage from "./pages/User/TagPage";
@@ -28,7 +28,7 @@ import QuestionManagement from "./pages/Teacher/QuestionManagement";
 export default function Router() {
     let user = useSelector(({user}) => {
         return user;
-      });
+    });
     const routes = useRoutes([
         {
             path: '/dashboard',
@@ -36,7 +36,7 @@ export default function Router() {
             children: [
                 {element: <Navigate to="/dashboard/createFlight"/>, index: true},
                 {path: 'createFlight', element: <FlightCreationPage/>},
-                {path: 'users', element: (user.info? (user.info.role === 1 ? <UsersPage/>: <Page404/>):<Page404/>)},
+                {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
                 {path: 'questions', element: <QuestionManagement/>},
                 {path: 'aircraft', element: <AircraftPage/>},
                 {path: 'flights', element: <FlightPage/>},
@@ -47,13 +47,15 @@ export default function Router() {
                 {path: 'tag', element: <TagPage/>},
             ],
         },
-        {path: '/students',
+        {
+            path: '/students',
             element: <StudentLayout/>,
-            children:[
+            children: [
                 {element: <Navigate to="/students/listData"/>, index: true},
                 {path: 'listData', element: <QuestionSearchResults/>},
-                {path: 'users', element: (user.info? (user.info.role === 1 ? <UsersPage/>: <Page404/>):<Page404/>)},
-            ]},
+                {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
+            ]
+        },
 
         {
             path: '/login',

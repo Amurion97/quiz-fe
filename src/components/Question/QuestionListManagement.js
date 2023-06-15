@@ -7,8 +7,7 @@ import {useEffect, useState} from "react";
 import {customAPIv1} from "../../features/customAPI";
 import {Pagination} from "@mui/lab";
 
-export default function QuestionListManagement({selectedTagIDs, setCurrentQuestion, listQuestion}) {
-
+export default function QuestionListManagement({setCurrentQuestion, listQuestion}) {
     const [page, setPage] = useState(1);
     const rowsPerPage = 4;
 
@@ -16,7 +15,9 @@ export default function QuestionListManagement({selectedTagIDs, setCurrentQuesti
         setPage(newPage);
     };
 
-
+    useEffect(() => {
+        setPage(1)
+    }, [listQuestion])
 
     return (
         <>

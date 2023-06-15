@@ -58,7 +58,8 @@ export default function QuestionSearchResults() {
             </Grid>
 
             <Grid item xs={4}>
-                <QuestionList selectedTagIDs={selectedTagIDs}>
+                <QuestionList selectedTagIDs={selectedTagIDs} selectedTypesIDs={selectedTypesIDs}
+                              difficultiesIDs={difficultiesIDs}>
                 </QuestionList>
             </Grid>
 
