@@ -38,15 +38,9 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
     const [currentQuestionId, setCurrentQuestionId] = useState(0);
     const [openConfirm, setOpenConfirm] = useState(false);
     const [open, setOpen] = useState(false);
-    const [openDialog, setOpenDialog] = useState(false);
+    const [openSuccess, setOpenSuccess] = useState(false);
 
-    const handleClickOpenDialog = () => {
-        setOpenDialog(true);
-    };
 
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
     const handleOpenMenu = (event) => {
         setOpenMenu(event.currentTarget);
     };
@@ -183,55 +177,36 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
 
             <Dialog
                 open={openConfirm}
-                onClose={handleCloseConfirm}
+                onClose={() => {
+                    handleCloseConfirm()
+                    setOpenSuccess(false);
+                    setOpen(false);
+                }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
                     {"Are you sure to delete this question?"}
                 </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        This action can not be undone
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseConfirm}>Cancel</Button>
-                    <Button
-                        onClick={() => {
-                            customAPIv1()
-                                .delete(`/questions/${currentQuestionId}`)
-                                .then((res) => {
-                                    updateQuestions();
-                                    handleCloseConfirm();
-                                    handleClickOpenDialog()
-                                })
-                                .catch((e) => {
-                                    setOpen(true);
-                                    console.log("error in delete:", e);
-                                });
-                        }}
-                        autoFocus
-                        variant="contained"
-                        color="error">
-                        Remove Question
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
-                <DialogTitle>Delete Question</DialogTitle>
-                <DialogContent>
-                    <Alert severity="success">
-                        Question deleted successfully!
+                <Collapse in={openSuccess}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpenSuccess(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit"/>
+                            </IconButton>
+                        }
+                        sx={{mb: 2}}
+                        variant="filled" severity="success"
+                    >
+                        Question delete Success!
                     </Alert>
-
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog}>OK</Button>
-                </DialogActions>
-            </Dialog>
-
-            <DialogContentText id="alert-dialog-description">
+                </Collapse>
                 <Collapse in={open}>
                     <Alert
                         action={
@@ -253,8 +228,36 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                         }
                     </Alert>
                 </Collapse>
-                This action can not be undone
-            </DialogContentText>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        This action can not be undone
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleCloseConfirm}>Cancel</Button>
+                    <Button
+                        onClick={() => {
+                            customAPIv1()
+                                .delete(`/questions/${currentQuestionId}`)
+                                .then((res) => {
+                                    updateQuestions();
+                                    // handleCloseConfirm();
+                                    setOpenSuccess(true);
+                                })
+                                .catch((e) => {
+                                    setOpen(true);
+                                    console.log("error in delete:", e);
+                                });
+                        }}
+                        autoFocus
+                        variant="contained"
+                        color="error">
+                        Remove Question
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </>
     )
 }
