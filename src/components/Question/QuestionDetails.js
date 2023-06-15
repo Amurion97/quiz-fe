@@ -32,7 +32,7 @@ import {useNavigate} from "react-router-dom";
 import {Alert} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function QuestionDetails({currentQuestion, updateQuestions}) {
+export default function QuestionDetails({currentQuestion, setCurrentQuestion, updateQuestions}) {
     const navigate = useNavigate()
     const [openMenu, setOpenMenu] = useState(null);
     const [currentQuestionId, setCurrentQuestionId] = useState(0);
@@ -225,7 +225,6 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                         variant="filled" severity="error"
                     >
                         Error in delete question
-                        }
                     </Alert>
                 </Collapse>
                 <DialogContent>
@@ -244,6 +243,7 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                                     updateQuestions();
                                     // handleCloseConfirm();
                                     setOpenSuccess(true);
+                                    setCurrentQuestion(null);
                                 })
                                 .catch((e) => {
                                     setOpen(true);

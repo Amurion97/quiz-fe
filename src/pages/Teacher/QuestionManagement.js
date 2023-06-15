@@ -89,7 +89,8 @@ export default function QuestionManagement() {
                 </Grid>
 
                 <Grid item xs={6}>
-                    <QuestionDetails currentQuestion={currentQuestion} updateQuestions={updateQuestions}/>
+                    <QuestionDetails currentQuestion={currentQuestion} updateQuestions={updateQuestions}
+                                     setCurrentQuestion={setCurrentQuestion}/>
                 </Grid>
 
             </Grid>
