@@ -163,7 +163,7 @@ export default function NavBar(props) {
                                 >
                                     <MenuItem onClick={() => {
                                         handleClickOpenDialog()
-                                    }}>Profile</MenuItem>
+                                    }}>Change password</MenuItem>
                                     <MenuItem onClick={handleClose}>My account</MenuItem>
                                     <MenuItem onClick={() => {
                                         handleClickOpenConfirm()
@@ -174,84 +174,32 @@ export default function NavBar(props) {
                     </UserInfoBox>
 
                 </div>
-                <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
-                    <DialogTitle>Change password</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Mật khẩu dài tối đa 8 kí tự,
-                            Mật khẩu mới phải khác mật khẩu cũ
-                        </DialogContentText>
-                        <ChangePasswordForm>
-                        </ChangePasswordForm>
 
-                    </DialogContent>
-                    <DialogActions>
-                    </DialogActions>
-                </Dialog>
                 <div className="navbar-item3">
                     <Box sx={{width: '100%', maxWidth: 360}}>
                         <List component="nav" aria-label="main mailbox folders">
 
-                            <StyledListItemButton
-                                selected={selectedIndex === 0}
-                                onClick={(event) => {
-                                    handleListItemClick(event, 0)
-                                    navigate("/dashboard/createFlight")
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <AddBoxIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Create A Flight" style={{color: theme.palette.text.primary}}/>
-                            </StyledListItemButton>
-
-
-                            <StyledListItemButton
-                                selected={selectedIndex === 1}
-                                onClick={(event) => {
-                                    handleListItemClick(event, 1)
-                                    navigate("/dashboard/flights")
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <FlightTakeoffIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Flights" style={{color: theme.palette.text.primary}}/>
-                            </StyledListItemButton>
-
-                            <StyledListItemButton
-                                selected={selectedIndex === 2}
-                                onClick={(event) => {
-                                    handleListItemClick(event, 2)
-                                    navigate("/dashboard/aircraft")
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <AirplanemodeActiveIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Aircraft" style={{color: theme.palette.text.primary}}/>
-                            </StyledListItemButton>
-
-                            <StyledListItemButton
-                                selected={selectedIndex === 5}
-                                onClick={(event) => {
-                                    handleListItemClick(event, 5)
-                                    navigate("/dashboard/tag")
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <LocalOfferIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Tag" style={{color: theme.palette.text.primary}}/>
-                            </StyledListItemButton>
 
                             {(user.info.role <= 2) && (
                                 <>
                                     <Divider/>
                                     <StyledListItemButton
-                                        selected={selectedIndex === 3}
+                                        selected={selectedIndex === 0}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 3)
+                                            handleListItemClick(event, 0)
+                                            navigate("/dashboard/tag")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <LocalOfferIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Tag" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
+
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 1}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 1)
                                             navigate("/dashboard/createQuestion")
                                         }}
                                     >
@@ -263,9 +211,9 @@ export default function NavBar(props) {
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
-                                        selected={selectedIndex === 4}
+                                        selected={selectedIndex === 2}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 4)
+                                            handleListItemClick(event, 2)
                                             navigate("/dashboard/questions")
                                         }}
                                     >
@@ -292,24 +240,28 @@ export default function NavBar(props) {
                                         <ListItemText primary="Users" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
-                                    <StyledListItemButton
-                                        selected={selectedIndex === 4}
-                                        onClick={(event) => {
-                                            handleListItemClick(event, 4)
-                                            navigate("/dashboard/airports")
-                                        }}
-                                    >
-                                        <ListItemIcon>
-                                            <EditRoadIcon/>
-                                        </ListItemIcon>
-                                        <ListItemText primary="Airports" style={{color: theme.palette.text.primary}}/>
-                                    </StyledListItemButton>
                                 </>)}
                         </List>
                     </Box>
                 </div>
 
             </StyledRoot>
+
+            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
+                <DialogTitle>Change password</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Mật khẩu dài tối đa 8 kí tự,
+                        Mật khẩu mới phải khác mật khẩu cũ
+                    </DialogContentText>
+                    <ChangePasswordForm>
+                    </ChangePasswordForm>
+
+                </DialogContent>
+                <DialogActions>
+                </DialogActions>
+            </Dialog>
+
             <Dialog
                 open={openConfirm}
                 onClose={handleCloseConfirm}
