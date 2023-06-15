@@ -21,15 +21,54 @@ export default function Search() {
             sx={{p: '2px 4px', alignItems: 'center'}}
         >
             <InputBase
-                sx={{ml: 3, flex: 1,width : "90%"}}
+                sx={{ml: 3, flex: 1,width : 200}}
                 placeholder="Search Here"
                 inputProps={{'aria-label': 'search '}}
                 onChange={handleInputChange}
                 value={searchValue}
             />
-            <IconButton type="button" sx={{p: '10px'}} aria-label="search" onClick={handleSearch}>
+            <IconButton type="button" fontSize="small" aria-label="search" onClick={handleSearch}>
                 <SearchIcon/>
             </IconButton>
         </Paper>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

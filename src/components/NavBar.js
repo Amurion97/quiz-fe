@@ -26,19 +26,13 @@ import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import EditRoadIcon from '@mui/icons-material/EditRoad';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 // components
 import Logo from "./logo";
-import {Search} from "./Forms/NewNavbarComponent/Search";
-import {InputBase} from "formik-mui";
-import SearchIcon from "@mui/icons-material/Search";
-import MenuIcon from '@mui/icons-material/Menu';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import AddIcon from "@mui/icons-material/Add";
 import ChangePasswordForm from "./Forms/ChangePasswordForm";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import AddAircraftForm from "./Forms/AddAircraftForm";
 import DialogActions from "@mui/material/DialogActions";
 
 
@@ -172,7 +166,7 @@ export default function NavBar(props) {
                     </UserInfoBox>
 
                 </div>
-                <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
+                <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
                     <DialogTitle>Change password</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -263,13 +257,13 @@ export default function NavBar(props) {
                                         selected={selectedIndex === 4}
                                         onClick={(event) => {
                                             handleListItemClick(event, 4)
-                                            navigate("/dashboard/airports")
+                                            navigate("/dashboard/questions")
                                         }}
                                     >
                                         <ListItemIcon>
-                                            <EditRoadIcon/>
+                                            <QuestionMarkIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Airports" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Questions" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
                                 </>)}
 
