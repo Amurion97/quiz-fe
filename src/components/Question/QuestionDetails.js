@@ -215,7 +215,8 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
+
+            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
                 <DialogTitle>Delete Question</DialogTitle>
                 <DialogContent>
                     <Alert severity="success" >
