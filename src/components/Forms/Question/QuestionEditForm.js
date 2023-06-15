@@ -148,6 +148,7 @@ export default function QuestionEditForm({question, tags}) {
         let answers = [];
         values.trueIndex = parseInt(values.trueIndex);
         values.type = parseInt(values.type);
+        values.difficulty = parseInt(values.difficulty);
 
         if (values.content === "") {
             setMessage("Question content must not be blank");
@@ -155,6 +156,14 @@ export default function QuestionEditForm({question, tags}) {
             error = true;
         } else if (values.type === 3 && trueIndexes.length < 2) {
             setMessage("Please select at least 2 answers");
+            setOpenDialog(true)
+            error = true;
+        } else if (values.type < 3 && values.trueIndex < 0) {
+            setMessage("Please select 1 answers");
+            setOpenDialog(true)
+            error = true;
+        } else if (isNaN(values.difficulty)) {
+            setMessage("Please choose difficulty for the question");
             setOpenDialog(true)
             error = true;
         } else {
@@ -171,6 +180,11 @@ export default function QuestionEditForm({question, tags}) {
                 ]
             } else {
                 for (let i = 0; i < answerNumber; i++) {
+                    if (values[`answer-${i}`] === "" || values[`answer-${i}`] === undefined) {
+                        setMessage("Please fill in or delete empty answers ");
+                        setOpenDialog(true)
+                        error = true;
+                    }
                     answers.push({
                         content: values[`answer-${i}`],
                         isTrue: values.type <= 2 ? values.trueIndex === i : trueIndexes.includes(i)
@@ -190,12 +204,14 @@ export default function QuestionEditForm({question, tags}) {
                     })
                     .catch(e => {
                         console.log("error in save question:", e);
-                        window.alert('failed, try again');
+                        setMessage("Failed, try again");
+                        setOpenDialog(true)
                         setSubmitting(false)
                     })
             } catch (e) {
                 console.log("error in save question:", e);
-                window.alert('failed, try again');
+                setMessage("Failed, try again");
+                setOpenDialog(true)
                 setSubmitting(false)
             }
         } else {
@@ -306,10 +322,10 @@ export default function QuestionEditForm({question, tags}) {
                                 />
                             </Grid>
 
-                            <Grid item xs={12}>
-                                <p>{JSON.stringify(values)}</p>
-                                <p>id: {question.id}</p>
-                            </Grid>
+                            {/*<Grid item xs={12}>*/}
+                            {/*    <p>{JSON.stringify(values)}</p>*/}
+                            {/*    <p>id: {question.id}</p>*/}
+                            {/*</Grid>*/}
 
                             <Grid item xs={12}>
                                 <Field component={RadioGroup} name={'trueIndex'}>

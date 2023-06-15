@@ -10,6 +10,8 @@ import {useEffect, useState} from "react";
 import Page404 from "../Page404";
 import QuestionEditForm from "../../components/Forms/Question/QuestionEditForm";
 import {customAPIv1} from "../../features/customAPI";
+import SearchIcon from "@mui/icons-material/Search";
+import {LoadingButton} from "@mui/lab";
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +56,14 @@ export default function QuestionEditPage() {
                 }}
             >
                 <Grid item xs={12}>
-                    {question && tags ? <QuestionEditForm question={question} tags={tags}/> : <Page404/>}
+                    {!question ? <Page404/> : (tags ? <QuestionEditForm question={question} tags={tags}/>
+                        : <LoadingButton
+                            fullWidth size="large" type="submit" variant="contained"
+                            loading={true}
+                            loadingPosition="start"
+                            startIcon={<SearchIcon/>}>
+                            <span>Loading…</span>
+                        </LoadingButton>)}
 
                 </Grid>
             </Grid>
