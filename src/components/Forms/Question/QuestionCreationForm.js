@@ -307,9 +307,9 @@ export default function QuestionCreationForm() {
                                 />
                             </Grid>
 
-                            <Grid item xs={12}>
-                                <p>{JSON.stringify(values)}</p>
-                            </Grid>
+                            {/*<Grid item xs={12}>*/}
+                            {/*    <p>{JSON.stringify(values)}</p>*/}
+                            {/*</Grid>*/}
 
                             <Grid item xs={12}>
                                 <Field component={RadioGroup} name={'trueIndex'}>

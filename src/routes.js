@@ -21,6 +21,7 @@ import RegisterPage from "./pages/RegisterPage";
 import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 import QuestionManagement from "./pages/Teacher/QuestionManagement";
 import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
+import TestResultPage from "./pages/StudentFlow/TestResult";
 
 // ----------------------------------------------------------------------
 
@@ -95,6 +96,10 @@ export default function Router() {
         {
             path: '/reset-password',
             element: <ResetPasswordPage/>,
+        },
+        {
+            path: '/testresult',
+            element: <TestResultPage/>,
         },
 
 
