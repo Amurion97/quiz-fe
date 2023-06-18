@@ -1,17 +1,28 @@
 import {Navigate, useRoutes} from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import Page404 from './pages/Page404';
+
+//layouts
 import DashboardLayout from "./layouts/DashboardLayout";
-import UsersPage from "./pages/AdminPrivilege/UsersPage";
-import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
-import StudentLayout from "./layouts/StudentLayout";
+
+// user flow
+import LoginPage from './pages/LoginPage';
 import ForgotPasswordPage from './pages/ResetRequestPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import RegisterPage from "./pages/RegisterPage";
-import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
+import Page404 from './pages/Page404';
+
+//admin flow
+import UsersPage from "./pages/AdminPrivilege/UsersPage";
+
+//teacher flow
+import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import QuestionManagement from "./pages/Teacher/QuestionManagement";
 import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
 import TagPage from "./pages/Teacher/TagPage";
+
+//student flow
+import StudentLayout from "./layouts/StudentLayout";
+import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
+
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
