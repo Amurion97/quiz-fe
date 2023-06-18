@@ -3,18 +3,18 @@ import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import DashboardLayout from "./layouts/DashboardLayout";
 import UsersPage from "./pages/AdminPrivilege/UsersPage";
-import {useSelector} from 'react-redux';
 import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import StudentLayout from "./layouts/StudentLayout";
-import TagPage from "./pages/User/TagPage";
 import ForgotPasswordPage from './pages/ResetRequestPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import RegisterPage from "./pages/RegisterPage";
 import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 import QuestionManagement from "./pages/Teacher/QuestionManagement";
 import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
+import TagPage from "./pages/Teacher/TagPage";
+// redux
+import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
-
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -37,14 +37,15 @@ export default function Router() {
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
             ] : [],
         },
-        {
-            path: '/students',
-            element: <StudentLayout/>,
-            children: [
-                {element: <Navigate to="/students/listData"/>, index: true},
-                {path: 'listData', element: <QuestionSearchResults/>},
-            ]
-        },
+
+        // {
+        //     path: '/students',
+        //     element: <StudentLayout/>,
+        //     children: [
+        //         {element: <Navigate to="/students/listData"/>, index: true},
+        //         {path: 'listData', element: <QuestionSearchResults/>},
+        //     ]
+        // },
 
         {
             path: '/login',
