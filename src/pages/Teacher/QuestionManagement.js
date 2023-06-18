@@ -76,8 +76,8 @@ export default function QuestionManagement() {
         })
             .then(res => {
                 console.log("questions:", res.data);
-                setListQuestion(res.data.data[0]);
-                setResultNumber(res.data.data[1]);
+                setListQuestion(res.data.data['questions']);
+                setResultNumber(res.data.data['questionCount']);
             })
             .catch(e => console.log("error in get questions:", e))
     };
@@ -114,7 +114,7 @@ export default function QuestionManagement() {
                             placeholder="Search Here"
                             inputProps={{'label': 'search '}}
                             onChange={handleInputChange}
-                            value={currentQuestionId}
+                            value={contentQuery}
                         />
 
                     </Paper>

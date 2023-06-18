@@ -19,7 +19,7 @@ import {selectUser} from "./features/user/userSlice";
 
 export default function Router() {
     let user = useSelector(selectUser);
-    const routes = useRoutes([
+    return useRoutes([
         {
             path: '/dashboard',
             element: user.info ? <DashboardLayout/> : <Navigate to={'/login'}/>,
@@ -43,7 +43,6 @@ export default function Router() {
             children: [
                 {element: <Navigate to="/students/listData"/>, index: true},
                 {path: 'listData', element: <QuestionSearchResults/>},
-                {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
             ]
         },
 
@@ -73,7 +72,7 @@ export default function Router() {
             path: "/",
             // element: <Navigate to="/login"/>,
             element: (user.info ? (user.info.role <= 2 ? <Navigate to="/dashboard"/> :
-                <Navigate to="/students/listData"/>) : <Navigate to="/login"/>),
+                <Navigate to="/dashboard"/>) : <Navigate to="/login"/>),
         },
 
 
@@ -82,6 +81,4 @@ export default function Router() {
             element: <Navigate to="/404" replace/>,
         },
     ]);
-
-    return routes;
 }
