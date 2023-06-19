@@ -7,6 +7,7 @@ import {customAPIv1} from "../../features/customAPI";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
+import QuestionList from "../../components/Question/QuestionList";
 
 export default function QuestionManagement() {
     const [selectedTagIDs, setSelectedTagIDs] = useState([]);
@@ -131,8 +132,9 @@ export default function QuestionManagement() {
                 </Grid>
 
                 <Grid item xs={4}>
-                    <QuestionListManagement selectedTagIDs={selectedTagIDs} setCurrentQuestion={setCurrentQuestion}
-                                            listQuestion={filteredQuestions}/>
+                    {/* <QuestionListManagement selectedTagIDs={selectedTagIDs} setCurrentQuestion={setCurrentQuestion}
+                                            listQuestion={filteredQuestions}/> */}
+                                            <QuestionList></QuestionList>
                 </Grid>
 
                 <Grid item xs={5}>

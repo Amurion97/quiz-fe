@@ -22,8 +22,8 @@ import TagPage from "./pages/User/TagPage";
 import RegisterPage from "./pages/RegisterPage";
 import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 import QuestionManagement from "./pages/Teacher/QuestionManagement";
-
-// ----------------------------------------------------------------------
+import { StartQuestions } from './pages/User/StartQuestions';
+import { GoogleLoginButton } from './components/Google/GoogleLogin';
 
 export default function Router() {
     let user = useSelector(({user}) => {
@@ -49,11 +49,12 @@ export default function Router() {
         },
         {
             path: '/students',
-            element: <StudentLayout/>,
+            element: <StartQuestions/>,
             children: [
-                {element: <Navigate to="/students/listData"/>, index: true},
-                {path: 'listData', element: <QuestionSearchResults/>},
-                {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
+                // {element: <Navigate to="/students/listData"/>, index: true},
+                // {path: 'listData', element: <QuestionSearchResults/>},
+                // {path: 'start', element: <StartQuestions/>},
+                // {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
             ]
         },
 
@@ -61,6 +62,7 @@ export default function Router() {
             path: '/login',
             element: <LoginPage/>,
         },
+      
         {
             path: '/register',
             element: <RegisterPage/>,

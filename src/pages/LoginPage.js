@@ -7,6 +7,7 @@ import {Link, Container, Typography} from '@mui/material';
 import Logo from '../components/logo';
 // sections
 import LoginForm from '../components/Forms/LoginForm';
+import { GoogleLoginButton } from '../components/Google/GoogleLogin';
 
 // ----------------------------------------------------------------------
 
@@ -74,6 +75,8 @@ export default function LoginPage() {
                         </Typography>
 
                         <LoginForm/>
+                      
+                        
                     </StyledContent>
                 </Container>
             </StyledRoot>

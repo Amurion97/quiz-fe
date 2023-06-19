@@ -16,6 +16,7 @@ import {TextField} from 'formik-mui';
 import CloseIcon from '@mui/icons-material/Close';
 import * as Yup from 'yup';
 import {customAPIv1} from "../../features/customAPI";
+import GoogleLoginButton from '../Google/GoogleLogin';
 // components
 const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
 const SchemaError = Yup.object().shape({
@@ -237,6 +238,7 @@ export default function RegisterForm() {
                                     <span>{(isSubmitting) ? "Registering…" : "Submit"}</span>
                                 </LoadingButton>
                             </Stack>
+                            <GoogleLoginButton></GoogleLoginButton>
 
                         </Form>
                     )
