@@ -60,7 +60,7 @@ export default function LoginForm() {
                                 else if (role === 2)
                                     navigate("/dashboard/questions")
                                 else
-                                    navigate("/dashboard/404")
+                                    navigate("/students")
                             }
 
                         })

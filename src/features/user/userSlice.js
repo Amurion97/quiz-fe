@@ -2,7 +2,6 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {customAPIv1} from "../customAPI";
 
 const initialState = {
-
         state: "idle",
         info: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).info : undefined ,
         token: {}
@@ -70,6 +69,7 @@ export const userSlice = createSlice({
 
 export const {logout} = userSlice.actions;
 export const selectUser = (state) => state.user;
+export const selectUserInfo = (state) => state.user.info;
 
 const userReducer = userSlice.reducer
 export default userReducer;
