@@ -31,7 +31,6 @@ export default function QuestionListManagement({setCurrentQuestionId, listQuesti
                                   {...props(id)}
                             >
                                 <CardContent>
-
                                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                         Độ khó: {difficulty.name}
                                     </Typography>

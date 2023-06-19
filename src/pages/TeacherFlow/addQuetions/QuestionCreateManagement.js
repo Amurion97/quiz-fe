@@ -113,8 +113,6 @@ export default function QuestionCreateManagement() {
 
             <Grid container spacing={3}>
                 <Grid item xs={5}>
-
-
                     {isHovered ? (
                         <Grid item xs={5}
                               elevation={3}

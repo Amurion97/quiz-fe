@@ -1,14 +1,39 @@
-import {Card, CardContent, CardMedia, Grid, IconButton, Paper, Typography} from "@mui/material";
+import {
+    Card,
+    CardContent,
+    CardMedia,
+    Grid,
+    IconButton,
+    Input,
+    Paper,
+    Typography,
+    Autocomplete,
+    TextField
+} from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 import CardActions from "@mui/material/CardActions";
 import AlarmIcon from "@mui/icons-material/Alarm";
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import React from "react";
-import QuestionManagement from "../Teacher/QuestionManagement";
+import React, {useEffect, useState} from "react";
 import QuestionCreateManagement from "./addQuetions/QuestionCreateManagement";
+import {customAPIv1} from "../../features/customAPI";
 
 export default function TestCreatePage() {
+    const [tags, setTags] = useState([]);
+    useEffect(() => {
+        customAPIv1().get("/tags")
+            .then(res => {
+                console.log("tags:", res.data.data);
+                setTags(res.data.data.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id
+                    }
+                }))
+            })
+            .catch(e => console.log("error in get tags:", e))
+    }, [])
     return (
         <>
             <Grid container sx={{p:10}}>
@@ -21,9 +46,21 @@ export default function TestCreatePage() {
                             alt="Paella dish"
                         />
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Tên bài thi ........
-                            </Typography>
+                                <Input
+                                    label="Search Here"
+                                    placeholder="Test Name"
+                                    sx={{
+                                        ml: 3,
+                                        flex: 1,
+                                        width: 200,
+                                        '& input': {
+                                            textAlign: 'center',
+                                            fontWeight: 'bolder',
+                                            fontSize: '1.5em',
+                                            textOverflow: 'ellipsis',
+                                        },
+                                    }}
+                                />
                             <Grid container>
                                 <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
                                     <CardHeader
@@ -38,7 +75,27 @@ export default function TestCreatePage() {
                                     </CardActions>
                                 </Grid>
                             </Grid>
+                            <Grid item xs={12}>
+                                <Paper sx={{ p: 1 }}>
+                                    <Autocomplete
+                                        name="tags"
+                                        multiple
+                                        options={tags}
+                                        getOptionLabel={(option) => option.name}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                name="tag"
+                                                label="Tags"
+                                                variant="outlined"
+                                                fullWidth
+                                            />
+                                        )}
+                                    />
+                                </Paper>
+                            </Grid>
                         </CardContent>
+
                     </Card>
                 </Grid>
                 <Grid item xs={4} >
