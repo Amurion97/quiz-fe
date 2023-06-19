@@ -57,7 +57,7 @@ export default function RegisterPage() {
 
                 <StyledSection>
                     <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
-                        Hi, Welcome Back
+                        Hi, Welcome to Quiz
                     </Typography>
                     <img src="/assets/illustrations/All the data-rafiki.png" alt="login"/>
                 </StyledSection>

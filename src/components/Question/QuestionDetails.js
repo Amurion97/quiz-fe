@@ -32,10 +32,11 @@ import {useNavigate} from "react-router-dom";
 import {Alert} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function QuestionDetails({currentQuestion, updateQuestions}) {
+export default function QuestionDetails({currentQuestionId, setCurrentQuestionId, updateQuestions}) {
+    console.log("question details rendering:", currentQuestionId)
     const navigate = useNavigate()
     const [openMenu, setOpenMenu] = useState(null);
-    const [currentQuestionId, setCurrentQuestionId] = useState(0);
+    const [currentQuestion, setCurrentQuestion] = useState(null);
     const [openConfirm, setOpenConfirm] = useState(false);
     const [open, setOpen] = useState(false);
     const [openSuccess, setOpenSuccess] = useState(false);
@@ -75,7 +76,18 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
             type
         } = currentQuestion);
     }
-
+    useEffect(() => {
+        if (currentQuestionId) {
+            customAPIv1().get(`questions/${currentQuestionId}`)
+                .then(res => {
+                    console.log("question details:", res.data)
+                    setCurrentQuestion(res.data.data)
+                })
+                .catch(e => {
+                    console.log('error in get question details:', e)
+                })
+        }
+    }, [currentQuestionId])
 
     return (
         <>
@@ -106,7 +118,6 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                                         size="large"
                                         color="inherit"
                                         onClick={(e) => {
-                                            setCurrentQuestionId(id);
                                             handleOpenMenu(e);
                                         }}>
                                         <MoreVertIcon fontSize="small"/>
@@ -225,7 +236,6 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                         variant="filled" severity="error"
                     >
                         Error in delete question
-                        }
                     </Alert>
                 </Collapse>
                 <DialogContent>
@@ -244,6 +254,7 @@ export default function QuestionDetails({currentQuestion, updateQuestions}) {
                                     updateQuestions();
                                     // handleCloseConfirm();
                                     setOpenSuccess(true);
+                                    setCurrentQuestion(null);
                                 })
                                 .catch((e) => {
                                     setOpen(true);

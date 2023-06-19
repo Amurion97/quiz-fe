@@ -209,12 +209,14 @@ export default function QuestionCreationForm() {
                     })
                     .catch(e => {
                         console.log("error in save question:", e);
-                        window.alert('failed, try again');
+                        setMessage("Failed, try again");
+                        setOpenDialog(true)
                         setSubmitting(false)
                     })
             } catch (e) {
                 console.log("error in save question:", e);
-                window.alert('failed, try again');
+                setMessage("Failed, try again");
+                setOpenDialog(true)
                 setSubmitting(false)
             }
         } else {
@@ -230,6 +232,7 @@ export default function QuestionCreationForm() {
                     type: 1,
                     content: "",
                     difficulty: -1,
+                    tags: [],
                 }}
                 validate={(values) => {
                     const errors = {};

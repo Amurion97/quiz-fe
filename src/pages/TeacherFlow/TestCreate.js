@@ -5,6 +5,8 @@ import AlarmIcon from "@mui/icons-material/Alarm";
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import React from "react";
+import QuestionManagement from "../Teacher/QuestionManagement";
+import QuetionListCreateManagement from "./addQuetions/QuetionListCreateManagement";
 
 export default function TestCreatePage() {
     return (
@@ -69,7 +71,7 @@ export default function TestCreatePage() {
                     </Paper>
                 </Grid>
                 <Grid item xs={5.5} >
-
+                    <QuetionListCreateManagement/>
                 </Grid>
             </Grid>
         </>
