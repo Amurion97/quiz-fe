@@ -8,32 +8,30 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 import QuestionList from "../../components/Question/QuestionList";
+import {Pagination} from "@mui/lab";
+
 
 export default function QuestionManagement() {
     const [selectedTagIDs, setSelectedTagIDs] = useState([]);
     const [selectedTypesIDs, setSelectedTypesIDs] = useState([]);
     const [difficultiesIDs, setDifficulties] = useState([]);
-    const [currentQuestion, setCurrentQuestion] = useState(null);
+    const [currentQuestionId, setCurrentQuestionId] = useState(null);
     const [listQuestion, setListQuestion] = useState([]);
     const [contentQuery, setContentQuery] = useState('');
-    console.log("selectedTagIDs:", selectedTagIDs)
-    console.log("selectedType:", selectedTypesIDs)
-    console.log("selectedDifficulties:", difficultiesIDs);
-    const filteredQuestions = listQuestion
-        .filter(item => {
-            return (selectedTypesIDs.length === 0 ? true :
-                selectedTypesIDs.includes(item.type.id))
-        })
-        .filter((item) => {
-            return difficultiesIDs.length === 0 ? true :
-                difficultiesIDs.includes(item.difficulty.id)
-        })
-        .filter((item) => {
-            return selectedTagIDs.length === 0 ? true :
-                item.tags.some(tag => {
-                    return selectedTagIDs.includes(tag.id)
-                })
-        })
+    const [page, setPage] = useState(1);
+    const [resultNumber, setResultNumber] = useState(0);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    useEffect(() => {
+        setPage(1)
+    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs, contentQuery])
+    const rowsPerPage = 4;
+    // console.log("selectedTagIDs:", selectedTagIDs)
+    // console.log("selectedType:", selectedTypesIDs)
+    // console.log("selectedDifficulties:", difficultiesIDs);
+
     const handleCheckTags = (event) => {
         const {name, checked} = event.target;
         let index = selectedTagIDs.findIndex(id => id === parseInt(name));
@@ -74,28 +72,26 @@ export default function QuestionManagement() {
                 selectedTagIDs: selectedTagIDs,
                 selectedTypesIDs: selectedTypesIDs,
                 difficultiesIDs: difficultiesIDs,
-
-
+                page: page,
+                rows: rowsPerPage,
             }
         })
             .then(res => {
                 console.log("questions:", res.data);
-                setListQuestion(res.data.data);
+                setListQuestion(res.data.data['questions']);
+                setResultNumber(res.data.data['questionCount']);
             })
             .catch(e => console.log("error in get questions:", e))
     };
     useEffect(() => {
         console.log("edit form did mount");
         updateQuestions();
-    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs,contentQuery])
-    console.log(listQuestion);
+    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs, contentQuery, page])
 
     const handleInputChange = (event) => {
         setContentQuery(event.target.value);
     };
     return (
-
-
         <Box sx={{
             width: '100%',
             height: '100vh',
@@ -103,43 +99,57 @@ export default function QuestionManagement() {
 
         }}>
 
-            <Grid container spacing={3} sx={{
-                // height: '90vh',
-            }}>
+            <Grid container spacing={3}>
                 <Grid item xs={3}>
                     <Paper
                         component="form"
-                        sx={{p: '2px 4px', alignItems: 'center'}}
+                        sx={{p: '2px 4px', display: 'flex', alignItems: 'center',}}
                     >
+                        <IconButton
+                            type="button"
+                            sx={{p: '10px'}}
+                            aria-label="search" disabled>
+                            <SearchIcon/>
+                        </IconButton>
                         <InputBase
-                            sx={{ml: 3, flex: 1,width : 200}}
+                            sx={{ml: 3, flex: 1, width: 200}}
                             placeholder="Search Here"
                             inputProps={{'label': 'search '}}
                             onChange={handleInputChange}
-                            value={currentQuestion}
+                            value={contentQuery}
                         />
-                        <IconButton type="button" sx={{ p: '10px',width :80}} aria-label="search">
-                            <SearchIcon />
-                        </IconButton>
+
                     </Paper>
 
                     <GroupFilter
                         handleCheckTags={handleCheckTags} selectedTagIDs={selectedTagIDs}
                         handleCheckTypes={handleCheckTypes} selectedTypesIDs={selectedTypesIDs}
                         handleCheckDifficulties={handleCheckDifficulties} difficultiesIDs={difficultiesIDs}
+
                     >
                     </GroupFilter>
                 </Grid>
 
                 <Grid item xs={4}>
+
                     {/* <QuestionListManagement selectedTagIDs={selectedTagIDs} setCurrentQuestion={setCurrentQuestion}
                                             listQuestion={filteredQuestions}/> */}
                                             <QuestionList></QuestionList>
+
+                    <Pagination
+                        count={Math.ceil(resultNumber / rowsPerPage)}
+                        page={page} onChange={handleChangePage}/>
+                    <QuestionListManagement
+                        setCurrentQuestionId={setCurrentQuestionId}
+                        listQuestion={listQuestion}/>
                 </Grid>
 
                 <Grid item xs={5}>
-                    <QuestionDetails currentQuestion={currentQuestion} updateQuestions={updateQuestions}/>
+                    <QuestionDetails
+                        currentQuestionId={currentQuestionId}
+                        updateQuestions={updateQuestions}/>
                 </Grid>
+
             </Grid>
         </Box>
     );

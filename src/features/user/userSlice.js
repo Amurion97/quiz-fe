@@ -2,7 +2,6 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {customAPIv1} from "../customAPI";
 
 const initialState = {
-
         state: "idle",
         info: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).info : undefined ,
         token: {}
@@ -26,6 +25,17 @@ export const login = createAsyncThunk(
     }
 );
 
+export const forgotPassword = createAsyncThunk(
+    'user/forgot-password',
+    async (arg, {rejectWithValue}) => {
+        console.log("arg:", arg)
+        let response = await customAPIv1().post('users/reset-request', {
+            email: arg.email,
+        })
+        return response.data.data;
+    }
+);
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -37,6 +47,11 @@ export const userSlice = createSlice({
             state.token = {};
             state.status = 'idle';
         },
+        googleLogin: (state, action) => {
+            state.info = action.payload.info;
+            state.token = action.payload.token;
+            localStorage.setItem("user", JSON.stringify(action.payload))
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -57,8 +72,9 @@ export const userSlice = createSlice({
     },
 });
 
-export const {logout} = userSlice.actions;
+export const {logout, googleLogin} = userSlice.actions;
 export const selectUser = (state) => state.user;
+export const selectUserInfo = (state) => state.user.info;
 
 const userReducer = userSlice.reducer
 export default userReducer;

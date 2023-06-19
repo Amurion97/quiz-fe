@@ -1,117 +1,96 @@
 import {Navigate, useRoutes} from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import Page404 from './pages/Page404';
+
+//layouts
 import DashboardLayout from "./layouts/DashboardLayout";
-import FlightCreationPage from "./pages/User/FlightCreationPage";
-import UsersPage from "./pages/AdminPrivilege/UsersPage";
-import SearchPage from "./pages/Booking/SearchPage";
-import ResultsPage from "./pages/Booking/ResultsPage";
-import BookingFinalization from "./pages/Booking/BookingFinalization";
-import AircraftPage from "./pages/User/AircraftPage";
-import FlightPage from "./pages/User/FlightPage";
-import AirportPage from "./pages/User/AirportPage";
-import BookingDetailsPage from "./pages/Booking/BookingDetailsPage";
-import PhonePage from "./pages/Test/PhonePage";
-import AddPhoneForm from "./pages/Test/AddPhoneForm";
-import EditPhoneForm from "./pages/Test/EditPhoneForm";
-import Detail from "./pages/Test/Detail";
-import {useSelector} from 'react-redux';
-import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
-import StudentLayout from "./layouts/StudentLayout";
-import TagPage from "./pages/User/TagPage";
+
+// user flow
+import LoginPage from './pages/LoginPage';
+import ForgotPasswordPage from './pages/ResetRequestPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import RegisterPage from "./pages/RegisterPage";
-import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
+import Page404 from './pages/Page404';
+
+//admin flow
+import UsersPage from "./pages/AdminPrivilege/UsersPage";
+
+//teacher flow
+import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import QuestionManagement from "./pages/Teacher/QuestionManagement";
-import { StartQuestions } from './pages/User/StartQuestions';
-import { GoogleLoginButton } from './components/Google/GoogleLogin';
+import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
+import TagPage from "./pages/Teacher/TagPage";
+
+//student flow
+import StudentLayout from "./layouts/StudentLayout";
+import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
+
+// redux
+import {useSelector} from 'react-redux';
+import {selectUser} from "./features/user/userSlice";
+// ----------------------------------------------------------------------
 
 export default function Router() {
-    let user = useSelector(({user}) => {
-        return user;
-    });
-    const routes = useRoutes([
+    let user = useSelector(selectUser);
+    return useRoutes([
         {
             path: '/dashboard',
-            element: <DashboardLayout/>,
-            children: [
-                {element: <Navigate to="/dashboard/createFlight"/>, index: true},
-                {path: 'createFlight', element: <FlightCreationPage/>},
+            element: user.info ? <DashboardLayout/> : <Navigate to={'/login'}/>,
+            children: user.info ? [
+                {element: <Navigate to="/dashboard/questions"/>, index: true},
                 {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
+
                 {path: 'questions', element: <QuestionManagement/>},
-                {path: 'aircraft', element: <AircraftPage/>},
-                {path: 'flights', element: <FlightPage/>},
-                {path: 'airports', element: <AirportPage/>},
                 {path: 'createQuestion', element: <QuestionCreationPage/>},
+                {path: 'editQuestion', element: <QuestionEditPage/>},
+
+                {path: 'tag', element: <TagPage/>},
+
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
-                {path: 'tag', element: <TagPage/>},
-            ],
+            ] : [],
         },
-        {
-            path: '/students',
-            element: <StartQuestions/>,
-            children: [
-                // {element: <Navigate to="/students/listData"/>, index: true},
-                // {path: 'listData', element: <QuestionSearchResults/>},
-                // {path: 'start', element: <StartQuestions/>},
-                // {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
-            ]
-        },
+
+        // {
+        //     path: '/students',
+        //     element: <StudentLayout/>,
+        //     children: [
+        //         {element: <Navigate to="/students/listData"/>, index: true},
+        //         {path: 'listData', element: <QuestionSearchResults/>},
+        //     ]
+        // },
 
         {
             path: '/login',
             element: <LoginPage/>,
         },
-      
         {
             path: '/register',
             element: <RegisterPage/>,
         },
+
         {
-            path: "/search",
-            element: <SearchPage/>,
+            path: '/forgot-password',
+            element: <ForgotPasswordPage/>,
         },
         {
-            path: "/booking",
-            element: <BookingDetailsPage/>,
+            path: '/reset-password',
+            element: <ResetPasswordPage/>,
         },
-        {
-            path: '/results',
-            element: <ResultsPage/>,
-        },
-        {
-            path: '/finalize',
-            element: <BookingFinalization/>
-        },
+
         {
             path: '/404',
             element: <Page404/>
         },
         {
             path: "/",
-            element: <SearchPage/>,
+            // element: <Navigate to="/login"/>,
+            element: (user.info ? (user.info.role <= 2 ? <Navigate to="/dashboard"/> :
+                <Navigate to="/dashboard"/>) : <Navigate to="/login"/>),
         },
-        {
-            path: 'test',
-            element: <PhonePage/>,
-        },
-        {
-            path: 'test/add',
-            element: <AddPhoneForm/>,
-        },
-        {
-            path: 'test/edit',
-            element: <EditPhoneForm/>,
-        },
-        {
-            path: 'test/detail',
-            element: <Detail/>,
-        },
+
+
         {
             path: '*',
             element: <Navigate to="/404" replace/>,
         },
     ]);
-
-    return routes;
 }

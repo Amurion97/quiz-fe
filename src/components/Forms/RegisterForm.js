@@ -18,24 +18,17 @@ import * as Yup from 'yup';
 import {customAPIv1} from "../../features/customAPI";
 import GoogleLoginButton from '../Google/GoogleLogin';
 // components
-const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
+
 const SchemaError = Yup.object().shape({
-    name: Yup.string()
-        .min(2, "Too Short!")
-        .required("Required"),
-    phoneNumber: Yup.string().required().matches(phoneRegExp, 'Phone number is not valid'),
     email: Yup.string().email()
-        .required("Required"),
+        .required('Please enter your email'),
     password: Yup.string()
-        .min(6, "Too Short!")
-        .max(8,"Too long")
-        .required('Vui lòng nhập mật khẩu'),
+        .min(6, 'Password must be 6 - 8 characters')
+        .max(8,'Password must be 6 - 8 characters')
+        .required('Please enter a password'),
     confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Mật khẩu không khớp')
-        .required('Vui lòng xác nhận mật khẩu'),
-    // address: Yup.string()
-    //     .min(6, "Too Short!")
-    //     .required("Required")
+        .oneOf([Yup.ref('password'), null], 'Password mismatch')
+        .required('Please confirm your password'),
 });
 
 // ----------------------------------------------------------------------
@@ -148,31 +141,7 @@ export default function RegisterForm() {
                                         Redirecting to login page in {countdown} seconds...
                                     </Alert>
                                 </Collapse>
-                                <Grid container spacing={0}>
-                                    <Grid item xs={7}>
-                                        <Field
-                                            component={TextField}
-                                            type="text"
-                                            label="Name"
-                                            name="name"
-                                            fullWidth
-                                            initialTouched={true}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={5} pl={1}>
-                                        <Field
-                                            component={TextField}
-                                            type="number"
-                                            label="Phone"
-                                            name="phoneNumber"
-                                            InputProps={{
-                                                startAdornment: <InputAdornment
-                                                    position="start">+84</InputAdornment>,
-                                            }}
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                </Grid>
+
                                 <Field
                                     component={TextField}
                                     type="text"
@@ -222,18 +191,9 @@ export default function RegisterForm() {
                                     }}
                                 />
 
-                                <Field
-                                    component={TextField}
-                                    type="text"
-                                    label="Address"
-                                    name="address"
-                                    fullWidth
-                                />
-
                                 <LoadingButton fullWidth size="large" type="submit"
                                                variant="contained"
                                                loading={isSubmitting}
-                                    // onClick={submitForm}
                                 >
                                     <span>{(isSubmitting) ? "Registering…" : "Submit"}</span>
                                 </LoadingButton>

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 // @mui
 import {
     Link,
@@ -8,16 +8,16 @@ import {
     InputAdornment,
     TextField as TextFieldMUI,
     Grid,
-    Collapse,
-} from "@mui/material";
-import { Alert, LoadingButton } from "@mui/lab";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Field, Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
-import { TextField } from "formik-mui";
-import CloseIcon from "@mui/icons-material/Close";
-import { login } from "../../features/user/userSlice";
+    Collapse
+} from '@mui/material';
+import {Alert, LoadingButton} from '@mui/lab';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import {Field, Form, Formik} from "formik";
+import {useDispatch} from "react-redux";
+import {TextField} from 'formik-mui';
+import CloseIcon from '@mui/icons-material/Close';
+import {login} from "../../features/user/userSlice";
 import GoogleLoginButton from "../Google/GoogleLogin";
 // components
 
@@ -26,7 +26,7 @@ import GoogleLoginButton from "../Google/GoogleLogin";
 export default function LoginForm() {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
     const [statusCode, setStatusCode] = useState(0);
 
@@ -38,40 +38,45 @@ export default function LoginForm() {
                     const errors = {};
                     return errors;
                 }}
-                onSubmit={(values, { setSubmitting }) => {
-                    console.log("trying to submit:", values);
+                onSubmit={(values, {setSubmitting}) => {
+                    console.log("trying to submit:", values)
                     // try {
-                    dispatch(login(values)).then((data) => {
-                        console.log("thunk data:", data);
-                        if (data.type.includes("rejected")) {
-                            setOpen(true);
-                            if (data.error.message.includes("401")) {
-                                setStatusCode(401);
-                            } else if (data.error.message.includes("403")) {
-                                setStatusCode(403);
+                    dispatch(login(values))
+                        .then(data => {
+                            console.log("thunk data:", data)
+                            if (data.type.includes("rejected")) {
+                                setOpen(true);
+                                if (data.error.message.includes("401")) {
+                                    setStatusCode(401)
+                                } else if (data.error.message.includes("403")) {
+                                    setStatusCode(403)
+                                }
+                                setSubmitting(false);
+                            } else if (data.type.includes("fulfilled")) {
+                                let role = data.payload.info.role;
+                                console.log("role", role)
+                                setSubmitting(false);
+                                if (role === 1)
+                                    navigate("/dashboard/users")
+                                else if (role === 2)
+                                    navigate("/dashboard/questions")
+                                else
+                                    navigate("/students")
                             }
-                            setSubmitting(false);
-                        } else if (data.type.includes("fulfilled")) {
-                            let role = data.payload.info.role;
-                            console.log("role", role);
-                            setSubmitting(false);
-                            if (role === 1) navigate("/dashboard/SearchPage");
-                            else if (role === 2)
-                                navigate("/dashboard/FlightCreation");
-                            else navigate("/dashboard");
-                        }
-                    });
+
+                        })
                 }}
             >
                 {({
-                    values,
-                    submitForm,
-                    resetForm,
-                    isSubmitting,
-                    touched,
-                    errors,
-                    setFieldValue,
-                }) => (
+                      values,
+                      submitForm,
+                      resetForm,
+                      isSubmitting,
+                      touched,
+                      errors,
+                      setFieldValue
+                  }) => (
+
                     <Form>
                         <Stack spacing={3}>
                             <Collapse in={open}>
@@ -85,15 +90,13 @@ export default function LoginForm() {
                                                 setOpen(false);
                                             }}
                                         >
-                                            <CloseIcon fontSize="inherit" />
+                                            <CloseIcon fontSize="inherit"/>
                                         </IconButton>
                                     }
-                                    sx={{ mb: 2 }}
-                                    variant="filled"
-                                    severity="error"
+                                    sx={{mb: 2}}
+                                    variant="filled" severity="error"
                                 >
-                                    {statusCode >= 403
-                                        ? "Account is locked, please contact admin"
+                                    {statusCode >= 403 ? "Account is locked, please contact admin"
                                         : "Wrong email or password, please try again!"}
                                 </Alert>
                             </Collapse>
@@ -107,7 +110,7 @@ export default function LoginForm() {
 
                             <Field
                                 component={TextFieldMUI}
-                                type={showPassword ? "text" : "password"}
+                                type={showPassword ? 'text' : 'password'}
                                 label="Password"
                                 name="password"
                                 fullWidth
@@ -115,60 +118,37 @@ export default function LoginForm() {
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton
-                                                onClick={() =>
-                                                    setShowPassword(
-                                                        !showPassword
-                                                    )
-                                                }
-                                                edge="end"
-                                            >
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                edge="end">
                                                 {showPassword ? (
-                                                    <VisibilityIcon fontSize="small" />
-                                                ) : (
-                                                    <VisibilityOffIcon fontSize="small" />
-                                                )}
+                                                    <VisibilityIcon fontSize="small"/>) : (
+                                                    <VisibilityOffIcon fontSize="small"/>)}
                                             </IconButton>
                                         </InputAdornment>
                                     ),
                                 }}
                                 onChange={(e) => {
-                                    setFieldValue("password", e.target.value);
+                                    setFieldValue("password", e.target.value)
                                 }}
                             />
                         </Stack>
 
-                        <Stack
-                            direction="row"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            sx={{ my: 2 }}
-                        >
+                        <Stack direction="row" alignItems="center" justifyContent="space-between"
+                               sx={{my: 2}}>
                             <Grid></Grid>
-                            <Link variant="subtitle2" underline="hover">
+                            <Link variant="subtitle2" underline="hover" href="/forgot-password">
                                 Forgot password?
                             </Link>
                         </Stack>
 
-                        <div id="buttonDiv"></div>
-
-                        <LoadingButton
-                            fullWidth
-                            size="large"
-                            type="button"
-                            variant="contained"
-                            onClick={submitForm}
-                        >
+                        <LoadingButton fullWidth size="large" type="button" variant="contained"
+                                       onClick={submitForm}>
                             Login
                         </LoadingButton>
-                        <script
-                            src="https://accounts.google.com/gsi/client"
-                            async
-                            defer
-                        ></script>
                         <GoogleLoginButton></GoogleLoginButton>
                     </Form>
                 )}
             </Formik>
         </>
-    );
+    )
 }

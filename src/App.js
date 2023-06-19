@@ -6,12 +6,14 @@ import {HelmetProvider} from "react-helmet-async";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import ThemeProvider from "./theme";
+import {Container} from "@mui/material";
 
 function App() {
     return (
         <ThemeProvider>
             <HelmetProvider>
                 <BrowserRouter>
+                    {/*<Container maxWidth="sm">Content</Container>*/}
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <Router/>
                     </LocalizationProvider>
