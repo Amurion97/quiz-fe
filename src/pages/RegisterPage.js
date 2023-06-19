@@ -68,7 +68,7 @@ export default function RegisterPage() {
                             Register in to Quiz
                         </Typography>
 
-                        <Typography variant="body2" sx={{mb: 5}}>
+                        <Typography variant="body2" sx={{mb: 0}}>
                             Do you already have an account? {''}
                             <Link href="/login">Login Here</Link>
                         </Typography>
