@@ -9,7 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 import {Pagination} from "@mui/lab";
 
-export default function QuetionCreateManagement() {
+export default function QuestionCreateManagement() {
     const [selectedTagIDs, setSelectedTagIDs] = useState([]);
     const [selectedTypesIDs, setSelectedTypesIDs] = useState([]);
     const [difficultiesIDs, setDifficulties] = useState([]);
@@ -20,13 +20,18 @@ export default function QuetionCreateManagement() {
     const [resultNumber, setResultNumber] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 
-    const handleMouseOver = () => {
+    const handleMouseEnter = () => {
         setIsHovered(true);
     };
 
     const handleMouseLeave = () => {
         setIsHovered(false);
     };
+
+    const handleSelectQuestion = (questionId) => {
+        setCurrentQuestionId(questionId);
+    };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -137,23 +142,44 @@ export default function QuetionCreateManagement() {
                     </GroupFilter>
                 </Grid>
 
-                <Grid item xs={4}>
+                {/*<Grid item xs={4} >*/}
+                {/*    <Pagination*/}
+                {/*        count={Math.ceil(resultNumber / rowsPerPage)}*/}
+                {/*        page={page}*/}
+                {/*        onChange={handleChangePage}*/}
+                {/*    />*/}
+                {/*    <QuestionListManagement*/}
+                {/*        setCurrentQuestionId={setCurrentQuestionId}*/}
+                {/*        listQuestion={listQuestion}/>*/}
+                {/*</Grid>*/}
+                {/*<Grid item xs={5}>*/}
+                {/*    <QuestionDetails*/}
+                {/*        currentQuestionId={currentQuestionId}*/}
+                {/*        updateQuestions={updateQuestions}/>*/}
+                {/*</Grid>*/}
+
+                <Grid item xs={4}  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                     <Pagination
                         count={Math.ceil(resultNumber / rowsPerPage)}
                         page={page}
                         onChange={handleChangePage}
-                        // onMouseOver={handleMouseOver}
                     />
                     <QuestionListManagement
                         setCurrentQuestionId={setCurrentQuestionId}
-                        listQuestion={listQuestion}/>
-                </Grid>
+                        listQuestion={listQuestion}
 
-                <Grid item xs={5}>
-                    <QuestionDetails
-                        currentQuestionId={currentQuestionId}
-                        updateQuestions={updateQuestions}/>
+                    />
                 </Grid>
+                {isHovered && (
+                    <Grid item xs={5} >
+                        <QuestionDetails
+                            currentQuestionId={currentQuestionId}
+                            updateQuestions={updateQuestions}
+                            onSelectQuestion={handleSelectQuestion}
+
+                        />
+                    </Grid>
+                )}
 
             </Grid>
         </Box>
