@@ -22,6 +22,7 @@ import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 import QuestionManagement from "./pages/Teacher/QuestionManagement";
 import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
 import TestResultPage from "./pages/StudentFlow/TestResult";
+import TestCreatePage from "./pages/TeacherFlow/TestCreate";
 
 // ----------------------------------------------------------------------
 
@@ -100,6 +101,10 @@ export default function Router() {
         {
             path: '/testresult',
             element: <TestResultPage/>,
+        },
+        {
+            path: '/testcreate',
+            element: <TestCreatePage/>
         },
 
 
