@@ -41,7 +41,7 @@ export default function TestCreatePage() {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item xs={4.5} >
+                <Grid item xs={4} >
                     <Paper sx={{p:"20px"}}>
                             <Typography gutterBottom variant="h6" component="div" sx={{display: 'flex',}}>
                                 <FormatListBulletedIcon sx={{mr:"10px"}} /> Questions
@@ -53,7 +53,7 @@ export default function TestCreatePage() {
                                         Question 1
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={1} sx={{justifyContent: 'flex-end', ml:"20px"}} >
+                                <Grid item xs={1} sx={{justifyContent: 'flex-end', ml:"20px",}} >
                                     <IconButton aria-label="delete">
                                         <DeleteForeverTwoToneIcon sx={{color:'#E33F5E'}} />
                                     </IconButton>
@@ -70,7 +70,7 @@ export default function TestCreatePage() {
                         </Paper>
                     </Paper>
                 </Grid>
-                <Grid item xs={5.5} >
+                <Grid item xs={6} >
                     <QuestionCreateManagement/>
                 </Grid>
             </Grid>

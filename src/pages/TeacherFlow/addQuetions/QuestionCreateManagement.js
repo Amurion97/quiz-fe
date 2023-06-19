@@ -22,15 +22,18 @@ export default function QuestionCreateManagement() {
 
     const handleMouseEnter = () => {
         setIsHovered(true);
+
     };
 
     const handleMouseLeave = () => {
         setIsHovered(false);
+
     };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
+
 
     useEffect(() => {
         setPage(1)
@@ -104,56 +107,69 @@ export default function QuestionCreateManagement() {
             width: '100%',
             height: '100vh',
             p: 3,
+            pt: 0
 
         }}>
 
             <Grid container spacing={3}>
                 <Grid item xs={5}>
-                    <Paper
-                        component="form"
-                        sx={{p: '2px 4px', display: 'flex', alignItems: 'center',}}
-                    >
-                        <IconButton
-                            type="button"
-                            sx={{p: '10px'}}
-                            aria-label="search" disabled>
-                            <SearchIcon/>
-                        </IconButton>
-                        <InputBase
-                            sx={{ml: 3, flex: 1, width: 200}}
-                            placeholder="Search Here"
-                            inputProps={{'label': 'search '}}
-                            onChange={handleInputChange}
-                            value={contentQuery}
-                        />
 
-                    </Paper>
 
-                    <GroupFilter
-                        handleCheckTags={handleCheckTags} selectedTagIDs={selectedTagIDs}
-                        handleCheckTypes={handleCheckTypes} selectedTypesIDs={selectedTypesIDs}
-                        handleCheckDifficulties={handleCheckDifficulties} difficultiesIDs={difficultiesIDs}
+                    {isHovered ? (
+                        <Grid item xs={5}
+                              elevation={3}
+                              sx={{
+                                  position: 'absolute',
+                                  zIndex: 99,
+                                  width: 340,
 
-                    >
-                    </GroupFilter>
+
+                              }}>
+                            <QuestionDetails
+                                setshow
+                                currentQuestionId={currentQuestionId}
+                                updateQuestions={updateQuestions}
+
+
+                            />
+                        </Grid>
+                    ) : <Grid>
+                        <Paper
+                            component="form"
+                            sx={{
+                                p: '2px 4px',
+                                display: 'flex',
+                                alignItems: 'center',
+
+                            }}
+                        >
+                            <IconButton
+                                type="button"
+                                sx={{p: '10px'}}
+                                aria-label="search" disabled>
+                                <SearchIcon/>
+                            </IconButton>
+                            <InputBase
+                                sx={{ml: 3, flex: 1, width: 200}}
+                                placeholder="Search Here"
+                                inputProps={{'label': 'search '}}
+                                onChange={handleInputChange}
+                                value={contentQuery}
+                            />
+
+
+                        </Paper>
+
+                        <GroupFilter
+                            handleCheckTags={handleCheckTags} selectedTagIDs={selectedTagIDs}
+                            handleCheckTypes={handleCheckTypes} selectedTypesIDs={selectedTypesIDs}
+                            handleCheckDifficulties={handleCheckDifficulties} difficultiesIDs={difficultiesIDs}
+
+                        >
+
+                        </GroupFilter>
+                    </Grid>}
                 </Grid>
-
-                {/*<Grid item xs={4} >*/}
-                {/*    <Pagination*/}
-                {/*        count={Math.ceil(resultNumber / rowsPerPage)}*/}
-                {/*        page={page}*/}
-                {/*        onChange={handleChangePage}*/}
-                {/*    />*/}
-                {/*    <QuestionListManagement*/}
-                {/*        setCurrentQuestionId={setCurrentQuestionId}*/}
-                {/*        listQuestion={listQuestion}/>*/}
-                {/*</Grid>*/}
-                {/*<Grid item xs={5}>*/}
-                {/*    <QuestionDetails*/}
-                {/*        currentQuestionId={currentQuestionId}*/}
-                {/*        updateQuestions={updateQuestions}/>*/}
-                {/*</Grid>*/}
-
                 <Grid item xs={7}>
                     <Grid item xs={12}>
                         <Pagination
@@ -173,17 +189,6 @@ export default function QuestionCreateManagement() {
                         />
                     </Grid>
                 </Grid>
-                {isHovered && (
-                    <Grid item xs={5}>
-                        <QuestionDetails
-                            currentQuestionId={currentQuestionId}
-                            updateQuestions={updateQuestions}
-
-
-                        />
-                    </Grid>
-                )}
-
             </Grid>
         </Box>
     );
