@@ -26,6 +26,7 @@ import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
+import TestStatisticPage from "./pages/Teacher/Test/TestStatisticPage";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -43,6 +44,8 @@ export default function Router() {
                 {path: 'editQuestion', element: <QuestionEditPage/>},
 
                 {path: 'tag', element: <TagPage/>},
+
+                {path: 'test/:id', element: <TestStatisticPage/>},
 
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
