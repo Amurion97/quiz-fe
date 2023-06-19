@@ -134,7 +134,9 @@ export default function QuestionManagement() {
                         page={page} onChange={handleChangePage}/>
                     <QuestionListManagement
                         setCurrentQuestionId={setCurrentQuestionId}
-                        listQuestion={listQuestion}/>
+                        listQuestion={listQuestion}
+                        openOnClick={true}
+                    />
                 </Grid>
 
                 <Grid item xs={5}>

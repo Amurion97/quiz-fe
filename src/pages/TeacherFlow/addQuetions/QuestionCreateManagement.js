@@ -28,10 +28,6 @@ export default function QuestionCreateManagement() {
         setIsHovered(false);
     };
 
-    const handleSelectQuestion = (questionId) => {
-        setCurrentQuestionId(questionId);
-    };
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -112,7 +108,7 @@ export default function QuestionCreateManagement() {
         }}>
 
             <Grid container spacing={3}>
-                <Grid item xs={3}>
+                <Grid item xs={5}>
                     <Paper
                         component="form"
                         sx={{p: '2px 4px', display: 'flex', alignItems: 'center',}}
@@ -158,24 +154,31 @@ export default function QuestionCreateManagement() {
                 {/*        updateQuestions={updateQuestions}/>*/}
                 {/*</Grid>*/}
 
-                <Grid item xs={4}  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                    <Pagination
-                        count={Math.ceil(resultNumber / rowsPerPage)}
-                        page={page}
-                        onChange={handleChangePage}
-                    />
-                    <QuestionListManagement
-                        setCurrentQuestionId={setCurrentQuestionId}
-                        listQuestion={listQuestion}
-
-                    />
+                <Grid item xs={7}>
+                    <Grid item xs={12}>
+                        <Pagination
+                            count={Math.ceil(resultNumber / rowsPerPage)}
+                            page={page}
+                            onChange={handleChangePage}
+                        />
+                    </Grid>
+                    <Grid
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        <QuestionListManagement
+                            setCurrentQuestionId={setCurrentQuestionId}
+                            listQuestion={listQuestion}
+                            openOnClick={false}
+                        />
+                    </Grid>
                 </Grid>
                 {isHovered && (
-                    <Grid item xs={5} >
+                    <Grid item xs={5}>
                         <QuestionDetails
                             currentQuestionId={currentQuestionId}
                             updateQuestions={updateQuestions}
-                            onSelectQuestion={handleSelectQuestion}
+
 
                         />
                     </Grid>

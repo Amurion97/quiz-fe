@@ -4,7 +4,15 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Stack from '@mui/material/Stack';
 
-export default function QuestionListManagement({setCurrentQuestionId, listQuestion}) {
+export default function QuestionListManagement({setCurrentQuestionId, listQuestion, openOnClick}) {
+    const props = (id) => {
+        return {
+            [openOnClick ? 'onClick' : 'onMouseOver']: (e) => {
+                console.log("question id", id)
+                setCurrentQuestionId(id);
+            }
+        }
+    }
     return (
         <>
             <Stack spacing={1}>
@@ -19,9 +27,9 @@ export default function QuestionListManagement({setCurrentQuestionId, listQuesti
                             type,
                         } = item;
                         return (
-                            <Card key={id} onClick={(e) => {
-                                setCurrentQuestionId(id);
-                            }}>
+                            <Card key={id}
+                                  {...props(id)}
+                            >
                                 <CardContent>
 
                                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
