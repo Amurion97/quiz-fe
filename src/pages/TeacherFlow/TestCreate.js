@@ -5,7 +5,7 @@ import {
     IconButton,
     Paper,
     Typography,
-    FormControl
+    FormControl, Box
 } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import AlarmIcon from "@mui/icons-material/Alarm";
@@ -132,118 +132,106 @@ export default function TestCreatePage() {
                     <Form>
                         {console.log('values', values)}
                         <Grid container sx={{p: 10}}>
-                            <Grid item xs={2}>
+                            <Grid item xs={6} md={2} lg={2}>
                                 <Card>
-                                    <UploadImg setFieldValue={setFieldValue}/>
+                                    <UploadImg setFieldValue={setFieldValue} />
                                     <CardContent>
-                                        <Field
-                                            label="Name"
-                                            placeholder="Test Name"
-                                            type="text"
-                                            name="name"
-                                            component={TextField}
-                                            sx={{
-                                                ml: 3,
-                                                flex: 1,
-                                                width: 200,
-                                                '& input': {
-                                                    textAlign: 'center',
-                                                    fontWeight: 'bolder',
-                                                    fontSize: '1.5em',
-                                                    textOverflow: 'ellipsis',
-                                                },
-                                            }}
-                                        />
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <Field
+                                                label="Name"
+                                                placeholder="Test Name"
+                                                type="text"
+                                                name="name"
+                                                component={TextField}
+                                                sx={{
+                                                    mb: 3,
+                                                    width: '100%',
+                                                    '& input': {
+                                                        textAlign: 'center',
+                                                        fontWeight: 'bolder',
+                                                        fontSize: '1.5em',
+                                                        textOverflow: 'ellipsis',
+                                                    },
+                                                }}
+                                            />
 
-                                        <Grid container>
-                                            <Grid item xs={8} sx={{pt: "24px",}} >
-                                                <Field
-                                                    label="Minutes"
-                                                    placeholder="Minutes"
-                                                    type="number"
-                                                    name="time"
-                                                    component={TextField}
-                                                    sx={{
-                                                        '& input': {
-                                                            textAlign: 'center'
-                                                        }
-                                                    }}
-                                                />
-
-                                            </Grid>
-                                            <Grid item xs={3} sx={{display: 'flex', pt:"20px"}}>
-                                                <CardActions disableSpacing>
-                                                    <AlarmIcon
-                                                        sx={{fontSize: 48, color: "blue"}}/>
-                                                </CardActions>
-                                            </Grid>
-
-
-                                            <Grid item xs={12}>
-                                                <Paper sx={{
-                                                    p: 1,
-                                                    pt: 2,
-                                                }}>
-                                                    <FormControl fullWidth>
-                                                        <Field
-                                                            component={Select}
-                                                            id="difficulty"
-                                                            name="difficulty"
-                                                            labelId="difficulty"
-                                                            label="Difficulty"
-                                                        >
-
-                                                            {diffcultyOptions.map(item => (
-                                                                <MenuItem value={item.id}>{item.name}</MenuItem>
-                                                            ))}
-                                                        </Field>
-                                                    </FormControl>
-                                                </Paper>
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <Paper sx={{
-                                                    p: 1,
-                                                    pt: 2,
-                                                }}>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                                                <Box sx={{ flex: 1 }}>
                                                     <Field
-                                                        name="tags"
-                                                        multiple
-                                                        component={Autocomplete}
-                                                        options={tags}
-                                                        getOptionLabel={(option) => option.name}
-                                                        fullWidth
-                                                        renderInput={(params) => (
-                                                            <MuiTextField
-                                                                {...params}
-                                                                name="tag"
-                                                                error={touched['tag'] && !!errors['tag']}
-                                                                helperText={touched['tag'] && errors['tag']}
-                                                                label="Tags"
-                                                                variant="outlined"
-                                                            />
-                                                        )}
+                                                        label="Minutes"
+                                                        placeholder="Minutes"
+                                                        type="number"
+                                                        name="time"
+                                                        component={TextField}
+                                                        sx={{
+                                                            '& input': {
+                                                                textAlign: 'center',
+                                                            },
+                                                        }}
                                                     />
-                                                </Paper>
-                                            </Grid>
-                                        </Grid>
+                                                </Box>
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                    <CardActions disableSpacing>
+                                                        <AlarmIcon sx={{ fontSize: 48, color: 'blue' }} />
+                                                    </CardActions>
+                                                </Box>
+                                            </Box>
+
+                                            <Box sx={{ width: '100%' }}>
+                                                <FormControl fullWidth sx={{ mt: 2 }}>
+                                                    <Field
+                                                        component={Select}
+                                                        id="difficulty"
+                                                        name="difficulty"
+                                                        label="Difficulty"
+                                                        variant="outlined"
+                                                    >
+                                                        {diffcultyOptions.map(item => (
+                                                            <MenuItem key={item.id} value={item.id}>
+                                                                {item.name}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Field>
+                                                </FormControl>
+                                            </Box>
+
+                                            <Box sx={{ width: '100%', mt: 2 }}>
+                                                <Field
+                                                    name="tags"
+                                                    multiple
+                                                    component={Autocomplete}
+                                                    options={tags}
+                                                    getOptionLabel={(option) => option.name}
+                                                    fullWidth
+                                                    renderInput={(params) => (
+                                                        <MuiTextField
+                                                            {...params}
+                                                            name="tag"
+                                                            error={touched['tag'] && !!errors['tag']}
+                                                            helperText={touched['tag'] && errors['tag']}
+                                                            label="Tags"
+                                                            variant="outlined"
+                                                        />
+                                                    )}
+                                                />
+                                            </Box>
+                                        </Box>
                                     </CardContent>
 
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                                        <LoadingButton
+                                            fullWidth
+                                            size="large"
+                                            type="submit"
+                                            variant="contained"
+                                            loading={isSubmitting}
+                                        >
+                                            Submit
+                                        </LoadingButton>
+                                    </Box>
                                 </Card>
-                                <Grid sx={{display: 'flex', justifyContent: 'center'}}>
-                                    <LoadingButton
-                                        fullWidth
-                                        size="large"
-                                        type="submit"
-                                        variant="contained"
-                                        loading={isSubmitting}>
-
-                                        Submit
-
-                                    </LoadingButton>
-                                </Grid>
-
-
                             </Grid>
+
                             <Grid item xs={4} sx={{pl: "20px"}}>
                                 <Paper sx={{p: "20px"}}>
                                     <Typography gutterBottom variant="h6" component="div" sx={{display: 'flex',}}>
