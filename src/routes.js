@@ -23,7 +23,6 @@ import TagPage from "./pages/Teacher/TagPage";
 import StudentLayout from "./layouts/StudentLayout";
 import TestTakingPage from "./pages/Student/TestTakingPage";
 import TestResultPage from "./pages/Student/TestResultPage";
-import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 
 // redux
 import {useSelector} from 'react-redux';
