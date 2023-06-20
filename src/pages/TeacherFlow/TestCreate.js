@@ -38,9 +38,9 @@ export default function TestCreatePage() {
     return (
         <>
             <Grid container sx={{p:10}}>
-                <Grid item xs={2} >
-                    <Card>
-                        <UploadImg></UploadImg>
+                <Grid item xs={2}  >
+                    <Card >
+                        <UploadImg/>
                         <CardContent>
                                 <Input
                                     label="Search Here"
@@ -94,7 +94,7 @@ export default function TestCreatePage() {
 
                     </Card>
                 </Grid>
-                <Grid item xs={4} >
+                <Grid item xs={4} sx={{pl:"20px"}}>
                     <Paper sx={{p:"20px"}}>
                             <Typography gutterBottom variant="h6" component="div" sx={{display: 'flex',}}>
                                 <FormatListBulletedIcon sx={{mr:"10px"}} /> Questions
