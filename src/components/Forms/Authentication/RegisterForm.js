@@ -5,7 +5,6 @@ import {
     Stack,
     IconButton,
     InputAdornment,
-    Grid,
     Collapse
 } from '@mui/material';
 import {Alert, LoadingButton} from '@mui/lab';
@@ -15,7 +14,7 @@ import {Field, Form, Formik} from "formik";
 import {TextField} from 'formik-mui';
 import CloseIcon from '@mui/icons-material/Close';
 import * as Yup from 'yup';
-import {customAPIv1} from "../../features/customAPI";
+import {customAPIv1} from "../../../features/customAPI";
 // components
 
 const SchemaError = Yup.object().shape({

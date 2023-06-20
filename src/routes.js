@@ -4,10 +4,10 @@ import {Navigate, useRoutes} from 'react-router-dom';
 import DashboardLayout from "./layouts/DashboardLayout";
 
 // user flow
-import LoginPage from './pages/LoginPage';
-import ForgotPasswordPage from './pages/ResetRequestPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
-import RegisterPage from "./pages/RegisterPage";
+import LoginPage from './pages/Authentication/LoginPage';
+import ForgotPasswordPage from './pages/Authentication/ResetRequestPage';
+import ResetPasswordPage from './pages/Authentication/ResetPasswordPage';
+import RegisterPage from "./pages/Authentication/RegisterPage";
 import Page404 from './pages/Page404';
 
 //admin flow

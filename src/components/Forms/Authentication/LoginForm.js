@@ -16,7 +16,7 @@ import {Field, Form, Formik} from "formik";
 import {useDispatch} from "react-redux";
 import {TextField} from 'formik-mui';
 import CloseIcon from '@mui/icons-material/Close';
-import {login} from "../../features/user/userSlice";
+import {login} from "../../../features/user/userSlice";
 import * as Yup from "yup";
 // components
 const SchemaError = Yup.object().shape({
