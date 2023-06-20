@@ -107,7 +107,7 @@ export default function TestStatisticPage() {
                     <Paper padding={2}>
                         <TableContainer
                             component={Paper}
-                            sx={{ maxHeight: "70vh"}}>
+                            sx={{ maxHeight: "70vh" }}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
@@ -117,7 +117,8 @@ export default function TestStatisticPage() {
                                                 align={column.align}
                                                 style={{
                                                     minWidth: column.minWidth,
-                                                    backgroundColor:"rgba(22, 28, 36, 1)",
+                                                    background:
+                                                        "rgba(22, 28, 36, 1)",
                                                     color: theme.palette.primary
                                                         .contrastText,
                                                 }}>
@@ -154,7 +155,7 @@ export default function TestStatisticPage() {
                                                 <TableCell
                                                     component="th"
                                                     scope="row"
-                                                    padding="none" 
+                                                    padding="none"
                                                     style={{
                                                         color: theme.palette
                                                             .primary
@@ -176,15 +177,17 @@ export default function TestStatisticPage() {
                                                 <TableCell
                                                     component="th"
                                                     scope="row"
-                                                    padding="none"
-                                                    >
+                                                    padding="none">
                                                     <ProgressBar
-                                                        completed={60}
+                                                        bgColor = "#1976D2"
+                                                        height="16px"
+                                                        completed={70}
                                                     />
                                                 </TableCell>
 
-                                                <TableCell align="center" 
-                                                style={{
+                                                <TableCell
+                                                    align="center"
+                                                    style={{
                                                         color: theme.palette
                                                             .primary
                                                             .contrastText,
