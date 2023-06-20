@@ -9,7 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 import {Pagination} from "@mui/lab";
 
-export default function QuestionCreateManagement() {
+export default function QuestionCreateManagement({addToQuestionList}) {
     const [selectedTagIDs, setSelectedTagIDs] = useState([]);
     const [selectedTypesIDs, setSelectedTypesIDs] = useState([]);
     const [difficultiesIDs, setDifficulties] = useState([]);
@@ -184,6 +184,7 @@ export default function QuestionCreateManagement() {
                             setCurrentQuestionId={setCurrentQuestionId}
                             listQuestion={listQuestion}
                             openOnClick={false}
+                            addToQuestionList={addToQuestionList}
                         />
                     </Grid>
                 </Grid>

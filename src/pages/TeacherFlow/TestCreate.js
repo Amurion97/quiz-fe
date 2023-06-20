@@ -10,7 +10,6 @@ import {
     Autocomplete,
     TextField
 } from "@mui/material";
-import CardHeader from "@mui/material/CardHeader";
 import CardActions from "@mui/material/CardActions";
 import AlarmIcon from "@mui/icons-material/Alarm";
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
@@ -21,8 +20,18 @@ import {customAPIv1} from "../../features/customAPI";
 import UploadImg from "../../functions/UploandImg";
 
 export default function TestCreatePage() {
-    const [minutes, setMinutes] = useState(0);
-
+    const [minutes, setMinutes] = useState('');
+    const [questionList, setQuestionList] = useState([])
+    const addToQuestionList = (questionId) => {
+        customAPIv1().get(`/questions/${questionId}`)
+            .then(res => {
+                console.log("data", res.data)
+                setQuestionList([...questionList, res.data.data])
+            })
+            .catch(e => {
+                console.log("error in get one question", e)
+            })
+    }
     const handleMinutesChange = (event) => {
         setMinutes(event.target.value);
     };
@@ -67,8 +76,10 @@ export default function TestCreatePage() {
                                     <TextField
                                         sx={{
                                             '& input': {
-                                                textAlign: 'center'}
+                                                textAlign: 'center'
+                                            }
                                         }}
+                                        placeholder={"0"}
                                         label="Minutes"
                                         type="number"
                                         value={minutes}
@@ -79,8 +90,6 @@ export default function TestCreatePage() {
                                     </Typography>
 
                                 </Grid>
-
-
                                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>
                                     <CardActions disableSpacing>
                                         <AlarmIcon
@@ -116,32 +125,36 @@ export default function TestCreatePage() {
                         <Typography gutterBottom variant="h6" component="div" sx={{display: 'flex',}}>
                             <FormatListBulletedIcon sx={{mr: "10px"}}/> Questions
                         </Typography>
-                        <Paper elevation={3} sx={{p: "10px"}}>
-                            <Grid container sx={{pl: "20px", display: 'flex', alignItems: 'center'}}>
-                                <Grid item xs={10} sx={{justifyContent: 'flex-start'}}>
-                                    <Typography gutterBottom variant="inherit" component="div">
-                                        Question 1
-                                    </Typography>
+                        {questionList.map((item) => (
+                            <Paper elevation={3} sx={{p: "10px"}}>
+                                <Grid container sx={{pl: "20px", display: 'flex', alignItems: 'center'}}>
+                                    <Grid item xs={10} sx={{justifyContent: 'flex-start'}}>
+                                        <Typography gutterBottom variant="inherit" component="div">
+                                            Question 1 ${console.log(item)}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={1} sx={{justifyContent: 'flex-end', ml: "20px",}}>
+                                        <IconButton aria-label="delete">
+                                            <DeleteForeverTwoToneIcon sx={{color: '#E33F5E'}}/>
+                                        </IconButton>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={1} sx={{justifyContent: 'flex-end', ml: "20px",}}>
-                                    <IconButton aria-label="delete">
-                                        <DeleteForeverTwoToneIcon sx={{color: '#E33F5E'}}/>
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                            <Card>
-                                <CardMedia
-                                    component="img"
-                                    height="194"
-                                    image="https://img4.thuthuatphanmem.vn/uploads/2020/05/07/hinh-anh-cute-dep-nhat_093404024.jpg"
-                                    alt="Paella dish"
-                                />
-                            </Card>
-                        </Paper>
+                                <Card>
+                                    <CardMedia
+                                        component="img"
+                                        height="194"
+                                        image="https://img4.thuthuatphanmem.vn/uploads/2020/05/07/hinh-anh-cute-dep-nhat_093404024.jpg"
+                                        alt="Paella dish"
+                                    />
+                                </Card>
+                            </Paper>
+                        ))}
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
-                    <QuestionCreateManagement/>
+                    <QuestionCreateManagement
+                        addToQuestionList={addToQuestionList}
+                    />
                 </Grid>
             </Grid>
         </>

@@ -3,8 +3,10 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Stack from '@mui/material/Stack';
+import FileDownloadDoneTwoToneIcon from '@mui/icons-material/FileDownloadDoneTwoTone';
+import {IconButton} from "@mui/material";
 
-export default function QuestionListManagement({setCurrentQuestionId, listQuestion, openOnClick}) {
+export default function QuestionListManagement({setCurrentQuestionId, listQuestion, openOnClick, addToQuestionList}) {
     const props = (id) => {
         return {
             [openOnClick ? 'onClick' : 'onMouseOver']: (e) => {
@@ -30,6 +32,9 @@ export default function QuestionListManagement({setCurrentQuestionId, listQuesti
                             <Card key={id}
                                   {...props(id)}
                             >
+                                <IconButton onClick={() => addToQuestionList(id)}>
+                                    <FileDownloadDoneTwoToneIcon />
+                                </IconButton>
                                 <CardContent>
                                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                                         Độ khó: {difficulty.name}
