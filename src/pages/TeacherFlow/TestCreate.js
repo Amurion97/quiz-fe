@@ -22,15 +22,27 @@ import UploadImg from "../../functions/UploandImg";
 export default function TestCreatePage() {
     const [minutes, setMinutes] = useState('');
     const [questionList, setQuestionList] = useState([])
+
     const addToQuestionList = (questionId) => {
-        customAPIv1().get(`/questions/${questionId}`)
-            .then(res => {
-                console.log("data", res.data)
-                setQuestionList([...questionList, res.data.data])
+        customAPIv1()
+            .get(`/questions/${questionId}`)
+            .then((res) => {
+                console.log("data", res.data);
+                const id = questionList.find((item) => item.id === res.data.data.id);
+                if (id) {
+                    console.log('Đã bị trùng');
+                } else {
+                    setQuestionList([...questionList, res.data.data]);
+                }
             })
-            .catch(e => {
-                console.log("error in get one question", e)
-            })
+            .catch((e) => {
+                console.log("error in get one question", e);
+            });
+    };
+    const deleteQuestion = (index) => {
+        const updatedQuestionList = [...questionList];
+        updatedQuestionList.splice(index, 1);
+        setQuestionList(updatedQuestionList);
     }
     const handleMinutesChange = (event) => {
         setMinutes(event.target.value);
@@ -48,6 +60,13 @@ export default function TestCreatePage() {
                 }))
             })
             .catch(e => console.log("error in get tags:", e))
+
+        customAPIv1().get("/difficulties")
+            .then(res => {
+                console.log("difficulties:", res.data.data);
+                setDiffcultyOptions(res.data.data)
+            })
+            .catch(e => console.log("error in get difficulties:", e))
     }, [])
     return (
         <>
@@ -98,6 +117,9 @@ export default function TestCreatePage() {
                                 </Grid>
                             </Grid>
                             <Grid item xs={12}>
+
+                            </Grid>
+                            <Grid item xs={12}>
                                 <Paper sx={{p: 1}}>
                                     <Autocomplete
                                         name="tags"
@@ -125,27 +147,40 @@ export default function TestCreatePage() {
                         <Typography gutterBottom variant="h6" component="div" sx={{display: 'flex',}}>
                             <FormatListBulletedIcon sx={{mr: "10px"}}/> Questions
                         </Typography>
-                        {questionList.map((item) => (
-                            <Paper elevation={3} sx={{p: "10px"}}>
+                        {questionList.map((item, index) => (
+                            <Paper elevation={3} sx={{p: "10px", mb: "20px"}}>
                                 <Grid container sx={{pl: "20px", display: 'flex', alignItems: 'center'}}>
                                     <Grid item xs={10} sx={{justifyContent: 'flex-start'}}>
                                         <Typography gutterBottom variant="inherit" component="div">
-                                            Question 1 ${console.log(item)}
+                                            Question {index + 1}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={1} sx={{justifyContent: 'flex-end', ml: "20px",}}>
                                         <IconButton aria-label="delete">
-                                            <DeleteForeverTwoToneIcon sx={{color: '#E33F5E'}}/>
+                                            <DeleteForeverTwoToneIcon sx={{color: '#E33F5E'}} onClick={() => {
+                                                deleteQuestion(index)
+                                            }}/>
                                         </IconButton>
                                     </Grid>
                                 </Grid>
-                                <Card>
-                                    <CardMedia
-                                        component="img"
-                                        height="194"
-                                        image="https://img4.thuthuatphanmem.vn/uploads/2020/05/07/hinh-anh-cute-dep-nhat_093404024.jpg"
-                                        alt="Paella dish"
-                                    />
+                                <Card elevation={3}>
+                                    <CardContent>
+                                        <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            Độ khó: {item.difficulty.name}
+                                        </Typography>
+                                        <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            Dạng câu hỏi: {item.type.name}
+                                        </Typography>
+                                        <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                            Liên
+                                            quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
+                                            "",)}
+                                        </Typography>
+                                        <Typography variant="h6" component="div">
+                                            Đề bài: {item.content}
+                                        </Typography>
+
+                                    </CardContent>
                                 </Card>
                             </Paper>
                         ))}
