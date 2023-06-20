@@ -34,7 +34,7 @@ const Completionist = () => <span>You are good to go!</span>;
 // Renderer callback with condition
 
 
-export function TestTakingPage() {
+export default function TestTakingPage() {
     const navigate = useNavigate();
     const theme = useTheme();
     const [test, setTest] = useState(null);

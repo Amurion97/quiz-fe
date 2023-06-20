@@ -17,17 +17,18 @@ import UsersPage from "./pages/AdminPrivilege/UsersPage";
 import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import QuestionManagement from "./pages/Teacher/QuestionManagement";
 import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
-import TestResultPage from "./pages/StudentFlow/TestResult";
 import TagPage from "./pages/Teacher/TagPage";
 
 //student flow
 import StudentLayout from "./layouts/StudentLayout";
+import TestTakingPage from "./pages/Student/TestTakingPage";
+import TestResultPage from "./pages/Student/TestResultPage";
 import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
-import {TestTakingPage} from "./pages/Student/TestTakingPage";
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
