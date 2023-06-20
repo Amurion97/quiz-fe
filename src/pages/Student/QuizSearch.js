@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import {customAPIv1} from "../../features/customAPI";
 import {
     Card,
     CardActionArea,
@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import { auto } from "@popperjs/core";
+import {useEffect, useState} from "react";
+
 
 const ButtonHover = styled(Button)(({ theme }) => ({
     borderColor: theme.palette.primary.darker,
@@ -25,20 +27,31 @@ const ButtonHover = styled(Button)(({ theme }) => ({
 }));
 
 export default function QuizSearch() {
+    const [listTest, setListTest] = useState([]);
+    useEffect(()=>{
+        customAPIv1().get("/tests").then(res=>{
+            setListTest(res.data.data.tests)
+        })
+    }, [])
+    console.log("listTest", listTest);
+    
     return (
         <Grid container spacing={2} sx={{ px: 2 }}>
             <Grid item xs={8}>
                 <Grid container spacing={1.25}>
-                    {[...Array(15)].map((item, index) => (
+                    {listTest.map((item, index) => {
+                        const {
+                            name, 
+                            image
+                        } = item
+                        return (
                         <Grid item xs={3}>
                             <Card>
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"
                                         height="140"
-                                        image={`/assets/images/products/product_${
-                                            index + 1
-                                        }.jpg`}
+                                        image={image}
                                         alt="green iguana"
                                     />
                                     <CardContent>
@@ -46,13 +59,13 @@ export default function QuizSearch() {
                                             gutterBottom
                                             variant="h5"
                                             component="div">
-                                            Test {index + 1}
+                                            {name}
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
                         </Grid>
-                    ))}
+                    )})}
                 </Grid>
             </Grid>
             <Grid item xs={4}>
