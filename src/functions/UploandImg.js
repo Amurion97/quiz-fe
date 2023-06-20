@@ -11,7 +11,7 @@ import {storage} from "../pages/Teacher/firebase";
 import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
 
 export default function UploadImg({setFieldValue}) {
-    const [imageUrls, setImageUrls] = useState([]);
+    const [imageUrls, setImageUrls] = useState();
 
     const handleFileChange = (event) => {
         const file = event.target.files[0]
@@ -19,8 +19,8 @@ export default function UploadImg({setFieldValue}) {
             const imageRef = ref(storage, `images/${file.name + v4()}`);
             uploadBytes(imageRef, file).then((snapshot) => {
                 getDownloadURL(snapshot.ref).then((url) => {
-                    setImageUrls((prev) => [...prev, url]);
-                    setFieldValue('image', imageUrls);
+                    setImageUrls(url)
+                    setFieldValue('image', url);
                 });
             });
         }
@@ -30,8 +30,8 @@ export default function UploadImg({setFieldValue}) {
 
     return (
         <>
-            {imageUrls.length > 0 && (
-                <img src={imageUrls[imageUrls.length - 1]} alt="Avatar"/>
+            {imageUrls && (
+                <img src={imageUrls} alt="Avatar"/>
             )}
             {/*<input*/}
             {/*    type="file"*/}

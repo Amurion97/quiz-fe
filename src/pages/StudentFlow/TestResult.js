@@ -41,12 +41,12 @@ const StyledSection = styled('div')(({theme}) => ({
 }));
 
 export default function TestResultPage() {
-    const [listQuestion, setListQuestion] = useState([]);
+    const [listQuestion, setListQuestion] = useState(null);
     useEffect(() => {
         customAPIv1().get(`/questions`)
             .then(res => {
                 console.log("questions:", res.data);
-                setListQuestion(res.data.data);
+                setListQuestion(res.data.data.questions);
             })
             .catch(e => console.log("error in get questions:", e))
     }, [])
@@ -206,7 +206,7 @@ export default function TestResultPage() {
                                     <Typography variant="body1">
                                         Click on the questions to see answers
                                     </Typography>
-                                    {listQuestion.map((item, index) => (
+                                    {listQuestion && listQuestion.map((item, index) => (
                                         <Card elevation={3} sx={{
                                             px: 0, mt: 2, mb: 2,
                                             // pb: '10px'
