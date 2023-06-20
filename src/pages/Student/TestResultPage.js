@@ -1,5 +1,5 @@
-import {Helmet} from "react-helmet-async";
-import {alpha, styled, useTheme} from "@mui/material/styles";
+//@mui
+import {useTheme} from "@mui/material/styles";
 import {Avatar, Grid, Paper, Radio, FormControlLabel, RadioGroup} from "@mui/material";
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -12,36 +12,13 @@ import ShareIcon from '@mui/icons-material/Share';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AlarmIcon from '@mui/icons-material/Alarm';
-//React
-import React, {useEffect, useState} from "react";
-import ProgressBar from "@ramonak/react-progress-bar";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
-import {customAPIv1} from "../../features/customAPI";
-import {useLocation} from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
-
+//React
+import {useState} from "react";
+import ProgressBar from "@ramonak/react-progress-bar";
+import {useLocation} from "react-router-dom";
+import {Helmet} from "react-helmet-async";
 import SimpleBar from 'simplebar-react';
-
-const StyledRoot = styled('div')(({theme}) => ({
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-    },
-}));
-const StyledSection = styled('div')(({theme}) => ({
-    width: '100%',
-    // maxWidth: 480,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    // boxShadow: theme.customShadows.card,
-    // backgroundColor: theme.palette.background.default,
-    // backgroundColor: '#f9fafb',
-}));
 
 export default function TestResultPage() {
     const location = useLocation();
@@ -53,16 +30,8 @@ export default function TestResultPage() {
     }
     time = new Date(time)
     const questions = test ? test.details.map(item => item.question) : []
-    const [studenQuiz, setStudenQuiz] = useState([]);
     const theme = useTheme()
-    // const [showTable, setShowTable] = useState(false);
-    //
-    // const handleContentClick = () => {
-    //     setShowTable(true);
-    // };
-    // const CloseHandleContentClick = () => {
-    //     setShowTable(false);
-    // };
+
     const [openQuestionIDs, setOpenQuestionIDs] = useState([]);
 
     const handleContentClick = (questionId) => {
@@ -86,220 +55,212 @@ export default function TestResultPage() {
                 <title> Test Result | Quiz </title>
             </Helmet>
 
-            {/*<StyledRoot>*/}
-            {/*    <StyledSection>*/}
-                    <Typography variant="h3" sx={{px: 5}}>
-                        Test Result
-                    </Typography>
-                    <Grid container spacing={3} sx={{
-                        px: 10,
-                        pt: 5,
-                    }}>
+            <Typography variant="h3" sx={{px: 5}}>
+                Test Result
+            </Typography>
+            <Grid container spacing={3} sx={{
+                px: 10,
+                pt: 5,
+            }}>
 
-                        <Grid item xs={4}>
-                            <Paper sx={{p: '20px'}}>
+                <Grid item xs={4}>
+                    <Paper sx={{p: '20px'}}>
+                        <Card>
+                            <Grid container>
+                                <Grid item xs={8}>
+                                    <CardHeader
+                                        avatar={
+                                            <Avatar sx={{bgcolor: theme.palette.info.main}} aria-label="recipe">
+                                                PL
+                                            </Avatar>
+                                        }
+                                        title="Phong"
+                                        subheader="September 14, 2016"
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <CardActions disableSpacing
+                                                 sx={{pt: '20px', display: 'flex', justifyContent: 'center',}}>
+                                        <IconButton aria-label="share">
+                                            <ShareIcon/>
+                                        </IconButton>
+                                    </CardActions>
+                                </Grid>
+                            </Grid>
+                            <CardContent>
+                                <Typography variant="body2" color="text.secondary">
+                                    This impressive paella is a perfect party dish and a fun meal to cook
+                                    together
+                                    with your
+                                    guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                                </Typography>
+                            </CardContent>
+                        </Card>
+
+                        <Paper elevation={3} sx={{px: 2, mt: 2, mb: 2, pb: '10px'}}>
+                            Accuracy
+                            <ProgressBar completed={attempt.score}
+                                         maxCompleted={100}
+                                         height={28}
+                                         bgColor={theme.palette.primary.main}
+                            />
+                        </Paper>
+                        <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}
+                              justifyContent={'center'}>
+                            <Grid item xs={6}>
                                 <Card>
                                     <Grid container>
-                                        <Grid item xs={8}>
+                                        <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
                                             <CardHeader
-                                                avatar={
-                                                    <Avatar sx={{bgcolor: theme.palette.info.main}} aria-label="recipe">
-                                                        PL
-                                                    </Avatar>
-                                                }
-                                                title="Phong"
-                                                subheader="September 14, 2016"
+                                                title={attempt.corrects}
+                                                subheader="Correct"
                                             />
                                         </Grid>
-                                        <Grid item xs={3}>
-                                            <CardActions disableSpacing
-                                                         sx={{pt: '20px', display: 'flex', justifyContent: 'center',}}>
-                                                <IconButton aria-label="share">
-                                                    <ShareIcon/>
-                                                </IconButton>
+                                        <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>
+                                            <CardActions disableSpacing>
+                                                <TaskAltIcon
+                                                    sx={{fontSize: 48, color: theme.palette.success.main}}/>
                                             </CardActions>
                                         </Grid>
                                     </Grid>
-                                    <CardContent>
-                                        <Typography variant="body2" color="text.secondary">
-                                            This impressive paella is a perfect party dish and a fun meal to cook
-                                            together
-                                            with your
-                                            guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                                        </Typography>
-                                    </CardContent>
                                 </Card>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Card>
+                                    <Grid container>
+                                        <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
+                                            <CardHeader
+                                                title={attempt.incorrects}
+                                                subheader="Incorrect"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>
+                                            <CardActions disableSpacing>
+                                                <HighlightOffIcon
+                                                    sx={{fontSize: 48, color: theme.palette.error.main}}
 
-                                <Paper elevation={3} sx={{px: 2, mt: 2, mb: 2, pb: '10px'}}>
-                                    Accuracy
-                                    <ProgressBar completed={attempt.score}
-                                                 maxCompleted={100}
-                                                 height={28}
-                                                 bgColor={theme.palette.primary.main}
-                                    />
-                                </Paper>
-                                <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}
-                                      justifyContent={'center'}>
-                                    <Grid item xs={6}>
-                                        <Card>
-                                            <Grid container>
-                                                <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
-                                                    <CardHeader
-                                                        title={attempt.corrects}
-                                                        subheader="Correct"
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>
-                                                    <CardActions disableSpacing>
-                                                        <TaskAltIcon
-                                                            sx={{fontSize: 48, color: theme.palette.success.main}}/>
-                                                    </CardActions>
-                                                </Grid>
-                                            </Grid>
-                                        </Card>
+                                                />
+                                            </CardActions>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={6}>
-                                        <Card>
-                                            <Grid container>
-                                                <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
-                                                    <CardHeader
-                                                        title={attempt.incorrects}
-                                                        subheader="Incorrect"
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>
-                                                    <CardActions disableSpacing>
-                                                        <HighlightOffIcon
-                                                            sx={{fontSize: 48, color: theme.palette.error.main}}
-
-                                                        />
-                                                    </CardActions>
-                                                </Grid>
-                                            </Grid>
-                                        </Card>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Card>
+                                    <Grid container>
+                                        <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
+                                            <CardHeader
+                                                title={`${time.getMinutes()}m${time.getSeconds()}s`}
+                                                subheader="Time/ques"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>
+                                            <CardActions disableSpacing>
+                                                <AlarmIcon
+                                                    sx={{fontSize: 48, color: theme.palette.primary.main}}/>
+                                            </CardActions>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <Card>
-                                            <Grid container>
-                                                <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
-                                                    <CardHeader
-                                                        title={`${time.getMinutes()}m${time.getSeconds()}s`}
-                                                        subheader="Time/ques"
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>
-                                                    <CardActions disableSpacing>
-                                                        <AlarmIcon
-                                                            sx={{fontSize: 48, color: theme.palette.primary.main}}/>
-                                                    </CardActions>
-                                                </Grid>
-                                            </Grid>
-                                        </Card>
-                                    </Grid>
-                                </Grid>
-                            </Paper>
+                                </Card>
+                            </Grid>
                         </Grid>
+                    </Paper>
+                </Grid>
 
-                        <Grid item xs={8}>
-                            <Paper sx={{
-                                p: '28px'
-                            }}>
-                                <Typography variant="body1" fontWeight="bold">
-                                    Review Questions
-                                </Typography>
-                                <Typography variant="body1" sx={{mb: 2}}>
-                                    Click on the questions to see answers
-                                </Typography>
-                                <SimpleBar style={{maxHeight: "60vh"}}>
-                                    {questions.map((question, index) => {
+                <Grid item xs={8}>
+                    <Paper sx={{
+                        p: '28px'
+                    }}>
+                        <Typography variant="body1" fontWeight="bold">
+                            Review Questions
+                        </Typography>
+                        <Typography variant="body1" sx={{mb: 2}}>
+                            Click on the questions to see answers
+                        </Typography>
+                        <SimpleBar style={{maxHeight: "60vh"}}>
+                            {questions.map((question, index) => {
 
-                                            let correct = true;
-                                            if (question.type.id <= 2) {
-                                                const trueAnswerID = question.answers.find(item => item.isTrue).id
-                                                if (choices[index] !== trueAnswerID) {
-                                                    correct = false
-                                                }
-                                            } else if (question.type.id == 3) {
-                                                const trueAnswers = question.answers.filter(item => item.isTrue);
-                                                const trueAnswerIDs = trueAnswers.map(item => item.id).sort((a, b) => a - b);
-                                                choices[index] = choices[index].sort((a, b) => a - b);
-                                                for (let i = 0; i < trueAnswerIDs.length; i++) {
-                                                    if (trueAnswerIDs[i] != choices[index][i]) {
-                                                        correct = false;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-
-                                            return (
-                                                <Card elevation={3} sx={{
-                                                    px: 0, mt: 2, mb: 2,
-                                                    // pb: '10px'
-                                                }} key={question.id}>
-                                                    <Grid container
-
-                                                          onClick={() => {
-                                                              handleContentClick(question.id)
-                                                          }}>
-                                                        <Grid item xs={0.5}
-                                                              sx={{bgcolor: correct ? theme.palette.success.main : theme.palette.error.main}}/>
-                                                        <Grid item xs={11.5}>
-                                                            <CardContent>
-                                                                <Typography variant="body2" sx={{pl: 4}}>
-                                                                    Câu hỏi {index + 1}: {question.content}
-                                                                </Typography>
-                                                                <hr/>
-                                                            </CardContent>
-                                                            {openQuestionIDs.includes(question.id) && (
-                                                                <Grid item xs={12} sx={{pl: 1.4}}>
-                                                                    <RadioGroup sx={{
-                                                                        mb: 2
-                                                                    }}>
-                                                                        {question.answers.map((answer) => {
-                                                                            const wrong = answer.isTrue === false &&
-                                                                                (question.type.id <= 2 ? choices[index] === answer.id
-                                                                                        : choices[index].includes(answer.id)
-                                                                                )
-                                                                            return (
-                                                                                <FormControlLabel
-                                                                                    key={answer.id}
-                                                                                    value={answer.id}
-                                                                                    control={
-                                                                                        question.type.id <= 2 ?
-                                                                                            <Radio/> : <Checkbox/>
-                                                                                    }
-                                                                                    label={answer.content}
-                                                                                    checked={(question.type.id <= 2 ? choices[index] === answer.id
-                                                                                            : choices[index].includes(answer.id)
-                                                                                    )}
-                                                                                    disabled={true}
-                                                                                    sx={{
-                                                                                        bgcolor: answer.isTrue === true ? theme.palette.success.light :
-                                                                                            (wrong ? theme.palette.error.light : '')
-                                                                                    }}
-                                                                                />
-
-                                                                            )
-                                                                        })
-                                                                        }
-                                                                    </RadioGroup>
-                                                                </Grid>
-                                                            )}
-                                                        </Grid>
-                                                    </Grid>
-                                                </Card>
-                                            )
+                                    let correct = true;
+                                    if (question.type.id <= 2) {
+                                        const trueAnswerID = question.answers.find(item => item.isTrue).id
+                                        if (choices[index] !== trueAnswerID) {
+                                            correct = false
                                         }
-                                    )}
-                                </SimpleBar>
-                            </Paper>
-                        </Grid>
-                    </Grid>
+                                    } else if (question.type.id === 3) {
+                                        const trueAnswers = question.answers.filter(item => item.isTrue);
+                                        const trueAnswerIDs = trueAnswers.map(item => item.id).sort((a, b) => a - b);
+                                        choices[index] = choices[index].sort((a, b) => a - b);
+                                        for (let i = 0; i < trueAnswerIDs.length; i++) {
+                                            if (trueAnswerIDs[i] !== choices[index][i]) {
+                                                correct = false;
+                                                break;
+                                            }
+                                        }
+                                    }
 
-            {/*    </StyledSection>*/}
+                                    return (
+                                        <Card elevation={3} sx={{
+                                            px: 0, mt: 2, mb: 2,
+                                        }} key={question.id}>
+                                            <Grid container
 
+                                                  onClick={() => {
+                                                      handleContentClick(question.id)
+                                                  }}>
+                                                <Grid item xs={0.5}
+                                                      sx={{bgcolor: correct ? theme.palette.success.main : theme.palette.error.main}}/>
+                                                <Grid item xs={11.5}>
+                                                    <CardContent>
+                                                        <Typography variant="body2" sx={{pl: 4}}>
+                                                            Câu hỏi {index + 1}: {question.content}
+                                                        </Typography>
+                                                        <hr/>
+                                                    </CardContent>
+                                                    {openQuestionIDs.includes(question.id) && (
+                                                        <Grid item xs={12} sx={{pl: 1.4}}>
+                                                            <RadioGroup sx={{
+                                                                mb: 2
+                                                            }}>
+                                                                {question.answers.map((answer) => {
+                                                                    const wrong = answer.isTrue === false &&
+                                                                        (question.type.id <= 2 ? choices[index] === answer.id
+                                                                                : choices[index].includes(answer.id)
+                                                                        )
+                                                                    return (
+                                                                        <FormControlLabel
+                                                                            key={answer.id}
+                                                                            value={answer.id}
+                                                                            control={
+                                                                                question.type.id <= 2 ?
+                                                                                    <Radio/> : <Checkbox/>
+                                                                            }
+                                                                            label={answer.content}
+                                                                            checked={(question.type.id <= 2 ? choices[index] === answer.id
+                                                                                    : choices[index].includes(answer.id)
+                                                                            )}
+                                                                            disabled={true}
+                                                                            sx={{
+                                                                                bgcolor: answer.isTrue === true ? theme.palette.success.light :
+                                                                                    (wrong ? theme.palette.error.light : '')
+                                                                            }}
+                                                                        />
 
-            {/*</StyledRoot>*/}
+                                                                    )
+                                                                })
+                                                                }
+                                                            </RadioGroup>
+                                                        </Grid>
+                                                    )}
+                                                </Grid>
+                                            </Grid>
+                                        </Card>
+                                    )
+                                }
+                            )}
+                        </SimpleBar>
+                    </Paper>
+                </Grid>
+            </Grid>
 
         </>
     )
