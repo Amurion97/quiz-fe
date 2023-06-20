@@ -18,6 +18,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import React, {useEffect, useState} from "react";
 import QuestionCreateManagement from "./addQuetions/QuestionCreateManagement";
 import {customAPIv1} from "../../features/customAPI";
+import UploadImg from "../../functions/UploandImg";
 
 export default function TestCreatePage() {
     const [tags, setTags] = useState([]);
@@ -39,12 +40,7 @@ export default function TestCreatePage() {
             <Grid container sx={{p:10}}>
                 <Grid item xs={2} >
                     <Card>
-                        <CardMedia
-                            component="img"
-                            height="194"
-                            image="https://img4.thuthuatphanmem.vn/uploads/2020/05/07/hinh-anh-cute-dep-nhat_093404024.jpg"
-                            alt="Paella dish"
-                        />
+                        <UploadImg></UploadImg>
                         <CardContent>
                                 <Input
                                     label="Search Here"
