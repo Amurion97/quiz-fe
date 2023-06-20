@@ -178,9 +178,7 @@ export default function TestStatisticPage() {
                                                     scope="row"
                                                     padding="none"
                                                     >
-                                                    <ProgressBar
-                                                        completed={60}
-                                                    />
+                                                    <ProgressBar bgColor="#ff0000" height="16px" completed={60} />
                                                 </TableCell>
 
                                                 <TableCell align="center" 

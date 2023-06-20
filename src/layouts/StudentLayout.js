@@ -1,104 +1,103 @@
-import * as React from 'react';
-import {styled, alpha} from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import HistoryIcon from '@mui/icons-material/History';
-import {Outlet} from "react-router-dom";
+import * as React from "react";
+import { styled, alpha } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import HistoryIcon from "@mui/icons-material/History";
+import { Outlet } from "react-router-dom";
+import { Button } from "@mui/material";
+import { useState } from "react";
+import { createContext } from "react";
 
-const Search = styled('div')(({theme}) => ({
-    position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+    position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
+    "&:hover": {
         backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
         marginLeft: theme.spacing(3),
-        width: 'auto',
+        width: "auto",
     },
 }));
 
-const SearchIconWrapper = styled('div')(({theme}) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
 }));
 
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: "inherit",
+    "& .MuiInputBase-input": {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
+        transition: theme.transitions.create("width"),
+        width: "100%",
+        [theme.breakpoints.up("md")]: {
+            width: "20ch",
         },
     },
 }));
 
+
+export const NameContext = createContext(null);
 export default function StudentLayout() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
+    const [confirmedContentQuery, setConfirmedContentQuery] = useState("");
+    const [contentQuery, setContentQuery] = useState("");
+    const handleInputChange = (event) => {
+        setConfirmedContentQuery(contentQuery);
     };
-
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    };
-
-    const handleMobileMenuOpen = (event) => {
-        setMobileMoreAnchorEl(event.currentTarget);
-    };
+    console.log("contentQuery", contentQuery)
+    console.log("confirmedContentQuery", confirmedContentQuery)
     return (
         <>
-            <Box sx={{flexGrow: 1, mb: 2,}}>
-                <AppBar position="fixed" sx={{
-                    zIndex: 999
-                }}>
+            <Box sx={{ flexGrow: 1, mb: 2 }}>
+                <AppBar
+                    position="fixed"
+                    sx={{
+                        zIndex: 999,
+                    }}>
                     <Toolbar>
                         <Typography
                             variant="h6"
                             noWrap
                             component="div"
-                            sx={{display: {xs: 'none', sm: 'block'}}}
-                        >
-                            <img style={{height: 50, width: 55}}
-                                 src={'https://th.bing.com/th/id/OIP.NZAO5Xy5U61tA2GaVCwxNwHaEK?w=309&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7'}/>
-                        </Typography>
+                            sx={{
+                                display: { xs: "none", sm: "block" },
+                            }}></Typography>
                         <Search>
                             <SearchIconWrapper>
-                                <SearchIcon/>
+                                <SearchIcon />
                             </SearchIconWrapper>
                             <StyledInputBase
                                 placeholder="Search…"
-                                inputProps={{'aria-label': 'search'}}
+                                inputProps={{ "aria-label": "search" }}
+                                value={contentQuery}
+                                onChange={(e)=> {
+                                    setContentQuery(e.target.value);
+                                }}
                             />
                         </Search>
-                        <Box sx={{flexGrow: 1}}/>
+                        <Button variant="contained" onClick={handleInputChange}>
+                            Search
+                        </Button>
+                        {/* <Box sx={{flexGrow: 1}}/>
                         <Box sx={{display: {xs: 'none', md: 'flex'}}}>
                             <IconButton
                                 size="large"
@@ -108,7 +107,7 @@ export default function StudentLayout() {
                                 aria-haspopup="true"
                                 onClick={handleProfileMenuOpen}
                                 color="inherit"
-                            >
+                            > 
                                 <AccountCircle/>
                             </IconButton>
                         </Box>
@@ -121,16 +120,18 @@ export default function StudentLayout() {
                                 onClick={handleMobileMenuOpen}
                                 color="inherit"
                             >
+            
                                 <MoreIcon/>
                             </IconButton>
-                        </Box>
+                        </Box> */}
                     </Toolbar>
                 </AppBar>
             </Box>
             <Box sx={{height: '64px', width: '100vw', position: 'static'}}>
             </Box>
-            <Outlet>
-            </Outlet>
+            <NameContext.Provider value={confirmedContentQuery}>
+                <Outlet></Outlet>
+            </NameContext.Provider>
         </>
     );
 }
