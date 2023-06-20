@@ -19,31 +19,31 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
+import {useEffect, useState} from "react";
+import {Helmet} from "react-helmet-async";
 import AddIcon from "@mui/icons-material/Add";
-import { useTheme } from "@mui/material/styles";
+import {useTheme} from "@mui/material/styles";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import AddUserForm from "../../components/Forms/AddUserForm";
-import { customAPIv1 } from "../../features/customAPI";
+import {customAPIv1} from "../../features/customAPI";
 import EditUserForm from "../../components/Forms/EditUserForm";
 import UpgradeRoundedIcon from "@mui/icons-material/UpgradeRounded";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 
 const columns = [
-    { id: "name", label: "Name", minWidth: 150 },
-    { id: "role", label: "Role", minWidth: 150 },
-    { id: "email", label: "Email", minWidth: 250 },
-    { id: "isLocked", label: "Status", minWidth: 150, align: "center" },
-    { id: "", label: "Action", minWidth: 40, align: "right" },
+    {id: "name", label: "Name", minWidth: 150},
+    {id: "role", label: "Role", minWidth: 150},
+    {id: "email", label: "Email", minWidth: 250},
+    {id: "isLocked", label: "Status", minWidth: 150, align: "center"},
+    {id: "", label: "Action", minWidth: 40, align: "right"},
 ];
 
 export default function UsersPage() {
-    let user = useSelector(({ user }) => {
+    let user = useSelector(({user}) => {
         return user;
     });
     const theme = useTheme();
@@ -137,7 +137,7 @@ export default function UsersPage() {
                         </Typography>
                         <Button
                             variant="contained"
-                            startIcon={<AddIcon fontSize="small" />}
+                            startIcon={<AddIcon fontSize="small"/>}
                             onClick={handleClickOpenDialog}>
                             New User
                         </Button>
@@ -145,7 +145,7 @@ export default function UsersPage() {
                 </Grid>
                 <Grid item xs={12}>
                     <Paper padding={2}>
-                        <TableContainer component={Paper} sx={{ maxHeight: "70vh" }}>
+                        <TableContainer component={Paper} sx={{maxHeight: "70vh"}}>
                             <Table stickyHeader aria-label="sticky table">
 
                                 <TableHead>
@@ -198,13 +198,20 @@ export default function UsersPage() {
                                                     </Stack>
                                                 </TableCell>
 
-                                                <TableCell align="left">{role.name}</TableCell>
+                                                <TableCell align="left">
+                                                    <Chip label={role.name}
+                                                          color={role.id === 1 ?
+                                                              'warning'
+                                                              :
+                                                              (role.id === 2 ? 'primary' : 'secondary')}
+                                                    />
+                                                </TableCell>
                                                 <TableCell align="left">{email}</TableCell>
                                                 <TableCell align="center">
                                                     {isLocked ? (
-                                                        <Chip label="Locked" color="error" />
+                                                        <Chip label="Locked" color="error"/>
                                                     ) : (
-                                                        <Chip label="OK" color="success" />
+                                                        <Chip label="Active" color="success"/>
                                                     )}
                                                 </TableCell>
 
@@ -217,7 +224,7 @@ export default function UsersPage() {
                                                             setCurrentUserRole(role.id);
                                                             handleOpenMenu(e);
                                                         }}>
-                                                        <MoreVertIcon fontSize="small" />
+                                                        <MoreVertIcon fontSize="small"/>
                                                     </IconButton>
                                                 </TableCell>
                                             </TableRow>
@@ -230,8 +237,8 @@ export default function UsersPage() {
                             open={Boolean(openMenu)}
                             anchorEl={openMenu}
                             onClose={handleCloseMenu}
-                            anchorOrigin={{ vertical: "top", horizontal: "left" }}
-                            transformOrigin={{ vertical: "top", horizontal: "right" }}
+                            anchorOrigin={{vertical: "top", horizontal: "left"}}
+                            transformOrigin={{vertical: "top", horizontal: "right"}}
                             PaperProps={{
                                 sx: {
                                     p: 1,
@@ -246,12 +253,12 @@ export default function UsersPage() {
                             {currentUserRole === 3 && (
                                 <>
                                     <MenuItem
-                                        sx={{ color: "blue" }}
+                                        sx={{color: "blue"}}
                                         onClick={(e) => {
                                             handleCloseMenu();
                                             handleClickOpenUpgradeConfirm();
                                         }}>
-                                        <UpgradeRoundedIcon fontSize="small" />
+                                        <UpgradeRoundedIcon fontSize="small"/>
                                         Upgrade Role
                                     </MenuItem>
                                 </>
@@ -261,17 +268,17 @@ export default function UsersPage() {
                                     handleClickOpenEditDialog();
                                     handleCloseMenu();
                                 }}>
-                                <EditIcon fontSize="small" />
+                                <EditIcon fontSize="small"/>
                                 Edit
                             </MenuItem>
 
                             <MenuItem
-                                sx={{ color: "error.main" }}
+                                sx={{color: "error.main"}}
                                 onClick={(e) => {
                                     handleCloseMenu();
                                     handleClickOpenConfirm();
                                 }}>
-                                <DeleteOutlineIcon fontSize="small" />
+                                <DeleteOutlineIcon fontSize="small"/>
                                 Delete
                             </MenuItem>
                         </Popover>
