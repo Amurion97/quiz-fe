@@ -119,7 +119,7 @@ export default function QuestionCreateManagement({addToQuestionList}) {
                               sx={{
                                   position: 'absolute',
                                   zIndex: 99,
-                                  width: 340,
+                                  width: 300,
 
 
                               }}>

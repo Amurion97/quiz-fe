@@ -39,7 +39,7 @@ export default function Router() {
             children: user.info ? [
                 {element: <Navigate to="/dashboard/questions"/>, index: true},
                 {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
-
+                {path: 'testCreate',element: <TestCreatePage/>},
                 {path: 'questions', element: <QuestionManagement/>},
                 {path: 'createQuestion', element: <QuestionCreationPage/>},
                 {path: 'editQuestion', element: <QuestionEditPage/>},
@@ -81,10 +81,7 @@ export default function Router() {
             path: '/testresult',
             element: <TestResultPage/>,
         },
-        {
-            path: '/testcreate',
-            element: <TestCreatePage/>
-        },
+
 
         {
             path: '/404',

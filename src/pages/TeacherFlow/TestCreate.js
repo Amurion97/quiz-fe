@@ -22,16 +22,37 @@ import {LoadingButton} from "@mui/lab";
 import {
     TextField, Select, Autocomplete,
 } from 'formik-mui';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import * as Yup from 'yup';
+import {useNavigate} from "react-router-dom";
+const SchemaError = Yup.object().shape({
+    name: Yup.string()
+        .min(2, "Too Short!")
+        .required("Required"),
+    time: Yup.number()
+        .required("Required"),
+});
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 export default function TestCreatePage() {
-    const [name, setName] = useState('');
-    const [minutes, setMinutes] = useState('');
     const [questionList, setQuestionList] = useState([])
     const [tags, setTags] = useState([]);
     const [diffcultyOptions, setDiffcultyOptions] = useState([]);
+    const [openSuccess, setOpenSuccess] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate()
 
-    const handleInputChange = (event) => {
-        setName(event.target.value);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSuccess(false)
+        setOpen(false)
     };
     const addToQuestionList = (questionId) => {
         customAPIv1()
@@ -55,10 +76,6 @@ export default function TestCreatePage() {
         setQuestionList(updatedQuestionList);
     }
 
-
-    const handleMinutesChange = (event) => {
-        setMinutes(event.target.value);
-    };
 
     useEffect(() => {
         customAPIv1().get("/tags")
@@ -93,6 +110,7 @@ export default function TestCreatePage() {
                     time: '',
                     image: '',
                 }}
+                validationSchema={SchemaError}
                 validate={(values) => {
                     const errors = {};
                     return errors;
@@ -103,20 +121,15 @@ export default function TestCreatePage() {
                     customAPIv1()
                         .post("/tests", values)
                         .then((data) => {
-
                             console.log("axios data:", data);
-                            // setOpenSuccess(true);
+                            setOpenSuccess(true);
                             setSubmitting(false);
+                            // navigate('/testList')
                         })
                         .catch((e) => {
                             setSubmitting(false);
                             console.log("axios error:", e);
-                            // setOpen(true);
-                            // if (e.message.includes("404")) {
-                            //     setStatusCode(404);
-                            // } else if (e.message.includes("500")) {
-                            //     setStatusCode(500);
-                            // }
+                            setOpen(true);
                         });
                 }}
             >
@@ -131,12 +144,12 @@ export default function TestCreatePage() {
                   }) => (
                     <Form>
                         {console.log('values', values)}
-                        <Grid container sx={{p: 10}}>
-                            <Grid item xs={6} md={2} lg={2}>
+                        <Grid container sx={{p:6}}>
+                            <Grid item xs={2} md={2} lg={2}>
                                 <Card>
-                                    <UploadImg setFieldValue={setFieldValue} />
+                                    <UploadImg setFieldValue={setFieldValue} sx={{ height:300}}/>
                                     <CardContent>
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                             <Field
                                                 label="Name"
                                                 placeholder="Test Name"
@@ -155,8 +168,8 @@ export default function TestCreatePage() {
                                                 }}
                                             />
 
-                                            <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                                                <Box sx={{ flex: 1 }}>
+                                            <Box sx={{display: 'flex', alignItems: 'center', width: '100%'}}>
+                                                <Box sx={{flex: 1}}>
                                                     <Field
                                                         label="Minutes"
                                                         placeholder="Minutes"
@@ -170,15 +183,15 @@ export default function TestCreatePage() {
                                                         }}
                                                     />
                                                 </Box>
-                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                <Box sx={{display: 'flex', alignItems: 'center'}}>
                                                     <CardActions disableSpacing>
-                                                        <AlarmIcon sx={{ fontSize: 48, color: 'blue' }} />
+                                                        <AlarmIcon sx={{fontSize: 48, color: 'blue'}}/>
                                                     </CardActions>
                                                 </Box>
                                             </Box>
 
-                                            <Box sx={{ width: '100%' }}>
-                                                <FormControl fullWidth sx={{ mt: 2 }}>
+                                            <Box sx={{width: '100%'}}>
+                                                <FormControl fullWidth sx={{mt: 2}}>
                                                     <Field
                                                         component={Select}
                                                         id="difficulty"
@@ -186,7 +199,7 @@ export default function TestCreatePage() {
                                                         label="Difficulty"
                                                         variant="outlined"
                                                     >
-                                                        {diffcultyOptions.map(item => (
+                                                        {diffcultyOptions && diffcultyOptions.map(item => (
                                                             <MenuItem key={item.id} value={item.id}>
                                                                 {item.name}
                                                             </MenuItem>
@@ -195,7 +208,7 @@ export default function TestCreatePage() {
                                                 </FormControl>
                                             </Box>
 
-                                            <Box sx={{ width: '100%', mt: 2 }}>
+                                            <Box sx={{width: '100%', mt: 2}}>
                                                 <Field
                                                     name="tags"
                                                     multiple
@@ -218,7 +231,7 @@ export default function TestCreatePage() {
                                         </Box>
                                     </CardContent>
 
-                                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                                    <Box sx={{display: 'flex', justifyContent: 'center', mt: 3}}>
                                         <LoadingButton
                                             fullWidth
                                             size="large"
@@ -283,6 +296,20 @@ export default function TestCreatePage() {
                                 />
                             </Grid>
                         </Grid>
+
+                        <Stack spacing={2} sx={{width: '100%'}}>
+                            <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                                    Add test success!
+                                </Alert>
+                            </Snackbar>
+
+                            <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
+                                    Error in add test!
+                                </Alert>
+                            </Snackbar>
+                        </Stack>
                     </Form>
                 )}
             </Formik>

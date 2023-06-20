@@ -27,6 +27,7 @@ import EditRoadIcon from '@mui/icons-material/EditRoad';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import PostAddTwoToneIcon from '@mui/icons-material/PostAddTwoTone';
 // components
 import Logo from "./logo";
 import ChangePasswordForm from "./Forms/ChangePasswordForm";
@@ -221,6 +222,19 @@ export default function NavBar(props) {
                                             <QuestionMarkIcon/>
                                         </ListItemIcon>
                                         <ListItemText primary="Questions" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
+
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 4}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 4)
+                                            navigate("/dashboard/testCreate")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <PostAddTwoToneIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Test Create" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
                                 </>)}
 

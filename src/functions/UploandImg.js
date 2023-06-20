@@ -31,7 +31,7 @@ export default function UploadImg({setFieldValue}) {
     return (
         <>
             {imageUrls && (
-                <img src={imageUrls} alt="Avatar"/>
+                <img src={imageUrls} alt="Avatar" />
             )}
             {/*<input*/}
             {/*    type="file"*/}
