@@ -1,31 +1,36 @@
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import {Grid, IconButton, MenuItem, Popover, Stack, Typography} from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import {
+    Grid,
+    IconButton,
+    MenuItem,
+    Popover,
+    Stack,
+    Typography,
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {useEffect, useState} from "react";
-import {Helmet} from "react-helmet-async";
-import {useTheme} from '@mui/material/styles';
-import {customAPIv1} from "../../../features/customAPI";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTheme } from "@mui/material/styles";
+import { customAPIv1 } from "../../../features/customAPI";
 
 import ProgressBar from "@ramonak/react-progress-bar";
 
-
 const columns = [
-    {id: 'rank', label: 'Rank', minWidth: 50, align: "center"},
-    {id: 'email', label: 'Email', minWidth: 150},
-    {id: 'score', label: 'Score', minWidth: 200, align: "center"},
-    {id: 'date', label: 'Date taken', minWidth: 100, align: "center"},
+    { id: "rank", label: "Rank", minWidth: 50, align: "center" },
+    { id: "email", label: "Email", minWidth: 150 },
+    { id: "score", label: "Score", minWidth: 200, align: "center" },
+    { id: "date", label: "Date taken", minWidth: 100, align: "center" },
 ];
 
-
 export default function TestStatisticPage() {
-    const theme = useTheme()
+    const theme = useTheme();
     const [tag, setTag] = useState([]);
     const [openMenu, setOpenMenu] = useState(null);
     const [currentTag, setCurrentTag] = useState(0);
@@ -47,7 +52,7 @@ export default function TestStatisticPage() {
 
     const handleCloseConfirm = () => {
         setOpenConfirm(false);
-        setOpen(false)
+        setOpen(false);
     };
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -59,17 +64,18 @@ export default function TestStatisticPage() {
         setOpenDialog(false);
     };
     const updateTag = () => {
-        customAPIv1().get("/tags")
-            .then(res => {
+        customAPIv1()
+            .get("/tags")
+            .then((res) => {
                 console.log("tag:", res.data);
                 setTag(res.data.data);
             })
-            .catch(e => console.log("error in get tags:", e))
-    }
+            .catch((e) => console.log("error in get tags:", e));
+    };
     useEffect(() => {
         console.log("tag page did mount");
         updateTag();
-    }, [])
+    }, []);
     return (
         <>
             <Helmet>
@@ -84,26 +90,24 @@ export default function TestStatisticPage() {
                     height: "100vh",
                     padding: "5% 10%",
                     overFlow: "scroll",
-                    backgroundImage: 'url("/assets/images/background-test-statistics.png")',
-                    backgroundSize: 'cover',
-                }}
-            >
-                <Grid item xs={12}>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
-                        <Typography variant="h4" gutterBottom sx={{
-                            color: theme.palette.primary.contrastText
+                    backgroundImage:
+                        'url("/assets/images/background-test-statistics.png")',
+                    backgroundSize: "cover",
+                }}>
+                <Grid item xs={12} sx={{ textAlign: "center" }}>
+                    <Typography
+                        variant="titleInTheBackground"
+                        sx={{
+                            color: theme.palette.primary.contrastText,
                         }}>
-                            Test statistics
-                        </Typography>
-                    </Stack>
+                        Test statistics
+                    </Typography>
                 </Grid>
                 <Grid item xs={12}>
-
                     <Paper padding={2}>
                         <TableContainer
                             component={Paper}
-                            sx={{maxHeight: "70vh"}}
-                        >
+                            sx={{ maxHeight: "70vh"}}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
@@ -113,10 +117,10 @@ export default function TestStatisticPage() {
                                                 align={column.align}
                                                 style={{
                                                     minWidth: column.minWidth,
-                                                    backgroundColor: theme.palette.primary.dark,
-                                                    color: theme.palette.primary.contrastText
-                                                }}
-                                            >
+                                                    backgroundColor:"rgba(22, 28, 36, 1)",
+                                                    color: theme.palette.primary
+                                                        .contrastText,
+                                                }}>
                                                 {column.label}
                                             </TableCell>
                                         ))}
@@ -124,26 +128,67 @@ export default function TestStatisticPage() {
                                 </TableHead>
                                 <TableBody>
                                     {tag.map((row, index) => {
-                                        const {id, name} = row;
+                                        const { id, name } = row;
 
                                         return (
-                                            <TableRow hover key={id} tabIndex={-1} role="checkbox">
-                                                <TableCell align="center" component="th" scope="row">
+                                            <TableRow
+                                                hover
+                                                key={id}
+                                                tabIndex={-1}
+                                                role="checkbox"
+                                                style={{
+                                                    backgroundColor:
+                                                        theme.palette.grey[800],
+                                                }}>
+                                                <TableCell
+                                                    align="center"
+                                                    component="th"
+                                                    scope="row"
+                                                    style={{
+                                                        color: theme.palette
+                                                            .primary
+                                                            .contrastText,
+                                                    }}>
                                                     {id}
                                                 </TableCell>
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    <Stack direction="row" alignItems="center" spacing={2} pl={2}>
-                                                        <Typography variant="subtitle2" noWrap>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                    padding="none" 
+                                                    style={{
+                                                        color: theme.palette
+                                                            .primary
+                                                            .contrastText,
+                                                    }}>
+                                                    <Stack
+                                                        direction="row"
+                                                        alignItems="center"
+                                                        spacing={2}
+                                                        pl={2}>
+                                                        <Typography
+                                                            variant="subtitle2"
+                                                            noWrap>
                                                             {name}
                                                         </Typography>
                                                     </Stack>
                                                 </TableCell>
 
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    <ProgressBar completed={60} />
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                    padding="none"
+                                                    >
+                                                    <ProgressBar
+                                                        completed={60}
+                                                    />
                                                 </TableCell>
 
-                                                <TableCell align="center">
+                                                <TableCell align="center" 
+                                                style={{
+                                                        color: theme.palette
+                                                            .primary
+                                                            .contrastText,
+                                                    }}>
                                                     {Date.now().toString()}
                                                 </TableCell>
                                             </TableRow>
@@ -156,33 +201,38 @@ export default function TestStatisticPage() {
                             open={Boolean(openMenu)}
                             anchorEl={openMenu}
                             onClose={handleCloseMenu}
-                            anchorOrigin={{vertical: 'top', horizontal: 'left'}}
-                            transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "left",
+                            }}
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
                             PaperProps={{
                                 sx: {
                                     p: 1,
                                     width: 140,
-                                    '& .MuiMenuItem-root': {
+                                    "& .MuiMenuItem-root": {
                                         px: 1,
-                                        typography: 'body2',
+                                        typography: "body2",
                                         borderRadius: 0.75,
                                     },
                                 },
-                            }}
-                        >
-                            <MenuItem sx={{color: 'error.main'}} onClick={(e) => {
-                                handleCloseMenu()
-                                handleClickOpenConfirm()
                             }}>
-                                <DeleteOutlineIcon fontSize="small"/>
+                            <MenuItem
+                                sx={{ color: "error.main" }}
+                                onClick={(e) => {
+                                    handleCloseMenu();
+                                    handleClickOpenConfirm();
+                                }}>
+                                <DeleteOutlineIcon fontSize="small" />
                                 Delete
                             </MenuItem>
                         </Popover>
                     </Paper>
-
                 </Grid>
             </Grid>
         </>
-
-    )
+    );
 }

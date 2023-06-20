@@ -102,6 +102,12 @@ const typography = {
         fontSize: pxToRem(14),
         textTransform: 'capitalize',
     },
+    titleInTheBackground: {
+            fontWeight: 700,
+            lineHeight: 1.5,
+            fontSize: pxToRem(27),
+            textTransform: 'uppercase',
+    }
 };
 
 export default typography;
