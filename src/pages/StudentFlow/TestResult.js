@@ -23,7 +23,9 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {customAPIv1} from "../../features/customAPI";
 import {useLocation} from "react-router-dom";
+import Checkbox from "@mui/material/Checkbox";
 
+import SimpleBar from 'simplebar-react';
 
 const StyledRoot = styled('div')(({theme}) => ({
     [theme.breakpoints.up('md')]: {
@@ -45,12 +47,12 @@ export default function TestResultPage() {
     const location = useLocation();
     console.log("location in edit:", location)
     const {state} = location;
-    let test;
+    let test, attempt, choices, time;
     if (state) {
-        ({test} = state)
+        ({test, attempt, choices, time} = state)
     }
+    time = new Date(time)
     const questions = test ? test.details.map(item => item.question) : []
-
     const [studenQuiz, setStudenQuiz] = useState([]);
     const theme = useTheme()
     // const [showTable, setShowTable] = useState(false);
@@ -84,13 +86,14 @@ export default function TestResultPage() {
                 <title> Test Result | Quiz </title>
             </Helmet>
 
-            <StyledRoot>
-                <StyledSection>
-                    <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
+            {/*<StyledRoot>*/}
+            {/*    <StyledSection>*/}
+                    <Typography variant="h3" sx={{px: 5}}>
                         Test Result
                     </Typography>
                     <Grid container spacing={3} sx={{
-                        p: 10,
+                        px: 10,
+                        pt: 5,
                     }}>
 
                         <Grid item xs={4}>
@@ -127,9 +130,9 @@ export default function TestResultPage() {
                                     </CardContent>
                                 </Card>
 
-                                <Paper elevation={3} sx={{px: 0, mt: 2, mb: 2, pb: '10px'}}>
+                                <Paper elevation={3} sx={{px: 2, mt: 2, mb: 2, pb: '10px'}}>
                                     Accuracy
-                                    <ProgressBar completed={75}
+                                    <ProgressBar completed={attempt.score}
                                                  maxCompleted={100}
                                                  height={28}
                                                  bgColor={theme.palette.primary.main}
@@ -142,7 +145,7 @@ export default function TestResultPage() {
                                             <Grid container>
                                                 <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
                                                     <CardHeader
-                                                        title="6"
+                                                        title={attempt.corrects}
                                                         subheader="Correct"
                                                     />
                                                 </Grid>
@@ -160,7 +163,7 @@ export default function TestResultPage() {
                                             <Grid container>
                                                 <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
                                                     <CardHeader
-                                                        title="6"
+                                                        title={attempt.incorrects}
                                                         subheader="Incorrect"
                                                     />
                                                 </Grid>
@@ -180,7 +183,7 @@ export default function TestResultPage() {
                                             <Grid container>
                                                 <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
                                                     <CardHeader
-                                                        title="12312s"
+                                                        title={`${time.getMinutes()}m${time.getSeconds()}s`}
                                                         subheader="Time/ques"
                                                     />
                                                 </Grid>
@@ -204,60 +207,99 @@ export default function TestResultPage() {
                                 <Typography variant="body1" fontWeight="bold">
                                     Review Questions
                                 </Typography>
-                                <Typography variant="body1">
+                                <Typography variant="body1" sx={{mb: 2}}>
                                     Click on the questions to see answers
                                 </Typography>
-                                {questions.map((item, index) => (
-                                    <Card elevation={3} sx={{
-                                        px: 0, mt: 2, mb: 2,
-                                        // pb: '10px'
-                                    }} key={item.id}>
-                                        <Grid container
+                                <SimpleBar style={{maxHeight: "60vh"}}>
+                                    {questions.map((question, index) => {
 
-                                              onClick={() => {
-                                                  handleContentClick(item.id)
-                                              }}>
-                                            <Grid item xs={0.5}
-                                                  sx={{bgcolor: item.value ? theme.palette.success.main : theme.palette.error.main}}/>
-                                            <Grid item xs={11.5}>
-                                                <CardContent>
-                                                    <Typography variant="body2" sx={{pl: 4}}>
-                                                        Câu hỏi {index + 1}: {item.content}
-                                                    </Typography>
-                                                    <hr/>
-                                                </CardContent>
-                                                {openQuestionIDs.includes(item.id) && (
-                                                    <Grid item xs={12} sx={{pl: 1.4}}>
-                                                        <RadioGroup sx={{
-                                                            mb: 2
-                                                        }}>
-                                                            {item.answers.map((item1) => (
+                                            let correct = true;
+                                            if (question.type.id <= 2) {
+                                                const trueAnswerID = question.answers.find(item => item.isTrue).id
+                                                if (choices[index] !== trueAnswerID) {
+                                                    correct = false
+                                                }
+                                            } else if (question.type.id == 3) {
+                                                const trueAnswers = question.answers.filter(item => item.isTrue);
+                                                const trueAnswerIDs = trueAnswers.map(item => item.id).sort((a, b) => a - b);
+                                                choices[index] = choices[index].sort((a, b) => a - b);
+                                                for (let i = 0; i < trueAnswerIDs.length; i++) {
+                                                    if (trueAnswerIDs[i] != choices[index][i]) {
+                                                        correct = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
 
-                                                                <FormControlLabel
-                                                                    key={item1.id}
-                                                                    value={item1.id}
-                                                                    control={<Radio/>}
-                                                                    label={item1.content}
-                                                                    checked={item1.isTrue === true}
-                                                                    sx={{bgcolor: item1.isTrue === true ? theme.palette.success.light : ''}}
-                                                                />
+                                            return (
+                                                <Card elevation={3} sx={{
+                                                    px: 0, mt: 2, mb: 2,
+                                                    // pb: '10px'
+                                                }} key={question.id}>
+                                                    <Grid container
 
-                                                            ))}
-                                                        </RadioGroup>
+                                                          onClick={() => {
+                                                              handleContentClick(question.id)
+                                                          }}>
+                                                        <Grid item xs={0.5}
+                                                              sx={{bgcolor: correct ? theme.palette.success.main : theme.palette.error.main}}/>
+                                                        <Grid item xs={11.5}>
+                                                            <CardContent>
+                                                                <Typography variant="body2" sx={{pl: 4}}>
+                                                                    Câu hỏi {index + 1}: {question.content}
+                                                                </Typography>
+                                                                <hr/>
+                                                            </CardContent>
+                                                            {openQuestionIDs.includes(question.id) && (
+                                                                <Grid item xs={12} sx={{pl: 1.4}}>
+                                                                    <RadioGroup sx={{
+                                                                        mb: 2
+                                                                    }}>
+                                                                        {question.answers.map((answer) => {
+                                                                            const wrong = answer.isTrue === false &&
+                                                                                (question.type.id <= 2 ? choices[index] === answer.id
+                                                                                        : choices[index].includes(answer.id)
+                                                                                )
+                                                                            return (
+                                                                                <FormControlLabel
+                                                                                    key={answer.id}
+                                                                                    value={answer.id}
+                                                                                    control={
+                                                                                        question.type.id <= 2 ?
+                                                                                            <Radio/> : <Checkbox/>
+                                                                                    }
+                                                                                    label={answer.content}
+                                                                                    checked={(question.type.id <= 2 ? choices[index] === answer.id
+                                                                                            : choices[index].includes(answer.id)
+                                                                                    )}
+                                                                                    disabled={true}
+                                                                                    sx={{
+                                                                                        bgcolor: answer.isTrue === true ? theme.palette.success.light :
+                                                                                            (wrong ? theme.palette.error.light : '')
+                                                                                    }}
+                                                                                />
+
+                                                                            )
+                                                                        })
+                                                                        }
+                                                                    </RadioGroup>
+                                                                </Grid>
+                                                            )}
+                                                        </Grid>
                                                     </Grid>
-                                                )}
-                                            </Grid>
-                                        </Grid>
-                                    </Card>
-                                ))}
+                                                </Card>
+                                            )
+                                        }
+                                    )}
+                                </SimpleBar>
                             </Paper>
                         </Grid>
                     </Grid>
 
-                </StyledSection>
+            {/*    </StyledSection>*/}
 
 
-            </StyledRoot>
+            {/*</StyledRoot>*/}
 
         </>
     )
