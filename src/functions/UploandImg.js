@@ -8,6 +8,7 @@ import {
 
 import {v4} from "uuid";
 import {storage} from "../pages/Teacher/firebase";
+import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
 
 export default function UploadImg() {
     const [imageUrls, setImageUrls] = useState([]);
@@ -31,10 +32,37 @@ export default function UploadImg() {
             {imageUrls.length > 0 && (
                 <img src={imageUrls[imageUrls.length - 1]} alt="Avatar"/>
             )}
-            <input
-                type="file"
-                onChange={handleFileChange}
-            />
+            {/*<input*/}
+            {/*    type="file"*/}
+            {/*    onChange={handleFileChange}*/}
+            {/*/>*/}
+            <div>
+                <label htmlFor="file-upload" className="custom-file-upload">
+                    <div className="flex-container">
+                        <CloudUploadTwoToneIcon className="icon"/>
+                        <span className="text">Custom Upload</span>
+                    </div>
+                </label>
+                <input id="file-upload" type="file" onChange={handleFileChange}/>
+            </div>
+            <style>
+                {`
+        input[type="file"] {
+          display: none;
+        }
+        .custom-file-upload {
+          border: 1px solid #ccc;
+          display: inline-block;
+          padding: 6px 12px;
+          cursor: pointer;
+        }
+        .flex-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+      `}
+            </style>
         </>
     );
 }

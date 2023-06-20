@@ -21,6 +21,11 @@ import {customAPIv1} from "../../features/customAPI";
 import UploadImg from "../../functions/UploandImg";
 
 export default function TestCreatePage() {
+    const [minutes, setMinutes] = useState(0);
+
+    const handleMinutesChange = (event) => {
+        setMinutes(event.target.value);
+    };
     const [tags, setTags] = useState([]);
     useEffect(() => {
         customAPIv1().get("/tags")
@@ -37,33 +42,45 @@ export default function TestCreatePage() {
     }, [])
     return (
         <>
-            <Grid container sx={{p:10}}>
-                <Grid item xs={2}  >
-                    <Card >
+            <Grid container sx={{p: 10}}>
+                <Grid item xs={2}>
+                    <Card>
                         <UploadImg/>
                         <CardContent>
-                                <Input
-                                    label="Search Here"
-                                    placeholder="Test Name"
-                                    sx={{
-                                        ml: 3,
-                                        flex: 1,
-                                        width: 200,
-                                        '& input': {
-                                            textAlign: 'center',
-                                            fontWeight: 'bolder',
-                                            fontSize: '1.5em',
-                                            textOverflow: 'ellipsis',
-                                        },
-                                    }}
-                                />
+                            <Input
+                                label="Search Here"
+                                placeholder="Test Name"
+                                sx={{
+                                    ml: 3,
+                                    flex: 1,
+                                    width: 200,
+                                    '& input': {
+                                        textAlign: 'center',
+                                        fontWeight: 'bolder',
+                                        fontSize: '1.5em',
+                                        textOverflow: 'ellipsis',
+                                    },
+                                }}
+                            />
                             <Grid container>
-                                <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
-                                    <CardHeader
-                                        title="12312s"
-                                        subheader="Time/ques"
+                                <Grid item xs={8} sx={{pt: "24px",}} textAlign={"center"}>
+                                    <TextField
+                                        sx={{
+                                            '& input': {
+                                                textAlign: 'center'}
+                                        }}
+                                        label="Minutes"
+                                        type="number"
+                                        value={minutes}
+                                        onChange={handleMinutesChange}
                                     />
+                                    <Typography>
+                                        Time/ques
+                                    </Typography>
+
                                 </Grid>
+
+
                                 <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>
                                     <CardActions disableSpacing>
                                         <AlarmIcon
@@ -72,7 +89,7 @@ export default function TestCreatePage() {
                                 </Grid>
                             </Grid>
                             <Grid item xs={12}>
-                                <Paper sx={{ p: 1 }}>
+                                <Paper sx={{p: 1}}>
                                     <Autocomplete
                                         name="tags"
                                         multiple
@@ -94,21 +111,21 @@ export default function TestCreatePage() {
 
                     </Card>
                 </Grid>
-                <Grid item xs={4} sx={{pl:"20px"}}>
-                    <Paper sx={{p:"20px"}}>
-                            <Typography gutterBottom variant="h6" component="div" sx={{display: 'flex',}}>
-                                <FormatListBulletedIcon sx={{mr:"10px"}} /> Questions
-                            </Typography>
-                        <Paper elevation={3} sx={{p:"10px"}}>
-                            <Grid container sx={{pl:"20px" ,display: 'flex',  alignItems: 'center'}}>
-                                <Grid item xs={10} sx={{justifyContent: 'flex-start'}} >
-                                    <Typography gutterBottom variant="inherit" component="div" >
+                <Grid item xs={4} sx={{pl: "20px"}}>
+                    <Paper sx={{p: "20px"}}>
+                        <Typography gutterBottom variant="h6" component="div" sx={{display: 'flex',}}>
+                            <FormatListBulletedIcon sx={{mr: "10px"}}/> Questions
+                        </Typography>
+                        <Paper elevation={3} sx={{p: "10px"}}>
+                            <Grid container sx={{pl: "20px", display: 'flex', alignItems: 'center'}}>
+                                <Grid item xs={10} sx={{justifyContent: 'flex-start'}}>
+                                    <Typography gutterBottom variant="inherit" component="div">
                                         Question 1
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={1} sx={{justifyContent: 'flex-end', ml:"20px",}} >
+                                <Grid item xs={1} sx={{justifyContent: 'flex-end', ml: "20px",}}>
                                     <IconButton aria-label="delete">
-                                        <DeleteForeverTwoToneIcon sx={{color:'#E33F5E'}} />
+                                        <DeleteForeverTwoToneIcon sx={{color: '#E33F5E'}}/>
                                     </IconButton>
                                 </Grid>
                             </Grid>
@@ -123,7 +140,7 @@ export default function TestCreatePage() {
                         </Paper>
                     </Paper>
                 </Grid>
-                <Grid item xs={6} >
+                <Grid item xs={6}>
                     <QuestionCreateManagement/>
                 </Grid>
             </Grid>
