@@ -1,3 +1,7 @@
+//React
+import {useEffect, useState} from "react";
+import {Helmet} from "react-helmet-async";
+//@mui
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -16,24 +20,24 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {useEffect, useState} from "react";
-import {Helmet} from "react-helmet-async";
-import AddIcon from "@mui/icons-material/Add";
-import {useTheme} from "@mui/material/styles";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
-import AddUserForm from "../../components/Forms/AddUserForm";
-import {customAPIv1} from "../../features/customAPI";
-import EditUserForm from "../../components/Forms/EditUserForm";
+import {useTheme} from "@mui/material/styles";
+//MUI Icon
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import AddIcon from "@mui/icons-material/Add";
 import UpgradeRoundedIcon from "@mui/icons-material/UpgradeRounded";
-import {useSelector} from "react-redux";
-
+//component
+import AddUserForm from "../../components/Forms/AddUserForm";
+import EditUserForm from "../../components/Forms/EditUserForm";
+//API
+import {customAPIv1} from "../../features/customAPI";
+//--------------------------------------------------
 const columns = [
     {id: "name", label: "Name", minWidth: 150},
     {id: "role", label: "Role", minWidth: 150},
@@ -43,9 +47,6 @@ const columns = [
 ];
 
 export default function UsersPage() {
-    let user = useSelector(({user}) => {
-        return user;
-    });
     const theme = useTheme();
     const [users, setUsers] = useState([]);
     const [openMenu, setOpenMenu] = useState(null);
@@ -114,7 +115,7 @@ export default function UsersPage() {
     return (
         <>
             <Helmet>
-                <title> User Management | Flight </title>
+                <title> User Management | Quiz </title>
             </Helmet>
             <Grid
                 container
@@ -172,10 +173,7 @@ export default function UsersPage() {
                                             name,
                                             role,
                                             email,
-                                            avatarUrl,
                                             isLocked,
-                                            password,
-
                                         } = row;
 
                                         return (
