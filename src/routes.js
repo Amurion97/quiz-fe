@@ -98,7 +98,7 @@ export default function Router() {
             element: <ResetPasswordPage/>,
         },
         {
-            path: '/testresult',
+                path: '/testresult',
             element: <TestResultPage/>,
         },
 

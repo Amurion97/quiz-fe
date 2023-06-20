@@ -22,6 +22,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {customAPIv1} from "../../features/customAPI";
+import {useLocation} from "react-router-dom";
 
 
 const StyledRoot = styled('div')(({theme}) => ({
@@ -41,15 +42,14 @@ const StyledSection = styled('div')(({theme}) => ({
 }));
 
 export default function TestResultPage() {
-    const [listQuestion, setListQuestion] = useState([]);
-    useEffect(() => {
-        customAPIv1().get(`/questions`)
-            .then(res => {
-                console.log("questions:", res.data);
-                setListQuestion(res.data.data);
-            })
-            .catch(e => console.log("error in get questions:", e))
-    }, [])
+    const location = useLocation();
+    console.log("location in edit:", location)
+    const {state} = location;
+    let test;
+    if (state) {
+        ({test} = state)
+    }
+    const questions = test ? test.details.map(item => item.question) : []
 
     const [studenQuiz, setStudenQuiz] = useState([]);
     const theme = useTheme()
@@ -84,17 +84,17 @@ export default function TestResultPage() {
                 <title> Test Result | Quiz </title>
             </Helmet>
 
-                <StyledRoot>
-                    <StyledSection>
-                        <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
-                            Test Result
-                        </Typography>
-                        <Grid container spacing={3} sx={{
-                            p: 10,
-                        }}>
+            <StyledRoot>
+                <StyledSection>
+                    <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
+                        Test Result
+                    </Typography>
+                    <Grid container spacing={3} sx={{
+                        p: 10,
+                    }}>
 
-                            <Grid item xs={4}>
-                                <Paper sx={{p:'20px'}}>
+                        <Grid item xs={4}>
+                            <Paper sx={{p: '20px'}}>
                                 <Card>
                                     <Grid container>
                                         <Grid item xs={8}>
@@ -109,7 +109,8 @@ export default function TestResultPage() {
                                             />
                                         </Grid>
                                         <Grid item xs={3}>
-                                            <CardActions disableSpacing sx={{pt:'20px', display: 'flex', justifyContent: 'center',}}>
+                                            <CardActions disableSpacing
+                                                         sx={{pt: '20px', display: 'flex', justifyContent: 'center',}}>
                                                 <IconButton aria-label="share">
                                                     <ShareIcon/>
                                                 </IconButton>
@@ -193,70 +194,70 @@ export default function TestResultPage() {
                                         </Card>
                                     </Grid>
                                 </Grid>
-                                </Paper>
-                            </Grid>
-
-                            <Grid item xs={8}>
-                                <Paper sx={{
-                                    p: '28px'
-                                }}>
-                                    <Typography variant="body1" fontWeight="bold">
-                                        Review Questions
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Click on the questions to see answers
-                                    </Typography>
-                                    {listQuestion.map((item, index) => (
-                                        <Card elevation={3} sx={{
-                                            px: 0, mt: 2, mb: 2,
-                                            // pb: '10px'
-                                        }} key={item.id}>
-                                            <Grid container
-
-                                                  onClick={() => {
-                                                      handleContentClick(item.id)
-                                                  }}>
-                                                <Grid item xs={0.5}
-                                                      sx={{bgcolor: item.value ? theme.palette.success.main : theme.palette.error.main}}/>
-                                                <Grid item xs={11.5}>
-                                                    <CardContent>
-                                                        <Typography variant="body2" sx={{pl: 4}}>
-                                                            Câu hỏi {index + 1}: {item.content}
-                                                        </Typography>
-                                                        <hr/>
-                                                    </CardContent>
-                                                    {openQuestionIDs.includes(item.id) && (
-                                                        <Grid item xs={12} sx={{pl: 1.4}}>
-                                                            <RadioGroup sx={{
-                                                                mb: 2
-                                                            }}>
-                                                                {item.answers.map((item1) => (
-
-                                                                    <FormControlLabel
-                                                                        key={item1.id}
-                                                                        value={item1.id}
-                                                                        control={<Radio/>}
-                                                                        label={item1.content}
-                                                                        checked={item1.isTrue === true}
-                                                                        sx={{bgcolor: item1.isTrue === true ? theme.palette.success.light : ''}}
-                                                                    />
-
-                                                                ))}
-                                                            </RadioGroup>
-                                                        </Grid>
-                                                    )}
-                                                </Grid>
-                                            </Grid>
-                                        </Card>
-                                    ))}
-                                </Paper>
-                            </Grid>
+                            </Paper>
                         </Grid>
 
-                    </StyledSection>
+                        <Grid item xs={8}>
+                            <Paper sx={{
+                                p: '28px'
+                            }}>
+                                <Typography variant="body1" fontWeight="bold">
+                                    Review Questions
+                                </Typography>
+                                <Typography variant="body1">
+                                    Click on the questions to see answers
+                                </Typography>
+                                {questions.map((item, index) => (
+                                    <Card elevation={3} sx={{
+                                        px: 0, mt: 2, mb: 2,
+                                        // pb: '10px'
+                                    }} key={item.id}>
+                                        <Grid container
+
+                                              onClick={() => {
+                                                  handleContentClick(item.id)
+                                              }}>
+                                            <Grid item xs={0.5}
+                                                  sx={{bgcolor: item.value ? theme.palette.success.main : theme.palette.error.main}}/>
+                                            <Grid item xs={11.5}>
+                                                <CardContent>
+                                                    <Typography variant="body2" sx={{pl: 4}}>
+                                                        Câu hỏi {index + 1}: {item.content}
+                                                    </Typography>
+                                                    <hr/>
+                                                </CardContent>
+                                                {openQuestionIDs.includes(item.id) && (
+                                                    <Grid item xs={12} sx={{pl: 1.4}}>
+                                                        <RadioGroup sx={{
+                                                            mb: 2
+                                                        }}>
+                                                            {item.answers.map((item1) => (
+
+                                                                <FormControlLabel
+                                                                    key={item1.id}
+                                                                    value={item1.id}
+                                                                    control={<Radio/>}
+                                                                    label={item1.content}
+                                                                    checked={item1.isTrue === true}
+                                                                    sx={{bgcolor: item1.isTrue === true ? theme.palette.success.light : ''}}
+                                                                />
+
+                                                            ))}
+                                                        </RadioGroup>
+                                                    </Grid>
+                                                )}
+                                            </Grid>
+                                        </Grid>
+                                    </Card>
+                                ))}
+                            </Paper>
+                        </Grid>
+                    </Grid>
+
+                </StyledSection>
 
 
-                </StyledRoot>
+            </StyledRoot>
 
         </>
     )
