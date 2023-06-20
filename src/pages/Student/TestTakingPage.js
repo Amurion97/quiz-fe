@@ -20,25 +20,13 @@ const Item = styled(Paper)(({theme}) => ({
     color: theme.palette.text.secondary,
 }));
 
-const ItemButton = styled(Paper)(({theme}) => ({
-    backgroundColor: "inherit",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-}));
 const BG_COLOR = ["#2BA687", "#1976D2", "#F0A001", "#F200BE", "#CD1E3F"];
-
-const Completionist = () => <span>You are good to go!</span>;
-
-// Renderer callback with condition
-
 
 export default function TestTakingPage() {
     const navigate = useNavigate();
     const theme = useTheme();
     const [test, setTest] = useState(null);
-    const [startTime, setStartTime] = useState(Date.now);
+    const [startTime] = useState(Date.now);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const currentQuestion = test ? test['details'][currentQuestionIndex]['question'] : {}
     const [answerList, setAnswerList] = useState([]);
@@ -114,11 +102,7 @@ export default function TestTakingPage() {
                 {({
                       values,
                       submitForm,
-                      resetForm,
                       isSubmitting,
-                      touched,
-                      errors,
-                      setFieldValue
                   }) => (
                     <Form>
                         <Grid
@@ -165,7 +149,7 @@ export default function TestTakingPage() {
                                             <Grid
                                                 item xs={12 / currentQuestion.answers.length}
                                                 sx={{
-                                                    pl: (index == 0) ? 0 : 2,
+                                                    pl: (index === 0) ? 0 : 2,
                                                     height: '50%',
                                                 }}
                                             >
@@ -295,7 +279,6 @@ export default function TestTakingPage() {
                                                                             width: 56, height: 56,
                                                                             bgcolor: done ? BG_COLOR[0] : BG_COLOR[4]
                                                                         }}
-
                                                                                 onClick={() => {
                                                                                     setCurrentQuestionIndex(index)
                                                                                 }
