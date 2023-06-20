@@ -10,7 +10,7 @@ import {v4} from "uuid";
 import {storage} from "../pages/Teacher/firebase";
 import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
 
-export default function UploadImg() {
+export default function UploadImg({setFieldValue}) {
     const [imageUrls, setImageUrls] = useState([]);
 
     const handleFileChange = (event) => {
@@ -20,6 +20,7 @@ export default function UploadImg() {
             uploadBytes(imageRef, file).then((snapshot) => {
                 getDownloadURL(snapshot.ref).then((url) => {
                     setImageUrls((prev) => [...prev, url]);
+                    setFieldValue('image', imageUrls);
                 });
             });
         }
