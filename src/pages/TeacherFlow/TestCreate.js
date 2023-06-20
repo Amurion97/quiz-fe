@@ -137,33 +137,31 @@ export default function TestCreatePage() {
                                     <UploadImg setFieldValue={setFieldValue}/>
                                     <CardContent>
                                         <Field
-                                            // label="name"
+                                            label="Name"
                                             placeholder="Test Name"
                                             type="text"
                                             name="name"
-                                            // value={name}
                                             component={TextField}
-                                            // sx={{
-                                            //     ml: 3,
-                                            //     flex: 1,
-                                            //     width: 200,
-                                            //     '& input': {
-                                            //         textAlign: 'center',
-                                            //         fontWeight: 'bolder',
-                                            //         fontSize: '1.5em',
-                                            //         textOverflow: 'ellipsis',
-                                            //     },
-                                            // }}
+                                            sx={{
+                                                ml: 3,
+                                                flex: 1,
+                                                width: 200,
+                                                '& input': {
+                                                    textAlign: 'center',
+                                                    fontWeight: 'bolder',
+                                                    fontSize: '1.5em',
+                                                    textOverflow: 'ellipsis',
+                                                },
+                                            }}
                                         />
 
                                         <Grid container>
-                                            <Grid item xs={8} sx={{pt: "24px",}} textAlign={"center"}>
+                                            <Grid item xs={8} sx={{pt: "24px",}} >
                                                 <Field
-                                                    label=""
+                                                    label="Minutes"
                                                     placeholder="Minutes"
                                                     type="number"
                                                     name="time"
-                                                    // value={name}
                                                     component={TextField}
                                                     sx={{
                                                         '& input': {
@@ -171,24 +169,9 @@ export default function TestCreatePage() {
                                                         }
                                                     }}
                                                 />
-                                                {/*<Field*/}
-                                                {/*    sx={{*/}
-                                                {/*        '& input': {*/}
-                                                {/*            textAlign: 'center'*/}
-                                                {/*        }*/}
-                                                {/*    }}*/}
-                                                {/*    placeholder={"0"}*/}
-                                                {/*    label="Minutes"*/}
-                                                {/*    type="number"*/}
-                                                {/*    value={minutes}*/}
-                                                {/*    component={TextField}*/}
-                                                {/*/>*/}
-                                                {/*<Typography>*/}
-                                                {/*    Time/ques*/}
-                                                {/*</Typography>*/}
 
                                             </Grid>
-                                            <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>
+                                            <Grid item xs={3} sx={{display: 'flex', pt:"20px"}}>
                                                 <CardActions disableSpacing>
                                                     <AlarmIcon
                                                         sx={{fontSize: 48, color: "blue"}}/>
