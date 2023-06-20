@@ -52,7 +52,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function StudentLayout() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 

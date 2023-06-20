@@ -27,6 +27,7 @@ import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
 import TestStatisticPage from "./pages/Teacher/Test/TestStatisticPage";
+import QuizSearch from './pages/Student/QuizSearch';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -47,19 +48,21 @@ export default function Router() {
 
                 {path: 'test/:id', element: <TestStatisticPage/>},
 
+
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
             ] : [],
         },
 
-        // {
-        //     path: '/students',
-        //     element: <StudentLayout/>,
-        //     children: [
-        //         {element: <Navigate to="/students/listData"/>, index: true},
-        //         {path: 'listData', element: <QuestionSearchResults/>},
-        //     ]
-        // },
+        {
+            path: '/students',
+            element: <StudentLayout/>,
+            children: [
+                {element: <Navigate to="/students/quizSearch"/>, index: true},
+                // {path: 'listData', element: <QuestionSearchResults/>},
+                {path: 'quizSearch', element: <QuizSearch/>}
+            ]
+        },
 
         {
             path: '/login',
