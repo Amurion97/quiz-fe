@@ -26,6 +26,7 @@ import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
+import {TestTakingPage} from "./pages/Student/TestTakingPage";
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -49,14 +50,14 @@ export default function Router() {
             ] : [],
         },
 
-        // {
-        //     path: '/students',
-        //     element: <StudentLayout/>,
-        //     children: [
-        //         {element: <Navigate to="/students/listData"/>, index: true},
-        //         {path: 'listData', element: <QuestionSearchResults/>},
-        //     ]
-        // },
+        {
+            path: '/students',
+            element: <StudentLayout/>,
+            children: [
+                {element: <Navigate to="/students/test"/>, index: true},
+                {path: 'test', element: <TestTakingPage/>},
+            ]
+        },
 
         {
             path: '/login',

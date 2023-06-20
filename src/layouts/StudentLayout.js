@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {styled, alpha} from '@mui/material/styles';
+import {styled, alpha, useTheme} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,6 +11,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import HistoryIcon from '@mui/icons-material/History';
 import {Outlet} from "react-router-dom";
+import Logo from "../components/logo";
+import {Paper} from "@mui/material";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -23,7 +25,7 @@ const Search = styled('div')(({theme}) => ({
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
+        // marginLeft: theme.spacing(3),
         width: 'auto',
     },
 }));
@@ -52,52 +54,37 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
-export default function PrimarySearchAppBar() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    };
-
-    const handleMobileMenuOpen = (event) => {
-        setMobileMoreAnchorEl(event.currentTarget);
-    };
+export default function StudentLayout() {
+    const theme = useTheme()
     return (
         <>
             <Box sx={{flexGrow: 1, mb: 2,}}>
                 <AppBar position="fixed" sx={{
-                    zIndex: 999
+                    zIndex: 999,
+                    backgroundColor: theme.palette.background.default,
                 }}>
                     <Toolbar>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="div"
-                            sx={{display: {xs: 'none', sm: 'block'}}}
-                        >
-                            <img style={{height: 50, width: 55}}
-                                 src={'https://th.bing.com/th/id/OIP.NZAO5Xy5U61tA2GaVCwxNwHaEK?w=309&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7'}/>
-                        </Typography>
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon/>
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{'aria-label': 'search'}}
-                            />
-                        </Search>
+                        <Logo
+                            sx={{
+                                mr: 3
+                            }}
+                        />
+                        <Paper
+                            sx={{
+                                pl: 0
+                            }}
+                            elevation={1}>
+                            <Search>
+                                <SearchIconWrapper>
+                                    <SearchIcon/>
+                                </SearchIconWrapper>
+                                <StyledInputBase
+                                    placeholder="Search…"
+                                    inputProps={{'aria-label': 'search'}}
+                                />
+                            </Search>
+                        </Paper>
+
                         <Box sx={{flexGrow: 1}}/>
                         <Box sx={{display: {xs: 'none', md: 'flex'}}}>
                             <IconButton
@@ -106,22 +93,10 @@ export default function PrimarySearchAppBar() {
                                 aria-label="account of current user"
                                 // aria-controls={menuId}
                                 aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
+
                                 color="inherit"
                             >
-                                <AccountCircle/>
-                            </IconButton>
-                        </Box>
-                        <Box sx={{display: {xs: 'flex', md: 'none'}}}>
-                            <IconButton
-                                size="large"
-                                aria-label="show more"
-                                // aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                onClick={handleMobileMenuOpen}
-                                color="inherit"
-                            >
-                                <MoreIcon/>
+                                <AccountCircle color={'primary'}/>
                             </IconButton>
                         </Box>
                     </Toolbar>
