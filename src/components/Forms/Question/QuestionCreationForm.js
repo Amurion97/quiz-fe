@@ -209,7 +209,12 @@ export default function QuestionCreationForm() {
                     })
                     .catch(e => {
                         console.log("error in save question:", e);
-                        setMessage("Failed, try again");
+                        if (e.response.status === 409) {
+                            setMessage(e.response.data.message);
+                        } else {
+                            setMessage("Failed, try again");
+                        }
+
                         setOpenDialog(true)
                         setSubmitting(false)
                     })
