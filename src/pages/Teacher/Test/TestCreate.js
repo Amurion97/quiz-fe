@@ -12,9 +12,9 @@ import AlarmIcon from "@mui/icons-material/Alarm";
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import React, {useEffect, useState} from "react";
-import QuestionCreateManagement from "./addQuetions/QuestionCreateManagement";
-import {customAPIv1} from "../../features/customAPI";
-import UploadImg from "../../functions/UploandImg";
+
+import {customAPIv1} from "../../../features/customAPI";
+import UploadImg from "../../../functions/UploandImg";
 import MenuItem from "@mui/material/MenuItem";
 import {Field, Form, Formik} from "formik";
 import MuiTextField from "@mui/material/TextField";
@@ -27,6 +27,8 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
+import QuestionSelection from "../../../components/Forms/Question/QuestionSelection";
+
 const SchemaError = Yup.object().shape({
     name: Yup.string()
         .min(2, "Too Short!")
@@ -50,7 +52,6 @@ export default function TestCreatePage() {
         if (reason === 'clickaway') {
             return;
         }
-
         setOpenSuccess(false)
         setOpen(false)
     };
@@ -124,7 +125,9 @@ export default function TestCreatePage() {
                             console.log("axios data:", data);
                             setOpenSuccess(true);
                             setSubmitting(false);
-                            // navigate('/testList')
+                            setTimeout(() => {
+                                navigate('dashboard/tests')
+                            }, 3000)
                         })
                         .catch((e) => {
                             setSubmitting(false);
@@ -144,10 +147,10 @@ export default function TestCreatePage() {
                   }) => (
                     <Form>
                         {console.log('values', values)}
-                        <Grid container sx={{p:6}}>
+                        <Grid container sx={{p: 6, px: 2}}>
                             <Grid item xs={2} md={2} lg={2}>
                                 <Card>
-                                    <UploadImg setFieldValue={setFieldValue} sx={{ height:300}}/>
+                                    <UploadImg setFieldValue={setFieldValue} sx={{height: 300}}/>
                                     <CardContent>
                                         <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                             <Field
@@ -291,7 +294,7 @@ export default function TestCreatePage() {
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
-                                <QuestionCreateManagement
+                                <QuestionSelection
                                     addToQuestionList={addToQuestionList}
                                 />
                             </Grid>

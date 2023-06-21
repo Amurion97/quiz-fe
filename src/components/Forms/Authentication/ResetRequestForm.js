@@ -1,24 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 // @mui
 import {
-    Link,
     Stack,
     IconButton,
-    InputAdornment,
-    TextField as TextFieldMUI,
     Grid,
     Collapse,
 } from "@mui/material";
 import { Alert, LoadingButton } from "@mui/lab";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Field, Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
 import { TextField } from "formik-mui";
 import CloseIcon from "@mui/icons-material/Close";
-import { forgotPassword } from "../../features/user/userSlice";
-import { customAPIv1 } from "../../features/customAPI";
+import { customAPIv1 } from "../../../features/customAPI";
 
 // components
 

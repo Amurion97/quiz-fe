@@ -9,7 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 import {Pagination} from "@mui/lab";
 
-export default function QuestionCreateManagement({addToQuestionList}) {
+export default function QuestionSelection({addToQuestionList}) {
     const [selectedTagIDs, setSelectedTagIDs] = useState([]);
     const [selectedTypesIDs, setSelectedTypesIDs] = useState([]);
     const [difficultiesIDs, setDifficulties] = useState([]);

@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import Stack from '@mui/material/Stack';
 import FileDownloadDoneTwoToneIcon from '@mui/icons-material/FileDownloadDoneTwoTone';
 import {IconButton, Paper} from "@mui/material";
+import SimpleBar from 'simplebar-react';
 
 export default function QuestionListManagement({setCurrentQuestionId, listQuestion, openOnClick, addToQuestionList}) {
     const props = (id) => {
@@ -17,55 +18,59 @@ export default function QuestionListManagement({setCurrentQuestionId, listQuesti
     }
     return (
         <>
-            <Stack spacing={1}>
+            <SimpleBar style={{maxHeight: "85vh"}}>
 
-                {
-                    listQuestion.map((item) => {
-                        const {
-                            id,
-                            difficulty,
-                            tags,
-                            content,
-                            type,
-                        } = item;
-                        return (
-                            <Card key={id}
-                                  {...props(id)}
-                            >
-                                {!openOnClick && (
-                                    <Paper sx={{ position: 'absolute', top: 0, right: 0 }} >
-                                        <IconButton onClick={() => addToQuestionList(id)}>
-                                            <FileDownloadDoneTwoToneIcon/>
-                                        </IconButton>
-                                    </Paper>
-                                )}
-                                <CardContent>
-                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                        Độ khó: {difficulty.name}
-                                    </Typography>
-                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                        Dạng câu hỏi: {type.name}
-                                    </Typography>
-                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                        Liên
-                                        quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
-                                        "",)}
-                                    </Typography>
+                <Stack spacing={1}>
 
-                                    <Typography variant="h6" component="div">
-                                        Đề bài: {content}
-                                    </Typography>
+                    {
+                        listQuestion.map((item) => {
+                            const {
+                                id,
+                                difficulty,
+                                tags,
+                                content,
+                                type,
+                            } = item;
+                            return (
+                                <Card key={id}
+                                      {...props(id)}
+                                >
+                                    {!openOnClick && (
+                                        <Paper sx={{position: 'absolute', top: 0, right: 0}}>
+                                            <IconButton onClick={() => addToQuestionList(id)}>
+                                                <FileDownloadDoneTwoToneIcon/>
+                                            </IconButton>
+                                        </Paper>
+                                    )}
+                                    <CardContent>
+                                        <Typography sx={{fontSize: 14}} color="text.secondary"
+                                                    gutterBottom>
+                                            Độ khó: {difficulty.name}
+                                        </Typography>
+                                        <Typography sx={{fontSize: 14}} color="text.secondary"
+                                                    gutterBottom>
+                                            Dạng câu hỏi: {type.name}
+                                        </Typography>
+                                        <Typography sx={{fontSize: 14}} color="text.secondary"
+                                                    gutterBottom>
+                                            Liên
+                                            quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
+                                            "",)}
+                                        </Typography>
 
-                                </CardContent>
-                            </Card>
-                        )
-                    })
-                }
+                                        <Typography variant="h6" component="div">
+                                            Đề bài: {content}
+                                        </Typography>
 
-            </Stack>
+                                    </CardContent>
+                                </Card>
+                            )
+                        })
+                    }
 
+                </Stack>
 
+            </SimpleBar>
         </>
-
     )
 }

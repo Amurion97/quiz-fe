@@ -4,10 +4,10 @@ import {Navigate, useRoutes} from 'react-router-dom';
 import DashboardLayout from "./layouts/DashboardLayout";
 
 // user flow
-import LoginPage from './pages/LoginPage';
-import ForgotPasswordPage from './pages/ResetRequestPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
-import RegisterPage from "./pages/RegisterPage";
+import LoginPage from './pages/Authentication/LoginPage';
+import ForgotPasswordPage from './pages/Authentication/ResetRequestPage';
+import ResetPasswordPage from './pages/Authentication/ResetPasswordPage';
+import RegisterPage from "./pages/Authentication/RegisterPage";
 import Page404 from './pages/Page404';
 
 //admin flow
@@ -18,16 +18,17 @@ import QuestionCreationPage from "./pages/Teacher/QuestionCreationPage";
 import QuestionManagement from "./pages/Teacher/QuestionManagement";
 import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
 import TagPage from "./pages/Teacher/TagPage";
+import TestCreatePage from "./pages/Teacher/Test/TestCreate";
 
 //student flow
 import StudentLayout from "./layouts/StudentLayout";
-import QuestionSearchResults from "./pages/Teacher/QuestionSearchResults";
+import TestTakingPage from "./pages/Student/TestTakingPage";
+import TestResultPage from "./pages/Student/TestResultPage";
 
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
-import TestResultPage from "./pages/StudentFlow/TestResult";
-import TestCreatePage from "./pages/TeacherFlow/TestCreate";
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -39,10 +40,12 @@ export default function Router() {
             children: user.info ? [
                 {element: <Navigate to="/dashboard/questions"/>, index: true},
                 {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
-                {path: 'testCreate',element: <TestCreatePage/>},
+
                 {path: 'questions', element: <QuestionManagement/>},
                 {path: 'createQuestion', element: <QuestionCreationPage/>},
                 {path: 'editQuestion', element: <QuestionEditPage/>},
+
+                {path: 'testCreate',element: <TestCreatePage/>},
 
                 {path: 'tag', element: <TagPage/>},
 
@@ -51,14 +54,15 @@ export default function Router() {
             ] : [],
         },
 
-        // {
-        //     path: '/students',
-        //     element: <StudentLayout/>,
-        //     children: [
-        //         {element: <Navigate to="/students/listData"/>, index: true},
-        //         {path: 'listData', element: <QuestionSearchResults/>},
-        //     ]
-        // },
+        {
+            path: '/students',
+            element: <StudentLayout/>,
+            children: [
+                {element: <Navigate to="/students/test"/>, index: true},
+                {path: 'test', element: <TestTakingPage/>},
+                {path: 'result', element: <TestResultPage/>},
+            ]
+        },
 
         {
             path: '/login',
@@ -77,11 +81,6 @@ export default function Router() {
             path: '/reset-password',
             element: <ResetPasswordPage/>,
         },
-        {
-            path: '/testresult',
-            element: <TestResultPage/>,
-        },
-
 
         {
             path: '/404',

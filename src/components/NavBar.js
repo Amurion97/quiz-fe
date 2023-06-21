@@ -6,7 +6,7 @@ import {logout, selectUser} from "../features/user/userSlice";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {
-    Avatar, Button, Collapse, Dialog, Divider,
+    Avatar, Button, Dialog, Divider,
     Grid,
     IconButton,
     List,
@@ -16,14 +16,10 @@ import {
     Paper,
 } from '@mui/material';
 import Box from '@mui/material/Box';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import EditRoadIcon from '@mui/icons-material/EditRoad';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -35,10 +31,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
-import {Alert} from "@mui/lab";
-import CloseIcon from "@mui/icons-material/Close";
-import {customAPIv1} from "../features/customAPI";
-
 
 // sections
 const StyledRoot = styled(Paper)(({theme}) => ({
@@ -49,26 +41,14 @@ const StyledRoot = styled(Paper)(({theme}) => ({
     color: theme.palette.primary.contrastText,
     borderRight: "2px dotted lightgrey",
     borderRadius: 0,
-    // height: "100%",
 }));
 
-const Item = styled(Paper)(({theme}) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
 const UserInfoBox = styled(Paper)(({theme}) => ({
-    // backgroundColor: theme.palette.grey[400],
     backgroundColor: theme.palette.secondary.light,
     textAlign: 'center',
     color: theme.palette.text.primary,
     padding: "5%",
-    // height: 60,
     height: "70%",
-    // lineHeight: '100%',
-    // lineHeight: '60px',
 }));
 const StyledListItemButton = styled(ListItemButton)(({theme}) => ({
     borderRadius: "10px",
