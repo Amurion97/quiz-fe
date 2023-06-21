@@ -20,6 +20,7 @@ import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
 import TagPage from "./pages/Teacher/TagPage";
 import TestCreatePage from "./pages/Teacher/Test/TestCreate";
 import TestStatisticPage from "./pages/Teacher/Test/TestStatisticPage";
+import TestPage from "./pages/Teacher/Test/TestPage";
 
 //student flow
 import StudentLayout from "./layouts/StudentLayout";
@@ -30,7 +31,6 @@ import QuizSearch from './pages/Student/QuizSearch';
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
-
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +49,7 @@ export default function Router() {
                 {path: 'editQuestion', element: <QuestionEditPage/>},
 
                 {path: 'testCreate',element: <TestCreatePage/>},
+                {path: 'tests',element: <TestPage/>},
                 {path: 'test/:id', element: <TestStatisticPage/>},
 
                 {path: 'tag', element: <TagPage/>},

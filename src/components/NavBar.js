@@ -18,19 +18,22 @@ import {
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+//MUI icon
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import PostAddTwoToneIcon from '@mui/icons-material/PostAddTwoTone';
+import QuizIcon from '@mui/icons-material/Quiz';
 // components
 import Logo from "./logo";
 import ChangePasswordForm from "./Forms/ChangePasswordForm";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
+
 
 // sections
 const StyledRoot = styled(Paper)(({theme}) => ({
@@ -165,9 +168,9 @@ export default function NavBar(props) {
                                 <>
                                     <Divider/>
                                     <StyledListItemButton
-                                        selected={selectedIndex === 0}
+                                        selected={selectedIndex === 1}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 0)
+                                            handleListItemClick(event, 1)
                                             navigate("/dashboard/tag")
                                         }}
                                     >
@@ -178,9 +181,9 @@ export default function NavBar(props) {
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
-                                        selected={selectedIndex === 1}
+                                        selected={selectedIndex === 2}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 1)
+                                            handleListItemClick(event, 2)
                                             navigate("/dashboard/createQuestion")
                                         }}
                                     >
@@ -192,9 +195,9 @@ export default function NavBar(props) {
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
-                                        selected={selectedIndex === 2}
+                                        selected={selectedIndex === 3}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 2)
+                                            handleListItemClick(event, 3)
                                             navigate("/dashboard/questions")
                                         }}
                                     >
@@ -216,15 +219,28 @@ export default function NavBar(props) {
                                         </ListItemIcon>
                                         <ListItemText primary="Test Create" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
+
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 5}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 5)
+                                            navigate("/dashboard/tests")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <QuizIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Tests" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
                                 </>)}
 
                             {(user.info.role === 1) && (
                                 <>
                                     <Divider/>
                                     <StyledListItemButton
-                                        selected={selectedIndex === 3}
+                                        selected={selectedIndex === 0}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 3)
+                                            handleListItemClick(event, 0)
                                             navigate("/dashboard/users")
                                         }}
                                     >
