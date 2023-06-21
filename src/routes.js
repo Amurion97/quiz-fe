@@ -31,6 +31,7 @@ import QuizSearch from './pages/Student/QuizSearch';
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
+import GroupTest from "./pages/Student/GroupTest";
 
 // ----------------------------------------------------------------------
 
@@ -98,7 +99,10 @@ export default function Router() {
             element: (user.info ? (user.info.role <= 2 ? <Navigate to="/dashboard"/> :
                 <Navigate to="/students"/>) : <Navigate to="/login"/>),
         },
-
+        {
+            path: '/GroupTest',
+            element: <GroupTest/>
+        },
 
         {
             path: '*',
