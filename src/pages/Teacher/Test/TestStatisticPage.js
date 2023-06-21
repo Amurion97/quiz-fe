@@ -104,10 +104,10 @@ export default function TestStatisticPage() {
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <Paper padding={2}>
+                    <Paper padding={2} sx={{bgcolor: "transparent"}}>
                         <TableContainer
                             component={Paper}
-                            sx={{ maxHeight: "70vh" }}>
+                            sx={{ maxHeight: "70vh", bgcolor: "transparent" }}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
@@ -118,7 +118,7 @@ export default function TestStatisticPage() {
                                                 style={{
                                                     minWidth: column.minWidth,
                                                     background:
-                                                        "rgba(22, 28, 36, 1)",
+                                                        "rgba(22, 28, 36, 0.85)",
                                                     color: theme.palette.primary
                                                         .contrastText,
                                                 }}>
@@ -138,8 +138,7 @@ export default function TestStatisticPage() {
                                                 tabIndex={-1}
                                                 role="checkbox"
                                                 style={{
-                                                    backgroundColor:
-                                                        theme.palette.grey[800],
+                                                    backgroundColor: "rgba(33,43,54, 0.85)"
                                                 }}>
                                                 <TableCell
                                                     align="center"
@@ -179,7 +178,7 @@ export default function TestStatisticPage() {
                                                     scope="row"
                                                     padding="none">
                                                     <ProgressBar
-                                                        bgColor = "#1976D2"
+                                                        bgColor="#1976D2"
                                                         height="16px"
                                                         completed={70}
                                                     />
