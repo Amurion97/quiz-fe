@@ -19,10 +19,14 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import {useLocation} from "react-router-dom";
 import {Helmet} from "react-helmet-async";
 import SimpleBar from 'simplebar-react';
+import {useSelector} from "react-redux";
+import {selectUser} from "../../features/user/userSlice";
 
 export default function TestResultPage() {
     const location = useLocation();
-    console.log("location in edit:", location)
+
+    console.log("location in test result:", location)
+    let user = useSelector(selectUser);
     const {state} = location;
     let test, attempt, choices, time;
     if (state) {
@@ -70,29 +74,24 @@ export default function TestResultPage() {
                                 <Grid item xs={8}>
                                     <CardHeader
                                         avatar={
-                                            <Avatar sx={{bgcolor: theme.palette.info.main}} aria-label="recipe">
-                                                PL
-                                            </Avatar>
+                                            <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
                                         }
-                                        title="Phong"
-                                        subheader="September 14, 2016"
+                                        title={user.info.email}
+                                        subheader={attempt.finish}
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <CardActions disableSpacing
                                                  sx={{pt: '20px', display: 'flex', justifyContent: 'center',}}>
                                         <IconButton aria-label="share">
-                                            <ShareIcon/>
+
                                         </IconButton>
                                     </CardActions>
                                 </Grid>
                             </Grid>
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">
-                                    This impressive paella is a perfect party dish and a fun meal to cook
-                                    together
-                                    with your
-                                    guests. Add 1 cup of frozen peas along with the mussels, if you like.
+
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -151,7 +150,7 @@ export default function TestResultPage() {
                                         <Grid item xs={8} sx={{pb: '24px'}} textAlign={"center"}>
                                             <CardHeader
                                                 title={`${time.getMinutes()}m${time.getSeconds()}s`}
-                                                subheader="Time/ques"
+                                                subheader="Time used"
                                             />
                                         </Grid>
                                         <Grid item xs={3} sx={{display: 'flex', justifyContent: 'center',}}>

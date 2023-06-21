@@ -2,8 +2,6 @@ import {Outlet} from 'react-router-dom';
 import {Grid} from "@mui/material";
 import NavBar from "../components/NavBar";
 
-// ----------------------------------------------------------------------
-
 export default function DashboardLayout() {
 
     return (

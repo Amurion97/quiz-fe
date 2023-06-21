@@ -37,7 +37,8 @@ import AddUserForm from "../../components/Forms/AddUserForm";
 import EditUserForm from "../../components/Forms/EditUserForm";
 //API
 import {customAPIv1} from "../../features/customAPI";
-//--------------------------------------------------
+
+
 const columns = [
     {id: "name", label: "Name", minWidth: 150},
     {id: "role", label: "Role", minWidth: 150},

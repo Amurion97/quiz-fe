@@ -10,7 +10,7 @@ import {customAPIv1} from "../../features/customAPI";
 import {Form, Formik} from "formik";
 import Checkbox from "@mui/material/Checkbox";
 import Countdown from 'react-countdown';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: "inherit",
@@ -25,14 +25,24 @@ const BG_COLOR = ["#2BA687", "#1976D2", "#F0A001", "#F200BE", "#CD1E3F"];
 export default function TestTakingPage() {
     const navigate = useNavigate();
     const theme = useTheme();
+
+    const location = useLocation();
+    // console.log("location in test taking:", location)
+    const {state} = location;
+    let id
+    if (state) {
+        ({id} = state)
+    }
+
     const [test, setTest] = useState(null);
     const [startTime] = useState(Date.now);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const currentQuestion = test ? test['details'][currentQuestionIndex]['question'] : {}
     const [answerList, setAnswerList] = useState([]);
-    console.log("answerList:", answerList)
+    const [isTimedOut, setIsTimedOut] = useState(false)
+    // console.log("answerList:", answerList)
     useEffect(() => {
-        customAPIv1().get('tests/7')
+        customAPIv1().get(`tests/${id}`)
             .then(res => {
                 console.log('test:', res.data.data)
                 setTest(res.data.data);
@@ -58,12 +68,23 @@ export default function TestTakingPage() {
         }
         setAnswerList([...answerList])
     }
-
+    let count = 0;
     const renderer = (x, submitForm, isSubmitting) => {
+
         if (x.completed) {
+            count++;
+            console.log("time out:", count);
+
             // Render a completed state
-            if (!isSubmitting) {
-                submitForm();
+            setIsTimedOut(true);
+            if (!isSubmitting && isTimedOut && count === 2) {
+                setTimeout(() => {
+                    if (!isSubmitting && isTimedOut && count === 2) {
+                        window.alert("Time out!");
+                        submitForm();
+                    }
+                }, 1000)
+
             }
 
         } else {
@@ -75,26 +96,29 @@ export default function TestTakingPage() {
         <>
             <Formik
                 initialValues={{
-                    test: 7
+                    test: id
                 }}
-                onSubmit={(values) => {
+                onSubmit={(values, props) => {
                     values.answers = answerList;
                     console.log("values", values);
-                    customAPIv1().post('/attempts', values)
-                        .then(res => {
-                            window.alert('Success');
-                            navigate("/students/result", {
-                                state: {
-                                    test: test,
-                                    attempt: res.data.data,
-                                    choices: answerList,
-                                    time: Date.now() - startTime
-                                }
+                    if (!props.isSubmitting) {
+                        customAPIv1().post('/attempts', values)
+                            .then(res => {
+                                window.alert('Success');
+                                navigate("/students/result", {
+                                    state: {
+                                        test: test,
+                                        attempt: res.data.data,
+                                        choices: answerList,
+                                        time: Date.now() - startTime
+                                    }
+                                })
                             })
-                        })
-                        .catch(e => {
-                            console.log("error in submit:", e)
-                        })
+                            .catch(e => {
+                                console.log("error in submit:", e)
+                            })
+                    }
+
                 }
                 }
                 enableReinitialize={true}
@@ -147,6 +171,7 @@ export default function TestTakingPage() {
 
                                         {currentQuestion.answers && currentQuestion.answers.map((answer, index) => (
                                             <Grid
+                                                key={index}
                                                 item xs={12 / currentQuestion.answers.length}
                                                 sx={{
                                                     pl: (index === 0) ? 0 : 2,
@@ -232,13 +257,13 @@ export default function TestTakingPage() {
                                             }}
                                         >
                                             <Paper>
-                                                {test && <Countdown
+                                                {test ? <Countdown
                                                     date={startTime + (1000 * 60 * test.time)}
                                                     // date={startTime + (1000 * 5)}
                                                     renderer={(x) => {
                                                         return renderer(x, submitForm, isSubmitting)
                                                     }}
-                                                />}
+                                                /> : ""}
 
                                             </Paper>
                                         </Grid>
@@ -273,11 +298,12 @@ export default function TestTakingPage() {
                                                                     : answerList[index].length > 0
                                                                 ;
                                                                 return (
-                                                                    <Grid xs={4} sx={{mb: 1}}>
+                                                                    <Grid key={item.no}
+                                                                          xs={4} sx={{mb: 1}}>
 
                                                                         <Avatar sx={{
                                                                             width: 56, height: 56,
-                                                                            bgcolor: done ? BG_COLOR[0] : BG_COLOR[4]
+                                                                            bgcolor: done ? BG_COLOR[0] : ""
                                                                         }}
                                                                                 onClick={() => {
                                                                                     setCurrentQuestionIndex(index)

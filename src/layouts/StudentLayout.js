@@ -12,100 +12,33 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import HistoryIcon from '@mui/icons-material/History';
 import {Outlet} from "react-router-dom";
 import Logo from "../components/logo";
-import {Paper} from "@mui/material";
+import {Paper, Stack} from "@mui/material";
+import {Button} from "@mui/material";
+import {useState} from "react";
+import {createContext} from "react";
+import TopBar from "../components/TopBar";
 
-const Search = styled('div')(({theme}) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        // marginLeft: theme.spacing(3),
-        width: 'auto',
-    },
-}));
 
-const SearchIconWrapper = styled('div')(({theme}) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
 
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
-    },
-}));
 
+export const NameContext = createContext(null);
 export default function StudentLayout() {
+    const [confirmedContentQuery, setConfirmedContentQuery] = useState("");
+    const [contentQuery, setContentQuery] = useState("");
+    const handleInputChange = (event) => {
+        setConfirmedContentQuery(contentQuery);
+    };
     const theme = useTheme()
     return (
         <>
-            <Box sx={{flexGrow: 1, mb: 2,}}>
-                <AppBar position="fixed" sx={{
-                    zIndex: 999,
-                    backgroundColor: theme.palette.background.default,
-                }}>
-                    <Toolbar>
-                        <Logo
-                            sx={{
-                                mr: 3
-                            }}
-                        />
-                        <Paper
-                            sx={{
-                                pl: 0
-                            }}
-                            elevation={1}>
-                            <Search>
-                                <SearchIconWrapper>
-                                    <SearchIcon/>
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    placeholder="Search…"
-                                    inputProps={{'aria-label': 'search'}}
-                                />
-                            </Search>
-                        </Paper>
-
-                        <Box sx={{flexGrow: 1}}/>
-                        <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                            <IconButton
-                                size="large"
-                                edge="end"
-                                aria-label="account of current user"
-                                // aria-controls={menuId}
-                                aria-haspopup="true"
-
-                                color="inherit"
-                            >
-                                <AccountCircle color={'primary'}/>
-                            </IconButton>
-                        </Box>
-                    </Toolbar>
-                </AppBar>
-            </Box>
+            <TopBar handleInputChange={handleInputChange}
+                    setContentQuery={setContentQuery}
+                    contentQuery={contentQuery}/>
             <Box sx={{height: '64px', width: '100vw', position: 'static'}}>
             </Box>
-            <Outlet>
-            </Outlet>
+            <NameContext.Provider value={confirmedContentQuery}>
+                <Outlet></Outlet>
+            </NameContext.Provider>
         </>
     );
 }

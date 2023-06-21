@@ -19,15 +19,18 @@ import QuestionManagement from "./pages/Teacher/QuestionManagement";
 import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
 import TagPage from "./pages/Teacher/TagPage";
 import TestCreatePage from "./pages/Teacher/Test/TestCreate";
+import TestStatisticPage from "./pages/Teacher/Test/TestStatisticPage";
 
 //student flow
 import StudentLayout from "./layouts/StudentLayout";
 import TestTakingPage from "./pages/Student/TestTakingPage";
 import TestResultPage from "./pages/Student/TestResultPage";
+import QuizSearch from './pages/Student/QuizSearch';
 
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
+
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +49,7 @@ export default function Router() {
                 {path: 'editQuestion', element: <QuestionEditPage/>},
 
                 {path: 'testCreate',element: <TestCreatePage/>},
+                {path: 'test/:id', element: <TestStatisticPage/>},
 
                 {path: 'tag', element: <TagPage/>},
 
@@ -59,6 +63,8 @@ export default function Router() {
             element: <StudentLayout/>,
             children: [
                 {element: <Navigate to="/students/test"/>, index: true},
+                {element: <Navigate to="/students/quizSearch"/>, index: true},
+                {path: 'quizSearch', element: <QuizSearch/>},
                 {path: 'test', element: <TestTakingPage/>},
                 {path: 'result', element: <TestResultPage/>},
             ]
@@ -90,7 +96,7 @@ export default function Router() {
             path: "/",
             // element: <Navigate to="/login"/>,
             element: (user.info ? (user.info.role <= 2 ? <Navigate to="/dashboard"/> :
-                <Navigate to="/dashboard"/>) : <Navigate to="/login"/>),
+                <Navigate to="/students"/>) : <Navigate to="/login"/>),
         },
 
 
