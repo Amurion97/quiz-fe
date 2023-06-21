@@ -62,7 +62,6 @@ export default function Router() {
             path: '/students',
             element: <StudentLayout/>,
             children: [
-                {element: <Navigate to="/students/test"/>, index: true},
                 {element: <Navigate to="/students/quizSearch"/>, index: true},
                 {path: 'quizSearch', element: <QuizSearch/>},
                 {path: 'test', element: <TestTakingPage/>},
