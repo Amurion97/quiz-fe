@@ -126,7 +126,7 @@ export default function TestCreatePage() {
                             setOpenSuccess(true);
                             setSubmitting(false);
                             setTimeout(() => {
-                                navigate('dashboard/tests')
+                                navigate('/dashboard/tests')
                             }, 3000)
                         })
                         .catch((e) => {

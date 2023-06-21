@@ -362,7 +362,7 @@ export default function TestTakingPage() {
 
                         </Grid>
 
-                        {JSON.stringify(values)}
+                        {/*{JSON.stringify(values)}*/}
                     </Form>
                 )}
             </Formik>

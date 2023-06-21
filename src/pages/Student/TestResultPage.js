@@ -188,11 +188,15 @@ export default function TestResultPage() {
                                     } else if (question.type.id === 3) {
                                         const trueAnswers = question.answers.filter(item => item.isTrue);
                                         const trueAnswerIDs = trueAnswers.map(item => item.id).sort((a, b) => a - b);
-                                        choices[index] = choices[index].sort((a, b) => a - b);
-                                        for (let i = 0; i < trueAnswerIDs.length; i++) {
-                                            if (trueAnswerIDs[i] !== choices[index][i]) {
-                                                correct = false;
-                                                break;
+                                        if (trueAnswerIDs.length !== choices[index].length){
+                                            correct = false;
+                                        } else {
+                                            choices[index] = choices[index].sort((a, b) => a - b);
+                                            for (let i = 0; i < trueAnswerIDs.length; i++) {
+                                                if (trueAnswerIDs[i] !== choices[index][i]) {
+                                                    correct = false;
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
