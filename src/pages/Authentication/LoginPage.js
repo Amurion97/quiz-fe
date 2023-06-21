@@ -4,9 +4,8 @@ import {styled} from '@mui/material/styles';
 import {Link, Container, Typography} from '@mui/material';
 // hooks
 // components
-import Logo from '../components/logo';
-// sections
-import RegisterForm from '../components/Forms/RegisterForm';
+import Logo from '../../components/logo';
+import LoginForm from '../../components/Forms/Authentication/LoginForm';
 
 // ----------------------------------------------------------------------
 
@@ -39,11 +38,11 @@ const StyledContent = styled('div')(({theme}) => ({
 
 // ----------------------------------------------------------------------
 
-export default function RegisterPage() {
+export default function LoginPage() {
     return (
         <>
             <Helmet>
-                <title> Register | Quiz </title>
+                <title> Login | Quiz </title>
             </Helmet>
 
             <StyledRoot>
@@ -57,23 +56,23 @@ export default function RegisterPage() {
 
                 <StyledSection>
                     <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
-                        Hi, Welcome to Quiz
+                        Hi, Welcome Back
                     </Typography>
-                    <img src="/assets/illustrations/All the data-rafiki.png" alt="login"/>
+                    <img src="/assets/illustrations/we are open-amico.png" alt="login"/>
                 </StyledSection>
 
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Register in to Quiz
+                            Sign in to Quiz
                         </Typography>
 
-                        <Typography variant="body2" sx={{mb: 0}}>
-                            Do you already have an account? {''}
-                            <Link href="/login">Login Here</Link>
+                        <Typography variant="body2" sx={{mb: 5}}>
+                            Don’t have an account? {''}
+                            <Link href="/register">Get started</Link>
                         </Typography>
 
-                        <RegisterForm/>
+                        <LoginForm/>
                     </StyledContent>
                 </Container>
             </StyledRoot>

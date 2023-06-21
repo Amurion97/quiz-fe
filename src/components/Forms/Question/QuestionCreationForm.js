@@ -209,7 +209,12 @@ export default function QuestionCreationForm() {
                     })
                     .catch(e => {
                         console.log("error in save question:", e);
-                        setMessage("Failed, try again");
+                        if (e.response.status === 409) {
+                            setMessage(e.response.data.message);
+                        } else {
+                            setMessage("Failed, try again");
+                        }
+
                         setOpenDialog(true)
                         setSubmitting(false)
                     })
@@ -310,9 +315,9 @@ export default function QuestionCreationForm() {
                                 />
                             </Grid>
 
-                            <Grid item xs={12}>
-                                <p>{JSON.stringify(values)}</p>
-                            </Grid>
+                            {/*<Grid item xs={12}>*/}
+                            {/*    <p>{JSON.stringify(values)}</p>*/}
+                            {/*</Grid>*/}
 
                             <Grid item xs={12}>
                                 <Field component={RadioGroup} name={'trueIndex'}>

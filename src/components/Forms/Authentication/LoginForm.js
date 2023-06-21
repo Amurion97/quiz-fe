@@ -6,7 +6,6 @@ import {
     Stack,
     IconButton,
     InputAdornment,
-    TextField as TextFieldMUI,
     Grid,
     Collapse
 } from '@mui/material';
@@ -17,9 +16,15 @@ import {Field, Form, Formik} from "formik";
 import {useDispatch} from "react-redux";
 import {TextField} from 'formik-mui';
 import CloseIcon from '@mui/icons-material/Close';
-import {login} from "../../features/user/userSlice";
+import {login} from "../../../features/user/userSlice";
+import * as Yup from "yup";
 // components
-
+const SchemaError = Yup.object().shape({
+    email: Yup.string().email()
+        .required('Please enter your email'),
+    password: Yup.string()
+        .required('Please enter a password'),
+});
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -33,10 +38,7 @@ export default function LoginForm() {
         <>
             <Formik
                 initialValues={{}}
-                validate={(values) => {
-                    const errors = {};
-                    return errors;
-                }}
+                validationSchema={SchemaError}
                 onSubmit={(values, {setSubmitting}) => {
                     console.log("trying to submit:", values)
                     // try {
@@ -108,7 +110,7 @@ export default function LoginForm() {
                             />
 
                             <Field
-                                component={TextFieldMUI}
+                                component={TextField}
                                 type={showPassword ? 'text' : 'password'}
                                 label="Password"
                                 name="password"

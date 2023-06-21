@@ -1,3 +1,4 @@
+
 import {Box, Grid, IconButton, Paper} from "@mui/material";
 import {GroupFilter} from "../../components/Question/GroupFilter";
 import {useEffect, useState} from "react";
@@ -31,7 +32,7 @@ export default function QuestionManagement() {
     // console.log("selectedDifficulties:", difficultiesIDs);
 
     const handleCheckTags = (event) => {
-        const {name, checked} = event.target;
+        const {name} = event.target;
         let index = selectedTagIDs.findIndex(id => id === parseInt(name));
         if (index < 0) {
             setSelectedTagIDs([...selectedTagIDs, parseInt(name)]);
@@ -41,7 +42,7 @@ export default function QuestionManagement() {
         }
     };
     const handleCheckTypes = (event) => {
-        const {name, checked} = event.target;
+        const {name} = event.target;
         let index = selectedTypesIDs.findIndex(id => id === parseInt(name));
         if (index < 0) {
             setSelectedTypesIDs([...selectedTypesIDs, parseInt(name)]);
@@ -51,7 +52,7 @@ export default function QuestionManagement() {
         }
     };
     const handleCheckDifficulties = (event) => {
-        const {name, checked} = event.target;
+        const {name} = event.target;
         let index = difficultiesIDs.findIndex(id => id === parseInt(name));
         if (index < 0) {
             setDifficulties([...difficultiesIDs, parseInt(name)]);
@@ -134,7 +135,9 @@ export default function QuestionManagement() {
                         page={page} onChange={handleChangePage}/>
                     <QuestionListManagement
                         setCurrentQuestionId={setCurrentQuestionId}
-                        listQuestion={listQuestion}/>
+                        listQuestion={listQuestion}
+                        openOnClick={true}
+                    />
                 </Grid>
 
                 <Grid item xs={5}>

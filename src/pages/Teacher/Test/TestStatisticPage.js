@@ -21,6 +21,7 @@ import { useTheme } from "@mui/material/styles";
 import { customAPIv1 } from "../../../features/customAPI";
 
 import ProgressBar from "@ramonak/react-progress-bar";
+import {useLocation} from "react-router-dom";
 
 const columns = [
     { id: "rank", label: "Rank", minWidth: 50, align: "center" },
@@ -31,7 +32,16 @@ const columns = [
 
 export default function TestStatisticPage() {
     const theme = useTheme();
-    const [tag, setTag] = useState([]);
+
+    const location = useLocation();
+    // console.log("location in test taking:", location)
+    const {state} = location;
+    let id
+    if (state) {
+        ({id} = state)
+    }
+
+    const [attempts, setAttempts] = useState([]);
     const [openMenu, setOpenMenu] = useState(null);
     const [currentTag, setCurrentTag] = useState(0);
     const [open, setOpen] = useState(false);
@@ -63,18 +73,18 @@ export default function TestStatisticPage() {
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
-    const updateTag = () => {
+    const updateAttempts = () => {
         customAPIv1()
-            .get("/tags")
+            .get(`/attempts/test/${id}`)
             .then((res) => {
-                console.log("tag:", res.data);
-                setTag(res.data.data);
+                console.log("attempts of test:", res.data);
+                setAttempts(res.data.data);
             })
-            .catch((e) => console.log("error in get tags:", e));
+            .catch((e) => console.log("error in get attempts:", e));
     };
     useEffect(() => {
-        console.log("tag page did mount");
-        updateTag();
+        console.log("attempts page did mount");
+        updateAttempts();
     }, []);
     return (
         <>
@@ -128,8 +138,8 @@ export default function TestStatisticPage() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {tag.map((row, index) => {
-                                        const { id, name } = row;
+                                    {attempts.map((row, index) => {
+                                        const { id, user, finish, score } = row;
 
                                         return (
                                             <TableRow
@@ -149,7 +159,7 @@ export default function TestStatisticPage() {
                                                             .primary
                                                             .contrastText,
                                                     }}>
-                                                    {id}
+                                                    {index + 1}
                                                 </TableCell>
                                                 <TableCell
                                                     component="th"
@@ -168,7 +178,7 @@ export default function TestStatisticPage() {
                                                         <Typography
                                                             variant="subtitle2"
                                                             noWrap>
-                                                            {name}
+                                                            {user.email}
                                                         </Typography>
                                                     </Stack>
                                                 </TableCell>
@@ -180,7 +190,7 @@ export default function TestStatisticPage() {
                                                     <ProgressBar
                                                         bgColor="#1976D2"
                                                         height="16px"
-                                                        completed={70}
+                                                        completed={score}
                                                     />
                                                 </TableCell>
 
@@ -191,7 +201,8 @@ export default function TestStatisticPage() {
                                                             .primary
                                                             .contrastText,
                                                     }}>
-                                                    {Date.now().toString()}
+                                                    {/*{Date.now().toString()}*/}
+                                                    {finish}
                                                 </TableCell>
                                             </TableRow>
                                         );

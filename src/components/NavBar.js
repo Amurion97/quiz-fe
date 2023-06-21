@@ -6,7 +6,7 @@ import {logout, selectUser} from "../features/user/userSlice";
 // @mui
 import {styled, useTheme} from '@mui/material/styles';
 import {
-    Avatar, Button, Collapse, Dialog, Divider,
+    Avatar, Button, Dialog, Divider,
     Grid,
     IconButton,
     List,
@@ -16,27 +16,23 @@ import {
     Paper,
 } from '@mui/material';
 import Box from '@mui/material/Box';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import EditRoadIcon from '@mui/icons-material/EditRoad';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-// components
-import Logo from "./logo";
-import ChangePasswordForm from "./Forms/ChangePasswordForm";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
-import {Alert} from "@mui/lab";
-import CloseIcon from "@mui/icons-material/Close";
-import {customAPIv1} from "../features/customAPI";
+//MUI icon
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import PostAddTwoToneIcon from '@mui/icons-material/PostAddTwoTone';
+import QuizIcon from '@mui/icons-material/Quiz';
+// components
+import Logo from "./logo";
+import ChangePasswordForm from "./Forms/ChangePasswordForm";
 
 
 // sections
@@ -48,26 +44,14 @@ const StyledRoot = styled(Paper)(({theme}) => ({
     color: theme.palette.primary.contrastText,
     borderRight: "2px dotted lightgrey",
     borderRadius: 0,
-    // height: "100%",
 }));
 
-const Item = styled(Paper)(({theme}) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
 const UserInfoBox = styled(Paper)(({theme}) => ({
-    // backgroundColor: theme.palette.grey[400],
     backgroundColor: theme.palette.secondary.light,
     textAlign: 'center',
     color: theme.palette.text.primary,
     padding: "5%",
-    // height: 60,
     height: "70%",
-    // lineHeight: '100%',
-    // lineHeight: '60px',
 }));
 const StyledListItemButton = styled(ListItemButton)(({theme}) => ({
     borderRadius: "10px",
@@ -184,9 +168,9 @@ export default function NavBar(props) {
                                 <>
                                     <Divider/>
                                     <StyledListItemButton
-                                        selected={selectedIndex === 0}
+                                        selected={selectedIndex === 1}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 0)
+                                            handleListItemClick(event, 1)
                                             navigate("/dashboard/tag")
                                         }}
                                     >
@@ -197,9 +181,9 @@ export default function NavBar(props) {
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
-                                        selected={selectedIndex === 1}
+                                        selected={selectedIndex === 2}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 1)
+                                            handleListItemClick(event, 2)
                                             navigate("/dashboard/createQuestion")
                                         }}
                                     >
@@ -211,9 +195,9 @@ export default function NavBar(props) {
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
-                                        selected={selectedIndex === 2}
+                                        selected={selectedIndex === 3}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 2)
+                                            handleListItemClick(event, 3)
                                             navigate("/dashboard/questions")
                                         }}
                                     >
@@ -222,15 +206,41 @@ export default function NavBar(props) {
                                         </ListItemIcon>
                                         <ListItemText primary="Questions" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
+
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 4}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 4)
+                                            navigate("/dashboard/testCreate")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <PostAddTwoToneIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Test Create" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
+
+                                    <StyledListItemButton
+                                        selected={selectedIndex === 5}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, 5)
+                                            navigate("/dashboard/tests")
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <QuizIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Tests" style={{color: theme.palette.text.primary}}/>
+                                    </StyledListItemButton>
                                 </>)}
 
                             {(user.info.role === 1) && (
                                 <>
                                     <Divider/>
                                     <StyledListItemButton
-                                        selected={selectedIndex === 3}
+                                        selected={selectedIndex === 0}
                                         onClick={(event) => {
-                                            handleListItemClick(event, 3)
+                                            handleListItemClick(event, 0)
                                             navigate("/dashboard/users")
                                         }}
                                     >

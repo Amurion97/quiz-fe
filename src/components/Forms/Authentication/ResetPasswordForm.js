@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 import { Collapse, IconButton, InputAdornment, Stack } from "@mui/material";
 import { Alert, LoadingButton } from "@mui/lab";
@@ -9,7 +9,7 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { TextField } from "formik-mui";
 
-import { customAPIv1 } from "../../features/customAPI";
+import { customAPIv1 } from "../../../features/customAPI";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function ResetPasswordForm() {

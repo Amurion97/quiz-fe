@@ -1,5 +1,3 @@
-// ----------------------------------------------------------------------
-
 export function remToPx(value) {
     return Math.round(parseFloat(value) * 16);
 }
@@ -103,10 +101,10 @@ const typography = {
         textTransform: 'capitalize',
     },
     titleInTheBackground: {
-            fontWeight: 700,
-            lineHeight: 1.5,
-            fontSize: pxToRem(27),
-            textTransform: 'uppercase',
+        fontWeight: 700,
+        lineHeight: 1.5,
+        fontSize: pxToRem(27),
+        textTransform: 'uppercase',
     }
 };
 
