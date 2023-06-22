@@ -31,6 +31,7 @@ import QuizSearch from './pages/Student/QuizSearch';
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
+import Socket from "./pages/Socket/Socket";
 
 // ----------------------------------------------------------------------
 
@@ -99,6 +100,10 @@ export default function Router() {
                 <Navigate to="/students"/>) : <Navigate to="/login"/>),
         },
 
+        {
+            path: "/socket",
+            element: <Socket/>,
+        },
 
         {
             path: '*',
