@@ -18,7 +18,8 @@ export default function DashboardLayout() {
                     <Grid item xs={12} sm={4} md={5} lg={12}>
                         <MenuRoundedIcon
                             onClick={() => setMenu(false)}
-                            sx={{ marginLeft: "10px" }}
+                            sx={{ marginLeft: "10px",
+                        position: 'fixed' , color: 'white' }}
                         />
                         <Outlet />
                     </Grid>
