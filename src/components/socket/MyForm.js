@@ -1,12 +1,15 @@
 import {useState} from "react";
 import {socket} from "../../app/socket";
+import {useSelector} from "react-redux";
+import {selectUser} from "../../features/user/userSlice";
 
 export function MyForm() {
+    const user = useSelector(selectUser)
     const [value, setValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     function connectToRoom() {
-        socket.emit('join-room', 1)
+        socket.emit('join-room', {roomCode: 269612, email: user.info.email})
     }
 
     function onSubmit(event) {
@@ -26,7 +29,7 @@ export function MyForm() {
 
     function sendToRoom() {
         console.log("trying to send to room")
-        socket.emit('send-to-room', 1,  'hello')
+        socket.emit('send-to-room', 1, 'hello')
     }
 
     return (
