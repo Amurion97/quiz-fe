@@ -1,14 +1,14 @@
-import {Navigate, useRoutes} from 'react-router-dom';
+import { Navigate, useRoutes } from "react-router-dom";
 
 //layouts
 import DashboardLayout from "./layouts/DashboardLayout";
 
 // user flow
-import LoginPage from './pages/Authentication/LoginPage';
-import ForgotPasswordPage from './pages/Authentication/ResetRequestPage';
-import ResetPasswordPage from './pages/Authentication/ResetPasswordPage';
+import LoginPage from "./pages/Authentication/LoginPage";
+import ForgotPasswordPage from "./pages/Authentication/ResetRequestPage";
+import ResetPasswordPage from "./pages/Authentication/ResetPasswordPage";
 import RegisterPage from "./pages/Authentication/RegisterPage";
-import Page404 from './pages/Page404';
+import Page404 from "./pages/Page404";
 
 //admin flow
 import UsersPage from "./pages/AdminPrivilege/UsersPage";
@@ -26,12 +26,13 @@ import TestPage from "./pages/Teacher/Test/TestPage";
 import StudentLayout from "./layouts/StudentLayout";
 import TestTakingPage from "./pages/Student/TestTakingPage";
 import TestResultPage from "./pages/Student/TestResultPage";
-import QuizSearch from './pages/Student/QuizSearch';
+import QuizSearch from "./pages/Student/QuizSearch";
 
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
 import GroupWaitingRoom from "./pages/Student/GroupTest/GroupWaitingRoom";
+import { TeacherStartOnlineTest } from "./pages/Teacher/Test/TeacherStartOnlineTest";
 
 // ----------------------------------------------------------------------
 
@@ -102,6 +103,10 @@ export default function Router() {
         {
             path: '/GroupWaitingRoom',
             element: <GroupWaitingRoom/>
+        },
+        {
+            path: "/TeacherStartOnlineTest",
+            element: <TeacherStartOnlineTest />,
         },
 
         {
