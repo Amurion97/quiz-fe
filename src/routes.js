@@ -66,10 +66,7 @@ export default function Router() {
             { path: "test-statistic", element: <TestStatisticPage /> },
 
             { path: "tag", element: <TagPage /> },
-            {
-              path: "/TeacherStartOnlineTest",
-              element: <TeacherStartOnlineTest />,
-            },
+        
 
             { path: "404", element: <Page404 /> },
             { path: "*", element: <Navigate to="/dashboard/404" /> },
@@ -91,6 +88,10 @@ export default function Router() {
     {
       path: "/login",
       element: <LoginPage />,
+    },
+    {
+      path: "/TeacherStartOnlineTest",
+      element: <TeacherStartOnlineTest />,
     },
     {
       path: "/register",
