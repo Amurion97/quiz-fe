@@ -19,7 +19,7 @@ export default function DashboardLayout() {
                         <MenuRoundedIcon
                             onClick={() => setMenu(false)}
                             sx={{ marginLeft: "10px",
-                        position: 'fixed' , color: 'white' }}
+                        position: 'fixed' , color: "#0C4497", fontSize: "28px"}}
                         />
                         <Outlet />
                     </Grid>
@@ -33,7 +33,7 @@ export default function DashboardLayout() {
                         <CloseRoundedIcon
                             onClick={() => setMenu(true)}
                             sx={{
-                                marginLeft: "190px",
+                                marginLeft: "190px", color: "#0C4497", fontSize: "28px"
                             }}
                         />
                         <NavBar />
