@@ -1,14 +1,14 @@
-import {Navigate, useRoutes} from 'react-router-dom';
+import { Navigate, useRoutes } from "react-router-dom";
 
 //layouts
 import DashboardLayout from "./layouts/DashboardLayout";
 
 // user flow
-import LoginPage from './pages/Authentication/LoginPage';
-import ForgotPasswordPage from './pages/Authentication/ResetRequestPage';
-import ResetPasswordPage from './pages/Authentication/ResetPasswordPage';
+import LoginPage from "./pages/Authentication/LoginPage";
+import ForgotPasswordPage from "./pages/Authentication/ResetRequestPage";
+import ResetPasswordPage from "./pages/Authentication/ResetPasswordPage";
 import RegisterPage from "./pages/Authentication/RegisterPage";
-import Page404 from './pages/Page404';
+import Page404 from "./pages/Page404";
 
 //admin flow
 import UsersPage from "./pages/AdminPrivilege/UsersPage";
@@ -26,83 +26,107 @@ import TestPage from "./pages/Teacher/Test/TestPage";
 import StudentLayout from "./layouts/StudentLayout";
 import TestTakingPage from "./pages/Student/TestTakingPage";
 import TestResultPage from "./pages/Student/TestResultPage";
-import QuizSearch from './pages/Student/QuizSearch';
+import QuizSearch from "./pages/Student/QuizSearch";
 
 // redux
-import {useSelector} from 'react-redux';
-import {selectUser} from "./features/user/userSlice";
+import { useSelector } from "react-redux";
+import { selectUser } from "./features/user/userSlice";
+import { TeacherStartOnlineTest } from "./pages/Teacher/Test/TeacherStartOnlineTest";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
-    let user = useSelector(selectUser);
-    return useRoutes([
-        {
-            path: '/dashboard',
-            element: user.info ? <DashboardLayout/> : <Navigate to={'/login'}/>,
-            children: user.info ? [
-                {element: <Navigate to="/dashboard/questions"/>, index: true},
-                {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
+  let user = useSelector(selectUser);
+  return useRoutes([
+    {
+      path: "/dashboard",
+      element: user.info ? <DashboardLayout /> : <Navigate to={"/login"} />,
+      children: user.info
+        ? [
+            { element: <Navigate to="/dashboard/questions" />, index: true },
+            {
+              path: "users",
+              element: user.info ? (
+                user.info.role === 1 ? (
+                  <UsersPage />
+                ) : (
+                  <Page404 />
+                )
+              ) : (
+                <Page404 />
+              ),
+            },
 
-                {path: 'questions', element: <QuestionManagement/>},
-                {path: 'createQuestion', element: <QuestionCreationPage/>},
-                {path: 'editQuestion', element: <QuestionEditPage/>},
+            { path: "questions", element: <QuestionManagement /> },
+            { path: "createQuestion", element: <QuestionCreationPage /> },
+            { path: "editQuestion", element: <QuestionEditPage /> },
 
-                {path: 'testCreate',element: <TestCreatePage/>},
-                {path: 'tests',element: <TestPage/>},
-                {path: 'test-statistic', element: <TestStatisticPage/>},
+            { path: "testCreate", element: <TestCreatePage /> },
+            { path: "tests", element: <TestPage /> },
+            { path: "test-statistic", element: <TestStatisticPage /> },
 
-                {path: 'tag', element: <TagPage/>},
+            { path: "tag", element: <TagPage /> },
+            {
+              path: "/TeacherStartOnlineTest",
+              element: <TeacherStartOnlineTest />,
+            },
 
-                {path: '404', element: <Page404/>},
-                {path: '*', element: <Navigate to="/dashboard/404"/>},
-            ] : [],
-        },
+            { path: "404", element: <Page404 /> },
+            { path: "*", element: <Navigate to="/dashboard/404" /> },
+          ]
+        : [],
+    },
 
-        {
-            path: '/students',
-            element: <StudentLayout/>,
-            children: [
-                {element: <Navigate to="/students/quizSearch"/>, index: true},
-                {path: 'quizSearch', element: <QuizSearch/>},
-                {path: 'test', element: <TestTakingPage/>},
-                {path: 'result', element: <TestResultPage/>},
-            ]
-        },
+    {
+      path: "/students",
+      element: <StudentLayout />,
+      children: [
+        { element: <Navigate to="/students/quizSearch" />, index: true },
+        { path: "quizSearch", element: <QuizSearch /> },
+        { path: "test", element: <TestTakingPage /> },
+        { path: "result", element: <TestResultPage /> },
+      ],
+    },
 
-        {
-            path: '/login',
-            element: <LoginPage/>,
-        },
-        {
-            path: '/register',
-            element: <RegisterPage/>,
-        },
+    {
+      path: "/login",
+      element: <LoginPage />,
+    },
+    {
+      path: "/register",
+      element: <RegisterPage />,
+    },
 
-        {
-            path: '/forgot-password',
-            element: <ForgotPasswordPage/>,
-        },
-        {
-            path: '/reset-password',
-            element: <ResetPasswordPage/>,
-        },
+    {
+      path: "/forgot-password",
+      element: <ForgotPasswordPage />,
+    },
+    {
+      path: "/reset-password",
+      element: <ResetPasswordPage />,
+    },
 
-        {
-            path: '/404',
-            element: <Page404/>
-        },
-        {
-            path: "/",
-            // element: <Navigate to="/login"/>,
-            element: (user.info ? (user.info.role <= 2 ? <Navigate to="/dashboard"/> :
-                <Navigate to="/students"/>) : <Navigate to="/login"/>),
-        },
+    {
+      path: "/404",
+      element: <Page404 />,
+    },
+    {
+      path: "/",
+      // element: <Navigate to="/login"/>,
+      element: user.info ? (
+        user.info.role <= 2 ? (
+          <Navigate to="/dashboard" />
+        ) : (
+          <Navigate to="/students" />
+        )
+      ) : (
+        <Navigate to="/login" />
+      ),
+    },
 
-
-        {
-            path: '*',
-            element: <Navigate to="/404" replace/>,
-        },
-    ]);
+    {
+      path: "*",
+      element: <Navigate to="/404" replace />,
+    },
+  ]);
 }
