@@ -4,10 +4,11 @@ import CardHeader from "@mui/material/CardHeader";
 //icon mui
 import GroupsTwoToneIcon from '@mui/icons-material/GroupsTwoTone';
 import {useState} from "react";
+import StudentsLounge from "./StudentsLounge";
 
 
 export default function GroupWaitingRoom() {
-    const [students, setStudents] = useState([])
+    // const [students, setStudents] = useState([])
     return (
         <>
             <Grid container
@@ -61,7 +62,7 @@ export default function GroupWaitingRoom() {
                                 }}>
                                     <Box style={{display: "flex", alignItems: "center"}}>
                                         <GroupsTwoToneIcon/>
-                                        <Typography sx={{ml: "4px"}}>{students.length}</Typography>
+                                        <Typography sx={{ml: "4px"}}>2</Typography>
                                     </Box>
                                 </Card>
                             </Grid>
@@ -70,21 +71,13 @@ export default function GroupWaitingRoom() {
 
                         <Grid container spacing={3}>
                             <Grid item xs={12 / 4}>
-                                {students.length <= 1
-                                    ? "You are the first in this exam room"
-                                    : students &&
-                                    students.map((student) => (
-                                        <Box key={student.id}>
-                                            <Card sx={{pb: "24px", height: "100%"}}>
-                                                <CardHeader
-                                                    avatar={<Avatar src="/assets/images/avatars/avatar_default.jpg"
-                                                                    alt="photoURL"/>}
-                                                    title="User"
-                                                    subheader="Friend"
-                                                />
-                                            </Card>
-                                        </Box>
-                                    ))}
+                                {/*{students.length <= 1*/}
+                                {/*    ? "You are the first in this exam room"*/}
+                                {/*    : students &&*/}
+                                {/*    students.map((student) => (*/}
+                                        <StudentsLounge/>
+                                    {/*))*/}
+                                {/*}*/}
                             </Grid>
                         </Grid>
                     </Grid>
