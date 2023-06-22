@@ -61,7 +61,7 @@ export default function GroupWaitingRoom() {
                                 }}>
                                     <Box style={{display: "flex", alignItems: "center"}}>
                                         <GroupsTwoToneIcon/>
-                                        <Typography sx={{ml: "4px"}}>3</Typography>
+                                        <Typography sx={{ml: "4px"}}>{students.length}</Typography>
                                     </Box>
                                 </Card>
                             </Grid>
