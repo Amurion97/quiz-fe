@@ -69,17 +69,15 @@ export default function GroupWaitingRoom() {
                         </Grid>
 
 
-                        <Grid container spacing={3}>
-                            <Grid item xs={12 / 4}>
-                                {/*{students.length <= 1*/}
-                                {/*    ? "You are the first in this exam room"*/}
-                                {/*    : students &&*/}
-                                {/*    students.map((student) => (*/}
-                                        <StudentsLounge/>
-                                    {/*))*/}
-                                {/*}*/}
-                            </Grid>
-                        </Grid>
+                        {/*{students.length <= 1*/}
+                        {/*    ? "You are the first in this exam room"*/}
+                        {/*    : students &&*/}
+                        {/*    students.map((student) => (*/}
+                        {/*        <StudentsLounge/>*/}
+                        {/*))*/}
+                        {/*}*/}
+
+                        <StudentsLounge/>
                     </Grid>
                 </Grid>
             </Grid>
