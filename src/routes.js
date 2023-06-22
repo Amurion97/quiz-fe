@@ -31,7 +31,7 @@ import QuizSearch from './pages/Student/QuizSearch';
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
-import GroupTest from "./pages/Student/GroupTest";
+import GroupWaitingRoom from "./pages/Student/GroupTest/GroupWaitingRoom";
 
 // ----------------------------------------------------------------------
 
@@ -100,8 +100,8 @@ export default function Router() {
                 <Navigate to="/students"/>) : <Navigate to="/login"/>),
         },
         {
-            path: '/GroupTest',
-            element: <GroupTest/>
+            path: '/GroupWaitingRoom',
+            element: <GroupWaitingRoom/>
         },
 
         {
