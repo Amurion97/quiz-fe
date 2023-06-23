@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import {Button, Grid, Paper, Radio, Typography} from "@mui/material";
+import {Box, Button, Grid, Paper, Radio, Stack, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {useTheme} from "@mui/material/styles";
+import {alpha, useTheme} from "@mui/material/styles";
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import {useEffect, useState} from "react";
@@ -184,42 +184,59 @@ export default function TestTakingPage() {
                                                         bgcolor: BG_COLOR[index],
                                                         p: 2,
                                                         color: theme.palette.primary.contrastText,
+                                                        boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
                                                     }}
                                                     elevation={3}
                                                 >
-                                                    <Paper sx={{
-                                                        borderRadius: `${currentQuestion.type.id <= 2 ? "50%" : theme.shape.borderRadius}`,
-                                                        mr: 1,
-                                                        mt: 0.5,
-                                                        mb: 1,
-                                                        height: '48px',
-                                                        width: '48px',
+
+                                                    <Box sx={{
+                                                        width: '100%',
+                                                        position: 'relative',
                                                     }}>
-                                                        {currentQuestion.type.id <= 2 ?
-                                                            <Radio
-                                                                onClick={() => {
-                                                                    handleAnswerClick(answer.id)
-                                                                }
-                                                                }
-                                                                checked={answerList[currentQuestionIndex] === answer.id}
-                                                            />
-                                                            :
-                                                            <Checkbox
-                                                                checked={answerList[currentQuestionIndex].includes(answer.id)}
-                                                                color="success"
-                                                                onClick={() => {
-                                                                    handleAnswerClick(answer.id)
-                                                                }
-                                                                }
+                                                        <Paper sx={{
+                                                            borderRadius: `${currentQuestion.type.id <= 2 ? "50%" : theme.shape.borderRadius}`,
+                                                            mr: 1,
+                                                            mt: 0.5,
+                                                            mb: 1,
+                                                            height: '48px',
+                                                            width: '48px',
+                                                            position: 'absolute',
+                                                            right: 0,
+                                                            textAlign: 'center'
+                                                        }}>
+                                                            {currentQuestion.type.id <= 2 ?
+                                                                <Radio
+                                                                    onClick={() => {
+                                                                        handleAnswerClick(answer.id)
+                                                                    }
+                                                                    }
+                                                                    checked={answerList[currentQuestionIndex] === answer.id}
+                                                                    sx={{
+                                                                        height: '48px',
+                                                                        width: '48px',
+                                                                    }}
+                                                                />
+                                                                :
+                                                                <Checkbox
+                                                                    checked={answerList[currentQuestionIndex].includes(answer.id)}
+                                                                    color="success"
+                                                                    onClick={() => {
+                                                                        handleAnswerClick(answer.id)
+                                                                    }}
+                                                                    sx={{
+                                                                        height: '48px',
+                                                                        width: '48px',
+                                                                    }}
+                                                                />
+                                                            }
+                                                        </Paper>
+                                                    </Box>
 
-                                                            />
-                                                        }
-                                                    </Paper>
-
-
-                                                    <Typography variant={'h5'}>
+                                                    <Typography variant={'h5'}
+                                                                sx={{mt: 8}}>
                                                         {answer.content}
                                                     </Typography>
+
 
                                                 </Paper>
                                             </Grid>
