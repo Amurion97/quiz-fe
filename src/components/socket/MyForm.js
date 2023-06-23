@@ -7,9 +7,10 @@ export function MyForm() {
     const user = useSelector(selectUser)
     const [value, setValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const roomCode = 269612
 
     function connectToRoom() {
-        socket.emit('join-room', {roomCode: 269612, email: user.info.email})
+        socket.emit('join-lobby', {roomCode: roomCode, email: user.info.email})
     }
 
     function onSubmit(event) {
@@ -28,8 +29,8 @@ export function MyForm() {
     }
 
     function sendToRoom() {
-        console.log("trying to send to room")
-        socket.emit('send-to-room', 1, 'hello')
+        console.log("trying to send to lobby")
+        socket.emit('send-to-lobby', {roomCode: roomCode, msg: "user.info.email"})
     }
 
     return (
