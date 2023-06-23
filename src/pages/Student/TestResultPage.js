@@ -7,12 +7,14 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ShareIcon from '@mui/icons-material/Share';
+
+import Box from '@mui/material/Box';
 //MUI icon
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import Checkbox from "@mui/material/Checkbox";
+import ShareIcon from '@mui/icons-material/Share';
 //React
 import {useState} from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -103,6 +105,20 @@ export default function TestResultPage() {
                                          height={28}
                                          bgColor={theme.palette.primary.main}
                             />
+                            <Box sx={{height: '2vh', width: '100%', mt:5}}>
+                                <Grid container spacing={3} sx={{height: '100%'}}>
+                                    {[...Array(20)].map(item => (
+                                        <Grid xs={12 / 20} sx={{pl: 1}}>
+                                            <Box sx={{
+                                                bgcolor: 'green',
+                                                height: '100%',
+                                                // width: '100%'
+                                            }}
+                                            ></Box>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </Box>
                         </Paper>
                         <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}
                               justifyContent={'center'}>
@@ -188,7 +204,7 @@ export default function TestResultPage() {
                                     } else if (question.type.id === 3) {
                                         const trueAnswers = question.answers.filter(item => item.isTrue);
                                         const trueAnswerIDs = trueAnswers.map(item => item.id).sort((a, b) => a - b);
-                                        if (trueAnswerIDs.length !== choices[index].length){
+                                        if (trueAnswerIDs.length !== choices[index].length) {
                                             correct = false;
                                         } else {
                                             choices[index] = choices[index].sort((a, b) => a - b);
