@@ -5,7 +5,7 @@ export default function StudentsLounge() {
     return (
         <>
             <Grid container spacing={3}>
-                <Grid item xs={12 / 4}>
+                <Grid item xs={12 / 5}>
                     <Box>
                         <Card sx={{pb: "24px", height: "100%"}}>
                             <CardHeader
