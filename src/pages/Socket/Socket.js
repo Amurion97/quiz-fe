@@ -7,7 +7,7 @@ import {MyForm} from "../../components/socket/MyForm";
 
 export default function Socket() {
     const [isConnected, setIsConnected] = useState(socket.connected);
-    const [fooEvents, setFooEvents] = useState([]);
+    const [sendAllEvents, setSendAllEvents] = useState([]);
     const [lobbyUpdates, setLobbyUpdates] = useState([]);
 
     useEffect(() => {
@@ -19,8 +19,8 @@ export default function Socket() {
             setIsConnected(false);
         }
 
-        function onFooEvent(value) {
-            setFooEvents(previous => [...previous, value]);
+        function onSendAllEvent(value) {
+            setSendAllEvents(previous => [...previous, value]);
         }
 
         function onLobbyEvent(value) {
@@ -29,7 +29,7 @@ export default function Socket() {
 
         socket.on('connect', onConnect);
         socket.on('disconnect', onDisconnect);
-        socket.on('foo', onFooEvent);
+        socket.on('send-all', onSendAllEvent);
         socket.on('lobby-update', onLobbyEvent);
         socket.on('already-in-room', onLobbyEvent);
 
@@ -37,7 +37,7 @@ export default function Socket() {
         return () => {
             socket.off('connect', onConnect);
             socket.off('disconnect', onDisconnect);
-            socket.off('foo', onFooEvent);
+            socket.off('send-all', onSendAllEvent);
             socket.off('lobby-update', onLobbyEvent);
         };
     }, []);
@@ -45,7 +45,7 @@ export default function Socket() {
     return (
         <div className="App">
             <ConnectionState isConnected={isConnected}/>
-            <Events events={fooEvents}/>
+            <Events events={sendAllEvents}/>
             <p>Room Updates:</p>
             <Events events={lobbyUpdates}/>
             <ConnectionManager/>

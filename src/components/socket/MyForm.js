@@ -17,7 +17,7 @@ export function MyForm() {
         event.preventDefault();
         setIsLoading(true);
 
-        socket.timeout(5000).emit('create-something', value, (err, response) => {
+        socket.timeout(5000).emit('send-all', value, (err, response) => {
             if (err) {
                 // the other side did not acknowledge the event in the given delay
                 console.log("err:", err)
