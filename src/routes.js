@@ -31,6 +31,8 @@ import QuizSearch from './pages/Student/QuizSearch';
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
+import GroupWaitingRoom from "./pages/Student/GroupTest/GroupWaitingRoom";
+import { TeacherStartOnlineTest } from "./pages/Teacher/Test/TeacherStartOnlineTest";
 import Socket from "./pages/Socket/Socket";
 
 // ----------------------------------------------------------------------
@@ -98,6 +100,14 @@ export default function Router() {
             // element: <Navigate to="/login"/>,
             element: (user.info ? (user.info.role <= 2 ? <Navigate to="/dashboard"/> :
                 <Navigate to="/students"/>) : <Navigate to="/login"/>),
+        },
+        {
+            path: '/GroupWaitingRoom',
+            element: <GroupWaitingRoom/>
+        },
+        {
+            path: "/TeacherStartOnlineTest",
+            element: <TeacherStartOnlineTest />,
         },
 
         {
