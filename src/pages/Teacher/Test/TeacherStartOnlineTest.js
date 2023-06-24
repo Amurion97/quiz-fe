@@ -15,12 +15,13 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StudentsLounge from "../../Student/GroupTest/StudentsLounge";
+import {alpha} from "@mui/material/styles";
 
 
 export function TeacherStartOnlineTest() {
     return (
         <>
-            <Grid container style={{backgroundImage:"https://i.imgur.com/6HnZGvI.png"}} >
+            <Grid container>
                 <Grid item xs={12}>
                     <Box
                         sx={{
@@ -37,7 +38,7 @@ export function TeacherStartOnlineTest() {
                         }}
                     >
                         {/* <Paper sx={{p: 10, background: 'linear-gradient(#000000, #33333366)'}}  elevation={6}> */}
-                        <Paper sx={{p: 10}}  elevation={6}>
+                        <Paper sx={{p: 10}} elevation={6}>
                             <Grid container spacing={1}>
                                 <Grid
                                     item
@@ -174,23 +175,24 @@ export function TeacherStartOnlineTest() {
                 >
                     <Button
                         sx={{
-                            width: "230px",
-                            height: 60,
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            bgcolor:'#7CFC00'
-                            
-
-
-
+                            // width: "230px",
+                            // height: 60,
+                            // display: "flex",
+                            // justifyContent: "center",
+                            // alignItems: "center",
+                            // bgcolor:'#7CFC00',
+                            boxShadow: `5px 5px ${alpha('#595959', 0.4)}`,
+                            p: 5,
+                            border: '2px solid'
                         }}
-                        elevation={6}
                         variant="outlined"
-                        startIcon={<PlayArrowIcon/>}
-                        
+                        // startIcon={<PlayArrowIcon/>}
+                        size='large'
+
                     >
-                        START
+                        <Typography variant='h3'>
+                            START
+                        </Typography>
                     </Button>
                 </Grid>
                 <StudentsLounge/>
