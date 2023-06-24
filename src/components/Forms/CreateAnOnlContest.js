@@ -1,24 +1,34 @@
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-
-import {Box, Collapse, IconButton, Stack} from "@mui/material";
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
 import {Alert, LoadingButton} from "@mui/lab";
 
 import {Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {TextField} from "formik-mui";
-
-import {customAPIv1} from "../../features/customAPI";
-import CloseIcon from "@mui/icons-material/Close";
 import CardActions from "@mui/material/CardActions";
 import AlarmIcon from "@mui/icons-material/Alarm";
 import GroupsTwoToneIcon from '@mui/icons-material/GroupsTwoTone';
 import {useTheme} from "@mui/material/styles";
+import {customAPIv1} from "../../features/customAPI";
+import React, {useState} from "react";
+import {Box} from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 
 export default function CreateAnOnlContest(props) {
     console.log(props.time)
     const theme = useTheme()
-
+    const [openSuccess, setOpenSuccess] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSuccess(false)
+        setOpen(false)
+    };
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     const SchemaError = Yup.object().shape({
         people: Yup.number()
@@ -31,29 +41,23 @@ export default function CreateAnOnlContest(props) {
         <>
             <Formik
                 initialValues={{
-                    number: '',
                     people: ''
                 }}
                 validationSchema={SchemaError}
                 onSubmit={(values, {setSubmitting}) => {
-                    // console.log("trying to submit:", values);
-                    // customAPIv1()
-                    //     .put("/users/password-change", values)
-                    //     .then((data) => {
-                    //         console.log("axios data:", data);
-                    //         // setOpenSuccess(true);
-                    //         setSubmitting(false);
-                    //     })
-                    //     .catch((e) => {
-                    //         setSubmitting(false);
-                    //         console.log("axios error:", e);
-                    //         // setOpen(true);
-                    //         if (e.message.includes("400")) {
-                    //             setStatusCode(400);
-                    //         } else if (e.message.includes("500")) {
-                    //             setStatusCode(500);
-                    //         }
-                    //     });
+                    console.log("trying to submit:", values);
+                    customAPIv1()
+                        .post("/rooms", values)
+                        .then((data) => {
+                            console.log("axios data:", data);
+                            setOpenSuccess(true);
+                            setSubmitting(false);
+                        })
+                        .catch((e) => {
+                            setSubmitting(false);
+                            console.log("axios error:", e);
+                            setOpen(true);
+                        });
                 }}>
                 {({handleSubmit, isSubmitting}) => (
                     <Form onSubmit={handleSubmit}>
@@ -112,6 +116,19 @@ export default function CreateAnOnlContest(props) {
                                 loading={isSubmitting}>
                                 Submit
                             </LoadingButton>
+                        </Stack>
+                        <Stack spacing={2} sx={{width: '100%'}}>
+                            <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                                    Add people success!
+                                </Alert>
+                            </Snackbar>
+
+                            <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
+                                    Error in add people!
+                                </Alert>
+                            </Snackbar>
                         </Stack>
                     </Form>
                 )}
