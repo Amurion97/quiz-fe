@@ -327,132 +327,63 @@ export default function QuestionCreationForm() {
 
                                         {parseInt(values.type) === 1 && (
                                             <>
-                                                <Grid item xs={6} sm={6} md={6}>
-                                                    <Card sx={{
-                                                        boxShadow: `0 8px ${theme.palette.primary.main}`,
-                                                        mb: 1,
-                                                        bgcolor: BG_COLOR[0],
-                                                    }}
-                                                    >
-                                                        <CardHeader
-                                                            avatar={
-                                                                // <IconButton aria-label="settings"
-                                                                //             color={"error"}
-                                                                //             {...((answerNumber <= 2) && {disabled: true})}>
-                                                                //     <DeleteOutlineIcon/>
-                                                                // </IconButton>
-                                                                <></>
-                                                            }
-                                                            action={
-                                                                // <FormControlLabel
-                                                                //     value={0}
-                                                                //     control={<Radio
-                                                                //         disabled={isSubmitting}/>}
-                                                                //     label=""
-                                                                //     disabled={isSubmitting}
-                                                                //     icon={<FavoriteBorder/>}
-                                                                //     checkedIcon={
-                                                                //         <Favorite/>}
-                                                                // />
-                                                                <Paper sx={{
-                                                                    borderRadius: '50%',
-                                                                    aspectRatio: "1/1",
-                                                                    mr: 1,
-                                                                    mt: 0.5,
-                                                                }}>
+                                                {[...Array(2)].map((x, index) =>
+                                                    <Grid item xs={6} sm={6} md={6}>
+                                                        <Card sx={{
+                                                            boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
+                                                            mb: 1,
+                                                            bgcolor: BG_COLOR[index === 0 ? 0 : 4],
+                                                        }}
+                                                        >
+                                                            <CardHeader
+                                                                avatar={
+                                                                    <></>
+                                                                }
+                                                                action={
+                                                                    <Paper sx={{
+                                                                        borderRadius: '50%',
+                                                                        aspectRatio: "1/1",
+                                                                        mr: 1,
+                                                                        mt: 0.5,
+                                                                    }}>
+                                                                        <FormControlLabel
+                                                                            value={index}
+                                                                            control={
+                                                                                <Radio
+                                                                                    disabled={isSubmitting}/>}
+                                                                            label=""
+                                                                            labelPlacement={'end'}
+                                                                            disabled={isSubmitting}
+                                                                            size={"large"}
+                                                                            sx={{
+                                                                                m: 0
+                                                                            }}
+                                                                        />
+                                                                    </Paper>
+                                                                }
+                                                                title=""
+                                                                subheader=""
+                                                                sx={{
+                                                                    p: 1,
+                                                                    pt: 0.5,
+                                                                }}
+                                                            />
+                                                            <CardContent sx={{
+                                                                textAlign: 'center',
+                                                                verticalAlign: 'center',
+                                                                pt: 0,
+                                                            }}>
+                                                                <Typography variant={'h4'}
+                                                                            sx={{
+                                                                                mb: 4
+                                                                            }}>
+                                                                    {index === 0 ? 'True' : 'False'}
+                                                                </Typography>
+                                                            </CardContent>
+                                                        </Card>
+                                                    </Grid>
+                                                )}
 
-                                                                    <FormControlLabel
-                                                                        value={0}
-                                                                        control={
-                                                                            <Radio
-                                                                                disabled={isSubmitting}/>}
-                                                                        label=""
-                                                                        labelPlacement={'end'}
-                                                                        disabled={isSubmitting}
-                                                                        size={"large"}
-                                                                        sx={{
-                                                                            m: 0
-                                                                        }}
-                                                                    />
-                                                                </Paper>
-                                                            }
-                                                            title=""
-                                                            subheader=""
-                                                            sx={{
-                                                                p: 1,
-                                                                pt: 0.5,
-                                                            }}
-                                                        />
-                                                        <CardContent sx={{
-                                                            textAlign: 'center',
-                                                            verticalAlign: 'center',
-                                                            pt: 0,
-                                                        }}>
-                                                            <Typography variant={'h4'}
-                                                                        sx={{
-                                                                            mb: 4
-                                                                        }}>
-                                                                True
-                                                            </Typography>
-                                                        </CardContent>
-                                                    </Card>
-                                                </Grid>
-
-                                                <Grid item xs={6} sm={6} md={6}>
-                                                    <Card sx={{
-                                                        boxShadow: `0 8px ${theme.palette.primary.main}`,
-                                                        mb: 1,
-                                                        bgcolor: BG_COLOR[4],
-                                                    }}
-                                                    >
-                                                        <CardHeader
-                                                            avatar={
-                                                                <></>
-                                                            }
-                                                            action={
-                                                                <Paper sx={{
-                                                                    borderRadius: '50%',
-                                                                    aspectRatio: "1/1",
-                                                                    mr: 1,
-                                                                    mt: 0.5,
-                                                                }}>
-
-                                                                    <FormControlLabel
-                                                                        value={1}
-                                                                        control={
-                                                                            <Radio
-                                                                                disabled={isSubmitting}/>}
-                                                                        label=""
-                                                                        labelPlacement={'end'}
-                                                                        disabled={isSubmitting}
-                                                                        size={"large"}
-                                                                        sx={{
-                                                                            m: 0
-                                                                        }}
-                                                                    />
-                                                                </Paper>
-                                                            }
-                                                            title=""
-                                                            subheader=""
-                                                            sx={{
-                                                                p: 1,
-                                                                pt: 0.5,
-                                                            }}
-                                                        />
-                                                        <CardContent sx={{
-                                                            textAlign: 'center',
-                                                            verticalAlign: 'center',
-                                                            pt: 0,
-                                                        }}>
-                                                            <Typography variant={'h4'}
-                                                                        sx={{
-                                                                            mb: 4
-                                                                        }}>
-                                                                False
-                                                            </Typography>
-                                                        </CardContent>
-                                                    </Card>
-                                                </Grid>
                                             </>
                                         )}
 

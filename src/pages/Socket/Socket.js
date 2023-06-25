@@ -31,7 +31,6 @@ export default function Socket() {
         socket.on('disconnect', onDisconnect);
         socket.on('send-all', onSendAllEvent);
         socket.on('lobby-update', onLobbyEvent);
-        socket.on('already-in-room', onLobbyEvent);
 
 
         return () => {
@@ -49,7 +48,7 @@ export default function Socket() {
             <p>Room Updates:</p>
             <Events events={lobbyUpdates}/>
             <ConnectionManager/>
-            <MyForm/>
+            <MyForm setLobbyUpdates={setLobbyUpdates}/>
         </div>
     );
 }

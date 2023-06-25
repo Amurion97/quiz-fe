@@ -39,6 +39,7 @@ const StyledContent = styled('div')(({theme}) => ({
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
+
     return (
         <>
             <Helmet>
