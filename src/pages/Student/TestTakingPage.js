@@ -11,6 +11,7 @@ import {Form, Formik} from "formik";
 import Checkbox from "@mui/material/Checkbox";
 import Countdown from 'react-countdown';
 import {useLocation, useNavigate} from "react-router-dom";
+import {QuestionInAction} from "../../components/Question/InTestTaking/QuestionInAction";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: "inherit",
@@ -138,94 +139,12 @@ export default function TestTakingPage() {
                         >
 
                             <Grid item xs={10} sx={{pr: 2}}>
-                                <Paper
-                                    sx={{
-                                        backgroundColor: theme.palette.primary.light,
-                                        height: '100%',
-                                    }}
-                                >
-                                    <Grid
-                                        container
-                                        sx={{
-                                            p: 3,
-                                            height: '100%',
-                                        }}
-                                    >
-                                        <Grid item xs={12} sx={{
-                                            p: 2,
-                                            height: '50%',
-                                        }}>
-                                            <Paper
-                                                sx={{
-                                                    height: '100%',
-                                                    backgroundColor: theme.palette.primary.darker,
-                                                    color: theme.palette.primary.contrastText,
-                                                    p: 3
-                                                }}
-                                            >
-                                                <Typography variant={'h4'}>
-                                                    {currentQuestion.content}
-                                                </Typography>
-                                            </Paper>
-                                        </Grid>
+                                <QuestionInAction
+                                    currentQuestion={currentQuestion}
+                                    currentAnswerList={answerList[currentQuestionIndex]}
+                                    handleAnswerClick={handleAnswerClick}
+                                />
 
-                                        {currentQuestion.answers && currentQuestion.answers.map((answer, index) => (
-                                            <Grid
-                                                key={index}
-                                                item xs={12 / currentQuestion.answers.length}
-                                                sx={{
-                                                    pl: (index === 0) ? 0 : 2,
-                                                    height: '50%',
-                                                }}
-                                            >
-                                                <Paper
-                                                    sx={{
-                                                        height: '100%',
-                                                        bgcolor: BG_COLOR[index],
-                                                        p: 2,
-                                                        color: theme.palette.primary.contrastText,
-                                                    }}
-                                                    elevation={3}
-                                                >
-                                                    <Paper sx={{
-                                                        borderRadius: `${currentQuestion.type.id <= 2 ? "50%" : theme.shape.borderRadius}`,
-                                                        mr: 1,
-                                                        mt: 0.5,
-                                                        mb: 1,
-                                                        height: '48px',
-                                                        width: '48px',
-                                                    }}>
-                                                        {currentQuestion.type.id <= 2 ?
-                                                            <Radio
-                                                                onClick={() => {
-                                                                    handleAnswerClick(answer.id)
-                                                                }
-                                                                }
-                                                                checked={answerList[currentQuestionIndex] === answer.id}
-                                                            />
-                                                            :
-                                                            <Checkbox
-                                                                checked={answerList[currentQuestionIndex].includes(answer.id)}
-                                                                color="success"
-                                                                onClick={() => {
-                                                                    handleAnswerClick(answer.id)
-                                                                }
-                                                                }
-
-                                                            />
-                                                        }
-                                                    </Paper>
-
-
-                                                    <Typography variant={'h5'}>
-                                                        {answer.content}
-                                                    </Typography>
-
-                                                </Paper>
-                                            </Grid>
-                                        ))}
-                                    </Grid>
-                                </Paper>
                             </Grid>
 
                             <Grid item xs={2}>
