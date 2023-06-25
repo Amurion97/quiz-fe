@@ -55,6 +55,7 @@ export default function Router() {
                 {path: 'testCreate',element: <TestCreatePage/>},
                 {path: 'tests',element: <TestPage/>},
                 {path: 'test-statistic', element: <TestStatisticPage/>},
+                { path: "TeacherStartOnlineTest",element: <TeacherStartOnlineTest />},
 
                 {path: 'tag', element: <TagPage/>},
 
@@ -106,11 +107,6 @@ export default function Router() {
             path: '/GroupWaitingRoom',
             element: <GroupWaitingRoom/>
         },
-        {
-            path: "/TeacherStartOnlineTest",
-            element: <TeacherStartOnlineTest />,
-        },
-
         {
             path: "/socket",
             element: <Socket/>,

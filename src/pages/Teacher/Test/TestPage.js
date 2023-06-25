@@ -407,7 +407,9 @@ export default function TestPage() {
                 </DialogTitle>
                 <DialogContent>
                     <CreateAnOnlContest
-                        time={tests.time}/>
+                        test={tests}
+
+                    />
                 </DialogContent>
             </Dialog>
         </>
