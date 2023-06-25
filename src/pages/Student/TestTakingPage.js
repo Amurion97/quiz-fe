@@ -69,6 +69,17 @@ export default function TestTakingPage() {
         }
         setAnswerList([...answerList])
     }
+    const handleNextQuestion = () => {
+        setCurrentQuestionIndex(
+            (index) => index > 0 ? index - 1 : index
+        )
+    }
+
+    const handlePreviousQuestion = () => {
+        setCurrentQuestionIndex(
+            (index) => index < test.details.length - 1 ? index + 1 : index)
+    }
+
     let count = 0;
     const renderer = (x, submitForm, isSubmitting) => {
 
@@ -143,6 +154,8 @@ export default function TestTakingPage() {
                                     currentQuestion={currentQuestion}
                                     currentAnswerList={answerList[currentQuestionIndex]}
                                     handleAnswerClick={handleAnswerClick}
+                                    handleNextQuestion={handleNextQuestion}
+                                    handlePreviousQuestion={handlePreviousQuestion}
                                 />
 
                             </Grid>
