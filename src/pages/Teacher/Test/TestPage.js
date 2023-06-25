@@ -241,7 +241,7 @@ export default function TestPage() {
                                                             <Button
                                                                 variant="outlined"
                                                                 onClick={() => {
-                                                                    navigate(`/dashboard/test-statistic`, {
+                                                                    navigate(`/dashboard/sum-statistic`, {
                                                                         state: {
                                                                             id: id
                                                                         }

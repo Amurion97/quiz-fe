@@ -21,6 +21,7 @@ import TagPage from "./pages/Teacher/TagPage";
 import TestCreatePage from "./pages/Teacher/Test/TestCreate";
 import TestStatisticPage from "./pages/Teacher/Test/TestStatisticPage";
 import TestPage from "./pages/Teacher/Test/TestPage";
+import SumStatisticPage from "./pages/Teacher/Test/SumStatisticPage";
 
 //student flow
 import StudentLayout from "./layouts/StudentLayout";
@@ -51,6 +52,7 @@ export default function Router() {
                 {path: 'testCreate',element: <TestCreatePage/>},
                 {path: 'tests',element: <TestPage/>},
                 {path: 'test-statistic', element: <TestStatisticPage/>},
+                {path: 'sum-statistic', element: <SumStatisticPage/>},
 
                 {path: 'tag', element: <TagPage/>},
 
