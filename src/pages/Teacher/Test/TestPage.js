@@ -1,10 +1,5 @@
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+
 import {
     Button,
     Grid,
@@ -14,14 +9,10 @@ import {
     Stack,
     Typography,
     Collapse,
-    Avatar,
-    Drawer,
-    Divider,
     Card,
     Box,
     CardContent,
     CardMedia,
-    Chip,
     CardActions,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -35,14 +26,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import {customAPIv1} from "../../../features/customAPI";
-import AddTagForm from "../../../components/Forms/AddTagForm";
 import {Alert} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
-import {GroupFilter} from "../../../components/Question/GroupFilter";
 import * as React from "react";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
@@ -277,7 +264,7 @@ export default function TestPage() {
                         }}
                     >
                         <Grid container spacing={2}>
-                            <Grid item xs={8} spacing={0}>
+                            <Grid item xs={10} spacing={0}>
                                 {testList.map((row, index) => {
                                     const {id, name, image, difficulty, tags} = row;
                                     return (
