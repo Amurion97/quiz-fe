@@ -31,7 +31,7 @@ export default function Socket() {
         socket.on('disconnect', onDisconnect);
         socket.on('send-all', onSendAllEvent);
         socket.on('lobby-update', onLobbyEvent);
-        socket.on('already-in-room', onLobbyEvent);
+        socket.on('already-in-lobby', onLobbyEvent);
 
 
         return () => {
@@ -39,6 +39,7 @@ export default function Socket() {
             socket.off('disconnect', onDisconnect);
             socket.off('send-all', onSendAllEvent);
             socket.off('lobby-update', onLobbyEvent);
+            socket.off('already-in-lobby', onLobbyEvent);
         };
     }, []);
 

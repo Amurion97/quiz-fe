@@ -69,13 +69,13 @@ export default function TestTakingPage() {
         }
         setAnswerList([...answerList])
     }
-    const handleNextQuestion = () => {
+    const handlePreviousQuestion = () => {
         setCurrentQuestionIndex(
             (index) => index > 0 ? index - 1 : index
         )
     }
 
-    const handlePreviousQuestion = () => {
+    const handleNextQuestion = () => {
         setCurrentQuestionIndex(
             (index) => index < test.details.length - 1 ? index + 1 : index)
     }

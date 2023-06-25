@@ -120,7 +120,7 @@ export function QuestionInAction({
         </Paper>
         <Stack
             direction="row"
-            justifyContent="space-between"
+            justifyContent={handlePreviousQuestion ? "space-between" : 'flex-end'}
             alignItems="flex-end"
             spacing={2}
             sx={{
@@ -128,14 +128,18 @@ export function QuestionInAction({
 
             }}
         >
-            <Button variant="outlined" size='large' sx={{fontSize: 20,}}
-                    onClick={handleNextQuestion}
-            >
-                Previous
-            </Button>
+            {handlePreviousQuestion &&
+                <Button variant="outlined" size='large'
+                        sx={{
+                            fontSize: 20,
+                        }}
+                        onClick={handlePreviousQuestion}
+                >
+                    Previous
+                </Button>}
 
             <Button variant="contained" size='large' sx={{fontSize: 20,}}
-                    onClick={handlePreviousQuestion}
+                    onClick={handleNextQuestion}
             >
                 Next
             </Button>

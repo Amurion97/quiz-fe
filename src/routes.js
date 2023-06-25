@@ -34,6 +34,7 @@ import {selectUser} from "./features/user/userSlice";
 import GroupWaitingRoom from "./pages/Student/GroupTest/GroupWaitingRoom";
 import { TeacherStartOnlineTest } from "./pages/Teacher/Test/TeacherStartOnlineTest";
 import Socket from "./pages/Socket/Socket";
+import GroupTestTakingPage from "./pages/Student/GroupTest/GroupTestTakingPage";
 
 // ----------------------------------------------------------------------
 
@@ -113,6 +114,11 @@ export default function Router() {
         {
             path: "/socket",
             element: <Socket/>,
+        },
+
+        {
+            path: "/groupTestTaking",
+            element: <GroupTestTakingPage/>,
         },
 
         {
