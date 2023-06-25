@@ -55,7 +55,7 @@ export default function Router() {
                 {path: 'testCreate',element: <TestCreatePage/>},
                 {path: 'tests',element: <TestPage/>},
                 {path: 'test-statistic', element: <TestStatisticPage/>},
-                { path: "TeacherStartOnlineTest",element: <TeacherStartOnlineTest />},
+                { path: "test", element: <TeacherStartOnlineTest /> },
 
                 {path: 'tag', element: <TagPage/>},
 

@@ -57,8 +57,8 @@ export default function CreateAnOnlContest(props) {
                             setOpenSuccess(true);
                             setSubmitting(false);
                             setTimeout(() => {
-                                navigate('/dashboard/TeacherStartOnlineTest')
-                            },3000)
+                                navigate(`/dashboard/test?code=${data.data}`);
+                            },2000)
                         })
                         .catch((e) => {
                             setSubmitting(false);
