@@ -3,14 +3,16 @@ import {socket} from "../../app/socket";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../features/user/userSlice";
 
-export function MyForm() {
+export function MyForm({setLobbyUpdates}) {
     const user = useSelector(selectUser)
     const [value, setValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const roomCode = 269612
 
     function connectToRoom() {
-        socket.emit('join-lobby', {roomCode: roomCode, email: user.info.email})
+        socket.emit('join-lobby', {roomCode: roomCode, email: user.info.email}, (res) => {
+            setLobbyUpdates(previous => [...previous, value]);
+        })
     }
 
     function onSubmit(event) {

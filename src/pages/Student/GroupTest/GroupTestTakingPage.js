@@ -103,12 +103,34 @@ export default function GroupTestTakingPage() {
         socket.connect();
     }
 
-    const roomCode = 269612
+    // const roomCode = 269612
+    const roomCode = 991120
+    //
+    function connectToLobby() {
+        socket.emit('join-lobby',
+            {roomCode: roomCode, email: user.info.email},
+            (res) => {
+                console.log('join-lobby', res)
+            })
+    }
 
     function connectToRoom() {
-        socket.emit('join-lobby',
-            {roomCode: roomCode, email: user.info.email})
+        socket.emit('join-room',
+            {roomCode: roomCode, email: user.info.email}, (res) => {
+                console.log('join-room response:', res)
+            })
     }
+
+    useEffect(() => {
+        function onRoomUpdate(arg) {
+            console.log('room-update:', arg)
+        }
+
+        socket.on('room-update', onRoomUpdate)
+        return () => {
+            socket.off('room-update', onRoomUpdate)
+        }
+    })
 
     return (
         <>
@@ -166,8 +188,12 @@ export default function GroupTestTakingPage() {
                                     </Paper>
 
                                     <Button onClick={connect}>Connect</Button>
+                                    <Button type={'button'} onClick={connectToLobby}>
+                                        Connect to lobby 1
+                                    </Button>
+
                                     <Button type={'button'} onClick={connectToRoom}>
-                                        Connect to room 1
+                                        Connect to room
                                     </Button>
                                 </Stack>
                             </Grid>
