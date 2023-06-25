@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import {Button, Grid, Paper, Radio, Typography} from "@mui/material";
+import {Box, Button, Grid, Paper, Radio, Stack, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {useTheme} from "@mui/material/styles";
+import {alpha, useTheme} from "@mui/material/styles";
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import {useEffect, useState} from "react";
@@ -134,7 +134,7 @@ export default function TestTakingPage() {
                             container
                             sx={{
                                 p: 4,
-                                height: '80vh',
+                                height: '85vh',
                             }}
                         >
 
@@ -155,6 +155,7 @@ export default function TestTakingPage() {
                                         width: "100%",
                                         maxHeight: "100%",
                                     }}
+                                    elevation={3}
                                 >
                                     <Grid
                                         container
@@ -165,7 +166,6 @@ export default function TestTakingPage() {
                                             maxHeight: '80vh',
                                         }}
                                         spacing={0}
-                                        // direction="column"
                                         justifyContent="center"
                                         alignItems="center"
                                     >
@@ -178,12 +178,10 @@ export default function TestTakingPage() {
                                             <Paper>
                                                 {test ? <Countdown
                                                     date={startTime + (1000 * 60 * test.time)}
-                                                    // date={startTime + (1000 * 5)}
                                                     renderer={(x) => {
                                                         return renderer(x, submitForm, isSubmitting)
                                                     }}
                                                 /> : ""}
-
                                             </Paper>
                                         </Grid>
                                         <Grid
@@ -199,7 +197,6 @@ export default function TestTakingPage() {
                                                     backgroundColor: theme.palette.primary.darker,
                                                     height: "100%",
                                                     width: "100%",
-                                                    // overflow: "scroll",
                                                     maxHeight: "100%",
                                                 }}
                                             >
@@ -222,7 +219,9 @@ export default function TestTakingPage() {
 
                                                                         <Avatar sx={{
                                                                             width: 56, height: 56,
-                                                                            bgcolor: done ? BG_COLOR[0] : ""
+                                                                            bgcolor: done ? BG_COLOR[0] : theme.palette.background.paper,
+                                                                            color: 'primary.darker',
+                                                                            fontSize: 'bold',
                                                                         }}
                                                                                 onClick={() => {
                                                                                     setCurrentQuestionIndex(index)
@@ -243,37 +242,49 @@ export default function TestTakingPage() {
 
                                             </Paper>
                                         </Grid>
+
                                         <Grid
                                             item
-                                            container
                                             xs={12}
                                             sx={{
                                                 height: "10%",
-                                                pt: 2
+                                                pt: 1
                                             }}
                                         >
-                                            <Grid item xs={6}>
-                                                <Item>
-                                                    <Button
-                                                        variant="outlined"
-                                                        color="error"
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                </Item>
-                                            </Grid>
+                                            {/*<Grid item xs={6}>*/}
+                                            {/*    <Item>*/}
+                                            {/*        <Button*/}
+                                            {/*            variant="outlined"*/}
+                                            {/*            color="error" size="large"*/}
+                                            {/*        >*/}
+                                            {/*            Cancel*/}
+                                            {/*        </Button>*/}
+                                            {/*    </Item>*/}
+                                            {/*</Grid>*/}
 
-                                            <Grid item xs={6}>
-                                                <Item>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="success"
-                                                        onClick={submitForm}
-                                                    >
-                                                        Submit
-                                                    </Button>
-                                                </Item>
-                                            </Grid>
+                                            {/*<Grid item xs={6}>*/}
+                                            <Item>
+                                                <Button
+                                                    variant="outlined"
+                                                    color="primary" size="large"
+                                                    onClick={submitForm}
+                                                    sx={{
+                                                        fontSize: 26,
+                                                        border: `3px solid ${theme.palette.primary.dark}`,
+                                                        color: theme.palette.primary.dark,
+                                                        '&:hover': {
+                                                            backgroundColor: theme.palette.primary.dark,
+                                                            // borderColor: '#0062cc',
+                                                            // boxShadow: 'none',
+                                                            color: theme.palette.primary.contrastText,
+                                                            border: `3px solid ${theme.palette.primary.dark}`,
+                                                        },
+                                                    }}
+                                                >
+                                                    Submit
+                                                </Button>
+                                            </Item>
+                                            {/*</Grid>*/}
                                         </Grid>
                                     </Grid>
                                 </Paper>
