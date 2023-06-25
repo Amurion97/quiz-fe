@@ -18,9 +18,8 @@ import { useEffect } from "react";
 const columns = [
     { id: "email", label: "Email", minWidth: 100 },
     { id: "", label: "", minWidth: 150 },
-    { id: "accuracy", label: "Accuracy", minWidth: 100 },
-    { id: "point", label: "Point", minWidth: 100 },
-    { id: "score", label: "Score", minWidth: 100 },
+    { id: "accuracy", label: "Accuracy", minWidth: 150 },
+    { id: "point", label: "Point", minWidth: 150 },
 ];
 
 export default function ResulTest() {
@@ -71,46 +70,51 @@ export default function ResulTest() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {attempts.map((item, index) => (
-                            <TableRow>
-                                <TableCell>{item.user.email}</TableCell>
-                                <TableCell>
-                                    <Box
-                                        sx={{
-                                            height: "2vh",
-                                            width: "100%",
-                                            mt: 3,
-                                        }}>
-                                        <Grid
-                                            container
-                                            spacing={3}
-                                            sx={{ height: "100%" }}>
-                                            {[...Array(10)].map(
-                                                (item, index) => (
-                                                    <Grid
-                                                        xs={12 / 12}
-                                                        sx={{ pl: 0.1 }}>
-                                                        <Box
-                                                            sx={{
-                                                                bgcolor:
-                                                                    index < 4
-                                                                        ? "green"
-                                                                        : "red",
-                                                                height: "100%",
-                                                                borderRadius: 0.5,
-                                                            }}
-                                                        />
-                                                    </Grid>
-                                                )
-                                            )}
-                                        </Grid>
-                                    </Box>
-                                </TableCell>
-                                <TableCell>H3</TableCell>
-                                <TableCell>H4</TableCell>
-                                <TableCell>H5</TableCell>
-                            </TableRow>
-                        ))}
+                        {attempts.map((item, index) => {
+                            let correct = item.corrects;
+                            let incorrect = item.incorrects;
+                            let sumQuestions = correct+incorrect;
+                            console.log('sumQuestions', sumQuestions);
+                            return (
+                                <TableRow>
+                                    <TableCell>{item.user.email}</TableCell>
+                                    <TableCell>
+                                        <Box
+                                            sx={{
+                                                height: "2vh",
+                                                width: "100%",
+                                                mt: 3,
+                                            }}>
+                                            <Grid
+                                                container
+                                                spacing={3}
+                                                sx={{ height: "100%" }}>
+                                                {[...Array(sumQuestions)].map(
+                                                    (item, index) => (
+                                                        <Grid
+                                                            xs={12 / sumQuestions}
+                                                            sx={{ pl: 0.1 }}>
+                                                            <Box
+                                                                sx={{
+                                                                    bgcolor:
+                                                                        index < correct+1
+                                                                            ? "green"
+                                                                            : "red",
+                                                                    height: "100%",
+                                                                    borderRadius: 0.5,
+                                                                }}
+                                                            />
+                                                        </Grid>
+                                                    )
+                                                )}
+                                            </Grid>
+                                        </Box>
+                                    </TableCell>
+                                    <TableCell>{item.score}%</TableCell>
+                                    <TableCell>{correct}/{incorrect}</TableCell>
+                                </TableRow>
+                            );
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>
