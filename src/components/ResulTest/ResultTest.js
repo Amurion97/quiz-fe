@@ -71,9 +71,9 @@ export default function ResulTest() {
                     </TableHead>
                     <TableBody>
                         {attempts.map((item, index) => {
-                            let correct = item.corrects;
-                            let incorrect = item.incorrects;
-                            let sumQuestions = correct + incorrect;
+                            let corrects = item.corrects;
+                            let incorrects = item.incorrects;
+                            let sumQuestions = corrects + incorrects;
                             console.log('sumQuestions', sumQuestions);
                             return (
                                 <TableRow>
@@ -98,9 +98,10 @@ export default function ResulTest() {
                                                             <Box
                                                                 sx={{
                                                                     bgcolor:
-                                                                        index < correct
-                                                                            ? "green"
-                                                                            : "red",
+                                                                        (theme) =>
+                                                                            index < corrects
+                                                                                ? theme.palette.success.main
+                                                                                : theme.palette.error.main,
                                                                     height: "100%",
                                                                     // borderRadius: 0.5,
                                                                     borderRadius: '2.5px',
@@ -113,7 +114,7 @@ export default function ResulTest() {
                                         </Box>
                                     </TableCell>
                                     <TableCell>{item.score}%</TableCell>
-                                    <TableCell>{correct}/{incorrect}</TableCell>
+                                    <TableCell>{corrects}/{incorrects}</TableCell>
                                 </TableRow>
                             );
                         })}

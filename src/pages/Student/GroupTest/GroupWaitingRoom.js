@@ -7,8 +7,7 @@ import {useEffect, useState} from "react";
 import StudentsLounge from "./StudentsLounge";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../../features/user/userSlice";
-import {useLocation} from "react-router-dom";
-import Container from '@mui/material/Container';
+import {useLocation, useNavigate} from "react-router-dom";
 import {useTheme} from "@mui/material/styles";
 import {socket} from "../../../app/socket";
 
@@ -16,6 +15,7 @@ import {socket} from "../../../app/socket";
 export default function GroupWaitingRoom() {
     // const [students, setStudents] = useState([])
     const theme = useTheme()
+    const navigate = useNavigate()
 
     const url = new URL(window.location.href)
     const searchParams = new URLSearchParams(url.search);
@@ -33,16 +33,20 @@ export default function GroupWaitingRoom() {
 
     useEffect(() => {
         socket.connect();
+        console.log('this effect is running')
 
-        socket.emit('join-lobby',
-            {roomCode: roomCode, email: user.info.email},
-            (res) => {
-                console.log('join-lobby', res);
-                if (res.success !== false) {
-                    setPeopleList(res);
-                }
+        function onConnect() {
+            socket.emit('join-lobby',
+                {roomCode: roomCode, email: user.info.email},
+                (res) => {
+                    console.log('join-lobby', res);
+                    if (res.success !== false) {
+                        setPeopleList(res);
+                    }
 
-            })
+                })
+        }
+
 
         function onLobbyUpdate(arg) {
             console.log('lobby-update:', arg);
@@ -53,10 +57,24 @@ export default function GroupWaitingRoom() {
             }
         }
 
-        socket.on('lobby-update', onLobbyUpdate)
+        function onStartTest(arg) {
+            console.log('start-test:', arg);
+            navigate('/groupTestTaking', {
+                state: {
+                    test: arg.test,
+                    roomCode: roomCode
+                }
+            })
+        }
+        socket.on('connect', onConnect);
+        socket.on('lobby-update', onLobbyUpdate);
+        socket.on('start-test', onStartTest);
+
 
         return () => {
+            socket.off('connect', onConnect);
             socket.off('lobby-update', onLobbyUpdate);
+            socket.off('start-test', onStartTest);
             socket.disconnect()
         }
 

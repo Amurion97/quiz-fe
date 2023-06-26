@@ -18,31 +18,53 @@ export default function GroupTestTakingPage() {
     const theme = useTheme();
 
     const location = useLocation();
-    // console.log("location in group test taking:", location)
+    console.log("location in group test taking:", location)
     const {state} = location;
-    let id = 5
-    if (state) {
-        ({id} = state)
-    }
+    const roomCode = state.roomCode
 
-    const [test, setTest] = useState(null);
+    const [test, setTest] = useState(state.test);
     const [startTime] = useState(Date.now);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const currentQuestion = test ? test['details'][currentQuestionIndex]['question'] : {}
-    const [answerList, setAnswerList] = useState([]);
+    const [answerList, setAnswerList] = useState(state.test.details.map(item => {
+        if (item.question.type.id <= 2) {
+            return null
+        } else return []
+    }));
     const [isTimedOut, setIsTimedOut] = useState(false)
-    // console.log("answerList:", answerList)
+    console.log("answerList:", answerList)
+
     useEffect(() => {
-        customAPIv1().get(`tests/${id}`)
-            .then(res => {
-                console.log('test:', res.data.data)
-                setTest(res.data.data);
-                setAnswerList(res.data.data.details.map(item => {
-                    if (item.question.type.id <= 2) {
-                        return null
-                    } else return []
-                }))
+        socket.connect();
+
+        function onConnect() {
+            socket.emit('join-lobby',
+                {roomCode: roomCode, email: user.info.email},
+                (res) => {
+                    console.log('join-lobby', res);
+                    if (res.success !== false) {
+
+                    }
+
+                })
+        }
+
+        socket.emit('join-room',
+            {roomCode: roomCode, email: user.info.email},
+            (res) => {
+                console.log('join-room', res);
+                if (res.success !== false) {
+
+                }
             })
+
+        socket.on('connect', onConnect);
+
+        return () => {
+            socket.off('connect', onConnect);
+
+            socket.disconnect()
+        }
     }, [])
     const handleAnswerClick = (answerIndex) => {
         console.log("answerList pre-process", answerList)
@@ -102,9 +124,6 @@ export default function GroupTestTakingPage() {
     function connect() {
         socket.connect();
     }
-
-    // const roomCode = 269612
-    const roomCode = 991120
     //
     function connectToLobby() {
         socket.emit('join-lobby',
@@ -136,7 +155,7 @@ export default function GroupTestTakingPage() {
         <>
             <Formik
                 initialValues={{
-                    test: id
+                    test: state.test.id
                 }}
                 onSubmit={(values, props) => {
                     values.answers = answerList;
