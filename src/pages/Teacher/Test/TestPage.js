@@ -288,7 +288,7 @@ export default function TestPage() {
                                             </Typography>
 
                                             <Typography>
-                                                Tags:
+                                                Chủ đề:
                                                 {' '}
                                                 {tags.map(
                                                     (item, index) => (index < tags.length - 1) ? item.name + ", " : item.name
@@ -383,7 +383,7 @@ export default function TestPage() {
                     handleClickOpenOnline()
                 }}>
                     <Diversity3Icon fontSize="small" sx={{color: theme.palette.grey["500"]}}/>
-                    Online contest
+                    Tạo phòng thi
                 </MenuItem>
 
                 <MenuItem sx={{color: 'error.main'}} onClick={(e) => {
@@ -391,7 +391,7 @@ export default function TestPage() {
                     handleClickOpenConfirm()
                 }}>
                     <DeleteOutlineIcon fontSize="small"/>
-                    Delete
+                    Xóa bài thi
                 </MenuItem>
 
             </Popover>
@@ -401,10 +401,10 @@ export default function TestPage() {
                 onClose={handleCloseDialog}
                 maxWidth="md"
             >
-                <DialogTitle>Delete Tag</DialogTitle>
+                <DialogTitle>Xóa chủ đề</DialogTitle>
                 <DialogContent>
                     <Alert severity="success">
-                        Test deleted successfully!
+                        Xóa bài thi thành công
                     </Alert>
                 </DialogContent>
                 <DialogActions>
@@ -420,7 +420,7 @@ export default function TestPage() {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure to delete this test?"}
+                    {"Bạn có chắc muốn xóa bài thi?"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -442,13 +442,13 @@ export default function TestPage() {
                                 variant="filled" severity="error"
                             >
                                 {statusCode === 500 ?
-                                    "Test is in use, cannot be deleted!!"
+                                    "Bài thi đang được dùng, không thể xóa!!"
                                     :
-                                    "Server error during delete, please try again"
+                                    "Server lỗi trong quá trình xóa bài thi, thử lại!"
                                 }
                             </Alert>
                         </Collapse>
-                        This action can not be undone
+                        Hành động này không thể hoàn tác
                     </DialogContentText>
 
                 </DialogContent>
@@ -470,13 +470,13 @@ export default function TestPage() {
                                 }
                             })
                     }} autoFocus variant="contained" color="error">
-                        Remove Test
+                        Xóa bài thi
                     </Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={openOnline} onClose={handleCloseOnline} maxWidth="md">
-                <DialogTitle>Create an online contest
+                <DialogTitle>Tạo phòng thi
                     <Typography component="div" variant="h6">
                         Bài thi: <strong>{tests.name}</strong>
                     </Typography>

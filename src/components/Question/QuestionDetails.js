@@ -95,7 +95,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                 <CardContent>
                     {!currentQuestion ?
                         <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                            Choose a question to see details
+                            Chọn 1 câu hỏi để hiển thị chi tiết
                         </Typography>
                         :
                         <>
@@ -108,8 +108,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                                         Dạng câu hỏi: {type.name}
                                     </Typography>
                                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                        Liên
-                                        quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
+                                        Liên quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
                                         "",)}
                                     </Typography>
                                 </Grid>
@@ -172,7 +171,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                         handleCloseMenu();
                     }}>
                     <EditIcon fontSize="small"/>
-                    Edit
+                    Sửa
                 </MenuItem>
 
                 <MenuItem
@@ -182,7 +181,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                         handleClickOpenConfirm();
                     }}>
                     <DeleteOutlineIcon fontSize="small"/>
-                    Delete
+                    Xóa
                 </MenuItem>
             </Popover>
 
@@ -196,7 +195,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure to delete this question?"}
+                    {"Bạn có chắc muốn xóa câu hỏi này?"}
                 </DialogTitle>
                 <Collapse in={openSuccess}>
                     <Alert
@@ -215,7 +214,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                         sx={{mb: 2}}
                         variant="filled" severity="success"
                     >
-                        Question delete Success!
+                        Xóa câu hỏi thành công!
                     </Alert>
                 </Collapse>
                 <Collapse in={open}>
@@ -235,17 +234,17 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                         sx={{mb: 2}}
                         variant="filled" severity="error"
                     >
-                        Error in delete question
+                        Lỗi khi xóa câu hỏi
                     </Alert>
                 </Collapse>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        This action can not be undone
+                        Hành động này không thể hoàn tác
                     </DialogContentText>
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={handleCloseConfirm}>Cancel</Button>
+                    <Button onClick={handleCloseConfirm}>Hủy</Button>
                     <Button
                         onClick={() => {
                             customAPIv1()
@@ -264,7 +263,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                         autoFocus
                         variant="contained"
                         color="error">
-                        Remove Question
+                        Ok
                     </Button>
                 </DialogActions>
             </Dialog>

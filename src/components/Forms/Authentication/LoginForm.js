@@ -21,9 +21,9 @@ import * as Yup from "yup";
 // components
 const SchemaError = Yup.object().shape({
     email: Yup.string().email()
-        .required('Please enter your email'),
+        .required('Bạn hãy nhập email để đăng nhập'),
     password: Yup.string()
-        .required('Please enter a password'),
+        .required('Bạn hãy nhập mật khẩu để đăng nhập'),
 });
 // ----------------------------------------------------------------------
 
@@ -97,8 +97,8 @@ export default function LoginForm() {
                                     sx={{mb: 2}}
                                     variant="filled" severity="error"
                                 >
-                                    {statusCode >= 403 ? "Account is locked, please contact admin"
-                                        : "Wrong email or password, please try again!"}
+                                    {statusCode >= 403 ? "Tài khoản của bạn đã bị khóa, hãy liên hệ với Admin"
+                                        : "Email hoặc mật khẩu đang sai, hãy thử lại!"}
                                 </Alert>
                             </Collapse>
                             <Field
@@ -112,7 +112,7 @@ export default function LoginForm() {
                             <Field
                                 component={TextField}
                                 type={showPassword ? 'text' : 'password'}
-                                label="Password"
+                                label="Mật khẩu"
                                 name="password"
                                 fullWidth
                                 InputProps={{
@@ -138,13 +138,13 @@ export default function LoginForm() {
                                sx={{my: 2}}>
                             <Grid></Grid>
                             <Link variant="subtitle2" underline="hover" href="/forgot-password">
-                                Forgot password?
+                                Bạn quên mật khẩu?
                             </Link>
                         </Stack>
 
                         <LoadingButton fullWidth size="large" type="button" variant="contained"
                                        onClick={submitForm}>
-                            Login
+                            Đăng nhập
                         </LoadingButton>
                     </Form>
                 )}

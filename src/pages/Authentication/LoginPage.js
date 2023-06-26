@@ -57,7 +57,7 @@ export default function LoginPage() {
 
                 <StyledSection>
                     <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
-                        Hi, Welcome Back
+                        Chào mừng bạn trở lại 😊
                     </Typography>
                     <img src="/assets/illustrations/we are open-amico.png" alt="login"/>
                 </StyledSection>
@@ -65,12 +65,12 @@ export default function LoginPage() {
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Sign in to Quiz
+                            Đăng nhập vào Quiz
                         </Typography>
 
                         <Typography variant="body2" sx={{mb: 5}}>
-                            Don’t have an account? {''}
-                            <Link href="/register">Get started</Link>
+                            Bạn không có mật khẩu? {''}
+                            <Link href="/register">Tạo một cái nào...</Link>
                         </Typography>
 
                         <LoginForm/>

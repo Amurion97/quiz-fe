@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
 
                 <StyledSection>
                     <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
-                        Hi, Reset your password?
+                        Xin chào, hãy cùng nhau lấy lại mật khẩu nào 🧐
                     </Typography>
                     <img
                         src="/assets/illustrations/Forgot password-amico.png"
@@ -67,14 +67,13 @@ export default function ForgotPasswordPage() {
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Find your account
+                            Tìm tài khoản của bạn nào
                         </Typography>
 
                         <Typography variant="body2" sx={{mb: 5}}>
-                            Please enter your email to search
-                            for your account. <br/>
-                            Do you remember your password? {""}
-                            <Link href="/login">Login Here</Link>
+                            Hãy nhập email để tìm tài khảon của bạn <br/>
+                            Bạn đã nhớ lại mật khẩu rồi?  {""}
+                            <Link href="/login">Đăng nhập lại nào...</Link>
                         </Typography>
                         <ForgotPasswordForm/>
                     </StyledContent>

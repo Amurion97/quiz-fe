@@ -24,8 +24,8 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const columns = [
     {id: 'id', label: 'ID', minWidth: 50, align: "center"},
-    {id: 'name', label: 'Name', minWidth: 150},
-    {id: '', label: 'Action', minWidth: 100},
+    {id: 'name', label: 'Tên chủ để', minWidth: 150},
+    {id: '', label: 'Hành động', minWidth: 100},
 ];
 
 
@@ -94,7 +94,7 @@ export default function TagPage() {
                 <Grid item xs={12}>
                     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
                         <Typography variant="h4" gutterBottom>
-                            Tag
+                            Chủ đề của câu hỏi
                         </Typography>
                     </Stack>
                 </Grid>
@@ -177,17 +177,17 @@ export default function TagPage() {
                                     handleClickOpenConfirm()
                                 }}>
                                     <DeleteOutlineIcon fontSize="small"/>
-                                    Delete
+                                    Xóa
                                 </MenuItem>
                             </Popover>
                         </Paper>
                     </Grid>
 
                     <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth="md">
-                        <DialogTitle>Delete Tag</DialogTitle>
+                        <DialogTitle>Xóa chủ để</DialogTitle>
                         <DialogContent>
                             <Alert severity="success" >
-                               Tag deleted successfully!
+                               Xóa chủ đề thành công!
                             </Alert>
 
                         </DialogContent>
@@ -200,10 +200,10 @@ export default function TagPage() {
                         <Paper>
                             <DialogTitle sx={{
                                 // bgcolor: 'primary.dark'
-                            }}>Add New Tag</DialogTitle>
+                            }}>Thêm chủ đề mới</DialogTitle>
                             <DialogContent>
                                 <DialogContentText>
-                                    Enter the tag you want to add
+                                    Nhập vào ô chủ đề bạn muốn thêm
                                 </DialogContentText>
                                 <AddTagForm updateTag={updateTag}></AddTagForm>
                             </DialogContent>
@@ -224,7 +224,7 @@ export default function TagPage() {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure to delete this tag?"}
+                    {"Bạn chắc chắn muốn xóa chủ đề??"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -246,13 +246,13 @@ export default function TagPage() {
                                 variant="filled" severity="error"
                             >
                                 {statusCode === 500 ?
-                                    "Tag is in use, cannot be deleted!!"
+                                    "Chủ đề này đang được dùng, không thể xóa!!"
                                     :
-                                    "Server error during delete, please try again"
+                                    "Server đang lỗi, hãy thử lại sau"
                                 }
                             </Alert>
                         </Collapse>
-                        This action can not be undone
+                        Hành động này không thể hoàn tác
                     </DialogContentText>
 
                 </DialogContent>
@@ -274,7 +274,7 @@ export default function TagPage() {
                                 }
                             })
                     }} autoFocus variant="contained" color="error">
-                        Remove Tag
+                        Ok
                     </Button>
                 </DialogActions>
             </Dialog>

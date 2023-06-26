@@ -56,7 +56,7 @@ export default function RegisterPage() {
 
                 <StyledSection>
                     <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
-                        Hi, Welcome to Quiz
+                        Chào mừng bạn đến trang đăng ký tài khoản 😍
                     </Typography>
                     <img src="/assets/illustrations/All the data-rafiki.png" alt="login"/>
                 </StyledSection>
@@ -64,12 +64,12 @@ export default function RegisterPage() {
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Register in to Quiz
+                            Đăng ký tài khoản Quiz
                         </Typography>
 
                         <Typography variant="body2" sx={{mb: 0}}>
-                            Do you already have an account? {''}
-                            <Link href="/login">Login Here</Link>
+                            Bạn đã có sẵn một tài khoản? {''}
+                            <Link href="/login">Hãy đăng nhập nào...</Link>
                         </Typography>
 
                         <RegisterForm/>

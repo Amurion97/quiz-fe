@@ -147,11 +147,11 @@ export default function NavBar(props) {
                                 >
                                     <MenuItem onClick={() => {
                                         handleClickOpenDialog()
-                                    }}>Change password</MenuItem>
-                                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                                    }}>Đổi mật khẩu</MenuItem>
+                                    {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
                                     <MenuItem onClick={() => {
                                         handleClickOpenConfirm()
-                                    }}>Logout</MenuItem>
+                                    }}>Đăng xuất</MenuItem>
                                 </Menu>
                             </Grid>
                         </Grid>
@@ -177,7 +177,7 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <LocalOfferIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Tag" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Chủ đề của câu hỏi" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
@@ -190,7 +190,7 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <AddCircleIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Create a question"
+                                        <ListItemText primary="Tạo câu hỏi mới"
                                                       style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
@@ -204,7 +204,7 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <QuestionMarkIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Questions" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Danh sách câu hỏi" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
@@ -217,7 +217,7 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <PostAddTwoToneIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Test Create" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Tạo bài thi" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
@@ -230,7 +230,7 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <QuizIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Tests" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Danh sách bài thi" style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
                                 </>)}
 
@@ -258,7 +258,7 @@ export default function NavBar(props) {
             </StyledRoot>
 
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
-                <DialogTitle>Change password</DialogTitle>
+                <DialogTitle>Đổi mật khẩu</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         Mật khẩu dài tối đa 8 kí tự,
@@ -279,10 +279,10 @@ export default function NavBar(props) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure you want to sign out?"}
+                    {"Bạn có chắc muốn đăng xuất?"}
                 </DialogTitle>
                 <DialogActions>
-                    <Button onClick={handleCloseConfirm}>Cancel</Button>
+                    <Button onClick={handleCloseConfirm}>Hủy</Button>
                     <Button
                         onClick={() => {
                             dispatch(logout())

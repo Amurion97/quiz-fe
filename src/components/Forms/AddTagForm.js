@@ -18,7 +18,7 @@ export default function AddTagForm(props) {
     const [open, setOpen] = useState(false);
     const SchemaError = Yup.object().shape({
         name: Yup.string()
-            .min(2, "Too Short!")
+            .min(2, "Quá ngắn!")
             .required("Required"),
     })
     return (
@@ -72,7 +72,7 @@ export default function AddTagForm(props) {
                                 sx={{mb: 2}}
                                 variant="filled" severity="error"
                             >
-                                Tag already available
+                                Chủ đề này đã có
                             </Alert>
                         </Collapse>
                         <FormControl fullWidth>
@@ -95,7 +95,7 @@ export default function AddTagForm(props) {
                                 sx={{mb: 2}}
                                 variant="filled" severity="success"
                             >
-                                Add tag successfully
+                                Thêm chủ đề thành công
                             </Alert>
                         </Collapse>
                         <FormControl fullWidth>
@@ -104,7 +104,7 @@ export default function AddTagForm(props) {
                         <Field
                             component={TextField}
                             type="text"
-                            label="Name Tag"
+                            label="Nhập chủ đề..."
                             name="name"
                             fullWidth
                         />
@@ -113,7 +113,7 @@ export default function AddTagForm(props) {
                     </Stack>
 
                     <LoadingButton fullWidth size="large" type="button" variant="contained" onClick={submitForm}>
-                        Save
+                        Lưu chủ đề
                     </LoadingButton>
                 </Form>
             )}

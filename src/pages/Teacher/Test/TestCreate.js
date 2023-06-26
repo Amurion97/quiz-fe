@@ -154,7 +154,7 @@ export default function TestCreatePage() {
                                     <CardContent>
                                         <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                             <Field
-                                                label="Name"
+                                                label="Tên bài thi"
                                                 placeholder="Test Name"
                                                 type="text"
                                                 name="name"
@@ -174,7 +174,7 @@ export default function TestCreatePage() {
                                             <Box sx={{display: 'flex', alignItems: 'center', width: '100%'}}>
                                                 <Box sx={{flex: 1}}>
                                                     <Field
-                                                        label="Minutes"
+                                                        label="Thời gian"
                                                         placeholder="Minutes"
                                                         type="number"
                                                         name="time"
@@ -199,7 +199,7 @@ export default function TestCreatePage() {
                                                         component={Select}
                                                         id="difficulty"
                                                         name="difficulty"
-                                                        label="Difficulty"
+                                                        label="Độ khó"
                                                         variant="outlined"
                                                     >
                                                         {diffcultyOptions && diffcultyOptions.map(item => (
@@ -225,7 +225,7 @@ export default function TestCreatePage() {
                                                             name="tag"
                                                             error={touched['tag'] && !!errors['tag']}
                                                             helperText={touched['tag'] && errors['tag']}
-                                                            label="Tags"
+                                                            label="Chủ đề câu hỏi"
                                                             variant="outlined"
                                                         />
                                                     )}
@@ -242,7 +242,7 @@ export default function TestCreatePage() {
                                             variant="contained"
                                             loading={isSubmitting}
                                         >
-                                            Submit
+                                            Tạo bài thi
                                         </LoadingButton>
                                     </Box>
                                 </Card>
@@ -251,14 +251,14 @@ export default function TestCreatePage() {
                             <Grid item xs={4} sx={{pl: "20px"}}>
                                 <Paper sx={{p: "20px"}}>
                                     <Typography gutterBottom variant="h6" component="div" sx={{display: 'flex',}}>
-                                        <FormatListBulletedIcon sx={{mr: "10px"}}/> Questions
+                                        <FormatListBulletedIcon sx={{mr: "10px"}}/> Câu hỏi
                                     </Typography>
                                     {questionList.map((item, index) => (
                                         <Paper elevation={3} sx={{p: "10px", mb: "20px"}}>
                                             <Grid container sx={{pl: "20px", display: 'flex', alignItems: 'center'}}>
                                                 <Grid item xs={10} sx={{justifyContent: 'flex-start'}}>
                                                     <Typography gutterBottom variant="inherit" component="div">
-                                                        Question {index + 1}
+                                                        Câu hỏi {index + 1}
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={1} sx={{justifyContent: 'flex-end', ml: "20px",}}>
@@ -276,11 +276,10 @@ export default function TestCreatePage() {
                                                         Độ khó: {item.difficulty.name}
                                                     </Typography>
                                                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                                        Dạng câu hỏi: {item.type.name}
+                                                        Loại câu hỏi: {item.type.name}
                                                     </Typography>
                                                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                                        Liên
-                                                        quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
+                                                        Liên quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
                                                         "",)}
                                                     </Typography>
                                                     <Typography variant="h6" component="div">
@@ -303,13 +302,13 @@ export default function TestCreatePage() {
                         <Stack spacing={2} sx={{width: '100%'}}>
                             <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
-                                    Add test success!
+                                    Thêm bài thi thành công!
                                 </Alert>
                             </Snackbar>
 
                             <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-                                    Error in add test!
+                                    Lỗi khi thêm bài thi!
                                 </Alert>
                             </Snackbar>
                         </Stack>

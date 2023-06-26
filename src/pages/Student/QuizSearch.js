@@ -113,7 +113,7 @@ export default function QuizSearch() {
                             </Typography>
                             <hr/>
                             <Typography variant="body2" color="text.secondary">
-                                Difficulty level: {currentTest.difficulty.name}
+                                Độ khó của câu hỏi: {currentTest.difficulty.name}
                             </Typography>
                         </CardContent>
                         <CardActions>

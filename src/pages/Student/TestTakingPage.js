@@ -294,7 +294,7 @@ export default function TestTakingPage() {
                                                         },
                                                     }}
                                                 >
-                                                    Submit
+                                                    Nộp bài
                                                 </Button>
                                             </Item>
                                             {/*</Grid>*/}

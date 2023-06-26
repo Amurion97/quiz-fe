@@ -56,7 +56,7 @@ export default function ResetPasswordPage() {
 
                 <StyledSection>
                     <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
-                        Hi, Reset your password?
+                       Cùng tạo lại mật khẩu nào 😉
                     </Typography>
                     <img
                         src="/assets/illustrations/Forgot password-amico.png"
@@ -67,7 +67,7 @@ export default function ResetPasswordPage() {
                 <Container maxWidth="sm">
                     <StyledContent>
                         <Typography variant="h4" gutterBottom>
-                            Enter your new password below
+                            Nhập mật khẩu mới 
                         </Typography>
 
                         <ResetPasswordForm/>

@@ -1,29 +1,33 @@
-import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 // redux
-import {useDispatch, useSelector} from "react-redux";
-import {logout, selectUser} from "../features/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../features/user/userSlice";
 // @mui
-import {alpha, styled, useTheme} from '@mui/material/styles';
+import { alpha, styled, useTheme } from "@mui/material/styles";
 import {
-    Avatar, Button, Dialog, Divider,
+    Avatar,
+    Button,
+    Dialog,
+    Divider,
     Grid,
     IconButton,
     List,
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Paper, Stack,
-} from '@mui/material';
-import Box from '@mui/material/Box';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+    Paper,
+    Stack,
+} from "@mui/material";
+import Box from "@mui/material/Box";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import PostAddTwoToneIcon from '@mui/icons-material/PostAddTwoTone';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
+import PostAddTwoToneIcon from "@mui/icons-material/PostAddTwoTone";
 // components
 import Logo from "./logo";
 import ChangePasswordForm from "./Forms/ChangePasswordForm";
@@ -39,42 +43,42 @@ import * as React from "react";
 import InputBase from "@mui/material/InputBase";
 
 // sections
-const Search = styled('div')(({theme}) => ({
-    position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+    position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
+    "&:hover": {
         backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
         // marginLeft: theme.spacing(3),
-        width: 'auto',
+        width: "auto",
     },
 }));
 
-const SearchIconWrapper = styled('div')(({theme}) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
 }));
 
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: "inherit",
+    "& .MuiInputBase-input": {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
+        transition: theme.transitions.create("width"),
+        width: "100%",
+        [theme.breakpoints.up("md")]: {
+            width: "20ch",
         },
     },
 }));
@@ -83,9 +87,9 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 export default function TopBar(props) {
     const theme = useTheme();
     const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const user = useSelector(selectUser);
-    console.log("user:", user)
+    console.log("user:", user);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [openConfirm, setOpenConfirm] = useState(false);
     const handleCloseConfirm = () => {
@@ -116,55 +120,58 @@ export default function TopBar(props) {
 
     return (
         <>
-
-            <Box sx={{flexGrow: 1, mb: 2,}}>
-                <AppBar position="fixed" sx={{
-                    zIndex: 999,
-                    backgroundColor: theme.palette.background.default,
-                }}>
+            <Box sx={{ flexGrow: 1, mb: 2 }}>
+                <AppBar
+                    position="fixed"
+                    sx={{
+                        zIndex: 999,
+                        backgroundColor: theme.palette.background.default,
+                    }}>
                     <Toolbar>
                         <Logo
                             sx={{
-                                mr: 3
+                                mr: 3,
                             }}
                         />
                         <Paper
                             sx={{
-                                pl: 0
+                                pl: 0,
                             }}
                             elevation={1}>
-                            <Stack direction={'row'}>
+                            <Stack direction={"row"}>
                                 <Search>
                                     <SearchIconWrapper>
-                                        <SearchIcon/>
+                                        <SearchIcon />
                                     </SearchIconWrapper>
                                     <StyledInputBase
-                                        placeholder="Search…"
-                                        inputProps={{'aria-label': 'search'}}
+                                        placeholder="Nhập để tìm kiếm..."
+                                        inputProps={{ "aria-label": "search" }}
                                         value={props.contentQuery}
                                         onChange={(e) => {
-                                            props.setContentQuery(e.target.value);
+                                            props.setContentQuery(
+                                                e.target.value
+                                            );
                                         }}
                                     />
                                 </Search>
-                                <Button variant="contained" onClick={props.handleInputChange}>
-                                    Search
+                                <Button
+                                    variant="contained"
+                                    onClick={props.handleInputChange}>
+                                    Tìm kiếm
                                 </Button>
                             </Stack>
-
                         </Paper>
 
-                        <Box sx={{flexGrow: 1}}/>
-                        <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                        <Box sx={{ flexGrow: 1 }} />
+                        <Box sx={{ display: { xs: "none", md: "flex" } }}>
                             <IconButton
                                 size="large"
                                 edge="end"
                                 aria-label="account of current user"
                                 aria-haspopup="true"
                                 color="inherit"
-                                onClick={handleClick}
-                            >
-                                <AccountCircle color={'primary'}/>
+                                onClick={handleClick}>
+                                <AccountCircle color={"primary"} />
                             </IconButton>
                         </Box>
                     </Toolbar>
@@ -177,63 +184,65 @@ export default function TopBar(props) {
                 open={open}
                 onClose={handleClose}
                 MenuListProps={{
-                    'aria-labelledby': 'basic-button',
+                    "aria-labelledby": "basic-button",
                 }}
                 anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
+                    vertical: "bottom",
+                    horizontal: "right",
                 }}
                 transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-            >
-                <MenuItem onClick={() => {
-                    handleClickOpenDialog()
-                }}>Change password</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={() => {
-                    handleClickOpenConfirm()
-                }}>Logout</MenuItem>
+                    vertical: "top",
+                    horizontal: "right",
+                }}>
+                <MenuItem
+                    onClick={() => {
+                        handleClickOpenDialog();
+                    }}>
+                    Đổi mật khẩu
+                </MenuItem>
+                {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
+                <MenuItem
+                    onClick={() => {
+                        handleClickOpenConfirm();
+                    }}>
+                    Đăng xuất
+                </MenuItem>
             </Menu>
 
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
-                <DialogTitle>Change password</DialogTitle>
+                <DialogTitle>Đổi mật khẩu</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Mật khẩu dài tối đa 8 kí tự,
-                        Mật khẩu mới phải khác mật khẩu cũ
+                        Mật khẩu dài tối đa 8 kí tự, mật khẩu mới phải khác mật
+                        khẩu cũ
                     </DialogContentText>
-                    <ChangePasswordForm>
-                    </ChangePasswordForm>
-
+                    <ChangePasswordForm />
                 </DialogContent>
-                <DialogActions>
-                </DialogActions>
+                <DialogActions></DialogActions>
             </Dialog>
 
             <Dialog
                 open={openConfirm}
                 onClose={handleCloseConfirm}
                 aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
+                aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure you want to sign out?"}
+                    {"Bạn muốn đăng xuất?"}
                 </DialogTitle>
                 <DialogActions>
-                    <Button onClick={handleCloseConfirm}>Cancel</Button>
+                    <Button onClick={handleCloseConfirm}>Hủy</Button>
                     <Button
                         onClick={() => {
-                            dispatch(logout())
-                            navigate("/login")
+                            dispatch(logout());
+                            navigate("/login");
                         }}
-                        autoFocus variant="contained" color="primary">
+                        autoFocus
+                        variant="contained"
+                        color="primary">
                         OK
                     </Button>
                 </DialogActions>
             </Dialog>
         </>
-    )
-        ;
+    );
 }

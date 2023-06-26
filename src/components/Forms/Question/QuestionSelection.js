@@ -149,7 +149,7 @@ export default function QuestionSelection({addToQuestionList}) {
                             </IconButton>
                             <InputBase
                                 sx={{ml: 3, flex: 1, width: 200}}
-                                placeholder="Search Here"
+                                placeholder="Tìm bài thi"
                                 inputProps={{'label': 'search '}}
                                 onChange={handleInputChange}
                                 value={contentQuery}

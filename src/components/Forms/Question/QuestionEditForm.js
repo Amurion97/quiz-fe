@@ -323,7 +323,7 @@ export default function QuestionEditForm({question, tags}) {
                                     rows={6}
                                     fullWidth
                                     variant="filled"
-                                    placeholder={"Type your question here"}
+                                    placeholder={"Nhập câu hỏi của bạn vào đây..."}
                                 />
                             </Grid>
 
@@ -631,8 +631,7 @@ export default function QuestionEditForm({question, tags}) {
                                                                         rows={5}
                                                                         fullWidth
                                                                         variant="filled"
-                                                                        placeholder={"Type an answer" +
-                                                                            " option here ..."}
+                                                                        placeholder={"Nhập câu trả lời..."}
                                                                     />
                                                                 </CardContent>
                                                             </Card>
@@ -704,7 +703,7 @@ export default function QuestionEditForm({question, tags}) {
                                                 name="tag"
                                                 error={touched['tag'] && !!errors['tag']}
                                                 helperText={touched['tag'] && errors['tag']}
-                                                label="Tags"
+                                                label="Chủ đề của câu hỏi"
                                                 variant="outlined"
                                             />
                                         )}
@@ -742,7 +741,7 @@ export default function QuestionEditForm({question, tags}) {
                                             id="type"
                                             name="type"
                                             labelId="age-simple"
-                                            label="Question type"
+                                            label="Loại câu hỏi"
                                         >
                                             {/*<MenuItem value={1}>True/False</MenuItem>*/}
                                             {/*<MenuItem value={2}>Multiple choices</MenuItem>*/}
@@ -771,7 +770,7 @@ export default function QuestionEditForm({question, tags}) {
                                             id="difficulty"
                                             name="difficulty"
                                             labelId="difficulty"
-                                            label="Difficulty"
+                                            label="Độ khó"
                                         >
 
                                             {difficultyOptions.map(item => (
@@ -799,7 +798,7 @@ export default function QuestionEditForm({question, tags}) {
                                                loading={isSubmitting}
                                                loadingPosition="start"
                                                startIcon={<DoneOutlineIcon/>}>
-                                    <span>{(isSubmitting) ? "Saving…" : "Save this question"}</span>
+                                    <span>{(isSubmitting) ? "Saving…" : "Lưu câu hỏi"}</span>
                                 </LoadingButton>
                             </Grid>
 
@@ -832,12 +831,12 @@ export default function QuestionEditForm({question, tags}) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
-                    Success
+                    Ok
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Question edited successfully!
-                        Navigating to question list ...
+                        Sửa câu hỏi thành công! 
+                        Chuyển đến trang câu hỏi...
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

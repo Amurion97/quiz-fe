@@ -55,8 +55,8 @@ export default function ResetPasswordForm() {
 
     const SchemaError = Yup.object().shape({
         newPassword: Yup.string()
-            .min(6, "Too Short!")
-            .max(8, "too long")
+            .min(6, "Quá ngắn!")
+            .max(8, "Quá dài")
             .required("Vui lòng nhập mật khẩu"),
         confirmNewPassword: Yup.string()
             .oneOf([Yup.ref("newPassword"), null], "Mật khẩu không khớp")
@@ -113,7 +113,7 @@ export default function ResetPasswordForm() {
                                     variant="filled"
                                     severity="error">
                                     {statusCode === 404
-                                        ? " Wrong password, please try again!"
+                                        ? " Sai mật khẩu, hãy nhập lại"
                                         : "unknown password"}
                                 </Alert>
                             </Collapse>
@@ -133,15 +133,15 @@ export default function ResetPasswordForm() {
                                     sx={{ mb: 2 }}
                                     variant="filled"
                                     severity="success">
-                                    Update Password Successfully!
-                                    Redirecting to login page in {countdown} seconds...
+                                    Tạo mật khẩu thành công. 
+                                    Quay lại trang login trong {countdown} giây...
                                 </Alert>
                             </Collapse>
 
                             <Field
                                 component={TextField}
                                 type={showPassword ? "text" : "password"}
-                                label="New password"
+                                label="Mật khẩu mới"
                                 name="newPassword"
                                 fullWidth
                                 InputProps={{
@@ -167,7 +167,7 @@ export default function ResetPasswordForm() {
                             <Field
                                 component={TextField}
                                 type={showPassword ? "text" : "password"}
-                                label="Password comfirmation"
+                                label="Nhập lại mật khẩu"
                                 name="confirmNewPassword"
                                 fullWidth
                                 InputProps={{
@@ -198,7 +198,7 @@ export default function ResetPasswordForm() {
                                 variant="contained"
                                 loading={isSubmitting}>
                                 <span>
-                                    {isSubmitting ? "Registering…" : "Submit"}
+                                    {isSubmitting ? "Registering…" : "Tạo xong"}
                                 </span>
                             </LoadingButton>
                         </Stack>

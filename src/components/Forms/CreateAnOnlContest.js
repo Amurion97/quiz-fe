@@ -73,7 +73,7 @@ export default function CreateAnOnlContest(props) {
                             <Box sx={{display: 'flex', alignItems: 'center', width: '100%'}}>
                                 <Box sx={{flex: 1}}>
                                     <Field
-                                        label="Minutes"
+                                        label="Thời gian"
                                         placeholder="Minutes"
                                         type="number"
                                         name="time"
@@ -96,7 +96,7 @@ export default function CreateAnOnlContest(props) {
                             <Box sx={{display: 'flex', alignItems: 'center', width: '100%'}}>
                                 <Box sx={{flex: 1}}>
                                     <Field
-                                        label="People"
+                                        label="Người tham gia"
                                         placeholder="People"
                                         type="number"
                                         name="size"
@@ -122,19 +122,19 @@ export default function CreateAnOnlContest(props) {
                                 type="submit"
                                 variant="contained"
                                 loading={isSubmitting}>
-                                Submit
+                                Tạo phòng thi
                             </LoadingButton>
                         </Stack>
                         <Stack spacing={2} sx={{width: '100%'}}>
                             <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
-                                    Add people success!
+                                    Thêm người thi thành công!
                                 </Alert>
                             </Snackbar>
 
                             <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-                                    Error in add people!
+                                    Lỗi khi thêm người thi!
                                 </Alert>
                             </Snackbar>
                         </Stack>

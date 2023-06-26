@@ -155,19 +155,19 @@ export default function QuestionCreationForm() {
         values.difficulty = parseInt(values.difficulty);
 
         if (values.content === "") {
-            setMessage("Question content must not be blank");
+            setMessage("Nội dung câu hỏi không được để trống");
             setOpenDialog(true)
             error = true;
         } else if (values.type === 3 && trueIndexes.length < 2) {
-            setMessage("Please select at least 2 answers");
+            setMessage("Hãy chọn ít nhất 2 câu hỏi");
             setOpenDialog(true)
             error = true;
         } else if (values.type < 3 && values.trueIndex < 0) {
-            setMessage("Please select 1 answers");
+            setMessage("Hãy chọn 1 câu trả lời");
             setOpenDialog(true)
             error = true;
         } else if (isNaN(values.difficulty)) {
-            setMessage("Please choose difficulty for the question");
+            setMessage("Hãy chọn độ khó cho câu hỏi");
             setOpenDialog(true)
             error = true;
         } else {
@@ -185,7 +185,7 @@ export default function QuestionCreationForm() {
             } else {
                 for (let i = 0; i < answerNumber; i++) {
                     if (values[`answer-${i}`] === "" || values[`answer-${i}`] === undefined) {
-                        setMessage("Please fill in or delete empty answers ");
+                        setMessage("Hãy điền hoặc xóa bỏ ô nhập câu trả lời trống");
                         setOpenDialog(true)
                         error = true;
                     }
@@ -311,7 +311,7 @@ export default function QuestionCreationForm() {
                                     rows={6}
                                     fullWidth
                                     variant="filled"
-                                    placeholder={"Type your question here"}
+                                    placeholder={"Nhập câu hỏi..."}
                                 />
                             </Grid>
 
@@ -377,7 +377,7 @@ export default function QuestionCreationForm() {
                                                                             sx={{
                                                                                 mb: 4
                                                                             }}>
-                                                                    {index === 0 ? 'True' : 'False'}
+                                                                    {index === 0 ? 'Đúng' : 'Sai'}
                                                                 </Typography>
                                                             </CardContent>
                                                         </Card>
@@ -549,8 +549,7 @@ export default function QuestionCreationForm() {
                                                                         rows={5}
                                                                         fullWidth
                                                                         variant="filled"
-                                                                        placeholder={"Type an answer" +
-                                                                            " option here ..."}
+                                                                        placeholder={"Nhập câu trả lời..."}
                                                                     />
                                                                 </CardContent>
                                                             </Card>
@@ -618,7 +617,7 @@ export default function QuestionCreationForm() {
                                                 name="tag"
                                                 error={touched['tag'] && !!errors['tag']}
                                                 helperText={touched['tag'] && errors['tag']}
-                                                label="Tags"
+                                                label="Chủ đề của câu hỏi"
                                                 variant="outlined"
                                             />
                                         )}
@@ -656,7 +655,7 @@ export default function QuestionCreationForm() {
                                             id="type"
                                             name="type"
                                             labelId="age-simple"
-                                            label="Question type"
+                                            label="Loại câu hỏi"
                                         >
                                             {/*<MenuItem value={1}>True/False</MenuItem>*/}
                                             {/*<MenuItem value={2}>Multiple choices</MenuItem>*/}
@@ -685,7 +684,7 @@ export default function QuestionCreationForm() {
                                             id="difficulty"
                                             name="difficulty"
                                             labelId="difficulty"
-                                            label="Difficulty"
+                                            label="Độ khó"
                                         >
 
                                             {diffcultyOptions.map(item => (
@@ -713,7 +712,7 @@ export default function QuestionCreationForm() {
                                                loading={isSubmitting}
                                                loadingPosition="start"
                                                startIcon={<DoneOutlineIcon/>}>
-                                    <span>{(isSubmitting) ? "Saving…" : "Save this question"}</span>
+                                    <span>{(isSubmitting) ? "Saving…" : "Lưu câu hỏi"}</span>
                                 </LoadingButton>
                             </Grid>
 
@@ -728,7 +727,7 @@ export default function QuestionCreationForm() {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
-                    Error
+                    Lỗi
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -736,7 +735,7 @@ export default function QuestionCreationForm() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseDialog}>OK, I got it!</Button>
+                    <Button onClick={handleCloseDialog}>Ok, đã hiểu rồi!</Button>
                 </DialogActions>
             </Dialog>
 
@@ -746,11 +745,11 @@ export default function QuestionCreationForm() {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
-                    Success
+                    Ok
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Question created!
+                        Câu hỏi được tạo thành công
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

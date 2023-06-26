@@ -19,14 +19,14 @@ import {customAPIv1} from "../../../features/customAPI";
 
 const SchemaError = Yup.object().shape({
     email: Yup.string().email()
-        .required('Please enter your email'),
+        .required('Bạn hãy nhập email để đăng ký'),
     password: Yup.string()
-        .min(6, 'Password must be 6 - 8 characters')
-        .max(8,'Password must be 6 - 8 characters')
-        .required('Please enter a password'),
+        .min(6,'Mật khẩu phải từ 6-8 ký tự')
+        .max(8,'Mật khẩu phải từ 6-8 ký tự')
+        .required('Bạn hãy nhập mật khẩu để đăng ký'),
     confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Password mismatch')
-        .required('Please confirm your password'),
+        .oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng khớp')
+        .required('Bạn phải xác nhận lại mật khẩu'),
 });
 
 // ----------------------------------------------------------------------
@@ -111,10 +111,9 @@ export default function RegisterForm() {
                                         variant="filled" severity="error"
                                     >
                                         {statusCode === 409 ?
-                                            "Email already exists, please use another email or" +
-                                            " Reset password"
+                                            "Đã có tài khoản sử dụng email này, bạn hãy dùng một email khác"
                                             :
-                                            "Server error during registration, please try again"
+                                            "Lỗi máy chủ trong quá trình đăng ký, vui lòng thử lại"
                                         }
                                     </Alert>
                                 </Collapse>
@@ -135,8 +134,8 @@ export default function RegisterForm() {
                                         sx={{mb: 2}}
                                         variant="filled" severity="success"
                                     >
-                                        Register Success!
-                                        Redirecting to login page in {countdown} seconds...
+                                        Đăng ký thành công
+                                        Bạn sẽ được trở lại trăng đăng nhập trong {countdown} giây...
                                     </Alert>
                                 </Collapse>
 
@@ -151,7 +150,7 @@ export default function RegisterForm() {
                                 <Field
                                     component={TextField}
                                     type={showPassword ? 'text' : 'password'}
-                                    label="Password"
+                                    label="Mật khẩu"
                                     name="password"
                                     fullWidth
                                     InputProps={{
@@ -171,7 +170,7 @@ export default function RegisterForm() {
                                 <Field
                                     component={TextField}
                                     type={showPassword ? 'text' : 'password'}
-                                    label="Re-enter the password"
+                                    label="Nhập lại mật khẩu"
                                     name="confirmPassword"
                                     fullWidth
                                     InputProps={{
@@ -193,7 +192,7 @@ export default function RegisterForm() {
                                                variant="contained"
                                                loading={isSubmitting}
                                 >
-                                    <span>{(isSubmitting) ? "Registering…" : "Submit"}</span>
+                                    <span>{(isSubmitting) ? "Đang đăng ký" : "Đăng ký"}</span>
                                 </LoadingButton>
                             </Stack>
 

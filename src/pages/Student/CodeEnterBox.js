@@ -26,7 +26,7 @@ export function CodeEnterBox() {
                        width: 'min(100%, 600px)'
                    }}>
                 <Stack direction={'row'} spacing={1}>
-                    <OutlinedInput placeholder='Enter a join code'
+                    <OutlinedInput placeholder='Nhập code'
                                    value={code}
                                    onChange={(e) => {
                                        setCode(e.target.value)
@@ -48,7 +48,7 @@ export function CodeEnterBox() {
                                 height: '60px',
                                 boxShadow: `0px 5px ${alpha(theme.palette.secondary.main, 0.4)}`,
                             }}
-                    >JOIN</Button>
+                    >Vào thi</Button>
                 </Stack>
 
             </Paper>

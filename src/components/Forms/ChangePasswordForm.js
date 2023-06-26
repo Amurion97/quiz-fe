@@ -39,12 +39,12 @@ export default function ChangePasswordForm() {
 
     const SchemaError = Yup.object().shape({
         password: Yup.string()
-            .min(1, "Too Short!")
-            .max(8, "too long")
+            .min(1, "Quá ngắn!")
+            .max(8, "Quá dài!")
             .required("Vui lòng nhập mật khẩu"),
         newPassword: Yup.string()
-            .min(6, "Too Short!")
-            .max(8, "too long")
+            .min(6, "Quá ngắn!")
+            .max(8, "Quá dài!")
             .required("Vui lòng nhập mật khẩu"),
         confirmNewPassword: Yup.string()
             .oneOf([Yup.ref("newPassword"), null], "Mật khẩu không khớp")
@@ -99,8 +99,8 @@ export default function ChangePasswordForm() {
                                     variant="filled"
                                     severity="error">
                                     {statusCode >= 400
-                                        ? " Wrong password, please try again!"
-                                        : "unknown password"}
+                                        ? "Sai mật khẩu, hãy nhập lại!"
+                                        : "Không nhận ra mật khẩu"}
                                 </Alert>
                             </Collapse>
                             <Collapse in={openSuccess}>
@@ -125,7 +125,7 @@ export default function ChangePasswordForm() {
                             <Field
                                 component={TextField}
                                 type={showPassword ? "text" : "password"}
-                                label="Password"
+                                label="Mật khẩu cũ"
                                 name="password"
                                 fullWidth
                                 InputProps={{
@@ -152,7 +152,7 @@ export default function ChangePasswordForm() {
                             <Field
                                 component={TextField}
                                 type={showPassword ? "text" : "password"}
-                                label="New password"
+                                label="Mật khẩu mới"
                                 name="newPassword"
                                 fullWidth
                                 InputProps={{
@@ -178,7 +178,7 @@ export default function ChangePasswordForm() {
                             <Field
                                 component={TextField}
                                 type={showPassword ? "text" : "password"}
-                                label="Password comfirmation"
+                                label="Nhập lại mật khẩu mới"
                                 name="confirmNewPassword"
                                 fullWidth
                                 InputProps={{
@@ -209,7 +209,7 @@ export default function ChangePasswordForm() {
                                 variant="contained"
                                 loading={isSubmitting}>
                                 <span>
-                                    {isSubmitting ? "Registering…" : "Submit"}
+                                    {isSubmitting ? "Đăng đăng ký..." : "Đăng ký"}
                                 </span>
                             </LoadingButton>
                         </Stack>
