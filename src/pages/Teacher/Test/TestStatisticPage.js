@@ -8,21 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import {
     Box,
     Grid,
-    IconButton,
-    MenuItem,
-    Popover,
     Stack,
     Typography,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {useEffect, useState} from "react";
 import {Helmet} from "react-helmet-async";
 import {useTheme} from "@mui/material/styles";
 import {customAPIv1} from "../../../features/customAPI";
-
-import ProgressBar from "@ramonak/react-progress-bar";
-import {useLocation} from "react-router-dom";
 import {socket} from "../../../app/socket";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../../features/user/userSlice";
@@ -30,7 +22,7 @@ import {selectUser} from "../../../features/user/userSlice";
 const columns = [
     {id: "rank", label: "Rank", minWidth: 50, align: "center"},
     {id: "email", label: "Email", minWidth: 150},
-    {id: "", label: "", minWidth: 200, align: "center"},
+    {id: "", label: "", minWidth: 400, align: "center"},
     {id: "score", label: "Score", minWidth: 100, align: "center"},
 ];
 
@@ -64,6 +56,9 @@ export default function TestStatisticPage() {
                 (res) => {
                     console.log('join-room', res);
                     if (res.success !== false) {
+                        res.sort((a, b) => (b.corrects == a.corrects) ?
+                            (b.corrects + b.incorrects - a.corrects - a.incorrects)
+                            : (b.corrects - a.corrects));
                         setPeopleList(res);
                     }
                 })
@@ -112,8 +107,8 @@ export default function TestStatisticPage() {
             <Grid
                 container
                 direction="row"
-                justifyContent="center"
-                alignItems="center"
+                justifyContent="flex-start"
+                alignItems="flex-start"
                 sx={{
                     height: "100vh",
                     padding: "5% 10%",
@@ -122,6 +117,7 @@ export default function TestStatisticPage() {
                         'url("/assets/images/background-test-statistics.png")',
                     backgroundSize: "cover",
                 }}>
+
                 <Grid
                     item
                     xs={12}
@@ -132,9 +128,10 @@ export default function TestStatisticPage() {
                         borderRadius: "5px",
                     }}>
                     <Typography variant="titleInTheBackground">
-                        Test statistics
+                        Group Test statistics
                     </Typography>
                 </Grid>
+
                 <Grid item xs={12}>
                     <Paper padding={2} sx={{bgcolor: "transparent"}}>
                         <TableContainer
@@ -224,7 +221,7 @@ export default function TestStatisticPage() {
                                                             sx={{height: "100%"}}>
                                                             {[...Array(totalQuestion)].map(
                                                                 (item, index) => (
-                                                                    index < sumQuestions &&
+
                                                                     <Grid
                                                                         xs={12 / totalQuestion}
                                                                         sx={{pl: 0.2}}
@@ -232,15 +229,19 @@ export default function TestStatisticPage() {
                                                                         <Box
                                                                             sx={{
                                                                                 bgcolor: (theme) =>
-                                                                                    index < corrects
-                                                                                        ? theme.palette.success.main
-                                                                                        : theme.palette.error.main,
+                                                                                    index < sumQuestions ?
+                                                                                        (index < corrects
+                                                                                            ? theme.palette.success.main
+                                                                                            : theme.palette.error.main)
+                                                                                        :
+                                                                                        theme.palette.grey[500],
                                                                                 height: "100%",
                                                                                 // borderRadius: 0.5,
                                                                                 borderRadius: '2.5px',
                                                                             }}
                                                                         />
                                                                     </Grid>
+
                                                                 )
                                                             )}
                                                         </Grid>

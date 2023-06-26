@@ -106,21 +106,6 @@ export default function TestResultPage() {
                                          bgColor={theme.palette.primary.main}
                             />
 
-                            <Box sx={{height: '2vh', width: '100%', mt: 5}}>
-                                <Grid container spacing={3} sx={{height: '100%'}}>
-                                    {[...Array(20)].map((item, index) => (
-                                        <Grid xs={12 / 20} sx={{pl: 1}}>
-                                            <Box sx={{
-                                                bgcolor: index < 10 ? 'green' : 'red',
-                                                height: '100%',
-                                                // width: '100%'
-                                            }}
-                                            ></Box>
-                                        </Grid>
-                                    ))}
-                                </Grid>
-                            </Box>
-
                         </Paper>
                         <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}
                               justifyContent={'center'}>

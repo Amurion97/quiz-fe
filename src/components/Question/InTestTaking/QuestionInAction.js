@@ -9,7 +9,10 @@ export function QuestionInAction({
                                      handleAnswerClick,
                                      currentAnswerList,
                                      handleNextQuestion,
-                                     handlePreviousQuestion
+                                     handlePreviousQuestion,
+                                     submitForm,
+                                     totalQuestion,
+                                     currentQuestionIndex
                                  }) {
     const theme = useTheme()
     return (<>
@@ -120,7 +123,7 @@ export function QuestionInAction({
         </Paper>
         <Stack
             direction="row"
-            justifyContent={handlePreviousQuestion ? "space-between" : 'flex-end'}
+            justifyContent={handlePreviousQuestion && currentQuestionIndex > 0 ? "space-between" : 'flex-end'}
             alignItems="flex-end"
             spacing={2}
             sx={{
@@ -128,7 +131,7 @@ export function QuestionInAction({
 
             }}
         >
-            {handlePreviousQuestion &&
+            {(handlePreviousQuestion && currentQuestionIndex > 0) &&
                 <Button variant="outlined" size='large'
                         sx={{
                             fontSize: 20,
@@ -137,12 +140,18 @@ export function QuestionInAction({
                 >
                     Previous
                 </Button>}
-
-            <Button variant="contained" size='large' sx={{fontSize: 20,}}
-                    onClick={handleNextQuestion}
-            >
-                Next
-            </Button>
+            {currentQuestionIndex === totalQuestion - 1 ?
+                <Button variant="contained" size='large' sx={{fontSize: 20,}}
+                        onClick={submitForm}
+                >
+                    Submit
+                </Button>
+                :
+                <Button variant="contained" size='large' sx={{fontSize: 20,}}
+                        onClick={handleNextQuestion}
+                >
+                    Next
+                </Button>}
         </Stack>
     </>)
 }

@@ -156,6 +156,9 @@ export default function TestTakingPage() {
                                     handleAnswerClick={handleAnswerClick}
                                     handleNextQuestion={handleNextQuestion}
                                     handlePreviousQuestion={handlePreviousQuestion}
+                                    submitForm={submitForm}
+                                    totalQuestion={test? test.details.length : 100}
+                                    currentQuestionIndex={currentQuestionIndex}
                                 />
 
                             </Grid>

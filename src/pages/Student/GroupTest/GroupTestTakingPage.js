@@ -49,14 +49,14 @@ export default function GroupTestTakingPage() {
                 })
         }
 
-        socket.emit('join-room',
-            {roomCode: roomCode, email: user.info.email},
-            (res) => {
-                console.log('join-room', res);
-                if (res.success !== false) {
-
-                }
-            })
+        // socket.emit('join-room',
+        //     {roomCode: roomCode, email: user.info.email},
+        //     (res) => {
+        //         console.log('join-room', res);
+        //         if (res.success !== false) {
+        //
+        //         }
+        //     })
 
         socket.on('connect', onConnect);
 
@@ -93,7 +93,12 @@ export default function GroupTestTakingPage() {
                 console.log("response:", response);
             })
         setCurrentQuestionIndex(
-            (index) => index < test.details.length - 1 ? index + 1 : index)
+            (index) => index < test.details.length - 1 ? index + 1 : index);
+        if (currentQuestionIndex === test.details.length - 1) {
+            setTimeout(() => {
+                navigate(`/students/test-statistic?code=${roomCode}&test=${test.id}`);
+            },2000)
+        }
     }
 
     let count = 0;
@@ -120,25 +125,6 @@ export default function GroupTestTakingPage() {
             return <span>{x.hours}:{x.minutes}:{x.seconds}</span>;
         }
     };
-
-    function connect() {
-        socket.connect();
-    }
-    //
-    function connectToLobby() {
-        socket.emit('join-lobby',
-            {roomCode: roomCode, email: user.info.email},
-            (res) => {
-                console.log('join-lobby', res)
-            })
-    }
-
-    function connectToRoom() {
-        socket.emit('join-room',
-            {roomCode: roomCode, email: user.info.email}, (res) => {
-                console.log('join-room response:', res)
-            })
-    }
 
     useEffect(() => {
         function onRoomUpdate(arg) {
@@ -206,14 +192,6 @@ export default function GroupTestTakingPage() {
                                         /> : ""}
                                     </Paper>
 
-                                    <Button onClick={connect}>Connect</Button>
-                                    <Button type={'button'} onClick={connectToLobby}>
-                                        Connect to lobby 1
-                                    </Button>
-
-                                    <Button type={'button'} onClick={connectToRoom}>
-                                        Connect to room
-                                    </Button>
                                 </Stack>
                             </Grid>
 
@@ -225,6 +203,9 @@ export default function GroupTestTakingPage() {
                                     currentAnswerList={answerList[currentQuestionIndex]}
                                     handleAnswerClick={handleAnswerClick}
                                     handleNextQuestion={handleNextQuestion}
+                                    submitForm={submitForm}
+                                    totalQuestion={test? test.details.length : 100}
+                                    currentQuestionIndex={currentQuestionIndex}
                                 />
 
                             </Grid>

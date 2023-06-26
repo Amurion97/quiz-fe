@@ -78,6 +78,7 @@ export default function Router() {
                     path: 'groupWaitingRoom',
                     element: <GroupWaitingRoom/>
                 },
+                {path: 'test-statistic', element: <TestStatisticPage/>},
             ]
         },
 
