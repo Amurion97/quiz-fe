@@ -123,7 +123,7 @@ export default function TestPage() {
             }
         })
             .then(res => {
-                console.log("questions:", res.data);
+                console.log("tests:", res.data);
                 setTestList(res.data.data['tests']);
                 setResultNumber(res.data.data['testCount']);
             })
@@ -253,7 +253,7 @@ export default function TestPage() {
                     {testList.map((row, index) => {
                         const {id, name, image, difficulty, tags} = row;
                         return (
-                            <Paper sx={{mb: 2}}>
+                            <Paper key={id} sx={{mb: 2}}>
                                 <Grid container spacing={1}
                                       sx={{
                                           width: '100%'
@@ -279,8 +279,12 @@ export default function TestPage() {
                                     >
                                         <Stack direction={'column'} spacing={1}>
 
-                                            <Typography component="div" variant="h5" sx={{pt: 3}}>
+                                            <Typography  variant="h5" sx={{pt: 3}}>
                                                 Tên bài thi: {name}
+                                            </Typography>
+
+                                            <Typography  variant="body" >
+                                                {row.details.length} câu hỏi
                                             </Typography>
 
                                             <Typography>
@@ -293,9 +297,9 @@ export default function TestPage() {
 
                                             <Typography
                                                 sx={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    pl: 4,
+                                                    // display: "flex",
+                                                    // alignItems: "center",
+                                                    // pl: 4,
                                                     pb: 1,
                                                 }}
                                             >
@@ -395,7 +399,7 @@ export default function TestPage() {
             <Dialog
                 open={openDialog}
                 onClose={handleCloseDialog}
-                fullWidth="md"
+                maxWidth="md"
             >
                 <DialogTitle>Delete Tag</DialogTitle>
                 <DialogContent>
