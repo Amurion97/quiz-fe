@@ -9,17 +9,17 @@ import {
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import { useTheme } from "@mui/material/styles";
-import { useLocation } from "react-router-dom";
-import { customAPIv1 } from "../../features/customAPI";
-import { useState } from "react";
-import { useEffect } from "react";
+import {useTheme} from "@mui/material/styles";
+import {useLocation} from "react-router-dom";
+import {customAPIv1} from "../../features/customAPI";
+import {useState} from "react";
+import {useEffect} from "react";
 
 const columns = [
-    { id: "email", label: "Email", minWidth: 100 },
-    { id: "", label: "", minWidth: 150 },
-    { id: "accuracy", label: "Accuracy", minWidth: 150 },
-    { id: "point", label: "Point", minWidth: 150 },
+    {id: "email", label: "Email", minWidth: 100},
+    {id: "", label: "", minWidth: 150},
+    {id: "accuracy", label: "Accuracy", minWidth: 150},
+    {id: "point", label: "Point", minWidth: 150},
 ];
 
 export default function ResulTest() {
@@ -27,10 +27,10 @@ export default function ResulTest() {
 
     const location = useLocation();
     console.log("location in Icon of Result-Static:", location);
-    const { state } = location;
+    const {state} = location;
     let id;
     if (state) {
-        ({ id } = state);
+        ({id} = state);
     }
     const [attempts, setAttempts] = useState([]);
     const updateAttempts = () => {
@@ -49,7 +49,7 @@ export default function ResulTest() {
     console.log("attemp page", attempts);
     return (
         <>
-            <TableContainer component={Paper} sx={{ maxHeight: "70vh" }}>
+            <TableContainer component={Paper} sx={{maxHeight: "70vh"}}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -60,7 +60,7 @@ export default function ResulTest() {
                                     style={{
                                         minWidth: column.minWidth,
                                         backgroundColor:
-                                            theme.palette.primary.dark,
+                                        theme.palette.primary.dark,
                                         color: theme.palette.primary
                                             .contrastText,
                                     }}>
@@ -73,7 +73,7 @@ export default function ResulTest() {
                         {attempts.map((item, index) => {
                             let correct = item.corrects;
                             let incorrect = item.incorrects;
-                            let sumQuestions = correct+incorrect;
+                            let sumQuestions = correct + incorrect;
                             console.log('sumQuestions', sumQuestions);
                             return (
                                 <TableRow>
@@ -87,21 +87,23 @@ export default function ResulTest() {
                                             }}>
                                             <Grid
                                                 container
-                                                spacing={3}
-                                                sx={{ height: "100%" }}>
+                                                spacing={1}
+                                                sx={{height: "100%"}}>
                                                 {[...Array(sumQuestions)].map(
                                                     (item, index) => (
                                                         <Grid
                                                             xs={12 / sumQuestions}
-                                                            sx={{ pl: 0.1 }}>
+                                                            sx={{pl: 0.1}}
+                                                        >
                                                             <Box
                                                                 sx={{
                                                                     bgcolor:
-                                                                        index < correct+1
+                                                                        index < correct
                                                                             ? "green"
                                                                             : "red",
                                                                     height: "100%",
-                                                                    borderRadius: 0.5,
+                                                                    // borderRadius: 0.5,
+                                                                    borderRadius: '2.5px',
                                                                 }}
                                                             />
                                                         </Grid>
