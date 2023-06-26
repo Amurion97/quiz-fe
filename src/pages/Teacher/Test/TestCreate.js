@@ -303,13 +303,13 @@ export default function TestCreatePage() {
                         <Stack spacing={2} sx={{width: '100%'}}>
                             <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
-                                    Add test success!
+                                    Tạo đề thi thành công!
                                 </Alert>
                             </Snackbar>
 
                             <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-                                    Error in add test!
+                                    Lỗi khi tạo đề thi !
                                 </Alert>
                             </Snackbar>
                         </Stack>

@@ -57,7 +57,7 @@ export default function CreateAnOnlContest(props) {
                             setOpenSuccess(true);
                             setSubmitting(false);
                             setTimeout(() => {
-                                navigate(`/dashboard/test?code=${data.data}`);
+                                navigate(`/login`);
                             },2000)
                         })
                         .catch((e) => {
@@ -128,13 +128,13 @@ export default function CreateAnOnlContest(props) {
                         <Stack spacing={2} sx={{width: '100%'}}>
                             <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
-                                    Add people success!
+                                    Thêm số lượng người thi thành công!
                                 </Alert>
                             </Snackbar>
 
                             <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-                                    Error in add people!
+                                    Lỗi thêm số lượng người thi!
                                 </Alert>
                             </Snackbar>
                         </Stack>

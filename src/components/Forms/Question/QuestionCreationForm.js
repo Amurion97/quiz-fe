@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 // @mui
 import {
     Grid,
@@ -10,7 +10,7 @@ import {
     FormControlLabel,
     Typography,
     FormControl,
-    Paper, Button
+    Paper, Button, Stack, Snackbar
 } from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import {alpha, styled, useTheme} from "@mui/material/styles";
@@ -20,6 +20,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Slide from '@mui/material/Slide';
 import Checkbox from '@mui/material/Checkbox';
 import MuiTextField from '@mui/material/TextField';
+import MuiAlert from "@mui/material/Alert";
 
 // formik
 import {Field, Form, Formik} from "formik";
@@ -70,6 +71,19 @@ export default function QuestionCreationForm() {
     const [diffcultyOptions, setDiffcultyOptions] = useState([]);
     const [typeOptions, setTypeOptions] = useState([]);
     const [tags, setTags] = useState([]);
+    
+    const [openSuccess, setOpenSuccess] = useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSuccess(false)
+    
+    };
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     const handleTrueIndexes = (newAnswerIndex, setFieldValue) => {
         console.log("trueIndexes pre-process", trueIndexes)
@@ -204,7 +218,7 @@ export default function QuestionCreationForm() {
                 customAPIv1().post("/questions", values)
                     .then(() => {
                         setSubmitting(false);
-                        setOpenSuccessDialog(true);
+                        setOpenSuccess(true);
                         resetForm();
                     })
                     .catch(e => {
@@ -739,24 +753,14 @@ export default function QuestionCreationForm() {
                     <Button onClick={handleCloseDialog}>OK, I got it!</Button>
                 </DialogActions>
             </Dialog>
-
-            <Dialog
-                open={openSuccessDialog}
-                onClose={handleCloseSuccessDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">
-                    Success
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Question created!
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseSuccessDialog}>OK</Button>
-                </DialogActions>
-            </Dialog>
+            <Stack spacing={2} sx={{width: '100%'}}>
+                            <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                                Thêm câu hỏi thành công!
+                                </Alert>
+                            </Snackbar>
+                        </Stack>
+        
         </>
     )
         ;
