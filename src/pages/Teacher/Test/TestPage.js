@@ -29,7 +29,7 @@ import {customAPIv1} from "../../../features/customAPI";
 import {Alert} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 import * as React from "react";
-import { useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
@@ -183,17 +183,7 @@ export default function TestPage() {
             <Helmet>
                 <title> Test Management | Quiz </title>
             </Helmet>
-            {/* <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        sx={{
-          height: "100vh",
-          padding: "5% 5%",
-          overFlow: "scroll",
-        }}
-      > */}
+
             <Grid item xs={12}>
                 <Grid container spacing={0}>
                     <Grid
@@ -241,7 +231,7 @@ export default function TestPage() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button
-                                        onClick={()=>navigate('/dashboard/testCreate')}
+                                        onClick={() => navigate('/dashboard/testCreate')}
                                         startIcon={<CreateNewFolderIcon/>}
                                     >
                                         Create New Test
@@ -260,61 +250,97 @@ export default function TestPage() {
                             justifyContent: "center",
                             alignItems: "center",
                             mt: 15,
-                            pl: 3,
+                            px: 3,
                         }}
                     >
-                        <Grid container spacing={2}>
-                            <Grid item xs={10} spacing={0}>
-                                {testList.map((row, index) => {
-                                    const {id, name, image, difficulty, tags} = row;
-                                    return (
-                                        <Card key={id} sx={{display: "flex", mb: "15px"}}>
+
+                        {testList.map((row, index) => {
+                            const {id, name, image, difficulty, tags} = row;
+                            return (
+                                <Grid container spacing={1} >
+                                    <Card key={id} sx={{ display: "flex", mb: "15px" }}>
+                                        <Grid item xs={3}>
                                             <CardMedia
                                                 component="img"
-                                                sx={{width: 200}}
+                                                sx={{ width: 700 }}
                                                 image={image}
                                             />
-                                            <Box sx={{display: "flex", flexDirection: "column"}}>
-                                                <CardContent sx={{flex: "1 0 auto"}}>
-                                                    <Typography component="div" variant="h5">
-                                                        Name: {name}
-                                                    </Typography>
-                                                </CardContent>
-                                                <Box
-                                                    sx={{
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        pl: 1,
-                                                        pb: 1,
-                                                    }}
-                                                >
-                                                    <CardContent>
-                                                        <Typography>
-                                                            Tags: {tags.map((item, ind) => item.name + " , ")}
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={5}
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                            }}
+                                        >
+                                            <Box
+                                                sx={{ display: "flex", flexDirection: "column" }}
+                                            >
+                                                <Grid container spacing={1}>
+                                                    <Grid item xs={12} sx={{
+
+                                                    }}>
+                                                        <CardContent sx={{ flex: "1 0 auto" }}>
+                                                            <Typography component="div" variant="h5">
+                                                                Name: {name}
+                                                            </Typography>
+                                                        </CardContent>
+                                                    </Grid>
+                                                    <Grid item xs={12}>
+                                                        <Box
+                                                            sx={{
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                pl: 1,
+                                                                pb: 1,
+                                                            }}
+                                                        >
+                                                            <CardContent>
+                                                                <Typography>
+                                                                    Tags:
+                                                                    {tags.map(
+                                                                        (item, ind) => item.name + " , "
+                                                                    )}
+                                                                </Typography>
+                                                            </CardContent>
+                                                        </Box>
+                                                    </Grid>
+                                                    <Grid item xs={12}>
+                                                        <Typography
+                                                            sx={{
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                pl: 4,
+                                                                pb: 1,
+                                                            }}
+                                                        >
+                                                            Difficulty: {difficulty.name}
                                                         </Typography>
-                                                    </CardContent>
-                                                </Box>
-                                                <Typography
-                                                    sx={{
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        pl: 4,
-                                                        pb: 1,
-                                                    }}
-                                                >
-                                                    Difficulty: {difficulty.name}
-                                                </Typography>
+                                                    </Grid>
+                                                </Grid>
                                             </Box>
+                                        </Grid>
+                                        <Grid item xs={4}
+                                              sx={{
+                                                  display: "flex",
+                                                  flexDirection: "column",
+                                                  justifyContent: "space-between",
+                                                  alignItems: "center",
+                                                  pt:7
+                                              }}>
                                             <CardActions
                                                 sx={{
                                                     display: "flex",
                                                     alignItems: "center",
+                                                    justifyContent: "space-between",
 
                                                     "& > *": {
                                                         ml: 1,
                                                     },
                                                     pl: "30%",
                                                     pb: 1,
+
                                                 }}
                                             >
                                                 <Button
@@ -323,17 +349,18 @@ export default function TestPage() {
                                                         alignItems: "center",
                                                         pl: 1,
                                                         pb: 1,
+
                                                     }}
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        navigate(`/dashboard/sum-statistic`, {
+                                                        navigate(`/dashboard/test-statistic`, {
                                                             state: {
                                                                 id: id,
                                                             },
                                                         });
                                                     }}
                                                 >
-                                                    Xem thống kê làm bài
+                                                    thống kê làm bài
                                                 </Button>
                                                 <TableCell align="left">
                                                     <IconButton
@@ -344,71 +371,74 @@ export default function TestPage() {
                                                             handleOpenMenu(e);
                                                         }}
                                                     >
-                                                        <MoreVertIcon fontSize="small"/>
+                                                        <MoreVertIcon fontSize="small" />
                                                     </IconButton>
                                                 </TableCell>
                                             </CardActions>
-                                            <Popover
-                                                open={Boolean(openMenu)}
-                                                anchorEl={openMenu}
-                                                onClick={() => findTestByID(currentTestId)}
-                                                onClose={handleCloseMenu}
-                                                anchorOrigin={{vertical: 'top', horizontal: 'left'}}
-                                                transformOrigin={{vertical: 'top', horizontal: 'right'}}
-                                                PaperProps={{
-                                                    sx: {
-                                                        p: 1,
-                                                        width: 140,
-                                                        '& .MuiMenuItem-root': {
-                                                            px: 1,
-                                                            typography: 'body2',
-                                                            borderRadius: 0.75,
-                                                        },
-                                                    },
-                                                }}
-                                            >
-                                                <MenuItem onClick={(e) => {
-                                                    handleCloseMenu()
-                                                    handleClickOpenOnline()
-                                                }}>
-                                                    <Diversity3Icon fontSize="small" sx={{color: theme.palette.grey["500"]}}/>
-                                                    Online contest
-                                                </MenuItem>
+                                        </Grid>
 
-                                                <MenuItem sx={{color: 'error.main'}} onClick={(e) => {
-                                                    handleCloseMenu()
-                                                    handleClickOpenConfirm()
-                                                }}>
-                                                    <DeleteOutlineIcon fontSize="small"/>
-                                                    Delete
-                                                </MenuItem>
+                                    </Card>
+                                </Grid>
+                            );
+                        })}
 
-                                            </Popover>
-
-                                            <Dialog
-                                                open={openDialog}
-                                                onClose={handleCloseDialog}
-                                                fullWidth="md"
-                                            >
-                                                <DialogTitle>Delete Tag</DialogTitle>
-                                                <DialogContent>
-                                                    <Alert severity="success">
-                                                        Test deleted successfully!
-                                                    </Alert>
-                                                </DialogContent>
-                                                <DialogActions>
-                                                    <Button onClick={handleCloseDialog}>OK</Button>
-                                                </DialogActions>
-                                            </Dialog>
-                                        </Card>
-                                    );
-                                })}
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </Grid>
 
             </Grid>
+
+            <Popover
+                open={Boolean(openMenu)}
+                anchorEl={openMenu}
+                onClick={() => findTestByID(currentTestId)}
+                onClose={handleCloseMenu}
+                anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+                transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                PaperProps={{
+                    sx: {
+                        p: 1,
+                        width: 140,
+                        '& .MuiMenuItem-root': {
+                            px: 1,
+                            typography: 'body2',
+                            borderRadius: 0.75,
+                        },
+                    },
+                }}
+            >
+                <MenuItem onClick={(e) => {
+                    handleCloseMenu()
+                    handleClickOpenOnline()
+                }}>
+                    <Diversity3Icon fontSize="small" sx={{color: theme.palette.grey["500"]}}/>
+                    Online contest
+                </MenuItem>
+
+                <MenuItem sx={{color: 'error.main'}} onClick={(e) => {
+                    handleCloseMenu()
+                    handleClickOpenConfirm()
+                }}>
+                    <DeleteOutlineIcon fontSize="small"/>
+                    Delete
+                </MenuItem>
+
+            </Popover>
+
+            <Dialog
+                open={openDialog}
+                onClose={handleCloseDialog}
+                fullWidth="md"
+            >
+                <DialogTitle>Delete Tag</DialogTitle>
+                <DialogContent>
+                    <Alert severity="success">
+                        Test deleted successfully!
+                    </Alert>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog}>OK</Button>
+                </DialogActions>
+            </Dialog>
 
 
             <Dialog
@@ -475,9 +505,9 @@ export default function TestPage() {
 
             <Dialog open={openOnline} onClose={handleCloseOnline} maxWidth="md">
                 <DialogTitle>Create an online contest
-                <Typography component="div" variant="h6">
-                    Bài thi: <strong>{tests.name}</strong>
-                </Typography>
+                    <Typography component="div" variant="h6">
+                        Bài thi: <strong>{tests.name}</strong>
+                    </Typography>
                 </DialogTitle>
                 <DialogContent>
                     <CreateAnOnlContest
