@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import {Button, Grid, Paper, Radio, Typography} from "@mui/material";
+import {Box, Button, Grid, Paper, Radio, Stack, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {useTheme} from "@mui/material/styles";
+import {alpha, useTheme} from "@mui/material/styles";
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import {useEffect, useState} from "react";
@@ -11,6 +11,7 @@ import {Form, Formik} from "formik";
 import Checkbox from "@mui/material/Checkbox";
 import Countdown from 'react-countdown';
 import {useLocation, useNavigate} from "react-router-dom";
+import {QuestionInAction} from "../../components/Question/InTestTaking/QuestionInAction";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: "inherit",
@@ -68,6 +69,17 @@ export default function TestTakingPage() {
         }
         setAnswerList([...answerList])
     }
+    const handlePreviousQuestion = () => {
+        setCurrentQuestionIndex(
+            (index) => index > 0 ? index - 1 : index
+        )
+    }
+
+    const handleNextQuestion = () => {
+        setCurrentQuestionIndex(
+            (index) => index < test.details.length - 1 ? index + 1 : index)
+    }
+
     let count = 0;
     const renderer = (x, submitForm, isSubmitting) => {
 
@@ -133,99 +145,19 @@ export default function TestTakingPage() {
                             container
                             sx={{
                                 p: 4,
-                                height: '80vh',
+                                height: '85vh',
                             }}
                         >
 
                             <Grid item xs={10} sx={{pr: 2}}>
-                                <Paper
-                                    sx={{
-                                        backgroundColor: theme.palette.primary.light,
-                                        height: '100%',
-                                    }}
-                                >
-                                    <Grid
-                                        container
-                                        sx={{
-                                            p: 3,
-                                            height: '100%',
-                                        }}
-                                    >
-                                        <Grid item xs={12} sx={{
-                                            p: 2,
-                                            height: '50%',
-                                        }}>
-                                            <Paper
-                                                sx={{
-                                                    height: '100%',
-                                                    backgroundColor: theme.palette.primary.darker,
-                                                    color: theme.palette.primary.contrastText,
-                                                    p: 3
-                                                }}
-                                            >
-                                                <Typography variant={'h4'}>
-                                                    {currentQuestion.content}
-                                                </Typography>
-                                            </Paper>
-                                        </Grid>
+                                <QuestionInAction
+                                    currentQuestion={currentQuestion}
+                                    currentAnswerList={answerList[currentQuestionIndex]}
+                                    handleAnswerClick={handleAnswerClick}
+                                    handleNextQuestion={handleNextQuestion}
+                                    handlePreviousQuestion={handlePreviousQuestion}
+                                />
 
-                                        {currentQuestion.answers && currentQuestion.answers.map((answer, index) => (
-                                            <Grid
-                                                key={index}
-                                                item xs={12 / currentQuestion.answers.length}
-                                                sx={{
-                                                    pl: (index === 0) ? 0 : 2,
-                                                    height: '50%',
-                                                }}
-                                            >
-                                                <Paper
-                                                    sx={{
-                                                        height: '100%',
-                                                        bgcolor: BG_COLOR[index],
-                                                        p: 2,
-                                                        color: theme.palette.primary.contrastText,
-                                                    }}
-                                                    elevation={3}
-                                                >
-                                                    <Paper sx={{
-                                                        borderRadius: `${currentQuestion.type.id <= 2 ? "50%" : theme.shape.borderRadius}`,
-                                                        mr: 1,
-                                                        mt: 0.5,
-                                                        mb: 1,
-                                                        height: '48px',
-                                                        width: '48px',
-                                                    }}>
-                                                        {currentQuestion.type.id <= 2 ?
-                                                            <Radio
-                                                                onClick={() => {
-                                                                    handleAnswerClick(answer.id)
-                                                                }
-                                                                }
-                                                                checked={answerList[currentQuestionIndex] === answer.id}
-                                                            />
-                                                            :
-                                                            <Checkbox
-                                                                checked={answerList[currentQuestionIndex].includes(answer.id)}
-                                                                color="success"
-                                                                onClick={() => {
-                                                                    handleAnswerClick(answer.id)
-                                                                }
-                                                                }
-
-                                                            />
-                                                        }
-                                                    </Paper>
-
-
-                                                    <Typography variant={'h5'}>
-                                                        {answer.content}
-                                                    </Typography>
-
-                                                </Paper>
-                                            </Grid>
-                                        ))}
-                                    </Grid>
-                                </Paper>
                             </Grid>
 
                             <Grid item xs={2}>
@@ -236,6 +168,7 @@ export default function TestTakingPage() {
                                         width: "100%",
                                         maxHeight: "100%",
                                     }}
+                                    elevation={3}
                                 >
                                     <Grid
                                         container
@@ -246,7 +179,6 @@ export default function TestTakingPage() {
                                             maxHeight: '80vh',
                                         }}
                                         spacing={0}
-                                        // direction="column"
                                         justifyContent="center"
                                         alignItems="center"
                                     >
@@ -259,12 +191,10 @@ export default function TestTakingPage() {
                                             <Paper>
                                                 {test ? <Countdown
                                                     date={startTime + (1000 * 60 * test.time)}
-                                                    // date={startTime + (1000 * 5)}
                                                     renderer={(x) => {
                                                         return renderer(x, submitForm, isSubmitting)
                                                     }}
                                                 /> : ""}
-
                                             </Paper>
                                         </Grid>
                                         <Grid
@@ -280,7 +210,6 @@ export default function TestTakingPage() {
                                                     backgroundColor: theme.palette.primary.darker,
                                                     height: "100%",
                                                     width: "100%",
-                                                    // overflow: "scroll",
                                                     maxHeight: "100%",
                                                 }}
                                             >
@@ -303,7 +232,9 @@ export default function TestTakingPage() {
 
                                                                         <Avatar sx={{
                                                                             width: 56, height: 56,
-                                                                            bgcolor: done ? BG_COLOR[0] : ""
+                                                                            bgcolor: done ? BG_COLOR[0] : theme.palette.background.paper,
+                                                                            color: 'primary.darker',
+                                                                            fontSize: 'bold',
                                                                         }}
                                                                                 onClick={() => {
                                                                                     setCurrentQuestionIndex(index)
@@ -324,37 +255,49 @@ export default function TestTakingPage() {
 
                                             </Paper>
                                         </Grid>
+
                                         <Grid
                                             item
-                                            container
                                             xs={12}
                                             sx={{
                                                 height: "10%",
-                                                pt: 2
+                                                pt: 1
                                             }}
                                         >
-                                            <Grid item xs={6}>
-                                                <Item>
-                                                    <Button
-                                                        variant="outlined"
-                                                        color="error"
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                </Item>
-                                            </Grid>
+                                            {/*<Grid item xs={6}>*/}
+                                            {/*    <Item>*/}
+                                            {/*        <Button*/}
+                                            {/*            variant="outlined"*/}
+                                            {/*            color="error" size="large"*/}
+                                            {/*        >*/}
+                                            {/*            Cancel*/}
+                                            {/*        </Button>*/}
+                                            {/*    </Item>*/}
+                                            {/*</Grid>*/}
 
-                                            <Grid item xs={6}>
-                                                <Item>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="success"
-                                                        onClick={submitForm}
-                                                    >
-                                                        Submit
-                                                    </Button>
-                                                </Item>
-                                            </Grid>
+                                            {/*<Grid item xs={6}>*/}
+                                            <Item>
+                                                <Button
+                                                    variant="outlined"
+                                                    color="primary" size="large"
+                                                    onClick={submitForm}
+                                                    sx={{
+                                                        fontSize: 26,
+                                                        border: `3px solid ${theme.palette.primary.dark}`,
+                                                        color: theme.palette.primary.dark,
+                                                        '&:hover': {
+                                                            backgroundColor: theme.palette.primary.dark,
+                                                            // borderColor: '#0062cc',
+                                                            // boxShadow: 'none',
+                                                            color: theme.palette.primary.contrastText,
+                                                            border: `3px solid ${theme.palette.primary.dark}`,
+                                                        },
+                                                    }}
+                                                >
+                                                    Submit
+                                                </Button>
+                                            </Item>
+                                            {/*</Grid>*/}
                                         </Grid>
                                     </Grid>
                                 </Paper>
@@ -362,7 +305,7 @@ export default function TestTakingPage() {
 
                         </Grid>
 
-                        {JSON.stringify(values)}
+                        {/*{JSON.stringify(values)}*/}
                     </Form>
                 )}
             </Formik>

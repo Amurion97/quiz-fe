@@ -25,6 +25,8 @@ import * as React from "react";
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import {useLocation, useNavigate} from "react-router-dom";
+import Diversity3Icon from '@mui/icons-material/Diversity3';
+import CreateAnOnlContest from "../../../components/Forms/CreateAnOnlContest";
 
 
 const columns = [
@@ -90,6 +92,14 @@ export default function TestPage() {
         }
 
     };
+    const [tests, setTests] = useState([])
+    const findTestByID = (id) => {
+        customAPIv1().get(`/tests/brief/${id}`)
+            .then(res => {
+                    setTests(res.data.data)
+                }
+            )
+    }
 
 
     const updateTests = () => {
@@ -120,11 +130,16 @@ export default function TestPage() {
     };
 
 
-    const [tag, setTag] = useState([]);
     const [openMenu, setOpenMenu] = useState(null);
-    const [currentTag, setCurrentTag] = useState(0);
     const [open, setOpen] = useState(false);
     const [statusCode, setStatusCode] = useState(0);
+    const [openOnline, setOpenOnline] = useState(false);
+    const handleClickOpenOnline = () => {
+        setOpenOnline(true);
+    };
+    const handleCloseOnline = () => {
+        setOpenOnline(false);
+    };
     const handleOpenMenu = (event) => {
         setOpenMenu(event.currentTarget);
     };
@@ -268,6 +283,7 @@ export default function TestPage() {
                             <Popover
                                 open={Boolean(openMenu)}
                                 anchorEl={openMenu}
+                                onClick={() => findTestByID(currentTestId)}
                                 onClose={handleCloseMenu}
                                 anchorOrigin={{vertical: 'top', horizontal: 'left'}}
                                 transformOrigin={{vertical: 'top', horizontal: 'right'}}
@@ -283,6 +299,14 @@ export default function TestPage() {
                                     },
                                 }}
                             >
+                                <MenuItem onClick={(e) => {
+                                    handleCloseMenu()
+                                    handleClickOpenOnline()
+                                }}>
+                                    <Diversity3Icon fontSize="small" sx={{color: theme.palette.grey["500"]}}/>
+                                    Online contest
+                                </MenuItem>
+
                                 <MenuItem sx={{color: 'error.main'}} onClick={(e) => {
                                     handleCloseMenu()
                                     handleClickOpenConfirm()
@@ -290,6 +314,7 @@ export default function TestPage() {
                                     <DeleteOutlineIcon fontSize="small"/>
                                     Delete
                                 </MenuItem>
+
                             </Popover>
                         </Paper>
                     </Grid>
@@ -372,6 +397,18 @@ export default function TestPage() {
                         Remove Test
                     </Button>
                 </DialogActions>
+            </Dialog>
+
+            <Dialog open={openOnline} onClose={handleCloseOnline} maxWidth="md">
+                <DialogTitle>Create an online contest
+                <Typography component="div" variant="h6">
+                    Bài thi: <strong>{tests.name}</strong>
+                </Typography>
+                </DialogTitle>
+                <DialogContent>
+                    <CreateAnOnlContest
+                        time={tests.time}/>
+                </DialogContent>
             </Dialog>
         </>
 
