@@ -57,7 +57,7 @@ export default function CreateAnOnlContest(props) {
                             setOpenSuccess(true);
                             setSubmitting(false);
                             setTimeout(() => {
-                                navigate(`/login`);
+                                navigate(`/dashboard/test?code=${data.data}`);
                             },2000)
                         })
                         .catch((e) => {

@@ -56,7 +56,8 @@ export default function GroupWaitingRoom() {
         socket.on('lobby-update', onLobbyUpdate)
 
         return () => {
-            socket.off('lobby-update', onLobbyUpdate)
+            socket.off('lobby-update', onLobbyUpdate);
+            socket.disconnect()
         }
 
     }, [])
@@ -125,7 +126,7 @@ export default function GroupWaitingRoom() {
                                     JOIN CODE
                                 </Typography>
                                 <Typography variant="h3" component="div">
-                                    123123
+                                    {roomCode}
                                 </Typography>
                             </CardContent>
                         </Card>
