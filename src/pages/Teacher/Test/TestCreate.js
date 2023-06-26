@@ -145,12 +145,15 @@ export default function TestCreatePage() {
                       errors,
                       setFieldValue
                   }) => (
-                    <Form>
+
+                     <Form>
                         {console.log('values', values)}
-                        <Grid container sx={{p: 6, px: 2}}>
+                        <Grid container sx={{p: 6, px: 2,mt:7}}>
                             <Grid item xs={2} md={2} lg={2}>
                                 <Card>
-                                    <UploadImg setFieldValue={setFieldValue} sx={{height: 300}}/>
+                                    <Grid item sx={{mt:3,textAlign: 'center',}}>
+                                    <UploadImg setFieldValue={setFieldValue} sx={{height: 300,width:250, mt:3}}/>
+                                    </Grid>
                                     <CardContent>
                                         <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                             <Field
@@ -162,6 +165,7 @@ export default function TestCreatePage() {
                                                 sx={{
                                                     mb: 3,
                                                     width: '100%',
+                                                    
                                                     '& input': {
                                                         textAlign: 'center',
                                                         fontWeight: 'bolder',

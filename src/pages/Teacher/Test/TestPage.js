@@ -181,7 +181,7 @@ export default function TestPage() {
 
     return (
         <>
-            <Helmet>
+            <Helmet >
                 <title> Test Management | Quiz </title>
             </Helmet>
 
@@ -190,17 +190,19 @@ export default function TestPage() {
                     item
                     xs={2}
                     sx={{
-                        mt: 10,
-                        pl: 3,
+                        mt: 13,
+                        pl: 5,
                     }}
                 >
                     <Stack
                         direction="column"
-                        alignItems="center"
+                        // alignItems="center"
                         justifyContent="space-between"
                         mb={3}
                     >
-                        <Typography variant="h4" gutterBottom>
+                        <Typography variant="h4" gutterBottom sx={{
+                            
+                        }}>
                             Test Management
                         </Typography>
 
@@ -246,7 +248,7 @@ export default function TestPage() {
                         // flexDirection: "column",
                         // justifyContent: "center",
                         // alignItems: "center",
-                        mt: 10,
+                        mt: 15,
                         px: 3,
                     }}
                 >

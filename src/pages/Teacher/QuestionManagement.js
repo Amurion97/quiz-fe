@@ -94,43 +94,52 @@ export default function QuestionManagement() {
                 width: "100%",
                 height: "100vh",
                 p: 3,
+                mt: 10,
             }}
         >
             <Grid container spacing={3}>
                 <Grid item xs={3}>
-                    <Paper
-                        component="form"
-                        sx={{
-                            p: "2px 4px",
-                            display: "flex",
-                            alignItems: "center",
-                        }}
-                    >
-                        <IconButton
-                            type="button"
-                            sx={{ p: "10px" }}
-                            aria-label="search"
-                            disabled
-                        >
-                            <SearchIcon />
-                        </IconButton>
-                        <InputBase
-                            sx={{ ml: 3, flex: 1, width: 200 }}
-                            placeholder="Search Here"
-                            inputProps={{ label: "search " }}
-                            onChange={handleInputChange}
-                            value={contentQuery}
-                        />
-                    </Paper>
-
-                    <GroupFilter
-                        handleCheckTags={handleCheckTags}
-                        selectedTagIDs={selectedTagIDs}
-                        handleCheckTypes={handleCheckTypes}
-                        selectedTypesIDs={selectedTypesIDs}
-                        handleCheckDifficulties={handleCheckDifficulties}
-                        difficultiesIDs={difficultiesIDs}
-                    ></GroupFilter>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Paper
+                                component="form"
+                                sx={{
+                                    p: "2px 4px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    maxWidth: "96%",
+                                }}
+                            >
+                                <IconButton
+                                    type="button"
+                                    sx={{ p: "10px" }}
+                                    aria-label="search"
+                                    disabled
+                                >
+                                    <SearchIcon />
+                                </IconButton>
+                                <InputBase
+                                    sx={{ ml: 3, flex: 1, width: 200 }}
+                                    placeholder="Search Here"
+                                    inputProps={{ label: "search " }}
+                                    onChange={handleInputChange}
+                                    value={contentQuery}
+                                />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <GroupFilter
+                                handleCheckTags={handleCheckTags}
+                                selectedTagIDs={selectedTagIDs}
+                                handleCheckTypes={handleCheckTypes}
+                                selectedTypesIDs={selectedTypesIDs}
+                                handleCheckDifficulties={
+                                    handleCheckDifficulties
+                                }
+                                difficultiesIDs={difficultiesIDs}
+                            ></GroupFilter>
+                        </Grid>
+                    </Grid>
                 </Grid>
 
                 <Grid item xs={4}>
