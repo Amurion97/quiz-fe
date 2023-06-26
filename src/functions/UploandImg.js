@@ -1,38 +1,29 @@
-import {useState} from "react";
-import {
-    ref,
-    uploadBytes,
-    getDownloadURL,
+import { useState } from "react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-} from "firebase/storage";
+import { v4 } from "uuid";
+import { storage } from "../pages/Teacher/firebase";
+import CloudUploadTwoToneIcon from "@mui/icons-material/CloudUploadTwoTone";
 
-import {v4} from "uuid";
-import {storage} from "../pages/Teacher/firebase";
-import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
-
-export default function UploadImg({setFieldValue}) {
+export default function UploadImg({ setFieldValue }) {
     const [imageUrls, setImageUrls] = useState();
 
     const handleFileChange = (event) => {
-        const file = event.target.files[0]
+        const file = event.target.files[0];
         if (file !== null) {
             const imageRef = ref(storage, `images/${file.name + v4()}`);
             uploadBytes(imageRef, file).then((snapshot) => {
                 getDownloadURL(snapshot.ref).then((url) => {
-                    setImageUrls(url)
-                    setFieldValue('image', url);
+                    setImageUrls(url);
+                    setFieldValue("image", url);
                 });
             });
         }
-
-    }
-
+    };
 
     return (
         <>
-            {imageUrls && (
-                <img src={imageUrls} alt="Avatar" />
-            )}
+            {imageUrls && <img src={imageUrls} alt="Avatar" />}
             {/*<input*/}
             {/*    type="file"*/}
             {/*    onChange={handleFileChange}*/}
@@ -40,11 +31,15 @@ export default function UploadImg({setFieldValue}) {
             <div>
                 <label htmlFor="file-upload" className="custom-file-upload">
                     <div className="flex-container">
-                        <CloudUploadTwoToneIcon className="icon"/>
+                        <CloudUploadTwoToneIcon className="icon" />
                         <span className="text">Custom Upload</span>
                     </div>
                 </label>
-                <input id="file-upload" type="file" onChange={handleFileChange}/>
+                <input
+                    id="file-upload"
+                    type="file"
+                    onChange={handleFileChange}
+                />
             </div>
             <style>
                 {`

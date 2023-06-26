@@ -19,7 +19,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {useEffect, useState} from "react";
 import {Helmet} from "react-helmet-async";
-import {useTheme} from "@mui/material/styles";
+import {useTheme} from '@mui/material/styles';
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -40,10 +40,10 @@ import CreateAnOnlContest from "../../../components/Forms/CreateAnOnlContest";
 
 
 const columns = [
-    {id: "id", label: "ID", minWidth: 50, align: "center"},
-    {id: "image", label: "Image", minWidth: 100, align: "left"},
-    {id: "name", label: "Name", minWidth: 150, align: "center"},
-    {id: "", label: "Action", minWidth: 100},
+    {id: 'id', label: 'ID', minWidth: 50, align: "center"},
+    {id: 'image', label: 'Image', minWidth: 100, align: "left"},
+    {id: 'name', label: 'Name', minWidth: 150, align: "center"},
+    {id: '', label: 'Action', minWidth: 100},
 ];
 
 export default function TestPage() {
@@ -326,7 +326,7 @@ export default function TestPage() {
                                                     }}
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        navigate(`/dashboard/test-statistic`, {
+                                                        navigate(`/dashboard/sum-statistic`, {
                                                             state: {
                                                                 id: id,
                                                             },

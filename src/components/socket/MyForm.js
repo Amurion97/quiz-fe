@@ -10,9 +10,11 @@ export function MyForm({setLobbyUpdates}) {
     const roomCode = 269612
 
     function connectToRoom() {
-        socket.emit('join-lobby', {roomCode: roomCode, email: user.info.email}, (res) => {
-            setLobbyUpdates(previous => [...previous, value]);
-        })
+        socket.emit('join-lobby',
+            {roomCode: roomCode, email: user.info.email},
+            (res) => {
+                setLobbyUpdates(previous => [...previous, value]);
+            })
     }
 
     function onSubmit(event) {

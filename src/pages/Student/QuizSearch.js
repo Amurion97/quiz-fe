@@ -7,7 +7,7 @@ import {
     CardActionArea,
     CardActions,
     CardContent,
-    CardMedia,
+    CardMedia, Paper,
     Typography,
 } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -16,6 +16,7 @@ import {useEffect, useState} from "react";
 import {useContext} from "react";
 import {NameContext} from "../../layouts/StudentLayout";
 import {useNavigate} from "react-router-dom";
+import {CodeEnterBox} from "./CodeEnterBox";
 
 const ButtonHover = styled(Button)(({theme}) => ({
     borderColor: theme.palette.primary.darker,
@@ -58,6 +59,11 @@ export default function QuizSearch() {
     }, [currentTestId]);
     return (
         <Grid container spacing={2} sx={{px: 2}}>
+            <Grid item xs={12}>
+
+                    <CodeEnterBox/>
+
+            </Grid>
             <Grid item xs={8}>
                 <Grid container spacing={1.25}>
                     {listTest.map((item, index) => {

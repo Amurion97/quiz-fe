@@ -33,7 +33,7 @@ import QuizIcon from '@mui/icons-material/Quiz';
 // components
 import Logo from "./logo";
 import ChangePasswordForm from "./Forms/ChangePasswordForm";
-
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 
 // sections
 const StyledRoot = styled(Paper)(({theme}) => ({
