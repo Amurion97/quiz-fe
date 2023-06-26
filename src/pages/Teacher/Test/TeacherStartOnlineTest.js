@@ -14,32 +14,72 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import Button from "@mui/material/Button";
 import DoneAllTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StudentsLounge from "../../Student/GroupTest/StudentsLounge";
 import {alpha} from "@mui/material/styles";
 import {useEffect, useState} from "react";
-import {customAPIv1} from "../../../features/customAPI";
+import {socket} from "../../../app/socket";
+import {useSelector} from "react-redux";
+import {selectUser} from "../../../features/user/userSlice";
 
 
 export function TeacherStartOnlineTest() {
     const url = new URL(window.location.href)
     const searchParams = new URLSearchParams(url.search);
-    const code = searchParams.get("code");
-    console.log(code);
+    const roomCode = searchParams.get("code");
+    const urlToJoin = `http://localhost:3000/students/groupWaitingRoom?code=${roomCode}`
+    console.log("roomCode:", roomCode);
+
+
+    const user = useSelector(selectUser)
+
+    const [peopleList, setPeopleList] = useState([])
+    console.log("peopleList:", peopleList);
 
     const [isCopied, setIsCopied] = useState(false);
+    const [isUrlCopied, setIsUrlCopied] = useState(false);
 
     const handleCopyClick = () => {
-        navigator.clipboard.writeText(code);
+        navigator.clipboard.writeText(roomCode);
         setIsCopied(true);
     };
 
-    useEffect(()=>{
-        customAPIv1().get('/rooms')
-    },[])
+    const handleCopyUrlClick = () => {
+        navigator.clipboard.writeText(urlToJoin);
+        setIsUrlCopied(true);
+    };
+
+    useEffect(() => {
+        socket.connect();
+
+        socket.emit('join-lobby',
+            {roomCode: roomCode, email: user.info.email},
+            (res) => {
+                console.log('join-lobby', res);
+                setPeopleList(res);
+            })
+
+        function onLobbyUpdate(arg) {
+            console.log('lobby-update:', arg);
+            if (arg.join) {
+                if (arg.person.email !== user.info.email) {
+                    setPeopleList((list) => [...list, arg.person])
+                }
+            } else if (arg.leave) {
+                setPeopleList((list) => list.filter(item => item.email !== arg.email))
+            }
+        }
+
+        socket.on('lobby-update', onLobbyUpdate)
+
+        return () => {
+            socket.off('lobby-update', onLobbyUpdate)
+        }
+
+    }, [])
     return (
         <>
             <Grid container>
+
                 <Grid item xs={12}>
                     <Box
                         sx={{
@@ -55,7 +95,7 @@ export function TeacherStartOnlineTest() {
                             },
                         }}
                     >
-                        <Paper sx={{ p: 10 }} elevation={6}>
+                        <Paper sx={{p: 10}} elevation={6}>
                             <Grid container spacing={1}>
                                 <Grid
                                     item
@@ -70,7 +110,8 @@ export function TeacherStartOnlineTest() {
                                 >
                                     <Typography fontSize={20}>Online Test</Typography>
                                 </Grid>
-                                <Grid item xs={12} sx={{ textAlign: "center" }}>
+
+                                <Grid item xs={12} sx={{textAlign: "center"}}>
                                     <FormControl
                                         sx={{
                                             display: "flex",
@@ -91,14 +132,21 @@ export function TeacherStartOnlineTest() {
                                             endAdornment={
                                                 <InputAdornment>
                                                     <IconButton
-                                                        aria-label="copy join code"
+                                                        aria-label="copy url to join"
                                                         edge="end"
-                                                        sx={{ bgcolor: "#EDEDF6" }}
+                                                        sx={{bgcolor: "#EDEDF6"}}
+                                                        onClick={handleCopyUrlClick}
                                                     >
-                                                        <ContentCopyIcon sx={{ maxHeight: "100%" }} />
+                                                        {isUrlCopied ? (
+                                                            <DoneAllTwoToneIcon sx={{maxHeight: "100%"}}/>
+                                                        ) : (
+                                                            <ContentCopyIcon sx={{maxHeight: "100%"}}/>
+                                                        )}
                                                     </IconButton>
                                                 </InputAdornment>
                                             }
+
+                                            value={urlToJoin}
                                         />
                                     </FormControl>
                                 </Grid>
@@ -114,7 +162,7 @@ export function TeacherStartOnlineTest() {
                                 >
                                     <Typography>2: Enter join code</Typography>
                                 </Grid>
-                                <Grid item xs={12} sx={{ textAlign: "center" }}>
+                                <Grid item xs={12} sx={{textAlign: "center"}}>
                                     <FormControl
                                         sx={{
                                             display: "flex",
@@ -131,26 +179,26 @@ export function TeacherStartOnlineTest() {
                                                 alignItems: "center",
                                                 justifyContent: "center",
                                                 '& input': {
-                                                textAlign: 'center',
-                                            },
+                                                    textAlign: 'center',
+                                                },
                                             }}
                                             endAdornment={
                                                 <InputAdornment>
                                                     <IconButton
                                                         aria-label="copy join code"
                                                         edge="end"
-                                                        sx={{ bgcolor: "#EDEDF6" }}
+                                                        sx={{bgcolor: "#EDEDF6"}}
                                                         onClick={handleCopyClick}
                                                     >
                                                         {isCopied ? (
-                                                            <DoneAllTwoToneIcon sx={{ maxHeight: "100%" }} />
+                                                            <DoneAllTwoToneIcon sx={{maxHeight: "100%"}}/>
                                                         ) : (
-                                                            <ContentCopyIcon sx={{ maxHeight: "100%" }} />
+                                                            <ContentCopyIcon sx={{maxHeight: "100%"}}/>
                                                         )}
                                                     </IconButton>
                                                 </InputAdornment>
                                             }
-                                            value={code}
+                                            value={roomCode}
                                         />
                                     </FormControl>
                                 </Grid>
@@ -185,7 +233,7 @@ export function TeacherStartOnlineTest() {
                                             mt: 2,
                                         }}
                                         variant="outlined"
-                                        startIcon={<QrCodeIcon />}
+                                        startIcon={<QrCodeIcon/>}
                                     >
                                         QrCode
                                     </Button>
@@ -194,6 +242,7 @@ export function TeacherStartOnlineTest() {
                         </Paper>
                     </Box>
                 </Grid>
+
                 <Grid
                     item xs={12}
                     sx={{
@@ -227,7 +276,12 @@ export function TeacherStartOnlineTest() {
                         </Typography>
                     </Button>
                 </Grid>
-                <StudentsLounge/>
+                <Grid
+                    item xs={12}
+                >
+                    <StudentsLounge peopleList={peopleList}/>
+                </Grid>
+
             </Grid>
         </>
     );

@@ -3,11 +3,35 @@ import TextField from "@mui/material/TextField";
 import {Button, Paper, Stack} from "@mui/material";
 import {alpha, useTheme} from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
-
+import {socket} from "../app/socket";
+import {useSelector} from "react-redux";
+import {selectUser} from "../features/user/userSlice";
+import {useNavigate} from "react-router-dom";
 
 export function CodeEnterBox() {
-    const [code, setCode] = useState('');
-    const theme = useTheme()
+    const [roomCode, setRoomCode] = useState('');
+    const theme = useTheme();
+    const user = useSelector(selectUser);
+    const navigate = useNavigate()
+
+    function submitJoinCode() {
+        console.log('trying to join room:', roomCode);
+        socket.connect();
+
+        socket.emit('join-lobby',
+            {roomCode: roomCode, email: user.info.email},
+            (res) => {
+                console.log('join-lobby', res);
+                if (res.success === false) {
+                    window.alert(res.message)
+                } else {
+                    navigate(`/students/groupWaitingRoom?code=${roomCode}`, {
+                        state: {peopleList: res}
+                    })
+                }
+            })
+    }
+
     return (<>
         <Paper elevation={4}
                sx={{
@@ -27,9 +51,9 @@ export function CodeEnterBox() {
                    }}>
                 <Stack direction={'row'} spacing={1}>
                     <OutlinedInput placeholder='Enter a join code'
-                                   value={code}
+                                   value={roomCode}
                                    onChange={(e) => {
-                                       setCode(e.target.value)
+                                       setRoomCode(e.target.value)
                                    }}
                                    color={'secondary'}
                                    style={{
@@ -48,6 +72,7 @@ export function CodeEnterBox() {
                                 height: '60px',
                                 boxShadow: `0px 5px ${alpha(theme.palette.secondary.main, 0.4)}`,
                             }}
+                            onClick={submitJoinCode}
                     >JOIN</Button>
                 </Stack>
 
