@@ -1,24 +1,26 @@
 import * as React from "react";
-import {styled} from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import {customAPIv1} from "../../features/customAPI";
+import { customAPIv1 } from "../../features/customAPI";
 import {
     Card,
     CardActionArea,
     CardActions,
     CardContent,
-    CardMedia, Paper,
+    CardMedia,
+    Paper,
+    Skeleton,
     Typography,
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import {auto} from "@popperjs/core";
-import {useEffect, useState} from "react";
-import {useContext} from "react";
-import {NameContext} from "../../layouts/StudentLayout";
-import {useNavigate} from "react-router-dom";
-import {CodeEnterBox} from "./CodeEnterBox";
+import { auto } from "@popperjs/core";
+import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { NameContext } from "../../layouts/StudentLayout";
+import { useNavigate } from "react-router-dom";
+import { CodeEnterBox } from "./CodeEnterBox";
 
-const ButtonHover = styled(Button)(({theme}) => ({
+const ButtonHover = styled(Button)(({ theme }) => ({
     borderColor: theme.palette.primary.darker,
     textAlign: "center",
     color: theme.palette.primary.darker,
@@ -40,12 +42,12 @@ export default function QuizSearch() {
             .get("/tests", {
                 params: {
                     name: inforNeedFind,
-                }
+                },
             })
             .then((res) => {
                 setListTest(res.data.data.tests);
             });
-    }
+    };
     useEffect(() => {
         showTest();
     }, [inforNeedFind]);
@@ -58,34 +60,39 @@ export default function QuizSearch() {
             });
     }, [currentTestId]);
     return (
-        <Grid container spacing={2} sx={{px: 2}}>
+        <Grid container spacing={2} sx={{ px: 2 }}>
             <Grid item xs={12}>
-
-                    <CodeEnterBox/>
-
+                <CodeEnterBox />
             </Grid>
             <Grid item xs={8}>
                 <Grid container spacing={1.25}>
                     {listTest.map((item, index) => {
-                        const {id, name, image} = item;
+                        const { id, name, image } = item;
                         return (
                             <Grid key={id} item xs={3}>
                                 <Card
                                     onClick={() => {
                                         setCurrentTestId(id);
-                                    }}>
+                                    }}
+                                >
                                     <CardActionArea>
-                                        <CardMedia
-                                            component="img"
-                                            height="140"
-                                            image={image}
-                                            alt="green iguana"
-                                        />
+                                        {image ? (
+                                            <CardMedia
+                                                component="img"
+                                                height="140"
+                                                image={image}
+                                                alt="green iguana"
+                                            />
+                                        ) : (
+                                            <Skeleton variant="rectangular" sx={{ height: 140 }} />
+                                        )}
+
                                         <CardContent>
                                             <Typography
                                                 gutterBottom
                                                 variant="h5"
-                                                component="div">
+                                                component="div"
+                                            >
                                                 {name}
                                             </Typography>
                                         </CardContent>
@@ -100,7 +107,7 @@ export default function QuizSearch() {
                 {currentTest && (
                     <Card>
                         <CardMedia
-                            sx={{height: 200}}
+                            sx={{ height: 200 }}
                             image={currentTest.image}
                             title="green iguana"
                         />
@@ -108,10 +115,11 @@ export default function QuizSearch() {
                             <Typography
                                 gutterBottom
                                 variant="h5"
-                                component="div">
+                                component="div"
+                            >
                                 {currentTest.name}
                             </Typography>
-                            <hr/>
+                            <hr />
                             <Typography variant="body2" color="text.secondary">
                                 Difficulty level: {currentTest.difficulty.name}
                             </Typography>
@@ -125,11 +133,11 @@ export default function QuizSearch() {
                                     p: 2,
                                 }}
                                 onClick={() => {
-                                    navigate('/students/test', {
+                                    navigate("/students/test", {
                                         state: {
-                                            id: currentTestId
-                                        }
-                                    })
+                                            id: currentTestId,
+                                        },
+                                    });
                                 }}
                             >
                                 <Typography variant="h4">

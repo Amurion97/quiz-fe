@@ -25,6 +25,7 @@ export function TeacherStartOnlineTest() {
     const url = new URL(window.location.href)
     const searchParams = new URLSearchParams(url.search);
     const code = searchParams.get("code");
+
     console.log(code);
 
     const [isCopied, setIsCopied] = useState(false);

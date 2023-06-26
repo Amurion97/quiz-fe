@@ -13,43 +13,44 @@ import {
     Box,
     CardContent,
     CardMedia,
-    CardActions, Paper,
+    CardActions,
+    Paper,
+    Skeleton,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {useEffect, useState} from "react";
-import {Helmet} from "react-helmet-async";
-import {useTheme} from '@mui/material/styles';
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTheme } from "@mui/material/styles";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
-import {customAPIv1} from "../../../features/customAPI";
-import {Alert} from "@mui/lab";
+import { customAPIv1 } from "../../../features/customAPI";
+import { Alert } from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 import * as React from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
-import Diversity3Icon from '@mui/icons-material/Diversity3';
+import Diversity3Icon from "@mui/icons-material/Diversity3";
 import CreateAnOnlContest from "../../../components/Forms/CreateAnOnlContest";
 
-
 const columns = [
-    {id: 'id', label: 'ID', minWidth: 50, align: "center"},
-    {id: 'image', label: 'Image', minWidth: 100, align: "left"},
-    {id: 'name', label: 'Name', minWidth: 150, align: "center"},
-    {id: '', label: 'Action', minWidth: 100},
+    { id: "id", label: "ID", minWidth: 50, align: "center" },
+    { id: "image", label: "Image", minWidth: 100, align: "left" },
+    { id: "name", label: "Name", minWidth: 150, align: "center" },
+    { id: "", label: "Action", minWidth: 100 },
 ];
 
 export default function TestPage() {
-    const theme = useTheme()
-    const navigate = useNavigate()
-
+    const theme = useTheme();
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedTagIDs, setSelectedTagIDs] = useState([]);
     const [selectedTypesIDs, setSelectedTypesIDs] = useState([]);
     const [difficultiesIDs, setDifficulties] = useState([]);
@@ -58,7 +59,7 @@ export default function TestPage() {
 
     const [testList, setTestList] = useState([]);
 
-    const [contentQuery, setContentQuery] = useState('');
+    const [contentQuery, setContentQuery] = useState("");
     const [page, setPage] = useState(1);
     const [resultNumber, setResultNumber] = useState(0);
     const handleChangePage = (event, newPage) => {
@@ -66,13 +67,13 @@ export default function TestPage() {
     };
 
     useEffect(() => {
-        setPage(1)
-    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs, contentQuery])
+        setPage(1);
+    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs, contentQuery]);
     const rowsPerPage = 4;
 
     const handleCheckTags = (event) => {
-        const {name} = event.target;
-        let index = selectedTagIDs.findIndex(id => id === parseInt(name));
+        const { name } = event.target;
+        let index = selectedTagIDs.findIndex((id) => id === parseInt(name));
         if (index < 0) {
             setSelectedTagIDs([...selectedTagIDs, parseInt(name)]);
         } else {
@@ -81,8 +82,8 @@ export default function TestPage() {
         }
     };
     const handleCheckTypes = (event) => {
-        const {name} = event.target;
-        let index = selectedTypesIDs.findIndex(id => id === parseInt(name));
+        const { name } = event.target;
+        let index = selectedTypesIDs.findIndex((id) => id === parseInt(name));
         if (index < 0) {
             setSelectedTypesIDs([...selectedTypesIDs, parseInt(name)]);
         } else {
@@ -91,48 +92,48 @@ export default function TestPage() {
         }
     };
     const handleCheckDifficulties = (event) => {
-        const {name} = event.target;
-        let index = difficultiesIDs.findIndex(id => id === parseInt(name));
+        const { name } = event.target;
+        let index = difficultiesIDs.findIndex((id) => id === parseInt(name));
         if (index < 0) {
             setDifficulties([...difficultiesIDs, parseInt(name)]);
         } else {
             difficultiesIDs.splice(index, 1);
             setDifficulties([...difficultiesIDs]);
         }
-
     };
-    const [tests, setTests] = useState([])
+    const [tests, setTests] = useState([]);
     const findTestByID = (id) => {
-        customAPIv1().get(`/tests/brief/${id}`)
-            .then(res => {
-                    setTests(res.data.data)
-                }
-            )
-    }
-
+        customAPIv1()
+            .get(`/tests/brief/${id}`)
+            .then((res) => {
+                setTests(res.data.data);
+            });
+    };
 
     const updateTests = () => {
-        customAPIv1().get(`/tests`, {
-            params: {
-                // content: contentQuery,
-                // selectedTagIDs: selectedTagIDs,
-                // selectedTypesIDs: selectedTypesIDs,
-                // difficultiesIDs: difficultiesIDs,
-                // page: page,
-                // rows: rowsPerPage,
-            }
-        })
-            .then(res => {
-                console.log("tests:", res.data);
-                setTestList(res.data.data['tests']);
-                setResultNumber(res.data.data['testCount']);
+        customAPIv1()
+            .get(`/tests`, {
+                params: {
+                    // content: contentQuery,
+                    // selectedTagIDs: selectedTagIDs,
+                    // selectedTypesIDs: selectedTypesIDs,
+                    // difficultiesIDs: difficultiesIDs,
+                    // page: page,
+                    // rows: rowsPerPage,
+                },
             })
-            .catch(e => console.log("error in get questions:", e))
+            .then((res) => {
+                console.log("tests:", res.data);
+                setTestList(res.data.data["tests"]);
+                setResultNumber(res.data.data["testCount"]);
+                setIsLoading(false);
+            })
+            .catch((e) => console.log("error in get questions:", e));
     };
     useEffect(() => {
         console.log("test page did mount");
         updateTests();
-    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs, contentQuery, page])
+    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs, contentQuery, page]);
 
     const handleInputChange = (event) => {
         setContentQuery(event.target.value);
@@ -166,7 +167,7 @@ export default function TestPage() {
 
     const handleCloseConfirm = () => {
         setOpenConfirm(false);
-        setOpen(false)
+        setOpen(false);
     };
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -203,38 +204,38 @@ export default function TestPage() {
                             Test Management
                         </Typography>
 
-
                         <Grid container>
                             <Grid item xs={12}>
-                                <Button startIcon={<HistoryIcon/>}>
+                                <Button startIcon={<HistoryIcon />}>
                                     <Typography>previousky used</Typography>
                                 </Button>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button startIcon={<FavoriteIcon/>}>
+                                <Button startIcon={<FavoriteIcon />}>
                                     <Typography>Like by me</Typography>
                                 </Button>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button startIcon={<ShareIcon/>}>Share by me</Button>
+                                <Button startIcon={<ShareIcon />}>
+                                    Share by me
+                                </Button>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button startIcon={<DraftsIcon/>}>Drafts</Button>
+                                <Button startIcon={<DraftsIcon />}>
+                                    Drafts
+                                </Button>
                             </Grid>
 
                             <Grid item xs={12}>
                                 My collections
                             </Grid>
                             <Grid item xs={12}>
-                                <Button
-                                    startIcon={<CreateNewFolderIcon/>}
-                                >
+                                <Button startIcon={<CreateNewFolderIcon />}>
                                     Create New Collection
                                 </Button>
                             </Grid>
                         </Grid>
                     </Stack>
-
                 </Grid>
 
                 <Grid
@@ -249,49 +250,62 @@ export default function TestPage() {
                         px: 3,
                     }}
                 >
-
                     {testList.map((row, index) => {
-                        const {id, name, image, difficulty, tags} = row;
+                        const { id, name, image, difficulty, tags } = row;
                         return (
-                            <Paper key={id} sx={{mb: 2}}>
-                                <Grid container spacing={1}
-                                      sx={{
-                                          width: '100%'
-                                      }}>
-
-                                    <Grid item xs={2} sx={{
-
-                                        p: 1,
-                                    }}>
-                                        <img src={image}
-                                             style={{
-                                                 width: 200,
-                                                 height: 200,
-                                                 objectFit: 'cover',
-                                                 padding: '10px',
-                                             }
-                                             }/>
-                                    </Grid>
-
+                            <Paper key={id} sx={{ mb: 2 }}>
+                                <Grid
+                                    container
+                                    spacing={1}
+                                    sx={{
+                                        width: "100%",
+                                    }}
+                                >
                                     <Grid
                                         item
-                                        xs={6}
+                                        xs={2}
+                                        sx={{
+                                            p: 1,
+                                        }}
                                     >
-                                        <Stack direction={'column'} spacing={1}>
+                                        {image ? (
+                                            <img
+                                                src={image}
+                                                style={{
+                                                    width: 200,
+                                                    height: 200,
+                                                    objectFit: "cover",
+                                                    padding: "10px",
+                                                }}
+                                            />
+                                        ) : (
+                                            <Skeleton
+                                                height={200}
+                                                width={200}
+                                                variant="rectangular"
+                                            />
+                                        ) }
+                                    </Grid>
 
-                                            <Typography  variant="h5" sx={{pt: 3}}>
+                                    <Grid item xs={6}>
+                                        <Stack direction={"column"} spacing={1}>
+                                            <Typography
+                                                variant="h5"
+                                                sx={{ pt: 3 }}
+                                            >
                                                 Tên bài thi: {name}
                                             </Typography>
 
-                                            <Typography  variant="body" >
+                                            <Typography variant="body">
                                                 {row.details.length} câu hỏi
                                             </Typography>
 
                                             <Typography>
-                                                Tags:
-                                                {' '}
-                                                {tags.map(
-                                                    (item, index) => (index < tags.length - 1) ? item.name + ", " : item.name
+                                                Tags:{" "}
+                                                {tags.map((item, index) =>
+                                                    index < tags.length - 1
+                                                        ? item.name + ", "
+                                                        : item.name
                                                 )}
                                             </Typography>
 
@@ -305,39 +319,47 @@ export default function TestPage() {
                                             >
                                                 Độ khó: {difficulty.name}
                                             </Typography>
-
                                         </Stack>
                                     </Grid>
 
-                                    <Grid item xs={3}
-                                          sx={{
-                                              pt: 15,
-                                              textAlign: 'right',
-                                              display: 'grid',
-                                          }}>
-
+                                    <Grid
+                                        item
+                                        xs={3}
+                                        sx={{
+                                            pt: 15,
+                                            textAlign: "right",
+                                            display: "grid",
+                                        }}
+                                    >
                                         <Button
                                             sx={{
-                                        alignSelf: 'center'}
-                                            }
+                                                alignSelf: "center",
+                                            }}
                                             variant="contained"
                                             onClick={() => {
-                                                navigate(`/dashboard/sum-statistic`, {
-                                                    state: {
-                                                        id: id,
-                                                    },
-                                                });
+                                                navigate(
+                                                    `/dashboard/sum-statistic`,
+                                                    {
+                                                        state: {
+                                                            id: id,
+                                                        },
+                                                    }
+                                                );
                                             }}
                                         >
                                             Thống kê làm bài
                                         </Button>
                                     </Grid>
 
-                                    <Grid item xs={1}
-                                          sx={{
-                                              pt: 1, pr: 1,
-                                              textAlign: 'right',
-                                          }}>
+                                    <Grid
+                                        item
+                                        xs={1}
+                                        sx={{
+                                            pt: 1,
+                                            pr: 1,
+                                            textAlign: "right",
+                                        }}
+                                    >
                                         <IconButton
                                             size="large"
                                             color="inherit"
@@ -346,72 +368,69 @@ export default function TestPage() {
                                                 handleOpenMenu(e);
                                             }}
                                         >
-                                            <MoreVertIcon fontSize="small"/>
+                                            <MoreVertIcon fontSize="small" />
                                         </IconButton>
                                     </Grid>
-
                                 </Grid>
                             </Paper>
                         );
                     })}
-
                 </Grid>
             </Grid>
-
 
             <Popover
                 open={Boolean(openMenu)}
                 anchorEl={openMenu}
                 onClick={() => findTestByID(currentTestId)}
                 onClose={handleCloseMenu}
-                anchorOrigin={{vertical: 'top', horizontal: 'left'}}
-                transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                anchorOrigin={{ vertical: "top", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
                 PaperProps={{
                     sx: {
                         p: 1,
                         width: 200,
-                        '& .MuiMenuItem-root': {
+                        "& .MuiMenuItem-root": {
                             px: 1,
-                            typography: 'body2',
+                            typography: "body2",
                             borderRadius: 0.75,
                         },
                     },
                 }}
             >
-                <MenuItem onClick={(e) => {
-                    handleCloseMenu()
-                    handleClickOpenOnline()
-                }}>
-                    <Diversity3Icon fontSize="small" sx={{color: theme.palette.grey["500"]}}/>
+                <MenuItem
+                    onClick={(e) => {
+                        handleCloseMenu();
+                        handleClickOpenOnline();
+                    }}
+                >
+                    <Diversity3Icon
+                        fontSize="small"
+                        sx={{ color: theme.palette.grey["500"] }}
+                    />
                     Online contest
                 </MenuItem>
 
-                <MenuItem sx={{color: 'error.main'}} onClick={(e) => {
-                    handleCloseMenu()
-                    handleClickOpenConfirm()
-                }}>
-                    <DeleteOutlineIcon fontSize="small"/>
+                <MenuItem
+                    sx={{ color: "error.main" }}
+                    onClick={(e) => {
+                        handleCloseMenu();
+                        handleClickOpenConfirm();
+                    }}
+                >
+                    <DeleteOutlineIcon fontSize="small" />
                     Delete
                 </MenuItem>
-
             </Popover>
 
-            <Dialog
-                open={openDialog}
-                onClose={handleCloseDialog}
-                maxWidth="md"
-            >
+            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
                 <DialogTitle>Delete Tag</DialogTitle>
                 <DialogContent>
-                    <Alert severity="success">
-                        Test deleted successfully!
-                    </Alert>
+                    <Alert severity="success">Test deleted successfully!</Alert>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog}>OK</Button>
                 </DialogActions>
             </Dialog>
-
 
             <Dialog
                 open={openConfirm}
@@ -435,60 +454,61 @@ export default function TestPage() {
                                             setOpen(false);
                                         }}
                                     >
-                                        <CloseIcon fontSize="inherit"/>
+                                        <CloseIcon fontSize="inherit" />
                                     </IconButton>
                                 }
-                                sx={{mb: 2}}
-                                variant="filled" severity="error"
+                                sx={{ mb: 2 }}
+                                variant="filled"
+                                severity="error"
                             >
-                                {statusCode === 500 ?
-                                    "Test is in use, cannot be deleted!!"
-                                    :
-                                    "Server error during delete, please try again"
-                                }
+                                {statusCode === 500
+                                    ? "Test is in use, cannot be deleted!!"
+                                    : "Server error during delete, please try again"}
                             </Alert>
                         </Collapse>
                         This action can not be undone
                     </DialogContentText>
-
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseConfirm}>Cancel</Button>
-                    <Button onClick={() => {
-                        customAPIv1().delete(`/tests/${currentTestId}`)
-                            .then(res => {
-                                updateTests()
-                                handleCloseConfirm()
-                                handleClickOpenDialog()
-                            })
-                            .catch(e => {
-                                setOpen(true);
-                                if (e.message.includes("500")) {
-                                    setStatusCode(500);
-                                } else {
-                                    console.log("Error:", e);
-                                }
-                            })
-                    }} autoFocus variant="contained" color="error">
+                    <Button
+                        onClick={() => {
+                            customAPIv1()
+                                .delete(`/tests/${currentTestId}`)
+                                .then((res) => {
+                                    updateTests();
+                                    handleCloseConfirm();
+                                    handleClickOpenDialog();
+                                })
+                                .catch((e) => {
+                                    setOpen(true);
+                                    if (e.message.includes("500")) {
+                                        setStatusCode(500);
+                                    } else {
+                                        console.log("Error:", e);
+                                    }
+                                });
+                        }}
+                        autoFocus
+                        variant="contained"
+                        color="error"
+                    >
                         Remove Test
                     </Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={openOnline} onClose={handleCloseOnline} maxWidth="md">
-                <DialogTitle>Create an online contest
+                <DialogTitle>
+                    Create an online contest
                     <Typography component="div" variant="h6">
                         Bài thi: <strong>{tests.name}</strong>
                     </Typography>
                 </DialogTitle>
                 <DialogContent>
-                    <CreateAnOnlContest
-                        test={tests}
-
-                    />
+                    <CreateAnOnlContest test={tests} />
                 </DialogContent>
             </Dialog>
         </>
-
-    )
+    );
 }
