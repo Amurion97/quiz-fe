@@ -17,9 +17,10 @@ import {useEffect} from "react";
 
 const columns = [
     {id: "email", label: "Email", minWidth: 100},
-    {id: "", label: "", minWidth: 150},
+    {id: "", label: "", minWidth: 300},
     {id: "accuracy", label: "Accuracy", minWidth: 150},
     {id: "point", label: "Point", minWidth: 150},
+    {id: "finish", label: "Date Taken", minWidth: 150, align: 'center'},
 ];
 
 export default function ResulTest() {
@@ -74,6 +75,7 @@ export default function ResulTest() {
                             let corrects = item.corrects;
                             let incorrects = item.incorrects;
                             let sumQuestions = corrects + incorrects;
+                            let date = new Date(item.finish);
                             console.log('sumQuestions', sumQuestions);
                             return (
                                 <TableRow>
@@ -93,7 +95,7 @@ export default function ResulTest() {
                                                     (item, index) => (
                                                         <Grid
                                                             xs={12 / sumQuestions}
-                                                            sx={{pl: 0.1}}
+                                                            sx={{pl: 0.2}}
                                                         >
                                                             <Box
                                                                 sx={{
@@ -115,6 +117,8 @@ export default function ResulTest() {
                                     </TableCell>
                                     <TableCell>{item.score}%</TableCell>
                                     <TableCell>{corrects}/{incorrects}</TableCell>
+                                    <TableCell align={'center'}>{date.toLocaleDateString()} {' '}
+                                        {date.getHours()}:{date.getMinutes()}</TableCell>
                                 </TableRow>
                             );
                         })}

@@ -8,7 +8,7 @@ import Tags from "../../../components/ResulTest/Tags";
 export default function TestStatisticPage() {
     return (
         <>
-            <Grid container spacing={4} sx={{ mt: 9 }}>
+            <Grid container spacing={4} sx={{ mt: 9, px: 3 }}>
                 <Grid item xs={12}>
                     <Card>
                         <CardActionArea>
@@ -31,7 +31,9 @@ export default function TestStatisticPage() {
                             <CardContent>
                                 <Grid container spacing={2}>
                                     <Grid item xs>
+
                                         <ResulTest />
+
                                     </Grid>
                                 </Grid>
                             </CardContent>

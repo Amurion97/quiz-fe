@@ -142,7 +142,10 @@ export function QuestionInAction({
                 </Button>}
             {currentQuestionIndex === totalQuestion - 1 ?
                 <Button variant="contained" size='large' sx={{fontSize: 20,}}
-                        onClick={submitForm}
+                        onClick={() => {
+                            submitForm()
+                            handleNextQuestion()
+                        }}
                 >
                     Submit
                 </Button>
