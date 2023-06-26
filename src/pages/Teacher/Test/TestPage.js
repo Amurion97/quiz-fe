@@ -13,7 +13,7 @@ import {
     Box,
     CardContent,
     CardMedia,
-    CardActions,
+    CardActions, Paper,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -184,208 +184,176 @@ export default function TestPage() {
                 <title> Test Management | Quiz </title>
             </Helmet>
 
-            <Grid item xs={12}>
-                <Grid container spacing={0}>
-                    <Grid
-                        item
-                        xs={2}
-                        sx={{
-                            mt: 15,
-                            pl: 3,
-                        }}
+            <Grid container spacing={0}>
+                <Grid
+                    item
+                    xs={2}
+                    sx={{
+                        mt: 10,
+                        pl: 3,
+                    }}
+                >
+                    <Stack
+                        direction="column"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        mb={3}
                     >
-                        <Grid item={3}>
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="space-between"
-                                mb={3}
-                            >
-                                <Typography variant="h4" gutterBottom>
-                                    Test Management
-                                </Typography>
-                            </Stack>
-                        </Grid>
+                        <Typography variant="h4" gutterBottom>
+                            Test Management
+                        </Typography>
 
-                        <Grid item xs={9}>
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <Button startIcon={<HistoryIcon/>}>
-                                        <Typography>previousky used</Typography>
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button startIcon={<FavoriteIcon/>}>
-                                        <Typography>Like by me</Typography>
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button startIcon={<ShareIcon/>}>Share by me</Button>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button startIcon={<DraftsIcon/>}>Drafts</Button>
-                                </Grid>
 
-                                <Grid item xs={12}>
-                                    My colllections
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button
-                                        onClick={() => navigate('/dashboard/testCreate')}
-                                        startIcon={<CreateNewFolderIcon/>}
-                                    >
-                                        Create New Test
-                                    </Button>
-                                </Grid>
+                        <Grid container>
+                            <Grid item xs={12}>
+                                <Button startIcon={<HistoryIcon/>}>
+                                    <Typography>previousky used</Typography>
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button startIcon={<FavoriteIcon/>}>
+                                    <Typography>Like by me</Typography>
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button startIcon={<ShareIcon/>}>Share by me</Button>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button startIcon={<DraftsIcon/>}>Drafts</Button>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                My collections
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button
+                                    startIcon={<CreateNewFolderIcon/>}
+                                >
+                                    Create New Collection
+                                </Button>
                             </Grid>
                         </Grid>
-                    </Grid>
+                    </Stack>
 
-                    <Grid
-                        item
-                        xs={10}
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            mt: 15,
-                            px: 3,
-                        }}
-                    >
+                </Grid>
 
-                        {testList.map((row, index) => {
-                            const {id, name, image, difficulty, tags} = row;
-                            return (
-                                <Grid container spacing={1} >
-                                    <Card key={id} sx={{ display: "flex", mb: "15px" }}>
-                                        <Grid item xs={3}>
-                                            <CardMedia
-                                                component="img"
-                                                sx={{ width: 700 }}
-                                                image={image}
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            xs={5}
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                            }}
-                                        >
-                                            <Box
-                                                sx={{ display: "flex", flexDirection: "column" }}
-                                            >
-                                                <Grid container spacing={1}>
-                                                    <Grid item xs={12} sx={{
+                <Grid
+                    item
+                    xs={10}
+                    sx={{
+                        // display: "flex",
+                        // flexDirection: "column",
+                        // justifyContent: "center",
+                        // alignItems: "center",
+                        mt: 10,
+                        px: 3,
+                    }}
+                >
 
-                                                    }}>
-                                                        <CardContent sx={{ flex: "1 0 auto" }}>
-                                                            <Typography component="div" variant="h5">
-                                                                Name: {name}
-                                                            </Typography>
-                                                        </CardContent>
-                                                    </Grid>
-                                                    <Grid item xs={12}>
-                                                        <Box
-                                                            sx={{
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                pl: 1,
-                                                                pb: 1,
-                                                            }}
-                                                        >
-                                                            <CardContent>
-                                                                <Typography>
-                                                                    Tags:
-                                                                    {tags.map(
-                                                                        (item, ind) => item.name + " , "
-                                                                    )}
-                                                                </Typography>
-                                                            </CardContent>
-                                                        </Box>
-                                                    </Grid>
-                                                    <Grid item xs={12}>
-                                                        <Typography
-                                                            sx={{
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                pl: 4,
-                                                                pb: 1,
-                                                            }}
-                                                        >
-                                                            Difficulty: {difficulty.name}
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>
-                                            </Box>
-                                        </Grid>
-                                        <Grid item xs={4}
-                                              sx={{
-                                                  display: "flex",
-                                                  flexDirection: "column",
-                                                  justifyContent: "space-between",
-                                                  alignItems: "center",
-                                                  pt:7
-                                              }}>
-                                            <CardActions
+                    {testList.map((row, index) => {
+                        const {id, name, image, difficulty, tags} = row;
+                        return (
+                            <Paper sx={{mb: 2}}>
+                                <Grid container spacing={1}
+                                      sx={{
+                                          width: '100%'
+                                      }}>
+
+                                    <Grid item xs={2} sx={{
+
+                                        p: 1,
+                                    }}>
+                                        <img src={image}
+                                             style={{
+                                                 width: 200,
+                                                 height: 200,
+                                                 objectFit: 'cover',
+                                                 padding: '10px',
+                                             }
+                                             }/>
+                                    </Grid>
+
+                                    <Grid
+                                        item
+                                        xs={6}
+                                    >
+                                        <Stack direction={'column'} spacing={1}>
+
+                                            <Typography component="div" variant="h5" sx={{pt: 3}}>
+                                                Tên bài thi: {name}
+                                            </Typography>
+
+                                            <Typography>
+                                                Tags:
+                                                {' '}
+                                                {tags.map(
+                                                    (item, index) => (index < tags.length - 1) ? item.name + ", " : item.name
+                                                )}
+                                            </Typography>
+
+                                            <Typography
                                                 sx={{
                                                     display: "flex",
                                                     alignItems: "center",
-                                                    justifyContent: "space-between",
-
-                                                    "& > *": {
-                                                        ml: 1,
-                                                    },
-                                                    pl: "30%",
+                                                    pl: 4,
                                                     pb: 1,
-
                                                 }}
                                             >
-                                                <Button
-                                                    sx={{
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        pl: 1,
-                                                        pb: 1,
+                                                Độ khó: {difficulty.name}
+                                            </Typography>
 
-                                                    }}
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        navigate(`/dashboard/test-statistic`, {
-                                                            state: {
-                                                                id: id,
-                                                            },
-                                                        });
-                                                    }}
-                                                >
-                                                    thống kê làm bài
-                                                </Button>
-                                                <TableCell align="left">
-                                                    <IconButton
-                                                        size="large"
-                                                        color="inherit"
-                                                        onClick={(e) => {
-                                                            setCurrentTestId(id);
-                                                            handleOpenMenu(e);
-                                                        }}
-                                                    >
-                                                        <MoreVertIcon fontSize="small" />
-                                                    </IconButton>
-                                                </TableCell>
-                                            </CardActions>
-                                        </Grid>
+                                        </Stack>
+                                    </Grid>
 
-                                    </Card>
+                                    <Grid item xs={3}
+                                          sx={{
+                                              pt: 15,
+                                              textAlign: 'right',
+                                              display: 'grid',
+                                          }}>
+
+                                        <Button
+                                            sx={{
+                                        alignSelf: 'center'}
+                                            }
+                                            variant="contained"
+                                            onClick={() => {
+                                                navigate(`/dashboard/sum-statistic`, {
+                                                    state: {
+                                                        id: id,
+                                                    },
+                                                });
+                                            }}
+                                        >
+                                            Thống kê làm bài
+                                        </Button>
+                                    </Grid>
+
+                                    <Grid item xs={1}
+                                          sx={{
+                                              pt: 1, pr: 1,
+                                              textAlign: 'right',
+                                          }}>
+                                        <IconButton
+                                            size="large"
+                                            color="inherit"
+                                            onClick={(e) => {
+                                                setCurrentTestId(id);
+                                                handleOpenMenu(e);
+                                            }}
+                                        >
+                                            <MoreVertIcon fontSize="small"/>
+                                        </IconButton>
+                                    </Grid>
+
                                 </Grid>
-                            );
-                        })}
+                            </Paper>
+                        );
+                    })}
 
-                    </Grid>
                 </Grid>
-
             </Grid>
+
 
             <Popover
                 open={Boolean(openMenu)}
@@ -397,7 +365,7 @@ export default function TestPage() {
                 PaperProps={{
                     sx: {
                         p: 1,
-                        width: 140,
+                        width: 200,
                         '& .MuiMenuItem-root': {
                             px: 1,
                             typography: 'body2',
