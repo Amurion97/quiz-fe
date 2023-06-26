@@ -482,10 +482,11 @@ export default function TestPage() {
                     </Typography>
                 </DialogTitle>
                 <DialogContent>
+
                     <CreateAnOnlContest
                         test={tests}
-
                     />
+
                 </DialogContent>
             </Dialog>
         </>

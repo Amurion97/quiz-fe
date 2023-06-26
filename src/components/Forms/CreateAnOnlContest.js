@@ -126,15 +126,15 @@ export default function CreateAnOnlContest(props) {
                             </LoadingButton>
                         </Stack>
                         <Stack spacing={2} sx={{width: '100%'}}>
-                            <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
+                            <Snackbar open={openSuccess} autoHideDuration={3000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
-                                    Thêm số lượng người thi thành công!
+                                    Tạo phòng thi Online thành công! Đang chuyển trang...
                                 </Alert>
                             </Snackbar>
 
                             <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-                                    Lỗi thêm số lượng người thi!
+                                    Lỗi khi tạo phòng thi Online!
                                 </Alert>
                             </Snackbar>
                         </Stack>
