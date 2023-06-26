@@ -1,22 +1,27 @@
 import {Avatar, Box, Card, Grid} from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 
-export default function StudentsLounge() {
+export default function StudentsLounge({peopleList}) {
     return (
         <>
-            <Grid container spacing={3}>
-                <Grid item xs={12 / 5}>
-                    <Box>
+            <Grid container spacing={3} sx={{
+                pt: 5,
+                px: 5
+            }}>
+                {peopleList.map((person) =>
+                    (<Grid key={person.id} item xs={4}>
+
                         <Card sx={{pb: "24px", height: "100%"}}>
                             <CardHeader
                                 avatar={<Avatar src="/assets/images/avatars/avatar_default.jpg"
                                                 alt="photoURL"/>}
-                                title="User"
-                                subheader="Friend"
+                                title={person.email}
+                                subheader="Student"
                             />
                         </Card>
-                    </Box>
-                </Grid>
+
+                    </Grid>))}
+
             </Grid>
         </>
     )

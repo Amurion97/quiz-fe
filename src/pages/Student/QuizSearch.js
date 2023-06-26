@@ -16,7 +16,7 @@ import {useEffect, useState} from "react";
 import {useContext} from "react";
 import {NameContext} from "../../layouts/StudentLayout";
 import {useNavigate} from "react-router-dom";
-import {CodeEnterBox} from "./CodeEnterBox";
+import {CodeEnterBox} from "../../components/CodeEnterBox";
 
 const ButtonHover = styled(Button)(({theme}) => ({
     borderColor: theme.palette.primary.darker,

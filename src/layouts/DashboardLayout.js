@@ -29,8 +29,7 @@ export default function DashboardLayout() {
                     <IconButton aria-label="menu"
                                 onClick={() => {
                                     setCollapsedNavBar(!collapsedNavBar)
-                                }
-                                }
+                                }}
                                 sx={{
                                     position: 'fixed',
                                     top: '30px',
