@@ -21,6 +21,7 @@ import TagPage from "./pages/Teacher/TagPage";
 import TestCreatePage from "./pages/Teacher/Test/TestCreate";
 import TestStatisticPage from "./pages/Teacher/Test/TestStatisticPage";
 import TestPage from "./pages/Teacher/Test/TestPage";
+import SumStatisticPage from "./pages/Teacher/Test/SumStatisticPage";
 
 //student flow
 import StudentLayout from "./layouts/StudentLayout";
@@ -55,6 +56,8 @@ export default function Router() {
                 {path: 'testCreate',element: <TestCreatePage/>},
                 {path: 'tests',element: <TestPage/>},
                 {path: 'test-statistic', element: <TestStatisticPage/>},
+                {path: 'sum-statistic', element: <SumStatisticPage/>},
+                { path: 'test', element: <TeacherStartOnlineTest /> },
 
                 {path: 'tag', element: <TagPage/>},
 
@@ -65,7 +68,7 @@ export default function Router() {
 
         {
             path: '/students',
-            element: <StudentLayout/>,
+            element: user.info ? <StudentLayout/> : <Navigate to={'/login'}/>,
             children: [
                 {element: <Navigate to="/students/quizSearch"/>, index: true},
                 {path: 'quizSearch', element: <QuizSearch/>},
@@ -106,11 +109,6 @@ export default function Router() {
             path: '/GroupWaitingRoom',
             element: <GroupWaitingRoom/>
         },
-        {
-            path: "/TeacherStartOnlineTest",
-            element: <TeacherStartOnlineTest />,
-        },
-
         {
             path: "/socket",
             element: <Socket/>,

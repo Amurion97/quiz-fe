@@ -13,12 +13,30 @@ import {
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import Button from "@mui/material/Button";
+import DoneAllTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StudentsLounge from "../../Student/GroupTest/StudentsLounge";
 import {alpha} from "@mui/material/styles";
+import {useEffect, useState} from "react";
+import {customAPIv1} from "../../../features/customAPI";
 
 
 export function TeacherStartOnlineTest() {
+    const url = new URL(window.location.href)
+    const searchParams = new URLSearchParams(url.search);
+    const code = searchParams.get("code");
+    console.log(code);
+
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopyClick = () => {
+        navigator.clipboard.writeText(code);
+        setIsCopied(true);
+    };
+
+    useEffect(()=>{
+        customAPIv1().get('/rooms')
+    },[])
     return (
         <>
             <Grid container>
@@ -37,8 +55,7 @@ export function TeacherStartOnlineTest() {
                             },
                         }}
                     >
-                        {/* <Paper sx={{p: 10, background: 'linear-gradient(#000000, #33333366)'}}  elevation={6}> */}
-                        <Paper sx={{p: 10}} elevation={6}>
+                        <Paper sx={{ p: 10 }} elevation={6}>
                             <Grid container spacing={1}>
                                 <Grid
                                     item
@@ -49,12 +66,11 @@ export function TeacherStartOnlineTest() {
                                         justifyContent: "center",
                                         alignItems: "center",
                                         mt: -5,
-                                        // color: "white",
                                     }}
                                 >
                                     <Typography fontSize={20}>Online Test</Typography>
                                 </Grid>
-                                <Grid item xs={12} sx={{textAlign: "center"}}>
+                                <Grid item xs={12} sx={{ textAlign: "center" }}>
                                     <FormControl
                                         sx={{
                                             display: "flex",
@@ -65,15 +81,21 @@ export function TeacherStartOnlineTest() {
                                         variant="outlined"
                                     >
                                         <OutlinedInput
-                                            sx={{mx: 1}}
+                                            sx={{
+                                                mx: 1,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                            }}
                                             endAdornment={
                                                 <InputAdornment>
                                                     <IconButton
                                                         aria-label="copy join code"
                                                         edge="end"
-                                                        sx={{bgcolor: "#EDEDF6"}}
+                                                        sx={{ bgcolor: "#EDEDF6" }}
                                                     >
-                                                        <ContentCopyIcon sx={{maxHeight: "100%"}}/>
+                                                        <ContentCopyIcon sx={{ maxHeight: "100%" }} />
                                                     </IconButton>
                                                 </InputAdornment>
                                             }
@@ -88,12 +110,11 @@ export function TeacherStartOnlineTest() {
                                         flexDirection: "column",
                                         justifyContent: "center",
                                         alignItems: "center",
-                                        // color: "white",
                                     }}
                                 >
                                     <Typography>2: Enter join code</Typography>
                                 </Grid>
-                                <Grid item xs={12} sx={{textAlign: "center"}}>
+                                <Grid item xs={12} sx={{ textAlign: "center" }}>
                                     <FormControl
                                         sx={{
                                             display: "flex",
@@ -104,18 +125,32 @@ export function TeacherStartOnlineTest() {
                                         variant="outlined"
                                     >
                                         <OutlinedInput
-                                            sx={{mx: 1}}
+                                            sx={{
+                                                mx: 1,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                '& input': {
+                                                textAlign: 'center',
+                                            },
+                                            }}
                                             endAdornment={
                                                 <InputAdornment>
                                                     <IconButton
                                                         aria-label="copy join code"
                                                         edge="end"
-                                                        sx={{bgcolor: "#EDEDF6"}}
+                                                        sx={{ bgcolor: "#EDEDF6" }}
+                                                        onClick={handleCopyClick}
                                                     >
-                                                        <ContentCopyIcon sx={{maxHeight: "100%"}}/>
+                                                        {isCopied ? (
+                                                            <DoneAllTwoToneIcon sx={{ maxHeight: "100%" }} />
+                                                        ) : (
+                                                            <ContentCopyIcon sx={{ maxHeight: "100%" }} />
+                                                        )}
                                                     </IconButton>
                                                 </InputAdornment>
                                             }
+                                            value={code}
                                         />
                                     </FormControl>
                                 </Grid>
@@ -127,10 +162,9 @@ export function TeacherStartOnlineTest() {
                                         justifyContent: "center",
                                         alignItems: "center",
                                         mt: 1,
-                                        // color: "white",
                                     }}
                                 >
-                                    <Typography>3 : Or</Typography>
+                                    <Typography>3: Or</Typography>
                                 </Grid>
                                 <Grid
                                     item
@@ -149,10 +183,9 @@ export function TeacherStartOnlineTest() {
                                             justifyContent: "center",
                                             alignItems: "center",
                                             mt: 2,
-                                            // color: "white",
                                         }}
                                         variant="outlined"
-                                        startIcon={<QrCodeIcon/>}
+                                        startIcon={<QrCodeIcon />}
                                     >
                                         QrCode
                                     </Button>
@@ -162,8 +195,7 @@ export function TeacherStartOnlineTest() {
                     </Box>
                 </Grid>
                 <Grid
-                    item
-                    xs={12}
+                    item xs={12}
                     sx={{
                         display: "flex",
                         justifyContent: "center",

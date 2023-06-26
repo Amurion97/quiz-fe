@@ -21,7 +21,7 @@ import { useTheme } from "@mui/material/styles";
 import { customAPIv1 } from "../../../features/customAPI";
 
 import ProgressBar from "@ramonak/react-progress-bar";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const columns = [
     { id: "rank", label: "Rank", minWidth: 50, align: "center" },
@@ -35,10 +35,10 @@ export default function TestStatisticPage() {
 
     const location = useLocation();
     // console.log("location in test taking:", location)
-    const {state} = location;
-    let id
+    const { state } = location;
+    let id;
     if (state) {
-        ({id} = state)
+        ({ id } = state);
     }
 
     const [attempts, setAttempts] = useState([]);
@@ -104,17 +104,21 @@ export default function TestStatisticPage() {
                         'url("/assets/images/background-test-statistics.png")',
                     backgroundSize: "cover",
                 }}>
-                <Grid item xs={12} sx={{ textAlign: "center" }}>
-                    <Typography
-                        variant="titleInTheBackground"
-                        sx={{
-                            color: theme.palette.primary.contrastText,
-                        }}>
+                <Grid
+                    item
+                    xs={12}
+                    sx={{
+                        textAlign: "center",
+                        color: theme.palette.primary.contrastText,
+                        background: "rgba(64, 64, 64, 0.85)",
+                        borderRadius: "5px",
+                    }}>
+                    <Typography variant="titleInTheBackground">
                         Test statistics
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <Paper padding={2} sx={{bgcolor: "transparent"}}>
+                    <Paper padding={2} sx={{ bgcolor: "transparent" }}>
                         <TableContainer
                             component={Paper}
                             sx={{ maxHeight: "70vh", bgcolor: "transparent" }}>
@@ -128,7 +132,7 @@ export default function TestStatisticPage() {
                                                 style={{
                                                     minWidth: column.minWidth,
                                                     background:
-                                                        "rgba(22, 28, 36, 0.85)",
+                                                        "rgba(64, 64, 64, 0.85)",
                                                     color: theme.palette.primary
                                                         .contrastText,
                                                 }}>
@@ -148,7 +152,8 @@ export default function TestStatisticPage() {
                                                 tabIndex={-1}
                                                 role="checkbox"
                                                 style={{
-                                                    backgroundColor: "rgba(33,43,54, 0.85)"
+                                                    backgroundColor:
+                                                        "rgba(89,89,89, 0.85)",
                                                 }}>
                                                 <TableCell
                                                     align="center"
@@ -188,9 +193,11 @@ export default function TestStatisticPage() {
                                                     scope="row"
                                                     padding="none">
                                                     <ProgressBar
-                                                        bgColor="#1976D2"
+                                                        bgColor="#4ED190                                                        "
+                                                        baseBgColor="#EA456E"
                                                         height="16px"
                                                         completed={score}
+                                                        borderRadius="5px"
                                                     />
                                                 </TableCell>
 

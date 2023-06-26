@@ -13,9 +13,11 @@ import {customAPIv1} from "../../features/customAPI";
 import React, {useState} from "react";
 import {Box} from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+import {useNavigate} from "react-router-dom";
 
 export default function CreateAnOnlContest(props) {
-    console.log(props.time)
+    console.log(props)
+    const navigate = useNavigate()
     const theme = useTheme()
     const [openSuccess, setOpenSuccess] = React.useState(false);
     const [open, setOpen] = React.useState(false);
@@ -31,7 +33,7 @@ export default function CreateAnOnlContest(props) {
     });
 
     const SchemaError = Yup.object().shape({
-        people: Yup.number()
+        size: Yup.number()
             .min(2, "Ít nhất 2 người")
             .max(20, "Tối đa 20 người")
             .required("Vui lòng nhập số lượng"),
@@ -41,17 +43,22 @@ export default function CreateAnOnlContest(props) {
         <>
             <Formik
                 initialValues={{
-                    people: ''
+                    size: '',
                 }}
                 validationSchema={SchemaError}
-                onSubmit={(values, {setSubmitting}) => {
+                onSubmit={(values, {setSubmitting, setFieldValue}) => {
                     console.log("trying to submit:", values);
+                    setFieldValue('size', values.size)
+                    values.test = props.test.id
                     customAPIv1()
                         .post("/rooms", values)
                         .then((data) => {
                             console.log("axios data:", data);
                             setOpenSuccess(true);
                             setSubmitting(false);
+                            setTimeout(() => {
+                                navigate(`/dashboard/test?code=${data.data}`);
+                            },2000)
                         })
                         .catch((e) => {
                             setSubmitting(false);
@@ -59,8 +66,9 @@ export default function CreateAnOnlContest(props) {
                             setOpen(true);
                         });
                 }}>
-                {({handleSubmit, isSubmitting}) => (
+                {({values, handleSubmit, isSubmitting}) => (
                     <Form onSubmit={handleSubmit}>
+                        {console.log(values)}
                         <Stack spacing={3} mb={3}>
                             <Box sx={{display: 'flex', alignItems: 'center', width: '100%'}}>
                                 <Box sx={{flex: 1}}>
@@ -69,7 +77,7 @@ export default function CreateAnOnlContest(props) {
                                         placeholder="Minutes"
                                         type="number"
                                         name="time"
-                                        value={props.time}
+                                        value={props.test.time}
                                         component={TextField}
                                         sx={{
                                             '& input': {
@@ -91,7 +99,7 @@ export default function CreateAnOnlContest(props) {
                                         label="People"
                                         placeholder="People"
                                         type="number"
-                                        name="people"
+                                        name="size"
                                         component={TextField}
                                         sx={{
                                             '& input': {
