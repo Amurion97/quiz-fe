@@ -3,33 +3,98 @@ import CardHeader from "@mui/material/CardHeader";
 
 //icon mui
 import GroupsTwoToneIcon from '@mui/icons-material/GroupsTwoTone';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import StudentsLounge from "./StudentsLounge";
+import {useSelector} from "react-redux";
+import {selectUser} from "../../../features/user/userSlice";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useTheme} from "@mui/material/styles";
+import {socket} from "../../../app/socket";
 
 
 export default function GroupWaitingRoom() {
     // const [students, setStudents] = useState([])
+    const theme = useTheme()
+    const navigate = useNavigate()
+
+    const url = new URL(window.location.href)
+    const searchParams = new URLSearchParams(url.search);
+    const roomCode = searchParams.get("code");
+    console.log("roomCode:", roomCode);
+
+    const user = useSelector(selectUser)
+    const location = useLocation();
+    console.log("location in student lobby:", location);
+    const {state} = location;
+
+    const [peopleList, setPeopleList] = useState(state ? state.peopleList : []);
+    // setPeopleList()
+    console.log("peopleList:", peopleList);
+
+    useEffect(() => {
+        socket.connect();
+        console.log('this effect is running')
+
+        function onConnect() {
+            socket.emit('join-lobby',
+                {roomCode: roomCode, email: user.info.email},
+                (res) => {
+                    console.log('join-lobby', res);
+                    if (res.success !== false) {
+                        setPeopleList(res);
+                    }
+
+                })
+        }
+
+
+        function onLobbyUpdate(arg) {
+            console.log('lobby-update:', arg);
+            if (arg.join) {
+                setPeopleList((list) => [...list, arg.person])
+            } else if (arg.leave) {
+                setPeopleList((list) => list.filter(item => item.email !== arg.email))
+            }
+        }
+
+        function onStartTest(arg) {
+            console.log('start-test:', arg);
+            navigate('/groupTestTaking', {
+                state: {
+                    test: arg.test,
+                    roomCode: roomCode
+                }
+            })
+        }
+        socket.on('connect', onConnect);
+        socket.on('lobby-update', onLobbyUpdate);
+        socket.on('start-test', onStartTest);
+
+
+        return () => {
+            socket.off('connect', onConnect);
+            socket.off('lobby-update', onLobbyUpdate);
+            socket.off('start-test', onStartTest);
+            socket.disconnect()
+        }
+
+    }, [])
     return (
         <>
-            {/*<Grid container*/}
-            {/*      sx={{*/}
-            {/*          // p: 20,*/}
-            {/*          // display: "flex",*/}
-            {/*          justifyContent: "center", alignItems: "center", maxHeight: "200%"*/}
-            {/*      }}>*/}
-            {/*    <Grid item xs={6}*/}
-            {/*          sx={{transform: "scale(2)"}}*/}
-            {/*    >*/}
-
             <Box
-                // container
                 sx={{
-                    p: 10,
-                    // justifyContent: "center", alignItems: "center",
-                    maxWidth: '1200px',
+                    p: 3,
+
                     margin: 'auto',
                     // transform: "scale(1.2)"
+                    borderWidth: '0px',
+                    [theme.breakpoints.up('md')]: {
+                        // backgroundColor: theme.palette.primary.main,
+                        maxWidth: '1200px',
+                        p: 10,
+                    },
                 }}>
+
                 <Grid container
                     // spacing={3}
                       sx={{
@@ -48,13 +113,13 @@ export default function GroupWaitingRoom() {
                                         alt="photoURL"
                                         sx={{height: '80px', width: '80px'}}
                                     />}
-                                title="GGG"
+                                title={user.info.email}
                                 subheader="You"
                                 titleTypographyProps={{
-                                    variant: 'h3'
+                                    variant: 'h4'
                                 }}
                                 subheaderTypographyProps={{
-                                    variant: 'h4'
+                                    variant: 'h5'
                                 }}
                                 sx={{
                                     p: 5
@@ -79,14 +144,17 @@ export default function GroupWaitingRoom() {
                                     JOIN CODE
                                 </Typography>
                                 <Typography variant="h3" component="div">
-                                    123123
+                                    {roomCode}
                                 </Typography>
                             </CardContent>
                         </Card>
                     </Grid>
+
                 </Grid>
 
-                <Grid container sx={{pb: 10}}>
+                <Grid container
+                >
+
                     <Grid item xs={10}
                           sx={{
                               display: "flex",
@@ -112,25 +180,12 @@ export default function GroupWaitingRoom() {
                             </Box>
                         </Card>
                     </Grid>
+
                 </Grid>
 
-
-                {/*{students.length <= 1*/}
-                {/*    ? "You are the first in this exam room"*/}
-                {/*    : students &&*/}
-                {/*    students.map((student) => (*/}
-                {/*        <StudentsLounge/>*/}
-                {/*))*/}
-                {/*}*/}
-
-                <StudentsLounge/>
             </Box>
-            {/*    </Grid>*/
-            }
-            {/*</Grid>*/
-            }
 
-
+            <StudentsLounge peopleList={peopleList.filter(item => item.email !== user.info.email)}/>
         </>
     )
 }

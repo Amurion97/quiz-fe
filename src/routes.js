@@ -33,7 +33,7 @@ import QuizSearch from './pages/Student/QuizSearch';
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
 import GroupWaitingRoom from "./pages/Student/GroupTest/GroupWaitingRoom";
-import { TeacherStartOnlineTest } from "./pages/Teacher/Test/TeacherStartOnlineTest";
+import {TeacherStartOnlineTest} from "./pages/Teacher/Test/TeacherStartOnlineTest";
 import Socket from "./pages/Socket/Socket";
 import GroupTestTakingPage from "./pages/Student/GroupTest/GroupTestTakingPage";
 
@@ -53,11 +53,11 @@ export default function Router() {
                 {path: 'createQuestion', element: <QuestionCreationPage/>},
                 {path: 'editQuestion', element: <QuestionEditPage/>},
 
-                {path: 'testCreate',element: <TestCreatePage/>},
-                {path: 'tests',element: <TestPage/>},
+                {path: 'testCreate', element: <TestCreatePage/>},
+                {path: 'tests', element: <TestPage/>},
                 {path: 'test-statistic', element: <TestStatisticPage/>},
                 {path: 'sum-statistic', element: <SumStatisticPage/>},
-                { path: 'test', element: <TeacherStartOnlineTest /> },
+                {path: 'test', element: <TeacherStartOnlineTest/>},
 
                 {path: 'tag', element: <TagPage/>},
 
@@ -74,6 +74,11 @@ export default function Router() {
                 {path: 'quizSearch', element: <QuizSearch/>},
                 {path: 'test', element: <TestTakingPage/>},
                 {path: 'result', element: <TestResultPage/>},
+                {
+                    path: 'groupWaitingRoom',
+                    element: <GroupWaitingRoom/>
+                },
+                {path: 'test-statistic', element: <TestStatisticPage/>},
             ]
         },
 
@@ -105,10 +110,7 @@ export default function Router() {
             element: (user.info ? (user.info.role <= 2 ? <Navigate to="/dashboard"/> :
                 <Navigate to="/students"/>) : <Navigate to="/login"/>),
         },
-        {
-            path: '/GroupWaitingRoom',
-            element: <GroupWaitingRoom/>
-        },
+
         {
             path: "/socket",
             element: <Socket/>,

@@ -3,19 +3,31 @@ import {
     Collapse,
     FormControl,
     IconButton,
+    Snackbar,
     Stack,
 } from "@mui/material";
 import {Alert, LoadingButton} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField} from "formik-mui";
-import { useState} from "react";
+import React, { useState} from "react";
 import {customAPIv1} from "../../features/customAPI";
 import * as Yup from "yup";
+import MuiAlert from "@mui/material/Alert";
 
 
 export default function AddTagForm(props) {
     const [openSuccess, setOpenSuccess] = useState(false);
     const [open, setOpen] = useState(false);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSuccess(false)
+        setOpen(false)
+    };
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
     const SchemaError = Yup.object().shape({
         name: Yup.string()
             .min(2, "Quá ngắn!")
@@ -55,56 +67,16 @@ export default function AddTagForm(props) {
 
                 <Form>
                     <Stack spacing={1} mb={3}>
-                        <Collapse in={open}>
-                            <Alert
-                                action={
-                                    <IconButton
-                                        aria-label="close"
-                                        color="inherit"
-                                        size="small"
-                                        onClick={() => {
-                                            setOpen(false);
-                                        }}
-                                    >
-                                        <CloseIcon fontSize="inherit"/>
-                                    </IconButton>
-                                }
-                                sx={{mb: 2}}
-                                variant="filled" severity="error"
-                            >
-                                Chủ đề này đã có
-                            </Alert>
-                        </Collapse>
                         <FormControl fullWidth>
 
                         </FormControl>
-                        <Collapse in={openSuccess}>
-                            <Alert
-                                action={
-                                    <IconButton
-                                        aria-label="close"
-                                        color="inherit"
-                                        size="small"
-                                        onClick={() => {
-                                            setOpenSuccess(false);
-                                        }}
-                                    >
-                                        <CloseIcon fontSize="inherit"/>
-                                    </IconButton>
-                                }
-                                sx={{mb: 2}}
-                                variant="filled" severity="success"
-                            >
-                                Thêm chủ đề thành công
-                            </Alert>
-                        </Collapse>
                         <FormControl fullWidth>
 
                         </FormControl>
                         <Field
                             component={TextField}
                             type="text"
-                            label="Nhập chủ đề..."
+                            label="Nhập tên thẻ..."
                             name="name"
                             fullWidth
                         />
@@ -113,8 +85,21 @@ export default function AddTagForm(props) {
                     </Stack>
 
                     <LoadingButton fullWidth size="large" type="button" variant="contained" onClick={submitForm}>
-                        Lưu chủ đề
+                        Lưu thẻ
                     </LoadingButton>
+                    <Stack spacing={2} sx={{width: '100%'}}>
+                            <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                                Thêm thẻ thành công!
+                                </Alert>
+                            </Snackbar>
+
+                            <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
+                                Thẻ đã có sẵn!
+                                </Alert>
+                            </Snackbar>
+                        </Stack>
                 </Form>
             )}
         </Formik>

@@ -175,7 +175,7 @@ export default function TestCreatePage() {
                                                 <Box sx={{flex: 1}}>
                                                     <Field
                                                         label="Thời gian"
-                                                        placeholder="Minutes"
+                                                        placeholder="(phút)"
                                                         type="number"
                                                         name="time"
                                                         component={TextField}
@@ -225,7 +225,7 @@ export default function TestCreatePage() {
                                                             name="tag"
                                                             error={touched['tag'] && !!errors['tag']}
                                                             helperText={touched['tag'] && errors['tag']}
-                                                            label="Chủ đề câu hỏi"
+                                                            label="Thẻ của câu hỏi"
                                                             variant="outlined"
                                                         />
                                                     )}
@@ -302,13 +302,13 @@ export default function TestCreatePage() {
                         <Stack spacing={2} sx={{width: '100%'}}>
                             <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
-                                    Thêm bài thi thành công!
+                                    Tạo đề thi thành công!
                                 </Alert>
                             </Snackbar>
 
                             <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-                                    Lỗi khi thêm bài thi!
+                                    Lỗi khi tạo đề thi !
                                 </Alert>
                             </Snackbar>
                         </Stack>

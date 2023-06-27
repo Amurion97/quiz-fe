@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import React, {useState} from "react";
 // redux
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "../features/user/userSlice";
@@ -72,6 +72,7 @@ export default function NavBar(props) {
     console.log("user:", user)
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [openConfirm, setOpenConfirm] = useState(false);
+   
     const handleCloseConfirm = () => {
         setOpenConfirm(false);
     };

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Collapse, IconButton, InputAdornment, Stack } from "@mui/material";
+import { Collapse, IconButton, InputAdornment, Snackbar, Stack } from "@mui/material";
 import { Alert, LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -12,30 +12,23 @@ import { TextField } from "formik-mui";
 
 import { customAPIv1 } from "../../features/customAPI";
 import CloseIcon from "@mui/icons-material/Close";
+import MuiAlert from "@mui/material/Alert";
 
 export default function ChangePasswordForm() {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [open, setOpen] = useState(false);
-    const [openSuccess, setOpenSuccess] = useState(false);
-    const [countdown, setCountdown] = useState(5);
     const [statusCode, setStatusCode] = useState(0);
-    useEffect(() => {
-        if (openSuccess && countdown > 0) {
-            // Giảm thời gian đếm ngược sau mỗi giây khi open là true và countdown > 0
-            const timer = setInterval(() => {
-                console.log("countdown", countdown);
-                setCountdown((prevCountdown) => prevCountdown - 1);
-            }, 1000);
-            // Xóa timer khi countdown đạt giá trị 0
-            return () => {
-                clearInterval(timer);
-            };
-        } else if (openSuccess && countdown === 0) {
-            localStorage.clear();
-            navigate("/login");
+    const [openSuccess, setOpenSuccess] = React.useState(false);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
         }
-    }, [openSuccess, countdown]);
+        setOpenSuccess(false)
+    };
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     const SchemaError = Yup.object().shape({
         password: Yup.string()
@@ -58,6 +51,11 @@ export default function ChangePasswordForm() {
                     newPassword: "",
                     confirmNewPassword: "",
                 }}
+                validate={(values) => {
+                    setOpen(false);
+                    const errors = {};
+                    return errors;
+                }}
                 validationSchema={SchemaError}
                 onSubmit={(values, { setSubmitting }) => {
                     console.log("trying to submit:", values);
@@ -67,6 +65,9 @@ export default function ChangePasswordForm() {
                             console.log("axios data:", data);
                             setOpenSuccess(true);
                             setSubmitting(false);
+                            setTimeout(()=>{
+                                        navigate('/login')
+                                    },2000)
                         })
                         .catch((e) => {
                             setSubmitting(false);
@@ -99,27 +100,8 @@ export default function ChangePasswordForm() {
                                     variant="filled"
                                     severity="error">
                                     {statusCode >= 400
-                                        ? "Sai mật khẩu, hãy nhập lại!"
-                                        : "Không nhận ra mật khẩu"}
-                                </Alert>
-                            </Collapse>
-                            <Collapse in={openSuccess}>
-                                <Alert
-                                    action={
-                                        <IconButton
-                                            aria-label="close"
-                                            color="inherit"
-                                            size="small"
-                                            onClick={() => {
-                                                setOpenSuccess(false);
-                                            }}>
-                                            <CloseIcon fontSize="inherit" />
-                                        </IconButton>
-                                    }
-                                    sx={{ mb: 2 }}
-                                    variant="filled"
-                                    severity="success">
-                                    Update Password Successfully!
+                                        ? " Mật khẩu sai, vui lòng thử lại!"
+                                        : "mật khẩu sai"}
                                 </Alert>
                             </Collapse>
                             <Field
@@ -212,6 +194,14 @@ export default function ChangePasswordForm() {
                                     {isSubmitting ? "Đăng đăng ký..." : "Đăng ký"}
                                 </span>
                             </LoadingButton>
+                        </Stack>
+                        <Stack spacing={2} sx={{width: '100%'}}>
+                            <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                                    Thay đổi mật khẩu thành công!
+
+                                </Alert>
+                            </Snackbar>
                         </Stack>
                     </Form>
                 )}

@@ -97,8 +97,8 @@ export default function LoginForm() {
                                     sx={{mb: 2}}
                                     variant="filled" severity="error"
                                 >
-                                    {statusCode >= 403 ? "Tài khoản của bạn đã bị khóa, hãy liên hệ với Admin"
-                                        : "Email hoặc mật khẩu đang sai, hãy thử lại!"}
+                                    {statusCode >= 403 ? "Tài khoản bị khóa, vui lòng liên hệ với quản trị viên"
+                                        : "Email hoặc mật khẩu sai, vui lòng thử lại!"}
                                 </Alert>
                             </Collapse>
                             <Field
