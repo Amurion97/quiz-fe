@@ -8,6 +8,8 @@ import { useLocation } from "react-router-dom";
 import { customAPIv1 } from "../../features/customAPI";
 import { useEffect } from "react";
 import { useState } from "react";
+import { CircularProgressbar, CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 const Item2 = styled(Paper)(({ theme }) => ({
     backgroundColor: "#7a1fa2",
@@ -60,15 +62,32 @@ export default function Icons() {
         updateAttempts();
     }, []);
     console.log("attemp page", attempts)
+
+    const percentage = 66;
+
     return (
         <>
             <Grid container spacing={4}>
                 <Grid item xs={4}>
                     <Paper>
-                        <Circle>
-                            <CrisisAlertIcon sx={customStyles} />
-                        </Circle>
-                        <Typography>Accuracy</Typography>
+                        {/*<Circle>*/}
+                        {/*    <CrisisAlertIcon sx={customStyles} />*/}
+                        {/*</Circle>*/}
+                        {/*<Typography>Accuracy</Typography>*/}
+                        {/*<CircularProgressbar value={percentage} text={`${percentage}%`} />;*/}
+
+                        <CircularProgressbarWithChildren value={66}>
+                            {/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
+                            <img
+                                style={{ width: 40, marginTop: -5 }}
+                                src="https://i.imgur.com/b9NyUGm.png"
+                                alt="doge"
+                            />
+                            <div style={{ fontSize: 12, marginTop: -5 }}>
+                                <strong>66%</strong> mate
+                            </div>
+                        </CircularProgressbarWithChildren>
+
                     </Paper>
                 </Grid>
                 <Grid item xs={4}>

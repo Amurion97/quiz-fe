@@ -6,6 +6,7 @@ import ResulTest from "../../../components/ResulTest/ResultTest";
 import Tags from "../../../components/ResulTest/Tags";
 
 export default function TestStatisticPage() {
+
     return (
         <>
             <Grid container spacing={4} sx={{ mt: 9, px: 3 }}>
@@ -18,7 +19,7 @@ export default function TestStatisticPage() {
                                         <Tags />
                                     </Grid>
                                     <Grid item xs={5}>
-                                        <Icons />
+                                        <Icons/>
                                     </Grid>
                                 </Grid>
                             </CardContent>
