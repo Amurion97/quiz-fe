@@ -16,19 +16,25 @@ import Button from "@mui/material/Button";
 import DoneAllTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
 import StudentsLounge from "../../Student/GroupTest/StudentsLounge";
 import {alpha} from "@mui/material/styles";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {socket} from "../../../app/socket";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../../features/user/userSlice";
+import {useNavigate} from "react-router-dom";
+import {Helmet} from "react-helmet-async";
+import Snackbar from "@mui/material/Snackbar";
+import {Alert} from "@mui/lab";
 
 
 export function TeacherStartOnlineTest() {
     const url = new URL(window.location.href)
     const searchParams = new URLSearchParams(url.search);
     const roomCode = searchParams.get("code");
+    const testId = searchParams.get("test");
     const urlToJoin = `http://localhost:3000/students/groupWaitingRoom?code=${roomCode}`
     console.log("roomCode:", roomCode);
 
+    const navigate = useNavigate()
 
     const user = useSelector(selectUser)
 
@@ -38,6 +44,8 @@ export function TeacherStartOnlineTest() {
     const [isCopied, setIsCopied] = useState(false);
     const [isUrlCopied, setIsUrlCopied] = useState(false);
 
+    const [openSuccess, setOpenSuccess] = React.useState(false);
+
     const handleCopyClick = () => {
         navigator.clipboard.writeText(roomCode);
         setIsCopied(true);
@@ -46,6 +54,13 @@ export function TeacherStartOnlineTest() {
     const handleCopyUrlClick = () => {
         navigator.clipboard.writeText(urlToJoin);
         setIsUrlCopied(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSuccess(false)
     };
 
     useEffect(() => {
@@ -76,8 +91,23 @@ export function TeacherStartOnlineTest() {
         }
 
     }, [])
+
+    function startTest() {
+        socket.emit('start-test', {roomCode: roomCode, email: user.info.email}, (res) => {
+            console.log('start-test', res);
+            setOpenSuccess(true);
+            setTimeout(() => {
+                navigate(`/dashboard/test-statistic?code=${roomCode}&test=${testId}`);
+            },2000)
+        })
+    }
+
     return (
         <>
+            <Helmet>
+                <title> Teacher Lobby | Quiz </title>
+            </Helmet>
+
             <Grid container>
 
                 <Grid item xs={12}>
@@ -256,19 +286,13 @@ export function TeacherStartOnlineTest() {
                 >
                     <Button
                         sx={{
-                            // width: "230px",
-                            // height: 60,
-                            // display: "flex",
-                            // justifyContent: "center",
-                            // alignItems: "center",
-                            // bgcolor:'#7CFC00',
                             boxShadow: `5px 5px ${alpha('#595959', 0.4)}`,
                             p: 5,
                             border: '2px solid'
                         }}
                         variant="outlined"
-                        // startIcon={<PlayArrowIcon/>}
                         size='large'
+                        onClick={startTest}
 
                     >
                         <Typography variant='h3'>
@@ -283,6 +307,12 @@ export function TeacherStartOnlineTest() {
                 </Grid>
 
             </Grid>
+
+            <Snackbar open={openSuccess} autoHideDuration={3000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                    Đang bắt đầu cuộc thi...
+                </Alert>
+            </Snackbar>
         </>
     );
 }

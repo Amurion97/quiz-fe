@@ -17,9 +17,10 @@ import {useEffect} from "react";
 
 const columns = [
     {id: "email", label: "Email", minWidth: 100},
-    {id: "", label: "", minWidth: 150},
+    {id: "", label: "", minWidth: 300},
     {id: "accuracy", label: "Accuracy", minWidth: 150},
     {id: "point", label: "Point", minWidth: 150},
+    {id: "finish", label: "Date Taken", minWidth: 150, align: 'center'},
 ];
 
 export default function ResulTest() {
@@ -71,9 +72,10 @@ export default function ResulTest() {
                     </TableHead>
                     <TableBody>
                         {attempts.map((item, index) => {
-                            let correct = item.corrects;
-                            let incorrect = item.incorrects;
-                            let sumQuestions = correct + incorrect;
+                            let corrects = item.corrects;
+                            let incorrects = item.incorrects;
+                            let sumQuestions = corrects + incorrects;
+                            let date = new Date(item.finish);
                             console.log('sumQuestions', sumQuestions);
                             return (
                                 <TableRow>
@@ -93,14 +95,15 @@ export default function ResulTest() {
                                                     (item, index) => (
                                                         <Grid
                                                             xs={12 / sumQuestions}
-                                                            sx={{pl: 0.1}}
+                                                            sx={{pl: 0.2}}
                                                         >
                                                             <Box
                                                                 sx={{
                                                                     bgcolor:
-                                                                        index < correct
-                                                                            ? "green"
-                                                                            : "red",
+                                                                        (theme) =>
+                                                                            index < corrects
+                                                                                ? theme.palette.success.main
+                                                                                : theme.palette.error.main,
                                                                     height: "100%",
                                                                     // borderRadius: 0.5,
                                                                     borderRadius: '2.5px',
@@ -113,7 +116,9 @@ export default function ResulTest() {
                                         </Box>
                                     </TableCell>
                                     <TableCell>{item.score}%</TableCell>
-                                    <TableCell>{correct}/{incorrect}</TableCell>
+                                    <TableCell>{corrects}/{incorrects}</TableCell>
+                                    <TableCell align={'center'}>{date.toLocaleDateString()} {' '}
+                                        {date.getHours()}:{date.getMinutes()}</TableCell>
                                 </TableRow>
                             );
                         })}

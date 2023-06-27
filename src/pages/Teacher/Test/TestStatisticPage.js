@@ -6,96 +6,109 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {
+    Box,
     Grid,
-    IconButton,
-    MenuItem,
-    Popover,
     Stack,
     Typography,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import { useTheme } from "@mui/material/styles";
-import { customAPIv1 } from "../../../features/customAPI";
-
-import ProgressBar from "@ramonak/react-progress-bar";
-import { useLocation } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Helmet} from "react-helmet-async";
+import {useTheme} from "@mui/material/styles";
+import {customAPIv1} from "../../../features/customAPI";
+import {socket} from "../../../app/socket";
+import {useSelector} from "react-redux";
+import {selectUser} from "../../../features/user/userSlice";
 
 const columns = [
-    { id: "rank", label: "Rank", minWidth: 50, align: "center" },
-    { id: "email", label: "Email", minWidth: 150 },
-    { id: "score", label: "Score", minWidth: 200, align: "center" },
-    { id: "date", label: "Date taken", minWidth: 100, align: "center" },
+    {id: "rank", label: "Rank", minWidth: 50, align: "center"},
+    {id: "email", label: "Email", minWidth: 150},
+    {id: "", label: "", minWidth: 400, align: "center"},
+    {id: "score", label: "Score", minWidth: 100, align: "center"},
 ];
 
 export default function TestStatisticPage() {
     const theme = useTheme();
+    const user = useSelector(selectUser)
 
-    const location = useLocation();
-    // console.log("location in test taking:", location)
-    const { state } = location;
-    let id;
-    if (state) {
-        ({ id } = state);
-    }
+    const url = new URL(window.location.href)
+    const searchParams = new URLSearchParams(url.search);
+    const roomCode = searchParams.get("code");
+    const testId = searchParams.get("test");
+    console.log("roomCode:", roomCode);
 
-    const [attempts, setAttempts] = useState([]);
-    const [openMenu, setOpenMenu] = useState(null);
-    const [currentTag, setCurrentTag] = useState(0);
-    const [open, setOpen] = useState(false);
-    const [statusCode, setStatusCode] = useState(0);
-    const handleOpenMenu = (event) => {
-        setOpenMenu(event.currentTarget);
-    };
+    const [peopleList, setPeopleList] = useState([])
+    console.log("peopleList:", peopleList);
 
-    const handleCloseMenu = () => {
-        setOpenMenu(null);
-    };
-
-    const [openConfirm, setOpenConfirm] = useState(false);
-
-    const handleClickOpenConfirm = () => {
-        setOpenConfirm(true);
-    };
-
-    const handleCloseConfirm = () => {
-        setOpenConfirm(false);
-        setOpen(false);
-    };
-    const [openDialog, setOpenDialog] = useState(false);
-
-    const handleClickOpenDialog = () => {
-        setOpenDialog(true);
-    };
-
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
-    const updateAttempts = () => {
-        customAPIv1()
-            .get(`/attempts/test/${id}`)
-            .then((res) => {
-                console.log("attempts of test:", res.data);
-                setAttempts(res.data.data);
-            })
-            .catch((e) => console.log("error in get attempts:", e));
-    };
+    const [totalQuestion, setTotalQuestion] = useState(0);
     useEffect(() => {
-        console.log("attempts page did mount");
-        updateAttempts();
-    }, []);
+        socket.connect();
+
+        customAPIv1()
+            .get(`/tests/brief/${testId}`)
+            .then((res) => {
+                console.log('get test detail:', res.data)
+                setTotalQuestion(res.data.data.details.length);
+            });
+
+        function onConnect() {
+            socket.emit('join-room',
+                {roomCode: roomCode, email: user.info.email},
+                (res) => {
+                    console.log('join-room', res);
+                    if (res.success !== false) {
+                        res.sort((a, b) => (b.corrects == a.corrects) ?
+                            (b.corrects + b.incorrects - a.corrects - a.incorrects)
+                            : (b.corrects - a.corrects));
+                        setPeopleList(res);
+                    }
+                })
+        }
+
+        socket.on('connect', onConnect);
+
+
+        return () => {
+            socket.off('connect', onConnect);
+            socket.disconnect()
+        }
+    }, [])
+
+    useEffect(() => {
+        function onRoomUpdate(arg) {
+            console.log('room-update:', arg);
+            console.log(arg.email,)
+            console.log("peopleList:", peopleList)
+            let personIndex = peopleList.findIndex((item, index) => {
+                console.log("index:", index, item.email)
+                return item.email == arg.email
+            });
+            console.log('personIndex:', personIndex)
+            peopleList[personIndex].corrects = arg.corrects;
+            peopleList[personIndex].incorrects = arg.incorrects;
+            peopleList.sort((a, b) => (b.corrects == a.corrects) ?
+                (b.corrects + b.incorrects - a.corrects - a.incorrects)
+                : (b.corrects - a.corrects));
+            setPeopleList([...peopleList]);
+
+        }
+
+        socket.on('room-update', onRoomUpdate);
+
+        return () => {
+            socket.off('room-update', onRoomUpdate);
+        }
+    }, [peopleList])
+
     return (
         <>
             <Helmet>
-                <title> Tag Management | Quiz </title>
+                <title> Group Test Statistic | Quiz </title>
             </Helmet>
             <Grid
                 container
                 direction="row"
-                justifyContent="center"
-                alignItems="center"
+                justifyContent="flex-start"
+                alignItems="flex-start"
                 sx={{
                     height: "100vh",
                     padding: "5% 10%",
@@ -104,6 +117,7 @@ export default function TestStatisticPage() {
                         'url("/assets/images/background-test-statistics.png")',
                     backgroundSize: "cover",
                 }}>
+
                 <Grid
                     item
                     xs={12}
@@ -114,14 +128,15 @@ export default function TestStatisticPage() {
                         borderRadius: "5px",
                     }}>
                     <Typography variant="titleInTheBackground">
-                        Test statistics
+                        Group Test statistics
                     </Typography>
                 </Grid>
+
                 <Grid item xs={12}>
-                    <Paper padding={2} sx={{ bgcolor: "transparent" }}>
+                    <Paper padding={2} sx={{bgcolor: "transparent"}}>
                         <TableContainer
                             component={Paper}
-                            sx={{ maxHeight: "70vh", bgcolor: "transparent" }}>
+                            sx={{maxHeight: "70vh", bgcolor: "transparent"}}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
@@ -142,8 +157,9 @@ export default function TestStatisticPage() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {attempts.map((row, index) => {
-                                        const { id, user, finish, score } = row;
+                                    {peopleList.map((row, index) => {
+                                        const {id, email, corrects, incorrects} = row;
+                                        let sumQuestions = corrects + incorrects;
 
                                         return (
                                             <TableRow
@@ -183,7 +199,7 @@ export default function TestStatisticPage() {
                                                         <Typography
                                                             variant="subtitle2"
                                                             noWrap>
-                                                            {user.email}
+                                                            {email}
                                                         </Typography>
                                                     </Stack>
                                                 </TableCell>
@@ -192,13 +208,45 @@ export default function TestStatisticPage() {
                                                     component="th"
                                                     scope="row"
                                                     padding="none">
-                                                    <ProgressBar
-                                                        bgColor="#4ED190                                                        "
-                                                        baseBgColor="#EA456E"
-                                                        height="16px"
-                                                        completed={score}
-                                                        borderRadius="5px"
-                                                    />
+
+                                                    <Box
+                                                        sx={{
+                                                            height: "2vh",
+                                                            width: "100%",
+                                                            mt: 3,
+                                                        }}>
+                                                        <Grid
+                                                            container
+                                                            spacing={1}
+                                                            sx={{height: "100%"}}>
+                                                            {[...Array(totalQuestion)].map(
+                                                                (item, index) => (
+
+                                                                    <Grid
+                                                                        xs={12 / totalQuestion}
+                                                                        sx={{pl: 0.2}}
+                                                                    >
+                                                                        <Box
+                                                                            sx={{
+                                                                                bgcolor: (theme) =>
+                                                                                    index < sumQuestions ?
+                                                                                        (index < corrects
+                                                                                            ? theme.palette.success.main
+                                                                                            : theme.palette.error.main)
+                                                                                        :
+                                                                                        theme.palette.grey[500],
+                                                                                height: "100%",
+                                                                                // borderRadius: 0.5,
+                                                                                borderRadius: '2.5px',
+                                                                            }}
+                                                                        />
+                                                                    </Grid>
+
+                                                                )
+                                                            )}
+                                                        </Grid>
+                                                    </Box>
+
                                                 </TableCell>
 
                                                 <TableCell
@@ -208,8 +256,7 @@ export default function TestStatisticPage() {
                                                             .primary
                                                             .contrastText,
                                                     }}>
-                                                    {/*{Date.now().toString()}*/}
-                                                    {finish}
+                                                    {corrects}/{sumQuestions}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -217,39 +264,7 @@ export default function TestStatisticPage() {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        <Popover
-                            open={Boolean(openMenu)}
-                            anchorEl={openMenu}
-                            onClose={handleCloseMenu}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
-                            }}
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            PaperProps={{
-                                sx: {
-                                    p: 1,
-                                    width: 140,
-                                    "& .MuiMenuItem-root": {
-                                        px: 1,
-                                        typography: "body2",
-                                        borderRadius: 0.75,
-                                    },
-                                },
-                            }}>
-                            <MenuItem
-                                sx={{ color: "error.main" }}
-                                onClick={(e) => {
-                                    handleCloseMenu();
-                                    handleClickOpenConfirm();
-                                }}>
-                                <DeleteOutlineIcon fontSize="small" />
-                                Delete
-                            </MenuItem>
-                        </Popover>
+
                     </Paper>
                 </Grid>
             </Grid>
