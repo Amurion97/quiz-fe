@@ -6,6 +6,7 @@ import {Link, Container, Typography} from '@mui/material';
 // components
 import Logo from '../../components/logo';
 import LoginForm from '../../components/Forms/Authentication/LoginForm';
+import {Alert} from "@mui/lab";
 
 // ----------------------------------------------------------------------
 
@@ -72,6 +73,10 @@ export default function LoginPage() {
                             Bạn không có tài khoản? {''}
                             <Link href="/register">Tạo tài khoản mới...</Link>
                         </Typography>
+
+                        <Alert variant="filled" severity="success">
+                            This is a success alert — check it out!
+                        </Alert>
 
                         <LoginForm/>
                     </StyledContent>
