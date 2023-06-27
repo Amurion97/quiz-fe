@@ -74,10 +74,6 @@ export default function LoginPage() {
                             <Link href="/register">Tạo tài khoản mới...</Link>
                         </Typography>
 
-                        <Alert variant="filled" severity="success">
-                            This is a success alert — check it out!
-                        </Alert>
-
                         <LoginForm/>
                     </StyledContent>
                 </Container>
