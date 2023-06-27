@@ -1,4 +1,4 @@
-import {Button, Grid, Paper, Stack} from "@mui/material";
+import {Button, Grid, Paper, Stack, Typography} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
 import 'simplebar-react/dist/simplebar.min.css';
 import {useEffect, useState} from "react";
@@ -11,6 +11,7 @@ import {QuestionInAction} from "../../../components/Question/InTestTaking/Questi
 import {socket} from "../../../app/socket";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../../features/user/userSlice";
+import {renderer} from "../TestTakingPage";
 
 export default function GroupTestTakingPage() {
     const user = useSelector(selectUser)
@@ -102,31 +103,6 @@ export default function GroupTestTakingPage() {
         // }
     }
 
-    let count = 0;
-    const renderer = (x, submitForm, isSubmitting) => {
-
-        if (x.completed) {
-            count++;
-            console.log("time out:", count);
-
-            // Render a completed state
-            setIsTimedOut(true);
-            if (!isSubmitting && isTimedOut && count === 2) {
-                setTimeout(() => {
-                    if (!isSubmitting && isTimedOut && count === 2) {
-                        window.alert("Time out!");
-                        submitForm();
-                    }
-                }, 1000)
-
-            }
-
-        } else {
-            // Render a countdown
-            return <span>{x.hours}:{x.minutes}:{x.seconds}</span>;
-        }
-    };
-
     useEffect(() => {
         function onRoomUpdate(arg) {
             console.log('room-update:', arg)
@@ -183,13 +159,17 @@ export default function GroupTestTakingPage() {
                             }}
                         >
                             <Grid item xs={12}>
-                                <Stack direction='row'>
-                                    <Paper>
+                                <Stack direction='row'
+                                       justifyContent='center'>
+                                    <Paper sx={{
+                                        px: 3,
+                                        width: '10%',
+                                        textAlign: 'center'
+                                    }}>
                                         {test ? <Countdown
                                             date={startTime + (1000 * 60 * test.time)}
-                                            renderer={(x) => {
-                                                return renderer(x, submitForm, isSubmitting)
-                                            }}
+                                            renderer={renderer}
+                                            onComplete={submitForm}
                                         /> : ""}
                                     </Paper>
 
@@ -205,7 +185,7 @@ export default function GroupTestTakingPage() {
                                     handleAnswerClick={handleAnswerClick}
                                     handleNextQuestion={handleNextQuestion}
                                     submitForm={submitForm}
-                                    totalQuestion={test? test.details.length : 100}
+                                    totalQuestion={test ? test.details.length : 100}
                                     currentQuestionIndex={currentQuestionIndex}
                                 />
 
@@ -214,11 +194,13 @@ export default function GroupTestTakingPage() {
 
                         </Grid>
 
-                        {/*{JSON.stringify(values)}*/}
+                        {/*{JSON.stringify(values)}*/
+                        }
                     </Form>
                 )}
             </Formik>
 
         </>
-    );
+    )
+        ;
 }
