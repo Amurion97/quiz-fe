@@ -37,7 +37,7 @@ import Menu from '@mui/material/Menu';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 const columns = [
     {id: 'id', label: 'ID', minWidth: 50, align: "center"},
     {id: 'image', label: 'Image', minWidth: 100, align: "left"},
@@ -60,6 +60,12 @@ export default function TestPage() {
     const [contentQuery, setContentQuery] = useState('');
     const [page, setPage] = useState(1);
     const [resultNumber, setResultNumber] = useState(0);
+    const [sortText, setSortText] = useState('')
+
+    const [orderQuery, setOrderQuery] = useState({
+        sortKey: '',
+        order: ''
+    })
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -119,6 +125,8 @@ export default function TestPage() {
                 // difficultiesIDs: difficultiesIDs,
                 // page: page,
                 // rows: rowsPerPage,
+                sortKey: orderQuery.sortKey,
+                order: orderQuery.order
             }
         })
             .then(res => {
@@ -131,7 +139,7 @@ export default function TestPage() {
     useEffect(() => {
         console.log("test page did mount");
         updateTests();
-    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs, contentQuery, page])
+    }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs, contentQuery, page, orderQuery])
 
     const handleInputChange = (event) => {
         setContentQuery(event.target.value);
@@ -190,7 +198,7 @@ export default function TestPage() {
     return (
         <>
             <Helmet>
-                <title> Test Management | Quiz </title>
+                <title> Quản lý bài thi | Quiz </title>
             </Helmet>
 
             <Grid container spacing={0}>
@@ -209,7 +217,7 @@ export default function TestPage() {
                         mb={3}
                     >
                         <Typography variant="h4" gutterBottom>
-                            Test Management
+                            Quản lý bài thi
                         </Typography>
 
 
@@ -259,24 +267,27 @@ export default function TestPage() {
                     }}
                 >
                     <Stack>
-                        <Stack direction={'row'}>
+                        <Stack direction={'row'}
+                               justifyContent="flex-end">
                             <Button
                                 id="demo-positioned-button"
                                 aria-controls={openSort ? 'demo-positioned-menu' : undefined}
                                 aria-haspopup="true"
                                 aria-expanded={openSort ? 'true' : undefined}
                                 onClick={handleClickSort}
+                                // startIcon={<UnfoldMoreIcon/>}
+                                endIcon={openSort ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
                             >
-                                Sắp xếp theo:
+                                Sắp xếp theo: {sortText}
                             </Button>
-                            <IconButton onClick={handleClickSort}>
-                                {openSort ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
-                            </IconButton>
+                            {/*<IconButton onClick={handleClickSort}>*/}
+                            {/*    {openSort ? <ExpandLessIcon/> : <ExpandMoreIcon/>}*/}
+                            {/*</IconButton>*/}
                         </Stack>
 
 
                         {testList.map((row, index) => {
-                            const {id, name, image, difficulty, tags} = row;
+                            const {id, name, image, difficulty, tags, time} = row;
                             return (
                                 <Paper key={id} sx={{mb: 2}}>
                                     <Grid container spacing={1}
@@ -321,14 +332,16 @@ export default function TestPage() {
                                                 </Typography>
 
                                                 <Typography
+                                                >
+                                                    Độ khó: {difficulty.name}
+                                                </Typography>
+
+                                                <Typography
                                                     sx={{
-                                                        // display: "flex",
-                                                        // alignItems: "center",
-                                                        // pl: 4,
                                                         pb: 1,
                                                     }}
                                                 >
-                                                    Độ khó: {difficulty.name}
+                                                    Thời gian: {time} (phút)
                                                 </Typography>
 
                                             </Stack>
@@ -361,7 +374,7 @@ export default function TestPage() {
 
                                         <Grid item xs={1}
                                               sx={{
-                                                  pt: 1, pr: 1,
+                                                  mt: 1, pr: 0,
                                                   textAlign: 'right',
                                               }}>
                                             <IconButton
@@ -401,9 +414,47 @@ export default function TestPage() {
                     horizontal: 'right',
                 }}
             >
-                <MenuItem onClick={handleCloseSort}>Profile</MenuItem>
-                <MenuItem onClick={handleCloseSort}>My account</MenuItem>
-                <MenuItem onClick={handleCloseSort}>Logout</MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        setOrderQuery({
+                            sortKey: 'time',
+                            order: 'ASC'
+                        })
+                        setSortText('Thời gian làm bài thi tăng dần')
+                        handleCloseSort()
+                    }}
+                >
+                    Thời gian làm bài thi tăng dần</MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        setOrderQuery({
+                            sortKey: 'time',
+                            order: 'DESC'
+                        })
+                        setSortText('Thời gian làm bài thi giảm dần')
+                        handleCloseSort()
+                    }}
+                >Thời gian làm bài thi giảm dần</MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        setOrderQuery({
+                            sortKey: 'difficulty',
+                            order: 'ASC'
+                        })
+                        setSortText('Độ khó tăng dần')
+                        handleCloseSort()
+                    }}
+                >Độ khó tăng dần</MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        setOrderQuery({
+                            sortKey: 'difficulty',
+                            order: 'DESC'
+                        })
+                        setSortText('Độ khó giảm dần')
+                        handleCloseSort()
+                    }}
+                >Độ khó giảm dần</MenuItem>
             </Menu>
 
             <Popover
