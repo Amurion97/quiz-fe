@@ -98,8 +98,13 @@ export function TeacherStartOnlineTest() {
             console.log('start-test', res);
             setOpenSuccess(true);
             setTimeout(() => {
-                navigate(`/dashboard/test-statistic?code=${roomCode}&test=${testId}`);
-            }, 2000)
+                navigate(`/dashboard/test-statistic?code=${roomCode}&test=${testId}`,
+                    {
+                        state: {
+                            peopleList: peopleList
+                        }
+                    });
+            }, 500)
         })
     }
 
@@ -333,7 +338,7 @@ export function TeacherStartOnlineTest() {
 
             </Grid>
 
-            <Snackbar open={openSuccess} autoHideDuration={3000} onClose={handleClose}>
+            <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
                     Đang bắt đầu cuộc thi...
                 </Alert>

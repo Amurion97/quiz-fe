@@ -18,6 +18,7 @@ import {customAPIv1} from "../../../features/customAPI";
 import {socket} from "../../../app/socket";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../../features/user/userSlice";
+import {useLocation} from "react-router-dom";
 
 const columns = [
     {id: "rank", label: "Rank", minWidth: 50, align: "center"},
@@ -36,7 +37,10 @@ export default function TestStatisticPage() {
     const testId = searchParams.get("test");
     console.log("roomCode:", roomCode);
 
-    const [peopleList, setPeopleList] = useState([])
+    const location = useLocation()
+    const {state} = location
+
+    const [peopleList, setPeopleList] = useState(state.peopleList)
     console.log("peopleList:", peopleList);
 
     const [totalQuestion, setTotalQuestion] = useState(0);
@@ -55,12 +59,12 @@ export default function TestStatisticPage() {
                 {roomCode: roomCode, email: user.info.email},
                 (res) => {
                     console.log('join-room', res);
-                    if (res.success !== false) {
-                        res.sort((a, b) => (b.corrects == a.corrects) ?
-                            (b.corrects + b.incorrects - a.corrects - a.incorrects)
-                            : (b.corrects - a.corrects));
-                        setPeopleList(res);
-                    }
+                    // if (res.success !== false) {
+                    //     res.sort((a, b) => (b.corrects == a.corrects) ?
+                    //         (b.corrects + b.incorrects - a.corrects - a.incorrects)
+                    //         : (b.corrects - a.corrects));
+                    //     setPeopleList(res);
+                    // }
                 })
         }
 

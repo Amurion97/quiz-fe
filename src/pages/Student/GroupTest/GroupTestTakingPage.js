@@ -150,7 +150,7 @@ export default function GroupTestTakingPage() {
                     if (!props.isSubmitting) {
                         customAPIv1().post('/attempts', values)
                             .then(res => {
-                                window.alert('Success');
+                                // window.alert('Success');
                                 navigate("/students/result", {
                                     state: {
                                         test: test,
