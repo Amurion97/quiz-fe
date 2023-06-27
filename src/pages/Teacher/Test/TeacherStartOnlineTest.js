@@ -7,7 +7,7 @@ import {
     Paper,
     Typography,
     FormControl,
-    Box,
+    Box, Card,
 } from "@mui/material";
 // import { Box, Stack } from "@mui/system";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -24,6 +24,7 @@ import {useNavigate} from "react-router-dom";
 import {Helmet} from "react-helmet-async";
 import Snackbar from "@mui/material/Snackbar";
 import {Alert} from "@mui/lab";
+import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
 
 
 export function TeacherStartOnlineTest() {
@@ -98,7 +99,7 @@ export function TeacherStartOnlineTest() {
             setOpenSuccess(true);
             setTimeout(() => {
                 navigate(`/dashboard/test-statistic?code=${roomCode}&test=${testId}`);
-            },2000)
+            }, 2000)
         })
     }
 
@@ -299,6 +300,30 @@ export function TeacherStartOnlineTest() {
                             START
                         </Typography>
                     </Button>
+                </Grid>
+                <Grid
+                    item xs={12}
+                    container
+                    justifyContent="flex-end"
+                    sx={{
+                        px:10
+                    }}
+                >
+                    <Card sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                        px: 3
+                    }}>
+                        <Box sx={{
+                            display: "flex", alignItems: "center",
+                            py: 1
+                        }}>
+                            <GroupsTwoToneIcon fontSize='large'/>
+                            <Typography variant='h4' sx={{ml: "4px"}}>{peopleList.length}</Typography>
+                        </Box>
+                    </Card>
                 </Grid>
                 <Grid
                     item xs={12}
