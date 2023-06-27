@@ -176,7 +176,7 @@ export default function GroupWaitingRoom() {
                                 py: 1
                             }}>
                                 <GroupsTwoToneIcon fontSize='large'/>
-                                <Typography variant='h4' sx={{ml: "4px"}}>2</Typography>
+                                <Typography variant='h4' sx={{ml: "4px"}}>{peopleList.length}</Typography>
                             </Box>
                         </Card>
                     </Grid>
