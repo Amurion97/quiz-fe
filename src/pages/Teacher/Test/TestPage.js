@@ -9,11 +9,7 @@ import {
     Stack,
     Typography,
     Collapse,
-    Card,
-    Box,
-    CardContent,
-    CardMedia,
-    CardActions, Paper,
+    Paper,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -37,7 +33,10 @@ import DraftsIcon from "@mui/icons-material/Drafts";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import CreateAnOnlContest from "../../../components/Forms/CreateAnOnlContest";
+import Menu from '@mui/material/Menu';
 
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 const columns = [
     {id: 'id', label: 'ID', minWidth: 50, align: "center"},
@@ -178,6 +177,16 @@ export default function TestPage() {
         setOpenDialog(false);
     };
 
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openSort = Boolean(anchorEl);
+    const handleClickSort = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseSort = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <>
             <Helmet>
@@ -249,115 +258,153 @@ export default function TestPage() {
                         px: 3,
                     }}
                 >
+                    <Stack>
+                        <Stack direction={'row'}>
+                            <Button
+                                id="demo-positioned-button"
+                                aria-controls={openSort ? 'demo-positioned-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={openSort ? 'true' : undefined}
+                                onClick={handleClickSort}
+                            >
+                                Sắp xếp theo:
+                            </Button>
+                            <IconButton onClick={handleClickSort}>
+                                {openSort ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
+                            </IconButton>
+                        </Stack>
 
-                    {testList.map((row, index) => {
-                        const {id, name, image, difficulty, tags} = row;
-                        return (
-                            <Paper key={id} sx={{mb: 2}}>
-                                <Grid container spacing={1}
-                                      sx={{
-                                          width: '100%'
-                                      }}>
 
-                                    <Grid item xs={2} sx={{
+                        {testList.map((row, index) => {
+                            const {id, name, image, difficulty, tags} = row;
+                            return (
+                                <Paper key={id} sx={{mb: 2}}>
+                                    <Grid container spacing={1}
+                                          sx={{
+                                              width: '100%'
+                                          }}>
 
-                                        p: 1,
-                                    }}>
-                                        <img src={image}
-                                             style={{
-                                                 width: 200,
-                                                 height: 200,
-                                                 objectFit: 'cover',
-                                                 padding: '10px',
-                                             }
-                                             }/>
-                                    </Grid>
+                                        <Grid item xs={2} sx={{
 
-                                    <Grid
-                                        item
-                                        xs={6}
-                                    >
-                                        <Stack direction={'column'} spacing={1}>
+                                            p: 1,
+                                        }}>
+                                            <img src={image}
+                                                 style={{
+                                                     width: 200,
+                                                     height: 200,
+                                                     objectFit: 'cover',
+                                                     padding: '10px',
+                                                 }
+                                                 }/>
+                                        </Grid>
 
-                                            <Typography  variant="h5" sx={{pt: 3}}>
-                                                Tên bài thi: {name}
-                                            </Typography>
+                                        <Grid
+                                            item
+                                            xs={6}
+                                        >
+                                            <Stack direction={'column'} spacing={1}>
 
-                                            <Typography  variant="body" >
-                                                {row.details.length} câu hỏi
-                                            </Typography>
+                                                <Typography variant="h5" sx={{pt: 3}}>
+                                                    Tên bài thi: {name}
+                                                </Typography>
 
-                                            <Typography>
-                                                Tags:
-                                                {' '}
-                                                {tags.map(
-                                                    (item, index) => (index < tags.length - 1) ? item.name + ", " : item.name
-                                                )}
-                                            </Typography>
+                                                <Typography variant="body">
+                                                    {row.details.length} câu hỏi
+                                                </Typography>
 
-                                            <Typography
+                                                <Typography>
+                                                    Tags:
+                                                    {' '}
+                                                    {tags.map(
+                                                        (item, index) => (index < tags.length - 1) ? item.name + ", " : item.name
+                                                    )}
+                                                </Typography>
+
+                                                <Typography
+                                                    sx={{
+                                                        // display: "flex",
+                                                        // alignItems: "center",
+                                                        // pl: 4,
+                                                        pb: 1,
+                                                    }}
+                                                >
+                                                    Độ khó: {difficulty.name}
+                                                </Typography>
+
+                                            </Stack>
+                                        </Grid>
+
+                                        <Grid item xs={3}
+                                              sx={{
+                                                  pt: 15,
+                                                  textAlign: 'right',
+                                                  display: 'grid',
+                                              }}>
+
+                                            <Button
                                                 sx={{
-                                                    // display: "flex",
-                                                    // alignItems: "center",
-                                                    // pl: 4,
-                                                    pb: 1,
+                                                    alignSelf: 'center'
+                                                }
+                                                }
+                                                variant="contained"
+                                                onClick={() => {
+                                                    navigate(`/dashboard/sum-statistic`, {
+                                                        state: {
+                                                            id: id,
+                                                        },
+                                                    });
                                                 }}
                                             >
-                                                Độ khó: {difficulty.name}
-                                            </Typography>
+                                                Thống kê làm bài
+                                            </Button>
+                                        </Grid>
 
-                                        </Stack>
+                                        <Grid item xs={1}
+                                              sx={{
+                                                  pt: 1, pr: 1,
+                                                  textAlign: 'right',
+                                              }}>
+                                            <IconButton
+                                                size="large"
+                                                color="inherit"
+                                                onClick={(e) => {
+                                                    setCurrentTestId(id);
+                                                    handleOpenMenu(e);
+                                                }}
+                                            >
+                                                <MoreVertIcon fontSize="small"/>
+                                            </IconButton>
+                                        </Grid>
+
                                     </Grid>
+                                </Paper>
+                            );
+                        })}
 
-                                    <Grid item xs={3}
-                                          sx={{
-                                              pt: 15,
-                                              textAlign: 'right',
-                                              display: 'grid',
-                                          }}>
-
-                                        <Button
-                                            sx={{
-                                        alignSelf: 'center'}
-                                            }
-                                            variant="contained"
-                                            onClick={() => {
-                                                navigate(`/dashboard/sum-statistic`, {
-                                                    state: {
-                                                        id: id,
-                                                    },
-                                                });
-                                            }}
-                                        >
-                                            Thống kê làm bài
-                                        </Button>
-                                    </Grid>
-
-                                    <Grid item xs={1}
-                                          sx={{
-                                              pt: 1, pr: 1,
-                                              textAlign: 'right',
-                                          }}>
-                                        <IconButton
-                                            size="large"
-                                            color="inherit"
-                                            onClick={(e) => {
-                                                setCurrentTestId(id);
-                                                handleOpenMenu(e);
-                                            }}
-                                        >
-                                            <MoreVertIcon fontSize="small"/>
-                                        </IconButton>
-                                    </Grid>
-
-                                </Grid>
-                            </Paper>
-                        );
-                    })}
-
+                    </Stack>
                 </Grid>
             </Grid>
 
+
+            <Menu
+                id="demo-positioned-menu"
+                aria-labelledby="demo-positioned-button"
+                anchorEl={anchorEl}
+                open={openSort}
+                onClose={handleCloseSort}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+            >
+                <MenuItem onClick={handleCloseSort}>Profile</MenuItem>
+                <MenuItem onClick={handleCloseSort}>My account</MenuItem>
+                <MenuItem onClick={handleCloseSort}>Logout</MenuItem>
+            </Menu>
 
             <Popover
                 open={Boolean(openMenu)}
