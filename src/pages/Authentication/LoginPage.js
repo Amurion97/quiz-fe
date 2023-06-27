@@ -69,8 +69,8 @@ export default function LoginPage() {
                         </Typography>
 
                         <Typography variant="body2" sx={{mb: 5}}>
-                            Bạn không có mật khẩu? {''}
-                            <Link href="/register">Tạo một cái nào...</Link>
+                            Bạn không có tài khoản? {''}
+                            <Link href="/register">Tạo tài khoản mới...</Link>
                         </Typography>
 
                         <LoginForm/>
