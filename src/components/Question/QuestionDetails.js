@@ -1,4 +1,9 @@
+//React
 import * as React from 'react';
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+
+//Mui
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
@@ -14,23 +19,30 @@ import {
     MenuItem,
     Popover
 } from "@mui/material";
-import ClearIcon from '@mui/icons-material/Clear';
-import CheckIcon from '@mui/icons-material/Check';
-import Stack from '@mui/material/Stack';
-import {useEffect, useState} from "react";
-import {customAPIv1} from "../../features/customAPI";
-import UpgradeRoundedIcon from "@mui/icons-material/UpgradeRounded";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {useNavigate} from "react-router-dom";
 import {Alert} from "@mui/lab";
+
+//Mui-icon
+import ClearIcon from '@mui/icons-material/Clear';
+import CheckIcon from '@mui/icons-material/Check';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
+
+//Components
+import {customAPIv1} from "../../features/customAPI";
+
+
+
+
+
+
+
 
 export default function QuestionDetails({currentQuestionId, setCurrentQuestionId, updateQuestions}) {
     console.log("question details rendering:", currentQuestionId)

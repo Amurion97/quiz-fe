@@ -1,3 +1,4 @@
+//Mui
 import {
     Card,
     CardContent,
@@ -8,26 +9,32 @@ import {
     FormControl, Box
 } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
-import AlarmIcon from "@mui/icons-material/Alarm";
-import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import React, {useEffect, useState} from "react";
-
-import {customAPIv1} from "../../../features/customAPI";
-import UploadImg from "../../../functions/UploandImg";
 import MenuItem from "@mui/material/MenuItem";
-import {Field, Form, Formik} from "formik";
 import MuiTextField from "@mui/material/TextField";
-import {LoadingButton} from "@mui/lab";
-import {
-    TextField, Select, Autocomplete,
-} from 'formik-mui';
+import { LoadingButton } from "@mui/lab";
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import * as Yup from 'yup';
-import {useNavigate} from "react-router-dom";
+//Mui Icon Button
+import AlarmIcon from "@mui/icons-material/Alarm";
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+//React
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+//Component
+import { customAPIv1 } from "../../../features/customAPI";
 import QuestionSelection from "../../../components/Forms/Question/QuestionSelection";
+import UploadImg from "../../../functions/UploandImg";
+//Formik
+import { Field, Form, Formik } from "formik";
+//Fromik-mui
+import {
+    TextField, Select, Autocomplete,
+} from 'formik-mui';
+//Yup
+import * as Yup from 'yup';
+
 
 const SchemaError = Yup.object().shape({
     name: Yup.string()
@@ -116,7 +123,7 @@ export default function TestCreatePage() {
                     const errors = {};
                     return errors;
                 }}
-                onSubmit={(values, {setSubmitting}) => {
+                onSubmit={(values, { setSubmitting }) => {
                     values.questions = questionList.map(item => item.id)
                     console.log("trying to submit:", values);
                     customAPIv1()
@@ -137,22 +144,22 @@ export default function TestCreatePage() {
                 }}
             >
                 {({
-                      values,
-                      submitForm,
-                      resetForm,
-                      isSubmitting,
-                      touched,
-                      errors,
-                      setFieldValue
-                  }) => (
+                    values,
+                    submitForm,
+                    resetForm,
+                    isSubmitting,
+                    touched,
+                    errors,
+                    setFieldValue
+                }) => (
                     <Form>
                         {console.log('values', values)}
-                        <Grid container sx={{p: 6, px: 2}}>
+                        <Grid container sx={{ p: 6, px: 2 }}>
                             <Grid item xs={2} md={2} lg={2}>
                                 <Card>
-                                    <UploadImg setFieldValue={setFieldValue} sx={{height: 300}}/>
+                                    <UploadImg setFieldValue={setFieldValue} sx={{ height: 300 }} />
                                     <CardContent>
-                                        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                             <Field
                                                 label="Tên bài thi"
                                                 placeholder="Test Name"
@@ -171,8 +178,8 @@ export default function TestCreatePage() {
                                                 }}
                                             />
 
-                                            <Box sx={{display: 'flex', alignItems: 'center', width: '100%'}}>
-                                                <Box sx={{flex: 1}}>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                                                <Box sx={{ flex: 1 }}>
                                                     <Field
                                                         label="Thời gian"
                                                         placeholder="(phút)"
@@ -186,15 +193,15 @@ export default function TestCreatePage() {
                                                         }}
                                                     />
                                                 </Box>
-                                                <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <CardActions disableSpacing>
-                                                        <AlarmIcon sx={{fontSize: 48, color: 'blue'}}/>
+                                                        <AlarmIcon sx={{ fontSize: 48, color: 'blue' }} />
                                                     </CardActions>
                                                 </Box>
                                             </Box>
 
-                                            <Box sx={{width: '100%'}}>
-                                                <FormControl fullWidth sx={{mt: 2}}>
+                                            <Box sx={{ width: '100%' }}>
+                                                <FormControl fullWidth sx={{ mt: 2 }}>
                                                     <Field
                                                         component={Select}
                                                         id="difficulty"
@@ -211,7 +218,7 @@ export default function TestCreatePage() {
                                                 </FormControl>
                                             </Box>
 
-                                            <Box sx={{width: '100%', mt: 2}}>
+                                            <Box sx={{ width: '100%', mt: 2 }}>
                                                 <Field
                                                     name="tags"
                                                     multiple
@@ -234,7 +241,7 @@ export default function TestCreatePage() {
                                         </Box>
                                     </CardContent>
 
-                                    <Box sx={{display: 'flex', justifyContent: 'center', mt: 3}}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                                         <LoadingButton
                                             fullWidth
                                             size="large"
@@ -248,39 +255,39 @@ export default function TestCreatePage() {
                                 </Card>
                             </Grid>
 
-                            <Grid item xs={4} sx={{pl: "20px"}}>
-                                <Paper sx={{p: "20px"}}>
-                                    <Typography gutterBottom variant="h6" component="div" sx={{display: 'flex',}}>
-                                        <FormatListBulletedIcon sx={{mr: "10px"}}/> Câu hỏi
+                            <Grid item xs={4} sx={{ pl: "20px" }}>
+                                <Paper sx={{ p: "20px" }}>
+                                    <Typography gutterBottom variant="h6" component="div" sx={{ display: 'flex', }}>
+                                        <FormatListBulletedIcon sx={{ mr: "10px" }} /> Câu hỏi
                                     </Typography>
                                     {questionList.map((item, index) => (
-                                        <Paper elevation={3} sx={{p: "10px", mb: "20px"}}>
-                                            <Grid container sx={{pl: "20px", display: 'flex', alignItems: 'center'}}>
-                                                <Grid item xs={10} sx={{justifyContent: 'flex-start'}}>
+                                        <Paper elevation={3} sx={{ p: "10px", mb: "20px" }}>
+                                            <Grid container sx={{ pl: "20px", display: 'flex', alignItems: 'center' }}>
+                                                <Grid item xs={10} sx={{ justifyContent: 'flex-start' }}>
                                                     <Typography gutterBottom variant="inherit" component="div">
                                                         Câu hỏi {index + 1}
                                                     </Typography>
                                                 </Grid>
-                                                <Grid item xs={1} sx={{justifyContent: 'flex-end', ml: "20px",}}>
+                                                <Grid item xs={1} sx={{ justifyContent: 'flex-end', ml: "20px", }}>
                                                     <IconButton aria-label="delete">
-                                                        <DeleteForeverTwoToneIcon sx={{color: '#E33F5E'}}
-                                                                                  onClick={() => {
-                                                                                      deleteQuestion(index)
-                                                                                  }}/>
+                                                        <DeleteForeverTwoToneIcon sx={{ color: '#f50057' }}
+                                                            onClick={() => {
+                                                                deleteQuestion(index)
+                                                            }} />
                                                     </IconButton>
                                                 </Grid>
                                             </Grid>
                                             <Card elevation={3}>
                                                 <CardContent>
-                                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                         Độ khó: {item.difficulty.name}
                                                     </Typography>
-                                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                         Loại câu hỏi: {item.type.name}
                                                     </Typography>
-                                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                         Liên quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
-                                                        "",)}
+                                                            "",)}
                                                     </Typography>
                                                     <Typography variant="h6" component="div">
                                                         Đề bài: {item.content}
@@ -299,15 +306,15 @@ export default function TestCreatePage() {
                             </Grid>
                         </Grid>
 
-                        <Stack spacing={2} sx={{width: '100%'}}>
+                        <Stack spacing={2} sx={{ width: '100%' }}>
                             <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
-                                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                                     Tạo đề thi thành công!
                                 </Alert>
                             </Snackbar>
 
                             <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
-                                <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
+                                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
                                     Lỗi khi tạo đề thi !
                                 </Alert>
                             </Snackbar>
