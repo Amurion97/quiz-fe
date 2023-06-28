@@ -65,27 +65,27 @@ export default function Icons(props) {
 
     return (
         <>
-            <Grid container spacing={4}>
+            <Grid container >
                 <Grid item xs={4} >
                     <Paper sx={{ width: 80, height: 80 }}>
                         <CircularProgressbarWithChildren
-                            value={props.accurac}
+                            value={props.accurac?props.accurac:0}
                             styles={buildStyles({
                                 backgroundColor: theme.palette.grey[300],
                                 pathColor: theme.palette.success.main,
-                                trailColor: theme.palette.error.main
+                                trailColor:props.accurac? theme.palette.error.main:""
                             })}
                             background={true}
                             strokeWidth={10}
                         >
                             <CrisisAlertIcon sx={{ width: 30, height: 30 }} />
-                            <Typography >{props.accurac.toFixed(1)}%</Typography>
+                            <Typography >{props.accurac?props.accurac.toFixed(1):0}%</Typography>
                             <RadialSeparators
-                                count={10}
+                                count={props.accurac?10:0}
                                 style={{
-                                    background: "#fff",
-                                    width: "2px",
-                                    height: `${10}%`
+                                    background: props.accurac?"#fff":"",
+                                    width:props.accurac? "2px":'',
+                                    height:props.accurac? `${10}%`:""
                                 }}
                             />
                         </CircularProgressbarWithChildren>
