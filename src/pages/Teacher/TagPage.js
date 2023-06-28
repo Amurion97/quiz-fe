@@ -23,9 +23,9 @@ import CloseIcon from "@mui/icons-material/Close";
 
 
 const columns = [
-    {id: 'id', label: 'ID', minWidth: 50, align: "center"},
-    {id: 'name', label: 'Tên chủ để', minWidth: 150},
-    {id: '', label: 'Hành động', minWidth: 100},
+    {id: 'id', label: 'ID', minWidth:70, align: "center"},//50 70
+    {id: 'name', label: 'Tên chủ để', minWidth:150},//150 300
+    {id: '', label: 'Hành động', minWidth:100},//100 10
 ];
 
 
@@ -99,7 +99,7 @@ export default function TagPage() {
                     </Stack>
                 </Grid>
                 <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} lg={6}>
                         <Paper padding={2}>
                             <TableContainer
                                 component={Paper}
@@ -196,7 +196,7 @@ export default function TagPage() {
                         </DialogActions>
                     </Dialog>
 
-                    <Grid item xs={5}>
+                    <Grid item xs={12} lg={5}>
                         <Paper>
                             <DialogTitle sx={{
                                 // bgcolor: 'primary.dark'
