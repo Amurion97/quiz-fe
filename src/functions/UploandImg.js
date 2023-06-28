@@ -3,9 +3,18 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { v4 } from "uuid";
 import { storage } from "../pages/Teacher/firebase";
-import CloudUploadTwoToneIcon from "@mui/icons-material/CloudUploadTwoTone";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import {useTheme} from '@mui/material/styles';
+
+import {
+    Box,
+    Button, Typography
+} from "@mui/material";
+
 
 export default function UploadImg({ setFieldValue }) {
+    const theme = useTheme()
+
     const [imageUrls, setImageUrls] = useState();
 
     const handleFileChange = (event) => {
@@ -21,44 +30,64 @@ export default function UploadImg({ setFieldValue }) {
         }
     };
 
+
+
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleFileSelect = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
+    const handleUpload = () => {
+        // Handle file upload logic here
+        // You can use the selectedFile state to access the uploaded file
+        console.log(selectedFile);
+    };
+
     return (
         <>
             {imageUrls && <img src={imageUrls} alt="Avatar" />}
-            {/*<input*/}
-            {/*    type="file"*/}
-            {/*    onChange={handleFileChange}*/}
-            {/*/>*/}
-            <div>
-                <label htmlFor="file-upload" className="custom-file-upload">
-                    <div className="flex-container">
-                        <CloudUploadTwoToneIcon className="icon" />
-                        <span className="text">Custom Upload</span>
-                    </div>
-                </label>
+            <Box>
                 <input
-                    id="file-upload"
+                    accept="image/*"
+                    id="image-upload"
+                    multiple={false}
                     type="file"
+                    style={{ display: 'none' }}
                     onChange={handleFileChange}
                 />
-            </div>
-            <style>
-                {`
-        input[type="file"] {
-          display: none;
-        }
-        .custom-file-upload {
-          border: 1px solid #ccc;
-          display: inline-block;
-          padding: 6px 12px;
-          cursor: pointer;
-        }
-        .flex-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-      `}
-            </style>
+                <label htmlFor="image-upload">
+                    <Button 
+                        variant="contained"
+                        component="span"
+                        startIcon={<CloudUploadIcon />}
+                        sx={{
+                            display: 'flex', flexDirection: 'column', alignItems: 'center',
+                            bgcolor: theme.palette.primary.main,
+                            color: 'white',
+                            '&:hover': {
+                                bgcolor: theme.palette.info.darker,
+                            },
+                        }}
+                    >
+                        <Typography variant="button">Upload Image</Typography>
+                    </Button>
+                </label>
+                {selectedFile && (
+                    <Box mt={2}>
+                        <strong>Selected File:</strong> {selectedFile.name}
+                    </Box>
+                )}
+                {selectedFile && (
+                    <Box mt={2}>
+                        <Button variant="contained" onClick={handleUpload}>
+                            Upload
+                        </Button>
+                    </Box>
+                )}
+            </Box>
+
+
         </>
     );
 }
