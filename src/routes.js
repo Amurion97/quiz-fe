@@ -33,7 +33,6 @@ import GroupWaitingRoom from "./pages/Student/GroupTest/GroupWaitingRoom";
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
-import Socket from "./pages/Socket/Socket";
 
 
 // ----------------------------------------------------------------------
@@ -108,11 +107,6 @@ export default function Router() {
             // element: <Navigate to="/login"/>,
             element: (user.info ? (user.info.role <= 2 ? <Navigate to="/dashboard"/> :
                 <Navigate to="/students"/>) : <Navigate to="/login"/>),
-        },
-
-        {
-            path: "/socket",
-            element: <Socket/>,
         },
 
         {
