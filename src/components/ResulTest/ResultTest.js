@@ -9,29 +9,29 @@ import {
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import {useTheme} from "@mui/material/styles";
-import {useLocation} from "react-router-dom";
-import {customAPIv1} from "../../features/customAPI";
-import {useState} from "react";
-import {useEffect} from "react";
+import { useTheme } from "@mui/material/styles";
+import { useLocation } from "react-router-dom";
+import { customAPIv1 } from "../../features/customAPI";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const columns = [
-    {id: "email", label: "Email", minWidth: 100},
-    {id: "", label: "", minWidth: 300},
-    {id: "accuracy", label: "Accuracy", minWidth: 150},
-    {id: "point", label: "Point", minWidth: 150},
-    {id: "finish", label: "Date Taken", minWidth: 150, align: 'center'},
+    { id: "email", label: "Email", minWidth: 100 },
+    { id: "", label: "", minWidth: 300 },
+    { id: "accuracy", label: "Accuracy", minWidth: 150 },
+    { id: "point", label: "Point", minWidth: 150 },
+    { id: "finish", label: "Date Taken", minWidth: 150, align: 'center' },
 ];
 
-export default function ResulTest() {
+export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
     const theme = useTheme();
 
     const location = useLocation();
     console.log("location in Icon of Result-Static:", location);
-    const {state} = location;
+    const { state } = location;
     let id;
     if (state) {
-        ({id} = state);
+        ({ id } = state);
     }
     const [attempts, setAttempts] = useState([]);
     const updateAttempts = () => {
@@ -48,9 +48,19 @@ export default function ResulTest() {
         updateAttempts();
     }, []);
     console.log("attemp page", attempts);
+
+    const totalScore = attempts.reduce((sum, item) => {
+        console.log("item", item);
+        const score = parseInt(item.score)
+        return sum + score;
+    }, 0);
+    setAccurac(totalScore / attempts.length);
+    setAnswer(attempts.length)
+   
+
     return (
         <>
-            <TableContainer component={Paper} sx={{maxHeight: "70vh"}}>
+            <TableContainer component={Paper} sx={{ maxHeight: "70vh" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -61,7 +71,7 @@ export default function ResulTest() {
                                     style={{
                                         minWidth: column.minWidth,
                                         backgroundColor:
-                                        theme.palette.primary.dark,
+                                            theme.palette.primary.dark,
                                         color: theme.palette.primary
                                             .contrastText,
                                     }}>
@@ -74,8 +84,9 @@ export default function ResulTest() {
                         {attempts.map((item, index) => {
                             let corrects = item.corrects;
                             let incorrects = item.incorrects;
-                            let sumQuestions = corrects + incorrects;
+                            let  sumQuestions = corrects + incorrects;
                             let date = new Date(item.finish);
+                            setQuestion(sumQuestions)
                             console.log('sumQuestions', sumQuestions);
                             return (
                                 <TableRow>
@@ -90,12 +101,12 @@ export default function ResulTest() {
                                             <Grid
                                                 container
                                                 spacing={1}
-                                                sx={{height: "100%"}}>
+                                                sx={{ height: "100%" }}>
                                                 {[...Array(sumQuestions)].map(
                                                     (item, index) => (
                                                         <Grid
                                                             xs={12 / sumQuestions}
-                                                            sx={{pl: 0.2}}
+                                                            sx={{ pl: 0.2 }}
                                                         >
                                                             <Box
                                                                 sx={{
@@ -116,12 +127,14 @@ export default function ResulTest() {
                                         </Box>
                                     </TableCell>
                                     <TableCell>{item.score}%</TableCell>
+
                                     <TableCell>{corrects}/{incorrects}</TableCell>
                                     <TableCell align={'center'}>{date.toLocaleDateString()} {' '}
                                         {date.getHours()}:{date.getMinutes()}</TableCell>
                                 </TableRow>
                             );
                         })}
+
                     </TableBody>
                 </Table>
             </TableContainer>
