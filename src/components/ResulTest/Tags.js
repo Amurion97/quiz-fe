@@ -38,10 +38,31 @@ export default function Tags() {
     console.log("attemp page", attempts)
     return (
         <>
-            <Typography variant="h4" sx={{ textAlign: "left"}}>
-                {attempts.map((item, index)=>(
+            <Typography variant="h3" sx={{ textAlign: "left" }}>
+                {attempts.map((item, index) => (
                     index == 0 ? item.test.name : ""
                 ))}
+            </Typography>
+            <hr />
+            <Typography variant="h7" sx={{ textAlign: "left" }}>
+                {attempts.map((item, index) => (
+                    index == 0 ? item.finish : ""
+                ))}
+            </Typography>
+            <Typography variant="h6" sx={{ textAlign: "left" }}>
+                {attempts.map((item, index) => {
+                    if (index === 0) {
+                        return item.test.tags.map((tag, tagIndex) => {
+                            if (tagIndex === item.test.tags.length - 1) {
+                                return tag.name + ".";
+                            } else {
+                                return tag.name + ", ";
+                            }
+                        }).join(" ");
+                    } else {
+                        return "";
+                    }
+                })}
             </Typography>
             {/* <Grid container spacing={2}>
                 <Grid item xs={2}>
