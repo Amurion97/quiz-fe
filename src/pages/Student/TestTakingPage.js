@@ -21,6 +21,15 @@ const Item = styled(Paper)(({theme}) => ({
     color: theme.palette.text.secondary,
 }));
 
+export const renderer = (x) => {
+
+    if (x.completed) {
+    } else {
+        // Render a countdown
+        return <Typography variant={'h3'}>{x.hours}:{x.minutes}:{x.seconds}</Typography>;
+    }
+};
+
 const BG_COLOR = ["#2BA687", "#1976D2", "#F0A001", "#F200BE", "#CD1E3F"];
 
 export default function TestTakingPage() {
@@ -81,29 +90,7 @@ export default function TestTakingPage() {
     }
 
     let count = 0;
-    const renderer = (x, submitForm, isSubmitting) => {
 
-        if (x.completed) {
-            count++;
-            console.log("time out:", count);
-
-            // Render a completed state
-            setIsTimedOut(true);
-            if (!isSubmitting && isTimedOut && count === 2) {
-                setTimeout(() => {
-                    if (!isSubmitting && isTimedOut && count === 2) {
-                        window.alert("Time out!");
-                        submitForm();
-                    }
-                }, 1000)
-
-            }
-
-        } else {
-            // Render a countdown
-            return <span>{x.hours}:{x.minutes}:{x.seconds}</span>;
-        }
-    };
     return (
         <>
             <Formik
@@ -116,7 +103,7 @@ export default function TestTakingPage() {
                     if (!props.isSubmitting) {
                         customAPIv1().post('/attempts', values)
                             .then(res => {
-                                window.alert('Success');
+                                // window.alert('Success');
                                 navigate("/students/result", {
                                     state: {
                                         test: test,
@@ -191,12 +178,12 @@ export default function TestTakingPage() {
                                                 height: "10%",
                                             }}
                                         >
-                                            <Paper>
+                                            <Paper sx={{textAlign: 'center'}}>
                                                 {test ? <Countdown
                                                     date={startTime + (1000 * 60 * test.time)}
-                                                    renderer={(x) => {
-                                                        return renderer(x, submitForm, isSubmitting)
-                                                    }}
+                                                    // date={startTime + (1000 * 5)}
+                                                    renderer={renderer}
+                                                    onComplete={submitForm}
                                                 /> : ""}
                                             </Paper>
                                         </Grid>

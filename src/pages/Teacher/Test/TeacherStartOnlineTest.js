@@ -7,7 +7,7 @@ import {
     Paper,
     Typography,
     FormControl,
-    Box,
+    Box, Card,
 } from "@mui/material";
 // import { Box, Stack } from "@mui/system";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -24,6 +24,7 @@ import {useNavigate} from "react-router-dom";
 import {Helmet} from "react-helmet-async";
 import Snackbar from "@mui/material/Snackbar";
 import {Alert} from "@mui/lab";
+import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
 
 
 export function TeacherStartOnlineTest() {
@@ -97,8 +98,13 @@ export function TeacherStartOnlineTest() {
             console.log('start-test', res);
             setOpenSuccess(true);
             setTimeout(() => {
-                navigate(`/dashboard/test-statistic?code=${roomCode}&test=${testId}`);
-            },2000)
+                navigate(`/dashboard/test-statistic?code=${roomCode}&test=${testId}`,
+                    {
+                        state: {
+                            peopleList: peopleList
+                        }
+                    });
+            }, 500)
         })
     }
 
@@ -302,13 +308,37 @@ export function TeacherStartOnlineTest() {
                 </Grid>
                 <Grid
                     item xs={12}
+                    container
+                    justifyContent="flex-end"
+                    sx={{
+                        px:10
+                    }}
+                >
+                    <Card sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                        px: 3
+                    }}>
+                        <Box sx={{
+                            display: "flex", alignItems: "center",
+                            py: 1
+                        }}>
+                            <GroupsTwoToneIcon fontSize='large'/>
+                            <Typography variant='h4' sx={{ml: "4px"}}>{peopleList.length}</Typography>
+                        </Box>
+                    </Card>
+                </Grid>
+                <Grid
+                    item xs={12}
                 >
                     <StudentsLounge peopleList={peopleList}/>
                 </Grid>
 
             </Grid>
 
-            <Snackbar open={openSuccess} autoHideDuration={3000} onClose={handleClose}>
+            <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
                     Đang bắt đầu cuộc thi...
                 </Alert>
