@@ -1,13 +1,16 @@
-import {useState} from "react";
-import TextField from "@mui/material/TextField";
-import {Backdrop, Button, Paper, Stack} from "@mui/material";
-import {alpha, useTheme} from "@mui/material/styles";
+//React-Hook
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+//M-UI
+import { Backdrop, Button, Paper, Stack } from "@mui/material";
+import { alpha, useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import {socket} from "../app/socket";
-import {useSelector} from "react-redux";
-import {selectUser} from "../features/user/userSlice";
-import {useNavigate} from "react-router-dom";
-import {Alert} from "@mui/lab";
+import { Alert } from "@mui/lab";
+//Features
+import { selectUser } from "../features/user/userSlice";
+//Socket.io
+import { socket } from "../app/socket";
 
 export function CodeEnterBox() {
     const [roomCode, setRoomCode] = useState('');
@@ -30,7 +33,7 @@ export function CodeEnterBox() {
         socket.connect();
 
         socket.emit('join-lobby',
-            {roomCode: roomCode, email: user.info.email},
+            { roomCode: roomCode, email: user.info.email },
             (res) => {
                 console.log('join-lobby', res);
                 if (res.success === false) {
@@ -40,7 +43,7 @@ export function CodeEnterBox() {
 
                 } else {
                     navigate(`/students/groupWaitingRoom?code=${roomCode}`, {
-                        state: {peopleList: res}
+                        state: { peopleList: res }
                     })
                 }
             })
@@ -48,45 +51,64 @@ export function CodeEnterBox() {
 
     return (<>
         <Paper elevation={4}
-               sx={{
-                   display: 'grid',
-                   my: 10,
-                   mx: 30,
-                   py: 10,
-               }}>
+            sx={{
+
+                display: 'grid',
+                my: {
+                    xs: 0,
+                    sm: 10
+                },
+                mx: {
+                    xs: 0,
+                    sm: 30
+                },
+                py: {
+                    xs: 0,
+                    sm: 10
+                },
+            }}>
             <Paper variant="outlined"
-                   sx={{
-                       // width: 'fit-content',
-                       placeSelf: 'center',
-                       height: 'fit-content',
-                       p: 1,
-                       bgcolor: (theme) => theme.palette.background.default,
-                       width: 'min(100%, 600px)'
-                   }}>
+                sx={{
+                    // width: 'fit-content',
+                    placeSelf: 'center',
+                    height: 'fit-content',
+                    p: 1,
+                    bgcolor: (theme) => theme.palette.background.default,
+                    width: 'min(100%, 600px)'
+                }}>
                 <Stack direction={'row'} spacing={1}>
                     <OutlinedInput placeholder='Nhập code'
-                                   value={roomCode}
-                                   onChange={(e) => {
-                                       setRoomCode(e.target.value)
-                                   }}
-                                   color={'secondary'}
-                                   style={{
-                                       // borderRadius: theme.shape.borderRadius,
-                                   }}
+                        value={roomCode}
+                        onChange={(e) => {
+                            setRoomCode(e.target.value)
+                        }}
+                        color={'secondary'}
+                        style={{
+                            // borderRadius: theme.shape.borderRadius,
+                        }}
 
-                                   sx={{
-                                       bgcolor: (theme) => theme.palette.background.paper,
-                                       width: '100%',
-                                   }}
-                                   autoFocus={true}
+                        sx={{
+                            bgcolor: (theme) => theme.palette.background.paper,
+                            width: '100%',
+                        }}
+                        autoFocus={true}
 
                     />
                     <Button variant='contained' color='secondary' size='large'
-                            sx={{
-                                height: '60px',
-                                boxShadow: `0px 5px ${alpha(theme.palette.secondary.main, 0.4)}`,
-                            }}
-                            onClick={submitJoinCode}
+                        sx={{
+                            height: '60px',
+                            boxShadow: `0px 5px ${alpha(theme.palette.secondary.main, 0.4)}`,
+                            fontSize: {
+                                xs: '12px',
+                                sm: '15px'
+                            },
+                            p: {
+                                xs: '0',
+                                md: "8px 22px 8px 22px",
+                            },
+                            minWidth: '90px'
+                        }}
+                        onClick={submitJoinCode}
                     >VÀO PHÒNG THI</Button>
                 </Stack>
 
