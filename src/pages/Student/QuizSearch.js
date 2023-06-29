@@ -64,7 +64,7 @@ export default function QuizSearch() {
     useEffect(() => {
         showTest();
     }, [inforNeedFind]);
-
+    console.log("Test", listTest)
     useEffect(() => {
         customAPIv1()
             .get(`/tests/${currentTestId}`)
@@ -75,8 +75,11 @@ export default function QuizSearch() {
     }, [currentTestId]);
     return (
         <>
-            <Grid container spacing={2} sx={{ px: 2 }}>
-                <Grid item xs={12}>
+            <Grid container spacing={0} >
+                <Grid item xs={12} sx={{ px:{
+                    xs: 0,
+                    md: 10
+                } }}>
                     <CodeEnterBox />
                 </Grid>
                 <Grid item xs={12}>
@@ -93,7 +96,7 @@ export default function QuizSearch() {
                                         <CardActionArea>
                                             <CardMedia
                                                 component="img"
-                                                height="140"
+                                                height="140px"
                                                 image={image}
                                                 alt="green iguana"
                                             />
@@ -101,7 +104,16 @@ export default function QuizSearch() {
                                                 <Typography
                                                     gutterBottom
                                                     variant="h5"
-                                                    component="div">
+                                                    component="div" sx={{
+                                                        "display": "-webkit-box",
+                                                        "maxHeight": "3.2rem",
+                                                        "WebkitBoxOrient": "vertical",
+                                                        "overflow": "hidden",
+                                                        "textOverflow": "ellipsis",
+                                                        "whiteSpace": "normal",
+                                                        "WebkitLineClamp": "1",
+                                                        "lineHeight": "1.6rem"
+                                                    }}>
                                                     {name}
                                                 </Typography>
                                                 <hr />

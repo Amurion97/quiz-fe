@@ -50,26 +50,27 @@ export function CodeEnterBox() {
     }
 
     return (<>
-        <Paper elevation={4}
+        <Paper elevation={3}
             sx={{
 
                 display: 'grid',
                 my: {
-                    xs: 0,
+                    xs: 3,
                     md: 10
                 },
-                mx: {
-                    xs: 0,
-                    md: 30
-                },
+                // mx: {
+                //     xs: 0,
+                //     md: 30
+                // },
+                // marginLeft: 10,
                 py: {
                     xs: 0,
                     md: 10
                 },
             }}>
+            
             <Paper variant="outlined"
                 sx={{
-                    // width: 'fit-content',
                     placeSelf: 'center',
                     height: 'fit-content',
                     p: 1,
