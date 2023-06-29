@@ -31,6 +31,8 @@ export default function GroupWaitingRoom() {
     // setPeopleList()
     console.log("peopleList:", peopleList);
 
+    const [isStartingTest, setIsStartingTest] = useState(false);
+
     useEffect(() => {
         if (!state) {
             socket.connect();
@@ -62,6 +64,7 @@ export default function GroupWaitingRoom() {
 
         function onStartTest(arg) {
             console.log('start-test:', arg);
+            setIsStartingTest(true);
             navigate('/groupTestTaking', {
                 state: {
                     test: arg.test,
@@ -83,10 +86,23 @@ export default function GroupWaitingRoom() {
             socket.off('connect', onConnect);
             socket.off('lobby-update', onLobbyUpdate);
             socket.off('start-test', onStartTest);
-            socket.disconnect();
+
         }
 
     }, [])
+
+    useEffect(()=> {
+
+        return () => {
+            console.log('return for this [isStartingTest] effect on student lobby is running')
+            console.log("isStartingTest:", isStartingTest);
+
+            if (!isStartingTest) {
+
+                socket.disconnect();
+            }
+        }
+    }, [isStartingTest])
     return (
         <>
             <Box
