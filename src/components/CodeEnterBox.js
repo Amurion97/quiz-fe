@@ -56,15 +56,15 @@ export function CodeEnterBox() {
                 display: 'grid',
                 my: {
                     xs: 0,
-                    sm: 10
+                    md: 10
                 },
                 mx: {
                     xs: 0,
-                    sm: 30
+                    md: 30
                 },
                 py: {
                     xs: 0,
-                    sm: 10
+                    md: 10
                 },
             }}>
             <Paper variant="outlined"
@@ -74,7 +74,10 @@ export function CodeEnterBox() {
                     height: 'fit-content',
                     p: 1,
                     bgcolor: (theme) => theme.palette.background.default,
-                    width: 'min(100%, 600px)'
+                    width: {
+                        xs: 'min(100%)',
+                        md: 'min(100%, 600px)'
+                    }
                 }}>
                 <Stack direction={'row'} spacing={1}>
                     <OutlinedInput placeholder='Nhập code'
@@ -100,7 +103,9 @@ export function CodeEnterBox() {
                             boxShadow: `0px 5px ${alpha(theme.palette.secondary.main, 0.4)}`,
                             fontSize: {
                                 xs: '12px',
-                                sm: '15px'
+                                sm: '13px',
+                                md: '12px',
+                                lg: '15px'
                             },
                             p: {
                                 xs: '0',

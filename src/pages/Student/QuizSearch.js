@@ -1,21 +1,28 @@
+//React
 import * as React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+//M-UI
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import { customAPIv1 } from "../../features/customAPI";
-import {
-    Card,
-    CardActionArea,
-    CardActions,
-    CardContent,
-    CardMedia, Dialog, Paper,
-    Typography,
-} from "@mui/material";
+import { Card } from "@mui/material";
+import { CardActionArea } from "@mui/material";
+import { CardActions } from "@mui/material";
+import { CardContent } from "@mui/material";
+import { CardMedia } from "@mui/material";
+import { Dialog } from "@mui/material";
+import { Paper } from "@mui/material";
+import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
+//
 import { auto } from "@popperjs/core";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
+//feature
+import { customAPIv1 } from "../../features/customAPI";
+//layouts
 import { NameContext } from "../../layouts/StudentLayout";
-import { useNavigate } from "react-router-dom";
+//component
 import { CodeEnterBox } from "../../components/CodeEnterBox";
 
 const ButtonHover = styled(Button)(({ theme }) => ({
@@ -36,9 +43,9 @@ export default function QuizSearch() {
     const [currentTest, setCurrentTest] = useState();
     const [listTest, setListTest] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
-    const handleClickOpenDialog = () => {
-        setOpenDialog(true);
-    };
+    // const handleClickOpenDialog = () => {
+    //     setOpenDialog(true);
+    // };
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
@@ -80,7 +87,7 @@ export default function QuizSearch() {
                         {listTest.map((item, index) => {
                             const { id, name, image, details, attempts } = item;
                             return (
-                                <Grid key={id} item xs = {12} lg={12/5} > 
+                                <Grid key={id} item xs={12} lg={12 / 5} >
                                     <Card
                                         onClick={() => {
                                             setOpenDialog(true);
@@ -125,9 +132,9 @@ export default function QuizSearch() {
             </Grid>
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
                 {currentTest && (
-                    <Card sx={{ width: {xs: 310, lg: 700} }}>
+                    <Card sx={{ width: { xs: 310, lg: 700 } }}>
                         <CardMedia
-                            sx={{ height: {xs: 140, lg: 250} }}
+                            sx={{ height: { xs: 140, lg: 250 } }}
                             image={currentTest.image}
                             title="green iguana"
                         />
