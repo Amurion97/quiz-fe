@@ -110,13 +110,13 @@ export default function QuizSearch() {
                                                 <hr />
                                                 <Grid container >
                                                     <Grid xs={6}>
-                                                        <Typography fontSize={15}>
+                                                        <Typography fontSize={13}>
                                                             {details.length} Câu hỏi
                                                         </Typography>
                                                     </Grid>
 
                                                     <Grid xs={6}>
-                                                        <Typography fontSize={15} sx={{ textAlign: "end" }}>
+                                                        <Typography fontSize={13} sx={{ textAlign: "end" }}>
                                                             {attempts.length} Lượt làm
                                                         </Typography>
                                                     </Grid>
