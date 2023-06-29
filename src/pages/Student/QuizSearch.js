@@ -79,9 +79,6 @@ export default function QuizSearch() {
                 <Grid item xs={12}>
                     <CodeEnterBox />
                 </Grid>
-                {/* <Typography>
-                    Độ khó:
-                </Typography> */}
                 <Grid item xs={12}>
                     <Grid container spacing={2} sx={{ pl: 10, pr: 10, pb: 10 }}>
                         {listTest.map((item, index) => {
@@ -226,90 +223,3 @@ export default function QuizSearch() {
 
     );
 }
-
-
-{/* <Card sx={{ width: 700 }}>
-<CardMedia
-    sx={{ height: 250 }}
-    image={currentTest.image}
-    title="green iguana"
-/>
-
-{console.log(`currentTest`, currentTest.details.map(item => item.question.content))}
-<Grid container sx={{ pl: 2, pr: 2 }}>
-    <Grid item xs={1.5} sx={{ textAlign: "center" }}>
-        <Paper elevation={2} fontSize={15}>
-            {currentTest.details.length} Câu hỏi
-        </Paper>
-    </Grid>
-    <Grid item xs></Grid>
-    <Grid item xs={2} sx={{ textAlign: "center" }}>
-        <Paper elevation={2} fontSize={15}>
-            {currentTest.attempts.length} Lượt làm
-        </Paper>
-    </Grid>
-</Grid>
-
-
-<CardContent>
-    <Typography
-        gutterBottom
-        variant="h5"
-        component="div">
-        {currentTest.name}
-    </Typography>
-
-    <hr />
-
-    <Typography variant="body2" color="text.secondary">
-        Độ khó: {currentTest.difficulty.name}
-    </Typography>
-
-    <Typography variant="body2" color="text.secondary">
-        Thẻ : {currentTest.tags.map((tag, index) => {
-            if (index === currentTest.tags.length - 1) {
-                return tag.name + "."
-            } else {
-                return tag.name + ", ";
-            }
-        }).join("")}
-    </Typography>
-
-    <br />
-
-    {currentTest.details &&
-        currentTest.details
-            .slice(0, 3)
-            .map((item, index) => (
-                <Typography key={item.id}>
-                    {index + 1}. {item.question.content}
-                </Typography>
-            ))
-    }
-
-</CardContent>
-
-<CardActions>
-    <ButtonHover
-        variant="outlined"
-        sx={{
-            marginLeft: auto,
-            marginRight: auto,
-            p: 2,
-        }}
-        onClick={() => {
-            navigate('/students/test', {
-                state: {
-                    id: currentTestId
-                }
-            })
-        }}
-    >
-        <Typography variant="h4">
-            Bắt đầu thi
-        </Typography>
-
-    </ButtonHover>
-</CardActions>
-
-</Card> */}

@@ -1,10 +1,7 @@
 import {Helmet} from 'react-helmet-async';
 // @mui
 import {Grid} from '@mui/material';
-// hooks
-// components
-// sections
-import QuestionCreationForm from "../../components/Forms/Question/QuestionCreationForm";
+
 import {useLocation, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Page404 from "../Page404";
@@ -12,10 +9,6 @@ import QuestionEditForm from "../../components/Forms/Question/QuestionEditForm";
 import {customAPIv1} from "../../features/customAPI";
 import SearchIcon from "@mui/icons-material/Search";
 import {LoadingButton} from "@mui/lab";
-
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
 
 export default function QuestionEditPage() {
     const location = useLocation();
