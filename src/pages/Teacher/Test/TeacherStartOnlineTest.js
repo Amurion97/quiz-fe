@@ -15,17 +15,17 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import Button from "@mui/material/Button";
 import DoneAllTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
 import StudentsLounge from "../../Student/GroupTest/StudentsLounge";
-import {alpha} from "@mui/material/styles";
-import React, {useEffect, useState} from "react";
-import {socket} from "../../../app/socket";
-import {useSelector} from "react-redux";
-import {selectUser} from "../../../features/user/userSlice";
-import {useNavigate} from "react-router-dom";
-import {Helmet} from "react-helmet-async";
+import { alpha } from "@mui/material/styles";
+import React, { useEffect, useState } from "react";
+import { socket } from "../../../app/socket";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import Snackbar from "@mui/material/Snackbar";
-import {Alert} from "@mui/lab";
+import { Alert } from "@mui/lab";
 import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
-
+import MuiAlert from '@mui/material/Alert';
 
 export function TeacherStartOnlineTest() {
     const url = new URL(window.location.href)
@@ -39,11 +39,28 @@ export function TeacherStartOnlineTest() {
 
     const user = useSelector(selectUser)
 
-    const [peopleList, setPeopleList] = useState([])
-    console.log("peopleList:", peopleList);
 
     const [isCopied, setIsCopied] = useState(false);
     const [isUrlCopied, setIsUrlCopied] = useState(false);
+    const [peopleList, setPeopleList] = useState([])
+    console.log("peopleList:", peopleList);
+
+    const [peopleIndex, setPeopleIndex] = useState("");
+    // setPeopleList()
+    console.log("peopleList:", peopleList);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+    const [open, setOpen] = React.useState(false);
+    const [out, setOut] = React.useState(false);
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+        setOut(false)
+    };
 
     const [openSuccess, setOpenSuccess] = React.useState(false);
 
@@ -68,7 +85,7 @@ export function TeacherStartOnlineTest() {
         socket.connect();
 
         socket.emit('join-lobby',
-            {roomCode: roomCode, email: user.info.email},
+            { roomCode: roomCode, email: user.info.email },
             (res) => {
                 console.log('join-lobby', res);
                 setPeopleList(res);
@@ -79,9 +96,13 @@ export function TeacherStartOnlineTest() {
             if (arg.join) {
                 if (arg.person.email !== user.info.email) {
                     setPeopleList((list) => [...list, arg.person])
+                    setPeopleIndex(arg.person)
+                    setOpen(true)
                 }
             } else if (arg.leave) {
                 setPeopleList((list) => list.filter(item => item.email !== arg.email))
+                setPeopleIndex(arg.email)
+                setOut(true)
             }
         }
 
@@ -94,7 +115,7 @@ export function TeacherStartOnlineTest() {
     }, [])
 
     function startTest() {
-        socket.emit('start-test', {roomCode: roomCode, email: user.info.email}, (res) => {
+        socket.emit('start-test', { roomCode: roomCode, email: user.info.email }, (res) => {
             console.log('start-test', res);
             setOpenSuccess(true);
             setTimeout(() => {
@@ -131,7 +152,7 @@ export function TeacherStartOnlineTest() {
                             },
                         }}
                     >
-                        <Paper sx={{p: 10}} elevation={6}>
+                        <Paper sx={{ p: 10 }} elevation={6}>
                             <Grid container spacing={1}>
                                 <Grid
                                     item
@@ -147,7 +168,7 @@ export function TeacherStartOnlineTest() {
                                     <Typography fontSize={20}>Online Test</Typography>
                                 </Grid>
 
-                                <Grid item xs={12} sx={{textAlign: "center"}}>
+                                <Grid item xs={12} sx={{ textAlign: "center" }}>
                                     <FormControl
                                         sx={{
                                             display: "flex",
@@ -170,13 +191,13 @@ export function TeacherStartOnlineTest() {
                                                     <IconButton
                                                         aria-label="copy url to join"
                                                         edge="end"
-                                                        sx={{bgcolor: "#EDEDF6"}}
+                                                        sx={{ bgcolor: "#EDEDF6" }}
                                                         onClick={handleCopyUrlClick}
                                                     >
                                                         {isUrlCopied ? (
-                                                            <DoneAllTwoToneIcon sx={{maxHeight: "100%"}}/>
+                                                            <DoneAllTwoToneIcon sx={{ maxHeight: "100%" }} />
                                                         ) : (
-                                                            <ContentCopyIcon sx={{maxHeight: "100%"}}/>
+                                                            <ContentCopyIcon sx={{ maxHeight: "100%" }} />
                                                         )}
                                                     </IconButton>
                                                 </InputAdornment>
@@ -198,7 +219,7 @@ export function TeacherStartOnlineTest() {
                                 >
                                     <Typography>2: Enter join code</Typography>
                                 </Grid>
-                                <Grid item xs={12} sx={{textAlign: "center"}}>
+                                <Grid item xs={12} sx={{ textAlign: "center" }}>
                                     <FormControl
                                         sx={{
                                             display: "flex",
@@ -223,13 +244,13 @@ export function TeacherStartOnlineTest() {
                                                     <IconButton
                                                         aria-label="copy join code"
                                                         edge="end"
-                                                        sx={{bgcolor: "#EDEDF6"}}
+                                                        sx={{ bgcolor: "#EDEDF6" }}
                                                         onClick={handleCopyClick}
                                                     >
                                                         {isCopied ? (
-                                                            <DoneAllTwoToneIcon sx={{maxHeight: "100%"}}/>
+                                                            <DoneAllTwoToneIcon sx={{ maxHeight: "100%" }} />
                                                         ) : (
-                                                            <ContentCopyIcon sx={{maxHeight: "100%"}}/>
+                                                            <ContentCopyIcon sx={{ maxHeight: "100%" }} />
                                                         )}
                                                     </IconButton>
                                                 </InputAdornment>
@@ -269,7 +290,7 @@ export function TeacherStartOnlineTest() {
                                             mt: 2,
                                         }}
                                         variant="outlined"
-                                        startIcon={<QrCodeIcon/>}
+                                        startIcon={<QrCodeIcon />}
                                     >
                                         QrCode
                                     </Button>
@@ -311,7 +332,7 @@ export function TeacherStartOnlineTest() {
                     container
                     justifyContent="flex-end"
                     sx={{
-                        px:10
+                        px: 10
                     }}
                 >
                     <Card sx={{
@@ -325,22 +346,39 @@ export function TeacherStartOnlineTest() {
                             display: "flex", alignItems: "center",
                             py: 1
                         }}>
-                            <GroupsTwoToneIcon fontSize='large'/>
-                            <Typography variant='h4' sx={{ml: "4px"}}>{peopleList.length}</Typography>
+                            <GroupsTwoToneIcon fontSize='large' />
+                            <Typography variant='h4' sx={{ ml: "4px" }}>{peopleList.length}</Typography>
                         </Box>
                     </Card>
                 </Grid>
                 <Grid
                     item xs={12}
                 >
-                    <StudentsLounge peopleList={peopleList}/>
+                    <StudentsLounge peopleList={peopleList} />
                 </Grid>
 
             </Grid>
 
             <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                     Đang bắt đầu cuộc thi...
+                </Alert>
+            </Snackbar>
+
+            <Snackbar open={open} autoHideDuration={2000} onClose={handleClose1}>
+                <Alert onClose={handleClose} severity="info" color="primary" sx={{ width: '100%' }}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex.email} vừa tham gia phòng chờ ! </span>
+                    }
+                </Alert>
+            </Snackbar>
+            <Snackbar open={out} autoHideDuration={2000} onClose={handleClose1}>
+                <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
+                    }
                 </Alert>
             </Snackbar>
         </>
