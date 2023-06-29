@@ -125,7 +125,7 @@ export default function TestResultPage() {
                             <ProgressBar
                                 completed={attempt.score}
                                 maxCompleted={100}
-                                height={28}
+                                height={'28px'}
                                 bgColor={theme.palette.primary.main}
                             />
                         </Paper>
