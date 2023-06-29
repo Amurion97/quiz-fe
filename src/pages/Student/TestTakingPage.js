@@ -52,6 +52,8 @@ export default function TestTakingPage() {
     const [isTimedOut, setIsTimedOut] = useState(false)
     // console.log("answerList:", answerList)
     useEffect(() => {
+        console.log('this [] effect on student test is running')
+
         customAPIv1().get(`tests/${id}`)
             .then(res => {
                 console.log('test:', res.data.data)

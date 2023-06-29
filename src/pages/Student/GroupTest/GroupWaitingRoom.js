@@ -32,8 +32,11 @@ export default function GroupWaitingRoom() {
     console.log("peopleList:", peopleList);
 
     useEffect(() => {
-        socket.connect();
-        console.log('this effect is running')
+        if (!state) {
+            socket.connect();
+        }
+
+        console.log('this [] effect on student lobby is running')
 
         function onConnect() {
             socket.emit('join-lobby',
@@ -66,16 +69,21 @@ export default function GroupWaitingRoom() {
                 }
             })
         }
-        socket.on('connect', onConnect);
+        if (!state) {
+            socket.on('connect', onConnect);
+        }
+
         socket.on('lobby-update', onLobbyUpdate);
         socket.on('start-test', onStartTest);
 
 
         return () => {
+            console.log('return for this [] effect on student lobby is running')
+
             socket.off('connect', onConnect);
             socket.off('lobby-update', onLobbyUpdate);
             socket.off('start-test', onStartTest);
-            socket.disconnect()
+            socket.disconnect();
         }
 
     }, [])
