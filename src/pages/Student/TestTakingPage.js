@@ -138,7 +138,7 @@ export default function TestTakingPage() {
                             }}
                         >
 
-                            <Grid item xs={10} sx={{pr: 2}}>
+                            <Grid item xs={12} lg={10} sx={{pr: 2}}>
                                 <QuestionInAction
                                     currentQuestion={currentQuestion}
                                     currentAnswerList={answerList[currentQuestionIndex]}
@@ -152,7 +152,7 @@ export default function TestTakingPage() {
 
                             </Grid>
 
-                            <Grid item xs={2}>
+                            <Grid item xs={12} lg={2}>
                                 <Paper
                                     sx={{
                                         backgroundColor: theme.palette.primary.light,
