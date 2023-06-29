@@ -8,6 +8,9 @@ import {
     Typography,
     FormControl,
     Box, Card,
+    Dialog,
+    DialogTitle,
+    DialogContent,
 } from "@mui/material";
 // import { Box, Stack } from "@mui/system";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -25,14 +28,15 @@ import {Helmet} from "react-helmet-async";
 import Snackbar from "@mui/material/Snackbar";
 import {Alert} from "@mui/lab";
 import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
-
+import QRCode from "qrcode.react";
 
 export function TeacherStartOnlineTest() {
-    const url = new URL(window.location.href)
+    const url = new URL(window.location.href);
+    console.log("url:", url)
     const searchParams = new URLSearchParams(url.search);
     const roomCode = searchParams.get("code");
     const testId = searchParams.get("test");
-    const urlToJoin = `http://localhost:3000/students/groupWaitingRoom?code=${roomCode}`
+    const urlToJoin = `${url.origin}?code=${roomCode}`
     console.log("roomCode:", roomCode);
 
     const navigate = useNavigate()
@@ -46,6 +50,14 @@ export function TeacherStartOnlineTest() {
     const [isUrlCopied, setIsUrlCopied] = useState(false);
 
     const [openSuccess, setOpenSuccess] = React.useState(false);
+
+    const [openQr, setOpenQr] = useState(false);
+    const handleOpenQr = () => {
+        setOpenQr(true);
+    };
+    const handleCloseQr = () => {
+        setOpenQr(false);
+    };
 
     const handleCopyClick = () => {
         navigator.clipboard.writeText(roomCode);
@@ -270,6 +282,7 @@ export function TeacherStartOnlineTest() {
                                         }}
                                         variant="outlined"
                                         startIcon={<QrCodeIcon/>}
+                                        onClick={handleOpenQr}
                                     >
                                         QrCode
                                     </Button>
@@ -311,7 +324,7 @@ export function TeacherStartOnlineTest() {
                     container
                     justifyContent="flex-end"
                     sx={{
-                        px:10
+                        px: 10
                     }}
                 >
                     <Card sx={{
@@ -343,6 +356,31 @@ export function TeacherStartOnlineTest() {
                     Đang bắt đầu cuộc thi...
                 </Alert>
             </Snackbar>
+
+            <Dialog open={openQr} onClose={handleCloseQr}>
+                <DialogTitle>
+                    <Typography fontSize={20}>
+                        Quét mã QR để tham gia ngay
+                    </Typography>
+                </DialogTitle>
+                <DialogContent
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <input type="hidden" value={urlToJoin}/>
+                    {urlToJoin && <QRCode size={300} value={urlToJoin}/>}
+
+
+                </DialogContent>
+
+                <DialogContent>
+                    <Typography>Hoặc nhập mã : {roomCode}</Typography>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
