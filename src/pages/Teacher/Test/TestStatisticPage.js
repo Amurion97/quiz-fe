@@ -26,12 +26,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
+import CloseIcon from "@mui/icons-material/Close";
 
 const columns = [
     {id: "rank", label: "Rank", minWidth: 50, align: "center"},
     {id: "email", label: "Email", minWidth: 150},
     {id: "", label: "", minWidth: 400, align: "center"},
     {id: "score", label: "Score", minWidth: 100, align: "center"},
+    {id: "action", label: "Action", minWidth: 50, align: "center"},
 ];
 
 export default function TestStatisticPage() {
@@ -70,6 +72,15 @@ export default function TestStatisticPage() {
     const handleOpenBackrop = () => {
         setOpenBackdrop(true);
     };
+
+    const handleKickStudent = (email) => {
+        socket.emit('kick-out',
+            {roomCode: roomCode, email: user.info.email, targetEmail: email},
+            (res) => {
+                console.log("kick-out:", res);
+                setPeopleList((list) => list.filter(item => item.email !== email))
+            })
+    }
 
     useEffect(() => {
         socket.connect();
@@ -318,6 +329,16 @@ export default function TestStatisticPage() {
                                                     }}>
                                                     {corrects}/{sumQuestions}
                                                 </TableCell>
+
+                                                <TableCell>
+                                                    <IconButton aria-label="settings"
+                                                                onClick={() => {
+                                                                    handleKickStudent(email)
+                                                                }}
+                                                    >
+                                                        <CloseIcon/>
+                                                    </IconButton>
+                                                </TableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -352,7 +373,7 @@ export default function TestStatisticPage() {
                         handleCloseConfirm()
                         setOpenBackdrop(true);
 
-                        socket.emit('stop-test',{roomCode: roomCode, email: user.info.email}, (res) => {
+                        socket.emit('stop-test', {roomCode: roomCode, email: user.info.email}, (res) => {
                             console.log('stop-test', res);
 
                             if (res.success === true) {
@@ -368,11 +389,11 @@ export default function TestStatisticPage() {
             </Dialog>
 
             <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
                 open={openBackdrop}
                 // onClick={handleCloseBackdrop}
             >
-                <CircularProgress color="primary" />
+                <CircularProgress color="primary"/>
             </Backdrop>
         </>
     );
