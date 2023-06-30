@@ -49,8 +49,13 @@ export default function GroupWaitingRoom() {
 
 
     useEffect(() => {
-        socket.connect();
-        console.log('this effect is running')
+        localStorage.setItem('isStartingTest', null);
+
+        if (!state) {
+            socket.connect();
+        }
+
+        console.log('this [] effect on student lobby is running')
 
         function onConnect() {
             socket.emit('join-lobby',
@@ -80,6 +85,7 @@ export default function GroupWaitingRoom() {
 
         function onStartTest(arg) {
             console.log('start-test:', arg);
+            localStorage.setItem('isStartingTest', true);
             navigate('/groupTestTaking', {
                 state: {
                     test: arg.test,
@@ -87,19 +93,30 @@ export default function GroupWaitingRoom() {
                 }
             })
         }
-        socket.on('connect', onConnect);
+        if (!state) {
+            socket.on('connect', onConnect);
+        }
+
         socket.on('lobby-update', onLobbyUpdate);
         socket.on('start-test', onStartTest);
 
 
         return () => {
+            console.log('return for this [] effect on student lobby is running')
+
             socket.off('connect', onConnect);
             socket.off('lobby-update', onLobbyUpdate);
             socket.off('start-test', onStartTest);
-            socket.disconnect()
+
+            if (!localStorage.getItem('isStartingTest')) {
+                console.log("isStartingTest:", localStorage.getItem('isStartingTest'));
+                console.log('socket disconnecting')
+                socket.disconnect();
+            }
         }
 
     }, [])
+
     return (
         <>
             <Box

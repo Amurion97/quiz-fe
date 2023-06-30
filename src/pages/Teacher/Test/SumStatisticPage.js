@@ -18,11 +18,11 @@ export default function TestStatisticPage() {
                         <CardActionArea>
                             <CardContent>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={7}>
+                                    <Grid  xs={8}>
                                         <Tags />
                                     </Grid>
-                                    <Grid item xs={5}>
-                                        <Icons
+                                    <Grid  xs={4} spacing={4} sx={{pl:13,pt:"10px"}}>
+                                        <Icons 
                                         accurac={accurac}
                                         question={question}
                                         answer={answer}
