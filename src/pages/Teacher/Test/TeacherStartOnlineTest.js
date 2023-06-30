@@ -8,6 +8,9 @@ import {
     Typography,
     FormControl,
     Box, Card,
+    Dialog,
+    DialogTitle,
+    DialogContent,
 } from "@mui/material";
 // import { Box, Stack } from "@mui/system";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -25,27 +28,61 @@ import {Helmet} from "react-helmet-async";
 import Snackbar from "@mui/material/Snackbar";
 import {Alert} from "@mui/lab";
 import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
-
+import QRCode from "qrcode.react";
+import MuiAlert from '@mui/material/Alert';
 
 export function TeacherStartOnlineTest() {
-    const url = new URL(window.location.href)
+    const url = new URL(window.location.href);
+    console.log("url:", url)
     const searchParams = new URLSearchParams(url.search);
     const roomCode = searchParams.get("code");
     const testId = searchParams.get("test");
-    const urlToJoin = `http://localhost:3000/students/groupWaitingRoom?code=${roomCode}`
+    const urlToJoin = `${url.origin}?code=${roomCode}`
     console.log("roomCode:", roomCode);
 
     const navigate = useNavigate()
 
     const user = useSelector(selectUser)
 
-    const [peopleList, setPeopleList] = useState([])
-    console.log("peopleList:", peopleList);
 
     const [isCopied, setIsCopied] = useState(false);
     const [isUrlCopied, setIsUrlCopied] = useState(false);
+    const [peopleList, setPeopleList] = useState([])
+    console.log("peopleList:", peopleList);
+
+    const [peopleIndex, setPeopleIndex] = useState("");
+    // setPeopleList()
+    console.log("peopleList:", peopleList);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+    const [open, setOpen] = React.useState(false);
+    const [out, setOut] = React.useState(false);
+    const handleCloseSnackbarIn = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const handleCloseSnackbarOut = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOut(false)
+    };
 
     const [openSuccess, setOpenSuccess] = React.useState(false);
+
+    const [openQr, setOpenQr] = useState(false);
+    const handleOpenQr = () => {
+        setOpenQr(true);
+    };
+    const handleCloseQr = () => {
+        setOpenQr(false);
+    };
 
     const handleCopyClick = () => {
         navigator.clipboard.writeText(roomCode);
@@ -79,9 +116,13 @@ export function TeacherStartOnlineTest() {
             if (arg.join) {
                 if (arg.person.email !== user.info.email) {
                     setPeopleList((list) => [...list, arg.person])
+                    setPeopleIndex(arg.person)
+                    setOpen(true)
                 }
             } else if (arg.leave) {
                 setPeopleList((list) => list.filter(item => item.email !== arg.email))
+                setPeopleIndex(arg.email)
+                setOut(true)
             }
         }
 
@@ -271,6 +312,7 @@ export function TeacherStartOnlineTest() {
                                         }}
                                         variant="outlined"
                                         startIcon={<QrCodeIcon/>}
+                                        onClick={handleOpenQr}
                                     >
                                         QrCode
                                     </Button>
@@ -287,7 +329,7 @@ export function TeacherStartOnlineTest() {
                         justifyContent: "center",
                         alignItems: "center",
                         pt: 2,
-                        
+
                     }}
                 >
                     <Button
@@ -298,9 +340,6 @@ export function TeacherStartOnlineTest() {
                                 md:5
                             },
                             border: '1px solid',
-                            
-    
-
                         }}
                         variant="outlined"
                         size='large'
@@ -327,13 +366,10 @@ export function TeacherStartOnlineTest() {
                         alignItems: "center",
                         height: "100%",
                         px: 3,
-                        
-                        
                     }}>
                         <Box sx={{
                             display: "flex", alignItems: "center",
                             py: 1,
-                            
                         }}>
                             <GroupsTwoToneIcon fontSize='large'/>
                             <Typography variant='h4' sx={{ml: "4px"}}>{peopleList.length}</Typography>
@@ -353,6 +389,48 @@ export function TeacherStartOnlineTest() {
                     Đang bắt đầu cuộc thi...
                 </Alert>
             </Snackbar>
+
+            <Snackbar open={open} autoHideDuration={2000} onClose={handleCloseSnackbarIn}>
+                <Alert onClose={handleCloseSnackbarIn} severity="info" color="primary" sx={{ width: '100%' }}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex.email} vừa tham gia phòng chờ ! </span>
+                    }
+                </Alert>
+            </Snackbar>
+            <Snackbar open={out} autoHideDuration={2000} onClose={handleCloseSnackbarOut}>
+                <Alert onClose={handleCloseSnackbarOut} severity="warning" sx={{ width: '100%' }}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
+                    }
+                </Alert>
+            </Snackbar>
+
+            <Dialog open={openQr} onClose={handleCloseQr}>
+                <DialogTitle>
+                    <Typography fontSize={20}>
+                        Quét mã QR để tham gia ngay
+                    </Typography>
+                </DialogTitle>
+                <DialogContent
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <input type="hidden" value={urlToJoin}/>
+                    {urlToJoin && <QRCode size={300} value={urlToJoin}/>}
+
+
+                </DialogContent>
+
+                <DialogContent>
+                    <Typography>Hoặc nhập mã : {roomCode}</Typography>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
