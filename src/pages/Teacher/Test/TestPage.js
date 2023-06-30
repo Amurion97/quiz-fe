@@ -10,22 +10,23 @@ import {
     Typography,
     Collapse,
     Paper,
+    InputBase,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {useEffect, useState} from "react";
-import {Helmet} from "react-helmet-async";
-import {useTheme} from '@mui/material/styles';
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTheme } from '@mui/material/styles';
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
-import {customAPIv1} from "../../../features/customAPI";
-import {Alert} from "@mui/lab";
+import { customAPIv1 } from "../../../features/customAPI";
+import { Alert } from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 import * as React from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
@@ -34,15 +35,15 @@ import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import CreateAnOnlContest from "../../../components/Forms/CreateAnOnlContest";
 import Menu from '@mui/material/Menu';
-
+import SearchIcon from "@mui/icons-material/Search";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 const columns = [
-    {id: 'id', label: 'ID', minWidth: 50, align: "center"},
-    {id: 'image', label: 'Image', minWidth: 100, align: "left"},
-    {id: 'name', label: 'Name', minWidth: 150, align: "center"},
-    {id: '', label: 'Action', minWidth: 100},
+    { id: 'id', label: 'ID', minWidth: 50, align: "center" },
+    { id: 'image', label: 'Image', minWidth: 100, align: "left" },
+    { id: 'name', label: 'Name', minWidth: 150, align: "center" },
+    { id: '', label: 'Action', minWidth: 100 },
 ];
 
 export default function TestPage() {
@@ -76,7 +77,7 @@ export default function TestPage() {
     const rowsPerPage = 4;
 
     const handleCheckTags = (event) => {
-        const {name} = event.target;
+        const { name } = event.target;
         let index = selectedTagIDs.findIndex(id => id === parseInt(name));
         if (index < 0) {
             setSelectedTagIDs([...selectedTagIDs, parseInt(name)]);
@@ -86,7 +87,7 @@ export default function TestPage() {
         }
     };
     const handleCheckTypes = (event) => {
-        const {name} = event.target;
+        const { name } = event.target;
         let index = selectedTypesIDs.findIndex(id => id === parseInt(name));
         if (index < 0) {
             setSelectedTypesIDs([...selectedTypesIDs, parseInt(name)]);
@@ -96,7 +97,7 @@ export default function TestPage() {
         }
     };
     const handleCheckDifficulties = (event) => {
-        const {name} = event.target;
+        const { name } = event.target;
         let index = difficultiesIDs.findIndex(id => id === parseInt(name));
         if (index < 0) {
             setDifficulties([...difficultiesIDs, parseInt(name)]);
@@ -110,8 +111,8 @@ export default function TestPage() {
     const findTestByID = (id) => {
         customAPIv1().get(`/tests/brief/${id}`)
             .then(res => {
-                    setTests(res.data.data)
-                }
+                setTests(res.data.data)
+            }
             )
     }
 
@@ -210,47 +211,73 @@ export default function TestPage() {
                         pl: 3,
                     }}
                 >
-                    <Stack
-                        direction="column"
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={3}
-                    >
-                        <Typography variant="h4" gutterBottom>
-                            Quản lý bài thi
-                        </Typography>
+                    <Grid container spacing={1}>
+                        <Grid item xs={9}>
+                            <Stack
+                                direction="column"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                mb={3}
+                            >
+                                <Typography variant="h4" gutterBottom>
+                                    Quản lý bài thi
+                                </Typography>
 
 
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <Button startIcon={<HistoryIcon/>}>
-                                    <Typography>previousky used</Typography>
-                                </Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button startIcon={<FavoriteIcon/>}>
-                                    <Typography>Like by me</Typography>
-                                </Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button startIcon={<ShareIcon/>}>Share by me</Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button startIcon={<DraftsIcon/>}>Drafts</Button>
-                            </Grid>
+                                <Grid container>
+                                    <Grid item xs={12}>
+                                        <Button startIcon={<HistoryIcon />}>
+                                            <Typography>previousky used</Typography>
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button startIcon={<FavoriteIcon />}>
+                                            <Typography>Like by me</Typography>
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button startIcon={<ShareIcon />}>Share by me</Button>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button startIcon={<DraftsIcon />}>Drafts</Button>
+                                    </Grid>
 
-                            <Grid item xs={12}>
-                                My collections
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button
-                                    startIcon={<CreateNewFolderIcon/>}
-                                >
-                                    Create New Collection
-                                </Button>
-                            </Grid>
+                                    <Grid item xs={12}>
+                                        My collections
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button
+                                            startIcon={<CreateNewFolderIcon />}
+                                        >
+                                            Create New Collection
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Stack>
                         </Grid>
-                    </Stack>
+                        <Grid item xs={2}>
+                            <Paper
+                                component="form"
+                                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', }}
+                            >
+                                <IconButton
+                                    type="button"
+                                    sx={{ p: '10px' }}
+                                    aria-label="search" disabled>
+                                    <SearchIcon />
+                                </IconButton>
+                                <InputBase
+                                    sx={{ ml: 3, flex: 1, width: 200 }}
+                                    placeholder="Search Here"
+                                    inputProps={{ 'label': 'search ' }}
+                                    onChange={handleInputChange}
+                                    value={contentQuery}
+                                />
+
+                            </Paper>
+                        </Grid>
+                    </Grid>
+
 
                 </Grid>
 
@@ -268,7 +295,7 @@ export default function TestPage() {
                 >
                     <Stack>
                         <Stack direction={'row'}
-                               justifyContent="flex-end">
+                            justifyContent="flex-end">
                             <Button
                                 id="demo-positioned-button"
                                 aria-controls={openSort ? 'demo-positioned-menu' : undefined}
@@ -276,7 +303,7 @@ export default function TestPage() {
                                 aria-expanded={openSort ? 'true' : undefined}
                                 onClick={handleClickSort}
                                 // startIcon={<UnfoldMoreIcon/>}
-                                endIcon={openSort ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
+                                endIcon={openSort ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                             >
                                 Sắp xếp theo: {sortText}
                             </Button>
@@ -287,26 +314,26 @@ export default function TestPage() {
 
 
                         {testList.map((row, index) => {
-                            const {id, name, image, difficulty, tags, time} = row;
+                            const { id, name, image, difficulty, tags, time } = row;
                             return (
-                                <Paper key={id} sx={{mb: 2}}>
+                                <Paper key={id} sx={{ mb: 2 }}>
                                     <Grid container spacing={1}
-                                          sx={{
-                                              width: '100%'
-                                          }}>
+                                        sx={{
+                                            width: '100%'
+                                        }}>
 
                                         <Grid item xs={2} sx={{
 
                                             p: 1,
                                         }}>
                                             <img src={image}
-                                                 style={{
-                                                     width: 200,
-                                                     height: 200,
-                                                     objectFit: 'cover',
-                                                     padding: '10px',
-                                                 }
-                                                 }/>
+                                                style={{
+                                                    width: 200,
+                                                    height: 200,
+                                                    objectFit: 'cover',
+                                                    padding: '10px',
+                                                }
+                                                } />
                                         </Grid>
 
                                         <Grid
@@ -315,7 +342,7 @@ export default function TestPage() {
                                         >
                                             <Stack direction={'column'} spacing={1}>
 
-                                                <Typography variant="h5" sx={{pt: 3}}>
+                                                <Typography variant="h5" sx={{ pt: 3 }}>
                                                     Tên bài thi: {name}
                                                 </Typography>
 
@@ -348,11 +375,11 @@ export default function TestPage() {
                                         </Grid>
 
                                         <Grid item xs={3}
-                                              sx={{
-                                                  pt: 15,
-                                                  textAlign: 'right',
-                                                  display: 'grid',
-                                              }}>
+                                            sx={{
+                                                pt: 15,
+                                                textAlign: 'right',
+                                                display: 'grid',
+                                            }}>
 
                                             <Button
                                                 sx={{
@@ -373,10 +400,10 @@ export default function TestPage() {
                                         </Grid>
 
                                         <Grid item xs={1}
-                                              sx={{
-                                                  mt: 1, pr: 0,
-                                                  textAlign: 'right',
-                                              }}>
+                                            sx={{
+                                                mt: 1, pr: 0,
+                                                textAlign: 'right',
+                                            }}>
                                             <IconButton
                                                 size="large"
                                                 color="inherit"
@@ -385,7 +412,7 @@ export default function TestPage() {
                                                     handleOpenMenu(e);
                                                 }}
                                             >
-                                                <MoreVertIcon fontSize="small"/>
+                                                <MoreVertIcon fontSize="small" />
                                             </IconButton>
                                         </Grid>
 
@@ -396,6 +423,7 @@ export default function TestPage() {
 
                     </Stack>
                 </Grid>
+
             </Grid>
 
 
@@ -462,8 +490,8 @@ export default function TestPage() {
                 anchorEl={openMenu}
                 onClick={() => findTestByID(currentTestId)}
                 onClose={handleCloseMenu}
-                anchorOrigin={{vertical: 'top', horizontal: 'left'}}
-                transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                 PaperProps={{
                     sx: {
                         p: 1,
@@ -480,15 +508,15 @@ export default function TestPage() {
                     handleCloseMenu()
                     handleClickOpenOnline()
                 }}>
-                    <Diversity3Icon fontSize="small" sx={{color: theme.palette.grey["500"]}}/>
+                    <Diversity3Icon fontSize="small" sx={{ color: theme.palette.grey["500"] }} />
                     Tạo phòng thi
                 </MenuItem>
 
-                <MenuItem sx={{color: 'error.main'}} onClick={(e) => {
+                <MenuItem sx={{ color: 'error.main' }} onClick={(e) => {
                     handleCloseMenu()
                     handleClickOpenConfirm()
                 }}>
-                    <DeleteOutlineIcon fontSize="small"/>
+                    <DeleteOutlineIcon fontSize="small" />
                     Xóa bài thi
                 </MenuItem>
 
@@ -533,10 +561,10 @@ export default function TestPage() {
                                             setOpen(false);
                                         }}
                                     >
-                                        <CloseIcon fontSize="inherit"/>
+                                        <CloseIcon fontSize="inherit" />
                                     </IconButton>
                                 }
-                                sx={{mb: 2}}
+                                sx={{ mb: 2 }}
                                 variant="filled" severity="error"
                             >
                                 {statusCode === 500 ?
