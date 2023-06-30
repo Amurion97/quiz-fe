@@ -12,6 +12,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Countdown from 'react-countdown';
 import {useLocation, useNavigate} from "react-router-dom";
 import {QuestionInAction} from "../../components/Question/InTestTaking/QuestionInAction";
+import {CountdownTimer} from "../../components/Timer/CountdownTimer";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: "inherit",
@@ -181,11 +182,10 @@ export default function TestTakingPage() {
                                             }}
                                         >
                                             <Paper sx={{textAlign: 'center'}}>
-                                                {test ? <Countdown
-                                                    date={startTime + (1000 * 60 * test.time)}
-                                                    // date={startTime + (1000 * 5)}
-                                                    renderer={renderer}
-                                                    onComplete={submitForm}
+                                                {test ? <CountdownTimer
+                                                    startTime={startTime}
+                                                    testTime ={test.time}
+                                                    submitForm={submitForm}
                                                 /> : ""}
                                             </Paper>
                                         </Grid>
