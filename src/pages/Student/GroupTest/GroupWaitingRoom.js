@@ -44,6 +44,13 @@ export default function GroupWaitingRoom() {
         }
 
         setOpen(false);
+    };
+
+    const handleCloseOut = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
         setOut(false)
     };
 
@@ -223,6 +230,7 @@ export default function GroupWaitingRoom() {
                 </Grid>
 
             </Box>
+
             <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="info" color="primary" sx={{ width: '100%' }}>
                     {console.log("peopleIndex",peopleIndex)}
@@ -231,14 +239,16 @@ export default function GroupWaitingRoom() {
                      }
                 </Alert>
             </Snackbar>
-            <Snackbar open={out} autoHideDuration={2000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="warning"  sx={{ width: '100%' }}>
+
+            <Snackbar open={out} autoHideDuration={2000} onClose={handleCloseOut}>
+                <Alert onClose={handleCloseOut} severity="warning"  sx={{ width: '100%' }}>
                     {console.log("peopleIndex",peopleIndex)}
                     { peopleIndex &&
                      <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
                      }
                 </Alert>
             </Snackbar>
+
             {peopleList.length > 1?
             <StudentsLounge peopleList={peopleList.filter(item => item.email !== user.info.email)} />:<h2>Bạn là người tham gia đầu tiên ...</h2>
         }

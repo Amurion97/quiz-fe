@@ -58,12 +58,19 @@ export function TeacherStartOnlineTest() {
     });
     const [open, setOpen] = React.useState(false);
     const [out, setOut] = React.useState(false);
-    const handleClose1 = (event, reason) => {
+    const handleCloseSnackbarIn = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
 
         setOpen(false);
+    };
+
+    const handleCloseSnackbarOut = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
         setOut(false)
     };
 
@@ -379,16 +386,16 @@ export function TeacherStartOnlineTest() {
                 </Alert>
             </Snackbar>
 
-            <Snackbar open={open} autoHideDuration={2000} onClose={handleClose1}>
-                <Alert onClose={handleClose} severity="info" color="primary" sx={{ width: '100%' }}>
+            <Snackbar open={open} autoHideDuration={2000} onClose={handleCloseSnackbarIn}>
+                <Alert onClose={handleCloseSnackbarIn} severity="info" color="primary" sx={{ width: '100%' }}>
                     {console.log("peopleIndex", peopleIndex)}
                     {peopleIndex &&
                         <span> Tài khoản {peopleIndex.email} vừa tham gia phòng chờ ! </span>
                     }
                 </Alert>
             </Snackbar>
-            <Snackbar open={out} autoHideDuration={2000} onClose={handleClose1}>
-                <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
+            <Snackbar open={out} autoHideDuration={2000} onClose={handleCloseSnackbarOut}>
+                <Alert onClose={handleCloseSnackbarOut} severity="warning" sx={{ width: '100%' }}>
                     {console.log("peopleIndex", peopleIndex)}
                     {peopleIndex &&
                         <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
