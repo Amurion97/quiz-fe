@@ -286,19 +286,19 @@ export function TeacherStartOnlineTest() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        pt: 4,
+                        pt: 2,
                         
                     }}
                 >
                     <Button
                         sx={{
                             boxShadow: `5px 5px ${alpha('#595959', 0.4)}`,
-                            p: 5,
-                            border: '2px solid',
-                            maxHeight:{
-                                xs: 20,
-                                
-                            }
+                            p: {
+                                xs:3,
+                                md:5
+                            },
+                            border: '1px solid',
+                            
     
 
                         }}
@@ -328,10 +328,12 @@ export function TeacherStartOnlineTest() {
                         height: "100%",
                         px: 3,
                         
+                        
                     }}>
                         <Box sx={{
                             display: "flex", alignItems: "center",
-                            py: 1
+                            py: 1,
+                            
                         }}>
                             <GroupsTwoToneIcon fontSize='large'/>
                             <Typography variant='h4' sx={{ml: "4px"}}>{peopleList.length}</Typography>
