@@ -1,19 +1,15 @@
-import { Grid, Paper, Typography } from "@mui/material";
+//React
+import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import styled, { useTheme } from "styled-components";
-import { customAPIv1 } from "../../features/customAPI";
-import { useEffect } from "react";
 
-const Item2 = styled(Paper)(({ theme }) => ({
-    backgroundColor: "#7a1fa2",
-    textAlign: "center",
-    color: "#fff",
-}));
+//Mui
+import {   Typography } from "@mui/material";
+//Component
+import { customAPIv1 } from "../../features/customAPI";
+
 
 export default function Tags() {
-    const theme = useTheme();
-
     const location = useLocation();
     console.log("location in Icon of Result-Static:", location)
     const { state } = location;
@@ -64,24 +60,7 @@ export default function Tags() {
                     }
                 })}
             </Typography>
-            {/* <Grid container spacing={2}>
-                <Grid item xs={2}>
-                    <Paper elevation={0}>Tag 1</Paper>
-                </Grid>
-                <Grid item xs={2}>
-                    <Paper elevation={0}>Tag 1</Paper>
-                </Grid>
-                <Grid item xs={2}>
-                    <Paper elevation={0}>Tag 1</Paper>
-                </Grid>
-                <Grid item xs={6} />
-                <Grid item xs={2}>
-                    <Typography>Participant</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <Typography>Question</Typography>
-                </Grid>
-            </Grid> */}
+        
         </>
     );
 }

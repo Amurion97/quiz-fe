@@ -1,16 +1,18 @@
-import { Grid, Paper, Typography, styled } from "@mui/material";
-import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import Box from "@mui/material/Box";
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-
-import { useTheme } from "@mui/material/styles";
-import { useLocation } from "react-router-dom";
-import { customAPIv1 } from "../../features/customAPI";
+//React
 import { useEffect } from "react";
 import { useState } from "react";
 import {  CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { useLocation } from "react-router-dom";
+//Mui
+import { useTheme } from "@mui/material/styles";
+import { Grid, Paper, Typography } from "@mui/material";
+///mui-icon
+import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+//componnent
+import { customAPIv1 } from "../../features/customAPI";
 
 import _ from "lodash";
 
@@ -66,11 +68,12 @@ export default function Icons(props) {
     return (
         <>
             <Grid container >
-                <Grid item xs={4} >
-                    <Paper sx={{ width: 80, height: 80 }}>
+                <Grid item xs={4} sx={{}} >
+                    <Paper sx={{ width: 80, height: 80, ml:"auto",mr:"auto"}}>
                         <CircularProgressbarWithChildren
                             value={props.accurac?props.accurac:0}
                             styles={buildStyles({
+                                
                                 backgroundColor: theme.palette.grey[300],
                                 pathColor: theme.palette.success.main,
                                 trailColor:props.accurac? theme.palette.error.main:""
@@ -94,7 +97,7 @@ export default function Icons(props) {
                     </Paper>
                 </Grid>
                 <Grid item xs={4}>
-                    <Paper sx={{ width: 80, height: 80 }}>
+                    <Paper sx={{ width: 80, height: 80, ml:"auto",mr:"auto" }}>
                         <CircularProgressbarWithChildren
                             styles={buildStyles({
                                 backgroundColor: theme.palette.grey[300],
@@ -110,7 +113,7 @@ export default function Icons(props) {
                     </Paper>
                 </Grid>
                 <Grid item xs={4}>
-                    <Paper sx={{ width: 80, height: 80 }}>
+                    <Paper sx={{ width: 80, height: 80, ml:"auto",mr:"auto" }}>
                         <CircularProgressbarWithChildren
                             styles={buildStyles({
                                 backgroundColor: theme.palette.grey[300],

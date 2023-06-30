@@ -1,3 +1,4 @@
+//mui
 import {
     Box,
     Grid,
@@ -10,21 +11,51 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import { useTheme } from "@mui/material/styles";
+//react
 import { useLocation } from "react-router-dom";
-import { customAPIv1 } from "../../features/customAPI";
 import { useState } from "react";
 import { useEffect } from "react";
+//components
+import { customAPIv1 } from "../../features/customAPI";
 
-const columns = [
-    { id: "email", label: "Email", minWidth: 100 },
-    { id: "", label: "", minWidth: 300 },
-    { id: "accuracy", label: "Accuracy", minWidth: 150 },
-    { id: "point", label: "Point", minWidth: 150 },
-    { id: "finish", label: "Date Taken", minWidth: 150, align: 'center' },
-];
+
 
 export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
     const theme = useTheme();
+    const [isMobileSize, setIsMobileSize] = useState(true);
+
+    let columns = [
+        { id: "email", label: "Email", minWidth: 100,align: 'center' },
+        { id: "accuracy", label: "Chính xác", minWidth: 50,align: 'center' },
+      ];
+      
+      if (isMobileSize) {
+        columns = [
+          ...columns,
+          { id: "", label: "", minWidth: 300 },
+          { id: "point", label: " Điểm", minWidth: 50,align: 'center' },
+          { id: "finish", label: "Thời gian", minWidth: 100, align: 'center' },
+        ];
+      }
+    
+    useEffect(() => {
+        const handleResize = () => {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            if (windowWidth <= 375 && windowHeight <= 667) {
+                setIsMobileSize(false);
+            } else {
+                setIsMobileSize(true);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [window.innerWidth]);
 
     const location = useLocation();
     console.log("location in Icon of Result-Static:", location);
@@ -56,7 +87,7 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
     }, 0);
     setAccurac(totalScore / attempts.length);
     setAnswer(attempts.length)
-   
+
 
     return (
         <>
@@ -74,7 +105,8 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
                                             theme.palette.primary.dark,
                                         color: theme.palette.primary
                                             .contrastText,
-                                    }}>
+                                    }}
+                                >
                                     {column.label}
                                 </TableCell>
                             ))}
@@ -84,57 +116,54 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
                         {attempts.map((item, index) => {
                             let corrects = item.corrects;
                             let incorrects = item.incorrects;
-                            let  sumQuestions = corrects + incorrects;
+                            let sumQuestions = corrects + incorrects;
                             let date = new Date(item.finish);
-                            setQuestion(sumQuestions)
+                            setQuestion(sumQuestions);
                             console.log('sumQuestions', sumQuestions);
                             return (
-                                <TableRow>
+                                <TableRow key={index}>
                                     <TableCell>{item.user.email}</TableCell>
-                                    <TableCell>
-                                        <Box
-                                            sx={{
-                                                height: "2vh",
-                                                width: "100%",
-                                                mt: 3,
-                                            }}>
-                                            <Grid
-                                                container
-                                                spacing={1}
-                                                sx={{ height: "100%" }}>
-                                                {[...Array(sumQuestions)].map(
-                                                    (item, index) => (
+                                
+                                    <TableCell sx={{textAlign:"center"}}>{item.score}%</TableCell>
+                                    {isMobileSize && (
+                                        <TableCell>
+                                            <Box
+                                                sx={{
+                                                    height: "2vh",
+                                                    width: "100%",
+                                                    // mt: 3,
+                                                }}
+                                            >
+                                                <Grid container spacing={0} sx={{ height: "100%" }}>
+                                                    {[...Array(sumQuestions)].map((item, index) => (
                                                         <Grid
+                                                            key={item}
+                                                            item
                                                             xs={12 / sumQuestions}
                                                             sx={{ pl: 0.2 }}
                                                         >
                                                             <Box
                                                                 sx={{
-                                                                    bgcolor:
-                                                                        (theme) =>
-                                                                            index < corrects
-                                                                                ? theme.palette.success.main
-                                                                                : theme.palette.error.main,
+                                                                    bgcolor: (theme) =>
+                                                                        index < corrects
+                                                                            ? theme.palette.success.main
+                                                                            : theme.palette.error.main,
                                                                     height: "100%",
-                                                                    // borderRadius: 0.5,
-                                                                    borderRadius: '2.5px',
+                                                                    borderRadius: "2.5px",
                                                                 }}
                                                             />
                                                         </Grid>
-                                                    )
-                                                )}
-                                            </Grid>
-                                        </Box>
-                                    </TableCell>
-                                    <TableCell>{item.score}%</TableCell>
+                                                    ))}
+                                                </Grid>
+                                            </Box>
 
-                                    <TableCell>{corrects}/{incorrects}</TableCell>
-                                    <TableCell align={'center'}>{date.toLocaleDateString()} {' '}
-                                        {date.getHours()}:{date.getMinutes()}</TableCell>
+                                        </TableCell>
+                                    )}
+                                    {isMobileSize && (<TableCell sx={{textAlign:"center"}}>{corrects}/{incorrects}</TableCell> )}
+                                    {isMobileSize && (<TableCell align="center">{date.toLocaleDateString()} {date.getHours()}:{date.getMinutes()}</TableCell> )}
                                 </TableRow>
                             );
                         })}
-
                     </TableBody>
                 </Table>
             </TableContainer>
