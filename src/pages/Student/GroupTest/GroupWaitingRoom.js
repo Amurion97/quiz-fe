@@ -12,14 +12,13 @@ import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 //icon mui
-import { selectUser } from "../../../features/user/userSlice";
 import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
-import { useTheme } from "@mui/material/styles";
+import {useTheme} from "@mui/material/styles";
 // MUI----------------------------------------------------------------
 
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+import {useLocation, useNavigate} from "react-router-dom";
 
 // React----------------------------------------------------------------
 
@@ -27,11 +26,11 @@ import StudentsLounge from "./StudentsLounge";
 
 //Page  ----------------------------------------------------------------
 
-import { socket } from "../../../app/socket";
+import {socket} from "../../../app/socket";
 // Socket----------------------------------------------------------------
 
 // Feature----------------------------------------------------------------
-import { selectUser } from "../../../features/user/userSlice";
+import {selectUser} from "../../../features/user/userSlice";
 
 export default function GroupWaitingRoom() {
     const theme = useTheme();
@@ -46,7 +45,7 @@ export default function GroupWaitingRoom() {
     const user = useSelector(selectUser);
     const location = useLocation();
     console.log("location in student lobby:", location);
-    const { state } = location;
+    const {state} = location;
 
     const [peopleList, setPeopleList] = useState(state ? state.peopleList : []);
     const [peopleIndex, setPeopleIndex] = useState("");
@@ -119,6 +118,7 @@ export default function GroupWaitingRoom() {
                 }
             })
         }
+
         if (!state) {
             socket.on('connect', onConnect);
         }
@@ -162,7 +162,7 @@ export default function GroupWaitingRoom() {
                 }}
             >
                 <Grid container spacing={3}>
-                    <Grid item xs={12} md={8} sx={{ pr: isMd ? 3 : 0 }}>
+                    <Grid item xs={12} md={8} sx={{pr: isMd ? 3 : 0}}>
                         <Card
                             sx={{
                                 height: "100%",
@@ -176,7 +176,7 @@ export default function GroupWaitingRoom() {
                                     <Avatar
                                         src="/assets/images/avatars/avatar_default.jpg"
                                         alt="photoURL"
-                                        sx={{ height: "80px", width: "80px" }}
+                                        sx={{height: "80px", width: "80px"}}
                                     />
                                 }
                                 title={user.info.email}
@@ -195,8 +195,8 @@ export default function GroupWaitingRoom() {
                     </Grid>
 
                     <Grid item xs={12} md={4}>
-                        <Card sx={{ height: "100%", textAlign: "center" }}>
-                            <CardContent sx={{ pt: 5 }}>
+                        <Card sx={{height: "100%", textAlign: "center"}}>
+                            <CardContent sx={{pt: 5}}>
                                 <Typography
                                     variant="h4"
                                     color="text.secondary"
@@ -229,8 +229,8 @@ export default function GroupWaitingRoom() {
                             Waiting for the host to start....
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} md={2}  sx={{
-                        mt:1
+                    <Grid item xs={12} md={2} sx={{
+                        mt: 1
                     }}>
                         <Card
                             sx={{
@@ -250,11 +250,11 @@ export default function GroupWaitingRoom() {
 
                                 }}
                             >
-                                <GroupsTwoToneIcon fontSize="large" />
+                                <GroupsTwoToneIcon fontSize="large"/>
 
-                                    <Typography variant="h4" sx={{ ml: "4px" }}>
-                                        {peopleList.length}
-                                    </Typography>
+                                <Typography variant="h4" sx={{ml: "4px"}}>
+                                    {peopleList.length}
+                                </Typography>
 
                             </Box>
                         </Card>
@@ -265,26 +265,32 @@ export default function GroupWaitingRoom() {
             </Box>
 
             <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="info" color="primary" sx={{ width: '100%' }}>
-                    {console.log("peopleIndex",peopleIndex)}
-                    { peopleIndex &&
-                     <span> Tài khoản {peopleIndex.email} vừa tham gia phòng chờ ! </span>
-                     }
+                <Alert onClose={handleClose} severity="info" color="primary" sx={{width: '100%'}}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex.email} vừa tham gia phòng chờ ! </span>
+                    }
                 </Alert>
             </Snackbar>
 
             <Snackbar open={out} autoHideDuration={2000} onClose={handleCloseOut}>
-                <Alert onClose={handleCloseOut} severity="warning"  sx={{ width: '100%' }}>
-                    {console.log("peopleIndex",peopleIndex)}
-                    { peopleIndex &&
-                     <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
-                     }
+                <Alert onClose={handleCloseOut} severity="warning" sx={{width: '100%'}}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
+                    }
                 </Alert>
             </Snackbar>
 
-            {peopleList.length > 1?
-            <StudentsLounge peopleList={peopleList.filter(item => item.email !== user.info.email)} />:<h2>Bạn là người tham gia đầu tiên ...</h2>
-        }
+            {peopleList.length > 1 ?
+                <StudentsLounge peopleList={peopleList.filter(item => item.email !== user.info.email)}/> :
+                <Typography variant='h4' sx={{
+                    mx: {
+                        xs: 3,
+                        md: 5
+                    }
+                }}>Bạn là người duy nhất trong phòng ...</Typography>
+            }
         </>
     );
 }
