@@ -15,16 +15,16 @@ const StyledRoot = styled("div")(({theme}) => ({
     },
 }));
 
-const StyledSection = styled("div")(({theme}) => ({
+const StyledSection = styled("div")(({ theme }) => ({
     width: "100%",
     maxWidth: 480,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    // boxShadow: theme.customShadows.card,
-    // backgroundColor: theme.palette.background.default,
-    // backgroundColor: '#f9fafb',
-}));
+    [theme.breakpoints.down("md")]: {
+      display: "none", // Ẩn phần hình ảnh khi hiển thị trên thiết bị di động
+    },
+  }));
 
 const StyledContent = styled("div")(({theme}) => ({
     maxWidth: 480,

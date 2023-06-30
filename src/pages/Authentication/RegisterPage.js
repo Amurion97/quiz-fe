@@ -1,80 +1,109 @@
-import {Helmet} from 'react-helmet-async';
-// @mui
-import {styled} from '@mui/material/styles';
-import {Link, Container, Typography} from '@mui/material';
-// hooks
-// components
-import Logo from '../../components/logo';
-import RegisterForm from '../../components/Forms/Authentication/RegisterForm';
 
-// ----------------------------------------------------------------------
 
-const StyledRoot = styled('div')(({theme}) => ({
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-    },
+
+import { Link, Container, Typography, Grid } from "@mui/material";
+import { styled } from "@mui/material/styles";
+// MUI----------------------------------------------------------------
+
+
+import { Helmet } from "react-helmet-async";
+// React---------------------------------------------------------------- 
+
+import Logo from "../../components/logo";
+// Logo-------------------------------------------------------------------
+
+
+import RegisterForm from "../../components/Forms/Authentication/RegisterForm";
+// Componnet-------------------------------------------------------------------
+
+
+
+const StyledRoot = styled("div")(({ theme }) => ({
+    display: "flex",
 }));
 
-const StyledSection = styled('div')(({theme}) => ({
-    width: '100%',
-    maxWidth: 480,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    // boxShadow: theme.customShadows.card,
-    // backgroundColor: theme.palette.background.default,
-    // backgroundColor: '#f9fafb',
+const StyledSection = styled("div")(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
 }));
 
-const StyledContent = styled('div')(({theme}) => ({
-    maxWidth: 480,
-    margin: 'auto',
-    minHeight: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'column',
+const StyledContent = styled("div")(({ theme }) => ({
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
     padding: theme.spacing(12, 0),
 }));
-
-// ----------------------------------------------------------------------
 
 export default function RegisterPage() {
     return (
         <>
             <Helmet>
-                <title> Register | Quiz </title>
+                <title>Register | Quiz</title>
             </Helmet>
 
             <StyledRoot>
-                <Logo
+                <Grid container>
+                    <Grid item xs={0} sm={0} md={6} 
                     sx={{
-                        position: 'fixed',
-                        top: {xs: 16, sm: 24, md: 40},
-                        left: {xs: 16, sm: 24, md: 40},
+                        display: {
+                            xs: 'none',
+                            md: 'initial',
+                        }
                     }}
-                />
+                        >
+                        <StyledSection>
+                            <Typography
+                                variant="h3"
+                                sx={{ px: 5, mt: 10, mb: 5 }}
+                            >
+                                Hi, Welcome to Quiz
+                            </Typography>
+                            <img
+                                src="/assets/illustrations/All the data-rafiki.png"
+                                alt="login"
+                            />
+                        </StyledSection>
+                    </Grid>
 
-                <StyledSection>
-                    <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
-                        Chào mừng bạn đến trang đăng ký tài khoản 😍
-                    </Typography>
-                    <img src="/assets/illustrations/All the data-rafiki.png" alt="login"/>
-                </StyledSection>
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        sx={{ display: "flex", alignItems: "center" , mt:4}}
+                    >
+                        <Container maxWidth="sm">
+                            <Grid container direction="column" spacing={2}>
+                                <Grid item >
+                                    <Logo
+                                        sx={{
+                                            position: "fixed",
+                                            top: { xs: 16, sm: 24, md: 40 },
+                                            left: { xs: 16, sm: 24, md: 40 },
+                                        }}
+                                    />
+                                </Grid>
 
-                <Container maxWidth="sm">
-                    <StyledContent>
-                        <Typography variant="h4" gutterBottom>
-                            Đăng ký tài khoản Quiz
-                        </Typography>
+                                <Grid item>
+                                    <Typography variant="h4" gutterBottom>
+                                        Register in to Quiz
+                                    </Typography>
+                                </Grid>
 
-                        <Typography variant="body2" sx={{mb: 0}}>
-                            Bạn đã có sẵn một tài khoản? {''}
-                            <Link href="/login">Hãy đăng nhập nào...</Link>
-                        </Typography>
+                                <Grid item>
+                                    <Typography variant="body2" sx={{ mb: 0 }}>
+                                        Do you already have an account?{" "}
+                                        <Link href="/login">Login Here</Link>
+                                    </Typography>
+                                </Grid>
 
-                        <RegisterForm/>
-                    </StyledContent>
-                </Container>
+                                <Grid item>
+                                    <RegisterForm />
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </Grid>
+                </Grid>
             </StyledRoot>
         </>
     );
