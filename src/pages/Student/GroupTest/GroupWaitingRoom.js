@@ -49,7 +49,7 @@ export default function GroupWaitingRoom() {
 
 
     useEffect(() => {
-        localStorage.setItem('isStartingTest', null);
+        localStorage.setItem('isStartingTest', undefined);
 
         if (!state) {
             socket.connect();
@@ -108,7 +108,8 @@ export default function GroupWaitingRoom() {
             socket.off('lobby-update', onLobbyUpdate);
             socket.off('start-test', onStartTest);
 
-            if (!localStorage.getItem('isStartingTest')) {
+            console.log("isStartingTest:", localStorage.getItem('isStartingTest'));
+            if (localStorage.getItem('isStartingTest') !== 'true') {
                 console.log("isStartingTest:", localStorage.getItem('isStartingTest'));
                 console.log('socket disconnecting')
                 socket.disconnect();
