@@ -1,26 +1,26 @@
 import styled from "@emotion/styled";
-import {Box, Button, Grid, Paper, Radio, Stack, Typography} from "@mui/material";
+import { Box, Button, Grid, Paper, Radio, Stack, Typography, useMediaQuery } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {alpha, useTheme} from "@mui/material/styles";
+import { alpha, useTheme } from "@mui/material/styles";
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
-import {useEffect, useState} from "react";
-import {customAPIv1} from "../../features/customAPI";
+import { useEffect, useState } from "react";
+import { customAPIv1 } from "../../features/customAPI";
 
-import {Form, Formik} from "formik";
+import { Form, Formik } from "formik";
 import Checkbox from "@mui/material/Checkbox";
 import Countdown from 'react-countdown';
-import {useLocation, useNavigate} from "react-router-dom";
-import {QuestionInAction} from "../../components/Question/InTestTaking/QuestionInAction";
+import { useLocation, useNavigate } from "react-router-dom";
+import { QuestionInAction } from "../../components/Question/InTestTaking/QuestionInAction";
+import { QuestionInActionResponsive } from "../../components/Question/InTestTaking/QuenstionInActionResponsive";
 
-const Item = styled(Paper)(({theme}) => ({
+const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "inherit",
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: "center",
     color: theme.palette.text.secondary,
 }));
-
 export const renderer = (x) => {
 
     if (x.completed) {
@@ -35,13 +35,14 @@ const BG_COLOR = ["#2BA687", "#1976D2", "#F0A001", "#F200BE", "#CD1E3F"];
 export default function TestTakingPage() {
     const navigate = useNavigate();
     const theme = useTheme();
-
+    const checkBreakPoint = useMediaQuery(theme.breakpoints.up('xl'));
+    console.log("kiểm tra về useMediaQuery ", checkBreakPoint)
     const location = useLocation();
     // console.log("location in test taking:", location)
-    const {state} = location;
+    const { state } = location;
     let id
     if (state) {
-        ({id} = state)
+        ({ id } = state)
     }
 
     const [test, setTest] = useState(null);
@@ -95,6 +96,7 @@ export default function TestTakingPage() {
 
     return (
         <>
+
             <Formik
                 initialValues={{
                     test: id
@@ -125,34 +127,53 @@ export default function TestTakingPage() {
                 enableReinitialize={true}
             >
                 {({
-                      values,
-                      submitForm,
-                      isSubmitting,
-                  }) => (
+                    values,
+                    submitForm,
+                    isSubmitting,
+                }) => (
                     <Form>
                         <Grid
                             container
                             sx={{
-                                p: 4,
-                                height: '85vh',
+                                p: {
+                                    xs: 1,
+                                    lg: 4,
+                                },
+                                height: {
+                                    lg: '85vh'
+                                },
                             }}
                         >
 
-                            <Grid item xs={12} lg={10} sx={{pr: 2}}>
-                                <QuestionInAction
-                                    currentQuestion={currentQuestion}
-                                    currentAnswerList={answerList[currentQuestionIndex]}
-                                    handleAnswerClick={handleAnswerClick}
-                                    handleNextQuestion={handleNextQuestion}
-                                    handlePreviousQuestion={handlePreviousQuestion}
-                                    submitForm={submitForm}
-                                    totalQuestion={test? test.details.length : 100}
-                                    currentQuestionIndex={currentQuestionIndex}
-                                />
-
+                            <Grid item xs={12} lg={10} sx={{
+                                pr: {
+                                    lg: 2
+                                }
+                            }}>
+                                {checkBreakPoint === false ?
+                                    <QuestionInActionResponsive 
+                                        currentQuestion={currentQuestion}
+                                        currentAnswerList={answerList[currentQuestionIndex]}
+                                        handleAnswerClick={handleAnswerClick}
+                                        handleNextQuestion={handleNextQuestion}
+                                        handlePreviousQuestion={handlePreviousQuestion}
+                                        submitForm={submitForm}
+                                        totalQuestion={test ? test.details.length : 100}
+                                        currentQuestionIndex={currentQuestionIndex} /> :
+                                    <QuestionInAction
+                                        currentQuestion={currentQuestion}
+                                        currentAnswerList={answerList[currentQuestionIndex]}
+                                        handleAnswerClick={handleAnswerClick}
+                                        handleNextQuestion={handleNextQuestion}
+                                        handlePreviousQuestion={handlePreviousQuestion}
+                                        submitForm={submitForm}
+                                        totalQuestion={test ? test.details.length : 100}
+                                        currentQuestionIndex={currentQuestionIndex}
+                                    />
+                                }
                             </Grid>
 
-                            <Grid item xs={12} lg={2}>
+                            {checkBreakPoint === false ? null : <Grid item xs={12} lg={2}>
                                 <Paper
                                     sx={{
                                         backgroundColor: theme.palette.primary.light,
@@ -180,7 +201,7 @@ export default function TestTakingPage() {
                                                 height: "10%",
                                             }}
                                         >
-                                            <Paper sx={{textAlign: 'center'}}>
+                                            <Paper sx={{ textAlign: 'center' }}>
                                                 {test ? <Countdown
                                                     date={startTime + (1000 * 60 * test.time)}
                                                     // date={startTime + (1000 * 5)}
@@ -205,7 +226,7 @@ export default function TestTakingPage() {
                                                     maxHeight: "100%",
                                                 }}
                                             >
-                                                <SimpleBar style={{maxHeight: "100%"}}>
+                                                <SimpleBar style={{ maxHeight: "100%" }}>
                                                     <Grid
                                                         container spacing={1}
                                                         sx={{
@@ -214,31 +235,31 @@ export default function TestTakingPage() {
 
                                                     >
                                                         {test && test.details.map((item, index) => {
-                                                                const done = (test.details[index].question.type.id <= 2) ?
-                                                                    answerList[index] !== null
-                                                                    : answerList[index].length > 0
+                                                            const done = (test.details[index].question.type.id <= 2) ?
+                                                                answerList[index] !== null
+                                                                : answerList[index].length > 0
                                                                 ;
-                                                                return (
-                                                                    <Grid key={item.no}
-                                                                          xs={4} sx={{mb: 1}}>
+                                                            return (
+                                                                <Grid key={item.no}
+                                                                    xs={4} sx={{ mb: 1 }}>
 
-                                                                        <Avatar sx={{
-                                                                            width: 56, height: 56,
-                                                                            bgcolor: done ? BG_COLOR[0] : theme.palette.background.paper,
-                                                                            color: 'primary.darker',
-                                                                            fontSize: 'bold',
-                                                                        }}
-                                                                                onClick={() => {
-                                                                                    setCurrentQuestionIndex(index)
-                                                                                }
-                                                                                }
-                                                                        >
-                                                                            {item.no}
-                                                                        </Avatar>
+                                                                    <Avatar sx={{
+                                                                        width: 56, height: 56,
+                                                                        bgcolor: done ? BG_COLOR[0] : theme.palette.background.paper,
+                                                                        color: 'primary.darker',
+                                                                        fontSize: 'bold',
+                                                                    }}
+                                                                        onClick={() => {
+                                                                            setCurrentQuestionIndex(index)
+                                                                        }
+                                                                        }
+                                                                    >
+                                                                        {item.no}
+                                                                    </Avatar>
 
-                                                                    </Grid>
-                                                                )
-                                                            }
+                                                                </Grid>
+                                                            )
+                                                        }
                                                         )}
 
 
@@ -293,8 +314,7 @@ export default function TestTakingPage() {
                                         </Grid>
                                     </Grid>
                                 </Paper>
-                            </Grid>
-
+                            </Grid>}
                         </Grid>
 
                         {/*{JSON.stringify(values)}*/}

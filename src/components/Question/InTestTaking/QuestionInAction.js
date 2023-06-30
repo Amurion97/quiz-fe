@@ -3,6 +3,7 @@ import Checkbox from "@mui/material/Checkbox";
 import {alpha, useTheme} from "@mui/material/styles";
 
 const BG_COLOR = ["#2BA687", "#1976D2", "#F0A001", "#F200BE", "#CD1E3F"];
+const BG_COLOR_SCROLL = ["#008453", "#005A94", "#945000", "#940084", "#94002D"];
 
 export function QuestionInAction({
                                      currentQuestion,
@@ -63,8 +64,16 @@ export function QuestionInAction({
                                 p: 2,
                                 color: theme.palette.primary.contrastText,
                                 boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
+                                overflow: 'auto',
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    backgroundColor: BG_COLOR[index],
+                                  },
+                                  '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: BG_COLOR_SCROLL[index],
+                                    borderRadius: '10px',},
                             }}
-                            elevation={3}
+                            elevation={2}
                         >
 
                             <Box sx={{
@@ -137,7 +146,7 @@ export function QuestionInAction({
                         }}
                         onClick={handlePreviousQuestion}
                 >
-                    Previous
+                    Câu trước
                 </Button>}
             {currentQuestionIndex === totalQuestion - 1 ?
                 <Button variant="contained" size='large' sx={{fontSize: 20,}}
@@ -146,13 +155,13 @@ export function QuestionInAction({
                             handleNextQuestion()
                         }}
                 >
-                    Submit
+                    Nộp bài
                 </Button>
                 :
                 <Button variant="contained" size='large' sx={{fontSize: 20,}}
                         onClick={handleNextQuestion}
                 >
-                    Next
+                    Câu tiếp
                 </Button>}
         </Stack>
     </>)
