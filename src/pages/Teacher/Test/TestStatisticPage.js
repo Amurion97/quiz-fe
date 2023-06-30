@@ -1,3 +1,4 @@
+//mui
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,29 +13,40 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import React, {useEffect, useState} from "react";
-import {Helmet} from "react-helmet-async";
-import {alpha, useTheme} from "@mui/material/styles";
-import {customAPIv1} from "../../../features/customAPI";
-import {socket} from "../../../app/socket";
-import {useSelector} from "react-redux";
-import {selectUser} from "../../../features/user/userSlice";
-import {useLocation, useNavigate} from "react-router-dom";
+import { alpha, useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
+//react
+import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+//conponents
+import { customAPIv1 } from "../../../features/customAPI";
+//sockets
+import { socket } from "../../../app/socket";
+import { selectUser } from "../../../features/user/userSlice";
 
-const columns = [
-    {id: "rank", label: "Rank", minWidth: 50, align: "center"},
-    {id: "email", label: "Email", minWidth: 150},
-    {id: "", label: "", minWidth: 400, align: "center"},
-    {id: "score", label: "Score", minWidth: 100, align: "center"},
-];
+
+
+
 
 export default function TestStatisticPage() {
+    const [isMobileSize, setIsMobileSize] = useState(true);
+    const columns = isMobileSize ? [
+        { id: "rank", label: "Rank", minWidth: 50, align: "center" },
+        { id: "email", label: "Email", minWidth: 150 },
+        { id: "", label: "", minWidth: 1, align: "center" },
+        { id: "score", label: "Score", minWidth: 100, align: "center" },
+    ]:[
+        { id: "rank", label: "Rank", minWidth: 50, align: "center" },
+        { id: "email", label: "Email", minWidth: 150 },
+        { id: "score", label: "Score", minWidth: 100, align: "center" },
+    ];
     const theme = useTheme();
     const user = useSelector(selectUser);
     const navigate = useNavigate();
@@ -46,7 +58,7 @@ export default function TestStatisticPage() {
     console.log("roomCode:", roomCode);
 
     const location = useLocation()
-    const {state} = location
+    const { state } = location
 
     const [peopleList, setPeopleList] = useState(state.peopleList)
     console.log("peopleList:", peopleList);
@@ -83,7 +95,7 @@ export default function TestStatisticPage() {
 
         function onConnect() {
             socket.emit('join-room',
-                {roomCode: roomCode, email: user.info.email},
+                { roomCode: roomCode, email: user.info.email },
                 (res) => {
                     console.log('join-room', res);
                     // if (res.success !== false) {
@@ -129,6 +141,27 @@ export default function TestStatisticPage() {
             socket.off('room-update', onRoomUpdate);
         }
     }, [peopleList])
+
+    
+
+    useEffect(() => {
+        const handleResize = () => {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            if (windowWidth <= 375 && windowHeight <= 667) {
+                setIsMobileSize(false);
+            } else {
+                setIsMobileSize(true);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <>
@@ -193,10 +226,10 @@ export default function TestStatisticPage() {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Paper padding={2} sx={{bgcolor: "transparent"}}>
+                    <Paper padding={2} sx={{ bgcolor: "transparent" }}>
                         <TableContainer
                             component={Paper}
-                            sx={{maxHeight: "70vh", bgcolor: "transparent"}}>
+                            sx={{ maxHeight: "70vh", bgcolor: "transparent" }}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
@@ -218,7 +251,7 @@ export default function TestStatisticPage() {
                                 </TableHead>
                                 <TableBody>
                                     {peopleList.map((row, index) => {
-                                        const {id, email, corrects, incorrects} = row;
+                                        const { id, email, corrects, incorrects } = row;
                                         let sumQuestions = corrects + incorrects;
 
                                         return (
@@ -264,7 +297,7 @@ export default function TestStatisticPage() {
                                                     </Stack>
                                                 </TableCell>
 
-                                                <TableCell
+                                                {isMobileSize && (<TableCell
                                                     component="th"
                                                     scope="row"
                                                     padding="none">
@@ -278,13 +311,13 @@ export default function TestStatisticPage() {
                                                         <Grid
                                                             container
                                                             spacing={1}
-                                                            sx={{height: "100%"}}>
+                                                            sx={{ height: "100%" }}>
                                                             {[...Array(totalQuestion)].map(
                                                                 (item, index) => (
 
                                                                     <Grid
                                                                         xs={12 / totalQuestion}
-                                                                        sx={{pl: 0.2}}
+                                                                        sx={{ pl: 0.2 }}
                                                                     >
                                                                         <Box
                                                                             sx={{
@@ -307,7 +340,7 @@ export default function TestStatisticPage() {
                                                         </Grid>
                                                     </Box>
 
-                                                </TableCell>
+                                                </TableCell>)}
 
                                                 <TableCell
                                                     align="center"
@@ -352,7 +385,7 @@ export default function TestStatisticPage() {
                         handleCloseConfirm()
                         setOpenBackdrop(true);
 
-                        socket.emit('stop-test',{roomCode: roomCode, email: user.info.email}, (res) => {
+                        socket.emit('stop-test', { roomCode: roomCode, email: user.info.email }, (res) => {
                             console.log('stop-test', res);
 
                             if (res.success === true) {
@@ -370,7 +403,7 @@ export default function TestStatisticPage() {
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={openBackdrop}
-                // onClick={handleCloseBackdrop}
+            // onClick={handleCloseBackdrop}
             >
                 <CircularProgress color="primary" />
             </Backdrop>
