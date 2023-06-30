@@ -2,8 +2,11 @@ import {useEffect, useState} from "react";
 import {socket} from "../app/socket";
 import {Alert} from "@mui/lab";
 import {Backdrop} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 export function OnStopTestInFormik({submitForm}) {
+    const navigate = useNavigate()
+
     const [socketMessage, setSocketMessage] = useState('')
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
@@ -12,12 +15,39 @@ export function OnStopTestInFormik({submitForm}) {
 
     useEffect(() => {
         console.log('this [] effect on OnStopTestInFormik is running')
-        socket.on('stop-test', args => {
+
+        function onStopTest(args) {
             console.log('stop-test:', args)
             setSocketMessage(args.message)
             handleOpen();
-            submitForm()
-        })
+            if (submitForm) {
+                submitForm();
+            }
+        }
+
+        function onKickOut(args) {
+            console.log('kick-out:', args)
+            setSocketMessage(args.message)
+            handleOpen();
+            setTimeout(() => {
+                navigate('/')
+            }, 3000)
+        }
+
+        if (submitForm) {
+            socket.on('stop-test', onStopTest)
+        }
+
+
+        socket.on('kick-out', onKickOut);
+
+        return () => {
+            if (submitForm) {
+                socket.off('stop-test', onStopTest)
+            }
+
+            socket.off('kick-out', onKickOut);
+        }
     }, [])
     return (
         <>

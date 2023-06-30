@@ -17,7 +17,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import Button from "@mui/material/Button";
 import DoneAllTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
-import StudentsLounge from "../../Student/GroupTest/StudentsLounge";
+import StudentsLounge from "../../../components/StudentsLounge";
 import {alpha} from "@mui/material/styles";
 import React, {useEffect, useState} from "react";
 import {socket} from "../../../app/socket";
@@ -101,6 +101,14 @@ export function TeacherStartOnlineTest() {
         setOpenSuccess(false)
     };
 
+    const handleKickStudent = (email) => {
+        socket.emit('kick-out',
+            {roomCode: roomCode, email: user.info.email, targetEmail: email},
+            (res) => {
+                console.log("kick-out:", res)
+            })
+    }
+
     useEffect(() => {
         socket.connect();
 
@@ -170,7 +178,7 @@ export function TeacherStartOnlineTest() {
                                 width: 450,
                                 height: 425,
                             },
-                            mx:3
+                            mx: 3
                         }}
                     >
                         <Paper sx={{p: 10}} elevation={6}>
@@ -336,8 +344,8 @@ export function TeacherStartOnlineTest() {
                         sx={{
                             boxShadow: `5px 5px ${alpha('#595959', 0.4)}`,
                             p: {
-                                xs:3,
-                                md:5
+                                xs: 3,
+                                md: 5
                             },
                             border: '1px solid',
                         }}
@@ -351,13 +359,18 @@ export function TeacherStartOnlineTest() {
                         </Typography>
                     </Button>
                 </Grid>
+
                 <Grid
                     item xs={12}
                     container
                     justifyContent="flex-end"
                     sx={{
-                        px:10,
-                        pt:3
+                        px: {
+                            xs: 2,
+                            md: 2,
+                            lg: 10
+                        },
+                        pt: 3
                     }}
                 >
                     <Card sx={{
@@ -376,10 +389,11 @@ export function TeacherStartOnlineTest() {
                         </Box>
                     </Card>
                 </Grid>
+
                 <Grid
                     item xs={12}
                 >
-                    <StudentsLounge peopleList={peopleList}/>
+                    <StudentsLounge peopleList={peopleList} kickStudent={handleKickStudent}/>
                 </Grid>
 
             </Grid>
@@ -391,7 +405,7 @@ export function TeacherStartOnlineTest() {
             </Snackbar>
 
             <Snackbar open={open} autoHideDuration={2000} onClose={handleCloseSnackbarIn}>
-                <Alert onClose={handleCloseSnackbarIn} severity="info" color="primary" sx={{ width: '100%' }}>
+                <Alert onClose={handleCloseSnackbarIn} severity="info" color="primary" sx={{width: '100%'}}>
                     {console.log("peopleIndex", peopleIndex)}
                     {peopleIndex &&
                         <span> Tài khoản {peopleIndex.email} vừa tham gia phòng chờ ! </span>
@@ -399,7 +413,7 @@ export function TeacherStartOnlineTest() {
                 </Alert>
             </Snackbar>
             <Snackbar open={out} autoHideDuration={2000} onClose={handleCloseSnackbarOut}>
-                <Alert onClose={handleCloseSnackbarOut} severity="warning" sx={{ width: '100%' }}>
+                <Alert onClose={handleCloseSnackbarOut} severity="warning" sx={{width: '100%'}}>
                     {console.log("peopleIndex", peopleIndex)}
                     {peopleIndex &&
                         <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
