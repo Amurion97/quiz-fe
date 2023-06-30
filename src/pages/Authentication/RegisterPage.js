@@ -14,26 +14,9 @@ import Logo from "../../components/logo";
 
 
 import RegisterForm from "../../components/Forms/Authentication/RegisterForm";
+import ForgotPasswordForm from "../../components/Forms/Authentication/ResetRequestForm";
 // Componnet-------------------------------------------------------------------
-
-
-
-const StyledRoot = styled("div")(({ theme }) => ({
-    display: "flex",
-}));
-
-const StyledSection = styled("div")(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-}));
-
-const StyledContent = styled("div")(({ theme }) => ({
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    padding: theme.spacing(12, 0),
-}));
+import {StyledContent, StyledRoot, StyledSection} from "./LoginPage";
 
 export default function RegisterPage() {
     return (
@@ -43,67 +26,35 @@ export default function RegisterPage() {
             </Helmet>
 
             <StyledRoot>
-                <Grid container>
-                    <Grid item xs={0} sm={0} md={6} 
+                <Logo
                     sx={{
-                        display: {
-                            xs: 'none',
-                            md: 'initial',
-                        }
+                        position: "fixed",
+                        top: {xs: 16, sm: 24, md: 40},
+                        left: {xs: 16, sm: 24, md: 40},
                     }}
-                        >
-                        <StyledSection>
-                            <Typography
-                                variant="h3"
-                                sx={{ px: 5, mt: 10, mb: 5 }}
-                            >
-                                Hi, Welcome to Quiz
-                            </Typography>
-                            <img
-                                src="/assets/illustrations/All the data-rafiki.png"
-                                alt="login"
-                            />
-                        </StyledSection>
-                    </Grid>
+                />
 
-                    <Grid
-                        item
-                        xs={12}
-                        md={6}
-                        sx={{ display: "flex", alignItems: "center" , mt:4}}
-                    >
-                        <Container maxWidth="sm">
-                            <Grid container direction="column" spacing={2}>
-                                <Grid item >
-                                    <Logo
-                                        sx={{
-                                            position: "fixed",
-                                            top: { xs: 16, sm: 24, md: 40 },
-                                            left: { xs: 16, sm: 24, md: 40 },
-                                        }}
-                                    />
-                                </Grid>
+                <StyledSection>
+                    <Typography variant="h3" sx={{px: 5, mt: 10, mb: 5}}>
+                        Chào mừng bạn đến trang đăng ký tài khoản 😍
+                    </Typography>
+                    <img src="/assets/illustrations/All the data-rafiki.png" alt="login"/>
+                </StyledSection>
 
-                                <Grid item>
-                                    <Typography variant="h4" gutterBottom>
-                                        Register in to Quiz
-                                    </Typography>
-                                </Grid>
+                <Container maxWidth="sm">
+                    <StyledContent>
+                        <Typography variant="h4" gutterBottom>
+                            Đăng ký tài khoản Quiz
+                        </Typography>
 
-                                <Grid item>
-                                    <Typography variant="body2" sx={{ mb: 0 }}>
-                                        Do you already have an account?{" "}
-                                        <Link href="/login">Login Here</Link>
-                                    </Typography>
-                                </Grid>
+                        <Typography variant="body2">
+                            Bạn đã có sẵn một tài khoản? {''}
+                            <Link href="/login">Hãy đăng nhập nào...</Link>
+                        </Typography>
 
-                                <Grid item>
-                                    <RegisterForm />
-                                </Grid>
-                            </Grid>
-                        </Container>
-                    </Grid>
-                </Grid>
+                        <RegisterForm/>
+                    </StyledContent>
+                </Container>
             </StyledRoot>
         </>
     );

@@ -6,35 +6,11 @@ import {Link, Container, Typography} from "@mui/material";
 // components
 import Logo from "../../components/logo";
 import ForgotPasswordForm from "../../components/Forms/Authentication/ResetRequestForm";
+import {StyledContent, StyledRoot, StyledSection} from "./LoginPage";
 
 // ----------------------------------------------------------------------
 
-const StyledRoot = styled("div")(({theme}) => ({
-    [theme.breakpoints.up("md")]: {
-        display: "flex",
-    },
-}));
 
-const StyledSection = styled("div")(({ theme }) => ({
-    width: "100%",
-    maxWidth: 480,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    [theme.breakpoints.down("md")]: {
-      display: "none", // Ẩn phần hình ảnh khi hiển thị trên thiết bị di động
-    },
-  }));
-
-const StyledContent = styled("div")(({theme}) => ({
-    maxWidth: 480,
-    margin: "auto",
-    minHeight: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    padding: theme.spacing(12, 0),
-}));
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +18,7 @@ export default function ForgotPasswordPage() {
     return (
         <>
             <Helmet>
-                <title> Forgot Password | Quiz </title>
+                <title> Quên mật khẩu | Quiz </title>
             </Helmet>
 
             <StyledRoot>
@@ -70,12 +46,14 @@ export default function ForgotPasswordPage() {
                             Tìm tài khoản của bạn nào
                         </Typography>
 
-                        <Typography variant="body2" sx={{mb: 5}}>
-                            Hãy nhập email để tìm tài khảon của bạn <br/>
+                        <Typography variant="body2">
+                            Hãy nhập email để tìm tài khoản của bạn <br/>
                             Bạn đã nhớ lại mật khẩu rồi?  {""}
                             <Link href="/login">Đăng nhập lại nào...</Link>
                         </Typography>
+
                         <ForgotPasswordForm/>
+
                     </StyledContent>
                 </Container>
             </StyledRoot>
