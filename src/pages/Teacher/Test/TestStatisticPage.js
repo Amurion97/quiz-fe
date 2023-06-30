@@ -6,19 +6,26 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {
-    Box,
-    Grid,
+    Backdrop,
+    Box, CircularProgress, Collapse,
+    Grid, IconButton,
     Stack,
     Typography,
 } from "@mui/material";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Helmet} from "react-helmet-async";
-import {useTheme} from "@mui/material/styles";
+import {alpha, useTheme} from "@mui/material/styles";
 import {customAPIv1} from "../../../features/customAPI";
 import {socket} from "../../../app/socket";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../../features/user/userSlice";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import Button from "@mui/material/Button";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Dialog from "@mui/material/Dialog";
 
 const columns = [
     {id: "rank", label: "Rank", minWidth: 50, align: "center"},
@@ -29,7 +36,8 @@ const columns = [
 
 export default function TestStatisticPage() {
     const theme = useTheme();
-    const user = useSelector(selectUser)
+    const user = useSelector(selectUser);
+    const navigate = useNavigate();
 
     const url = new URL(window.location.href)
     const searchParams = new URLSearchParams(url.search);
@@ -44,6 +52,25 @@ export default function TestStatisticPage() {
     console.log("peopleList:", peopleList);
 
     const [totalQuestion, setTotalQuestion] = useState(0);
+
+    const [openConfirm, setOpenConfirm] = useState(false);
+
+    const handleClickOpenConfirm = () => {
+        setOpenConfirm(true);
+    };
+
+    const handleCloseConfirm = () => {
+        setOpenConfirm(false);
+    };
+
+    const [openBackdrop, setOpenBackdrop] = useState(false);
+    const handleCloseBackdrop = () => {
+        setOpenBackdrop(false);
+    };
+    const handleOpenBackrop = () => {
+        setOpenBackdrop(true);
+    };
+
     useEffect(() => {
         socket.connect();
 
@@ -134,6 +161,35 @@ export default function TestStatisticPage() {
                     <Typography variant="titleInTheBackground">
                         Group Test statistics
                     </Typography>
+                </Grid>
+
+                <Grid
+                    item xs={12}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        pt: 4,
+
+
+                    }}
+                >
+                    <Button
+                        sx={{
+                            boxShadow: `5px 5px ${alpha('#595959', 0.4)}`,
+                            p: 5,
+                            border: '2px solid'
+                        }}
+                        variant="outlined"
+                        size='large'
+                        onClick={handleClickOpenConfirm}
+                        color={'error'}
+
+                    >
+                        <Typography variant='h3'>
+                            STOP
+                        </Typography>
+                    </Button>
                 </Grid>
 
                 <Grid item xs={12}>
@@ -272,6 +328,52 @@ export default function TestStatisticPage() {
                     </Paper>
                 </Grid>
             </Grid>
+
+
+            <Dialog
+                open={openConfirm}
+                onClose={handleCloseConfirm}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Bạn chắc chắn muốn dừng bài thi?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Kết thúc bài thi sẽ lưu lại toàn bộ kết quả bài thi tính đến hiện tại,
+                        bạn có chắc muốn dừng bài thi không?
+                    </DialogContentText>
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseConfirm}>Không</Button>
+                    <Button onClick={() => {
+                        handleCloseConfirm()
+                        setOpenBackdrop(true);
+
+                        socket.emit('stop-test',{roomCode: roomCode, email: user.info.email}, (res) => {
+                            console.log('stop-test', res);
+
+                            if (res.success === true) {
+                                handleCloseBackdrop();
+                                navigate('/');
+                            }
+
+                        })
+                    }} autoFocus variant="contained" color="error">
+                        Dừng bài thi
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={openBackdrop}
+                // onClick={handleCloseBackdrop}
+            >
+                <CircularProgress color="primary" />
+            </Backdrop>
         </>
     );
 }
