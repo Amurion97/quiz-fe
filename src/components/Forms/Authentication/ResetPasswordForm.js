@@ -133,7 +133,7 @@ export default function ResetPasswordForm() {
                                     sx={{ mb: 2 }}
                                     variant="filled"
                                     severity="success">
-                                    Tạo mật khẩu thành công. 
+                                    Tạo mật khẩu mới thành công.
                                     Quay lại trang login trong {countdown} giây...
                                 </Alert>
                             </Collapse>

@@ -8,6 +8,11 @@ import {
     useMediaQuery,
 } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
+import * as React from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+//icon mui
+import { selectUser } from "../../../features/user/userSlice";
 import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
 import { useTheme } from "@mui/material/styles";
 // MUI----------------------------------------------------------------
@@ -44,66 +49,113 @@ export default function GroupWaitingRoom() {
     const { state } = location;
 
     const [peopleList, setPeopleList] = useState(state ? state.peopleList : []);
+    const [peopleIndex, setPeopleIndex] = useState("");
+    // setPeopleList()
     console.log("peopleList:", peopleList);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+    const [open, setOpen] = React.useState(false);
+    const [out, setOut] = React.useState(false);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const handleCloseOut = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOut(false)
+    };
+
 
     useEffect(() => {
-        socket.connect();
-        console.log("this effect is running");
+        localStorage.setItem('isStartingTest', undefined);
+
+        if (!state) {
+            socket.connect();
+        }
+
+        console.log('this [] effect on student lobby is running')
 
         function onConnect() {
-            socket.emit(
-                "join-lobby",
-                { roomCode: roomCode, email: user.info.email },
+            socket.emit('join-lobby',
+                {roomCode: roomCode, email: user.info.email},
                 (res) => {
-                    console.log("join-lobby", res);
+                    console.log('join-lobby', res);
                     if (res.success !== false) {
                         setPeopleList(res);
                     }
-                }
-            );
+
+                })
         }
 
+
         function onLobbyUpdate(arg) {
-            console.log("lobby-update:", arg);
+            console.log('lobby-update:', arg);
             if (arg.join) {
-                setPeopleList((list) => [...list, arg.person]);
+                setPeopleList((list) => [...list, arg.person])
+                setPeopleIndex(arg.person)
+                setOpen(true)
             } else if (arg.leave) {
-                setPeopleList((list) =>
-                    list.filter((item) => item.email !== arg.email)
-                );
+                setPeopleList((list) => list.filter(item => item.email !== arg.email))
+                setPeopleIndex(arg.email)
+                setOut(true)
             }
         }
 
         function onStartTest(arg) {
-            console.log("start-test:", arg);
-            navigate("/groupTestTaking", {
+            console.log('start-test:', arg);
+            localStorage.setItem('isStartingTest', true);
+            navigate('/groupTestTaking', {
                 state: {
                     test: arg.test,
-                    roomCode: roomCode,
-                },
-            });
+                    roomCode: roomCode
+                }
+            })
         }
-        socket.on("connect", onConnect);
-        socket.on("lobby-update", onLobbyUpdate);
-        socket.on("start-test", onStartTest);
+        if (!state) {
+            socket.on('connect', onConnect);
+        }
+
+        socket.on('lobby-update', onLobbyUpdate);
+        socket.on('start-test', onStartTest);
+
 
         return () => {
-            socket.off("connect", onConnect);
-            socket.off("lobby-update", onLobbyUpdate);
-            socket.off("start-test", onStartTest);
-            socket.disconnect();
-        };
-    }, []);
+            console.log('return for this [] effect on student lobby is running')
+
+            socket.off('connect', onConnect);
+            socket.off('lobby-update', onLobbyUpdate);
+            socket.off('start-test', onStartTest);
+
+            console.log("isStartingTest:", localStorage.getItem('isStartingTest'));
+            if (localStorage.getItem('isStartingTest') !== 'true') {
+                console.log("isStartingTest:", localStorage.getItem('isStartingTest'));
+                console.log('socket disconnecting')
+                socket.disconnect();
+            }
+        }
+
+    }, [])
 
     return (
         <>
             <Box
                 sx={{
                     p: 3,
-                    margin: "auto",
-                    borderWidth: "0px",
-                    [theme.breakpoints.up("md")]: {
-                        maxWidth: "1200px",
+
+                    margin: 'auto',
+                    // transform: "scale(1.2)"
+                    borderWidth: '0px',
+                    [theme.breakpoints.up('md')]: {
+                        // backgroundColor: theme.palette.primary.main,
+                        maxWidth: '1200px',
                         p: 10,
                     },
                     maxWidth: "100%", // Thêm thuộc tính maxWidth để không bị quá to trên màn hình nhỏ
@@ -130,13 +182,13 @@ export default function GroupWaitingRoom() {
                                 title={user.info.email}
                                 subheader="You"
                                 titleTypographyProps={{
-                                    variant: "h4",
+                                    variant: 'h4'
                                 }}
                                 subheaderTypographyProps={{
-                                    variant: "h5",
+                                    variant: 'h5'
                                 }}
                                 sx={{
-                                    p: 5,
+                                    p: 5
                                 }}
                             />
                         </Card>
@@ -158,6 +210,7 @@ export default function GroupWaitingRoom() {
                             </CardContent>
                         </Card>
                     </Grid>
+
                 </Grid>
 
                 <Grid container>
@@ -185,8 +238,8 @@ export default function GroupWaitingRoom() {
                                 justifyContent: "center",
                                 alignItems: "center",
                                 height: "100%",
-                            
-                                
+
+
                             }}
                         >
                             <Box
@@ -194,26 +247,44 @@ export default function GroupWaitingRoom() {
                                     display: "flex",
                                     alignItems: "center",
                                     py: 1,
-                                    
+
                                 }}
                             >
                                 <GroupsTwoToneIcon fontSize="large" />
-                                
+
                                     <Typography variant="h4" sx={{ ml: "4px" }}>
                                         {peopleList.length}
                                     </Typography>
-                                
+
                             </Box>
                         </Card>
                     </Grid>
+
                 </Grid>
+
             </Box>
 
-            <StudentsLounge
-                peopleList={peopleList.filter(
-                    (item) => item.email !== user.info.email
-                )}
-            />
+            <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="info" color="primary" sx={{ width: '100%' }}>
+                    {console.log("peopleIndex",peopleIndex)}
+                    { peopleIndex &&
+                     <span> Tài khoản {peopleIndex.email} vừa tham gia phòng chờ ! </span>
+                     }
+                </Alert>
+            </Snackbar>
+
+            <Snackbar open={out} autoHideDuration={2000} onClose={handleCloseOut}>
+                <Alert onClose={handleCloseOut} severity="warning"  sx={{ width: '100%' }}>
+                    {console.log("peopleIndex",peopleIndex)}
+                    { peopleIndex &&
+                     <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
+                     }
+                </Alert>
+            </Snackbar>
+
+            {peopleList.length > 1?
+            <StudentsLounge peopleList={peopleList.filter(item => item.email !== user.info.email)} />:<h2>Bạn là người tham gia đầu tiên ...</h2>
+        }
         </>
     );
 }

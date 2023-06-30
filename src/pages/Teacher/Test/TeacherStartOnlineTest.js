@@ -29,6 +29,7 @@ import Snackbar from "@mui/material/Snackbar";
 import {Alert} from "@mui/lab";
 import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
 import QRCode from "qrcode.react";
+import MuiAlert from '@mui/material/Alert';
 
 export function TeacherStartOnlineTest() {
     const url = new URL(window.location.href);
@@ -43,11 +44,35 @@ export function TeacherStartOnlineTest() {
 
     const user = useSelector(selectUser)
 
-    const [peopleList, setPeopleList] = useState([])
-    console.log("peopleList:", peopleList);
 
     const [isCopied, setIsCopied] = useState(false);
     const [isUrlCopied, setIsUrlCopied] = useState(false);
+    const [peopleList, setPeopleList] = useState([])
+    console.log("peopleList:", peopleList);
+
+    const [peopleIndex, setPeopleIndex] = useState("");
+    // setPeopleList()
+    console.log("peopleList:", peopleList);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+    const [open, setOpen] = React.useState(false);
+    const [out, setOut] = React.useState(false);
+    const handleCloseSnackbarIn = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const handleCloseSnackbarOut = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOut(false)
+    };
 
     const [openSuccess, setOpenSuccess] = React.useState(false);
 
@@ -91,9 +116,13 @@ export function TeacherStartOnlineTest() {
             if (arg.join) {
                 if (arg.person.email !== user.info.email) {
                     setPeopleList((list) => [...list, arg.person])
+                    setPeopleIndex(arg.person)
+                    setOpen(true)
                 }
             } else if (arg.leave) {
                 setPeopleList((list) => list.filter(item => item.email !== arg.email))
+                setPeopleIndex(arg.email)
+                setOut(true)
             }
         }
 
@@ -354,6 +383,23 @@ export function TeacherStartOnlineTest() {
             <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
                     Đang bắt đầu cuộc thi...
+                </Alert>
+            </Snackbar>
+
+            <Snackbar open={open} autoHideDuration={2000} onClose={handleCloseSnackbarIn}>
+                <Alert onClose={handleCloseSnackbarIn} severity="info" color="primary" sx={{ width: '100%' }}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex.email} vừa tham gia phòng chờ ! </span>
+                    }
+                </Alert>
+            </Snackbar>
+            <Snackbar open={out} autoHideDuration={2000} onClose={handleCloseSnackbarOut}>
+                <Alert onClose={handleCloseSnackbarOut} severity="warning" sx={{ width: '100%' }}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
+                    }
                 </Alert>
             </Snackbar>
 
