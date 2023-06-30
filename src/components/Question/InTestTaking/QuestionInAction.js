@@ -20,7 +20,7 @@ export function QuestionInAction({
         <Paper
             sx={{
                 backgroundColor: theme.palette.primary.light,
-                height: '91%',
+                height: {sx: '120%', md: '91%'},
             }}
             elevation={3}
         >
@@ -68,10 +68,11 @@ export function QuestionInAction({
                                 '&::-webkit-scrollbar': {
                                     width: '8px',
                                     backgroundColor: BG_COLOR[index],
-                                  },
-                                  '&::-webkit-scrollbar-thumb': {
+                                },
+                                '&::-webkit-scrollbar-thumb': {
                                     backgroundColor: BG_COLOR_SCROLL[index],
-                                    borderRadius: '10px',},
+                                    borderRadius: '10px',
+                                },
                             }}
                             elevation={2}
                         >
