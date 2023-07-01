@@ -132,6 +132,11 @@ export default function Router() {
         },
 
         {
+            path: '/test2/quizSearch',
+            element: <QuizSearch/>
+        },
+
+        {
             path: '*',
             element: <Navigate to="/404" replace/>,
         },
