@@ -13,7 +13,7 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Paper,
+    Paper, Typography,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
@@ -33,7 +33,7 @@ import QuizIcon from '@mui/icons-material/Quiz';
 // components
 import Logo from "./logo";
 import ChangePasswordForm from "./Forms/ChangePasswordForm";
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+
 
 // sections
 const StyledRoot = styled(Paper)(({theme}) => ({
@@ -51,7 +51,8 @@ const UserInfoBox = styled(Paper)(({theme}) => ({
     textAlign: 'center',
     color: theme.palette.text.primary,
     padding: "5%",
-    height: "70%",
+    // height: "70%",
+    minHeight: '40px',
 }));
 const StyledListItemButton = styled(ListItemButton)(({theme}) => ({
     borderRadius: "10px",
@@ -69,10 +70,10 @@ export default function NavBar(props) {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const user = useSelector(selectUser);
-    console.log("user:", user)
+    // console.log("user:", user)
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [openConfirm, setOpenConfirm] = useState(false);
-   
+
     const handleCloseConfirm = () => {
         setOpenConfirm(false);
     };
@@ -102,15 +103,14 @@ export default function NavBar(props) {
     return (
         <>
             <StyledRoot className="navbar-wrapper">
-                {/*<div className="navbar-wrapper">*/}
                 <div className="navbar-item1">
-                    <Logo
-                        sx={{
-                            position: 'fixed',
-                            top: {xs: 16, sm: 24, md: 40},
-                            left: {xs: 16, sm: 24, md: 40},
-                        }}
-                    />
+                    {/*<Logo*/}
+                    {/*    sx={{*/}
+                    {/*        position: 'fixed',*/}
+                    {/*        top: {xs: 16, sm: 24, md: 40},*/}
+                    {/*        left: {xs: 16, sm: 24, md: 40},*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                 </div>
                 <div className="navbar-item2">
                     <UserInfoBox>
@@ -123,7 +123,15 @@ export default function NavBar(props) {
                                 <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
                             </Grid>
                             <Grid item xs={7}>
-                                {user.info.name}
+                                <Typography
+                                    sx={{
+                                        textOverflow: 'ellipsis',
+                                        overflow: 'hidden',
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    {user.info.email}
+                                </Typography>
                             </Grid>
                             <Grid item xs={2}>
                                 <IconButton size="large" color="inherit" onClick={handleClick}>
@@ -178,7 +186,8 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <LocalOfferIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Chủ đề của câu hỏi" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Chủ đề của câu hỏi"
+                                                      style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
@@ -205,7 +214,8 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <QuestionMarkIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Danh sách câu hỏi" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Danh sách câu hỏi"
+                                                      style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
@@ -218,7 +228,8 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <PostAddTwoToneIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Tạo bài thi" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Tạo bài thi"
+                                                      style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
 
                                     <StyledListItemButton
@@ -231,7 +242,8 @@ export default function NavBar(props) {
                                         <ListItemIcon>
                                             <QuizIcon/>
                                         </ListItemIcon>
-                                        <ListItemText primary="Danh sách bài thi" style={{color: theme.palette.text.primary}}/>
+                                        <ListItemText primary="Danh sách bài thi"
+                                                      style={{color: theme.palette.text.primary}}/>
                                     </StyledListItemButton>
                                 </>)}
 

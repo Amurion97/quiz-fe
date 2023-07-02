@@ -1,46 +1,177 @@
+//react
 import {Outlet} from 'react-router-dom';
-import {Grid, IconButton} from "@mui/material";
-import NavBar from "../components/NavBar";
 import {useState} from "react";
+//@mui
+import {
+    Box,
+    Drawer,
+    IconButton,
+} from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline';
+import styled from "@emotion/styled";
+import MuiDrawer from '@mui/material/Drawer';
+//MUI icon
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+//components
+import NavBar from "../components/NavBar";
+//----------------------------------------------------------------------------------------------------------------------
 
-export default function DashboardLayout() {
-    const [collapsedNavBar, setCollapsedNavBar] = useState(false);
-    const gridSize = collapsedNavBar ? {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 12
-    } : {
-        xs: 10.5,
-        sm: 10.5,
-        md: 11,
-        lg: 10
-    }
+const drawerWidth = 270;
+
+const openedMixin = (theme) => ({
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up('sm')]: {
+        width: `calc(${theme.spacing(8)} + 1px)`,
+    },
+});
+
+const DrawerPermanent = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
+    ({theme, open}) => ({
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+        boxSizing: 'border-box',
+        ...(open && {
+            ...openedMixin(theme),
+            '& .MuiDrawer-paper': openedMixin(theme),
+        }),
+        ...(!open && {
+            ...closedMixin(theme),
+            '& .MuiDrawer-paper': closedMixin(theme),
+        }),
+    }),
+);
+
+
+export default function DashboardLayout(props) {
+    const {window} = props;
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
+    const [open, setOpen] = useState(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
+    const container = window !== undefined ? () => window().document.body : undefined;
+
     return (
         <>
-            <Grid container spacing={0}>
-                {!collapsedNavBar && <Grid item xs={0.5} sm={0.5} md={1} lg={2}>
-                    <NavBar/>
-                </Grid>}
+            <Box sx={{display: 'flex'}}>
+                <CssBaseline/>
 
-                <Grid item {...gridSize}>
-                    <IconButton aria-label="menu"
-                                onClick={() => {
-                                    setCollapsedNavBar(!collapsedNavBar)
-                                }}
-                                sx={{
-                                    position: 'fixed',
-                                    top: '30px',
-                                    left: collapsedNavBar ? '30px' : '240px',
-                                }}
+                <IconButton aria-label="menu"
+                            onClick={handleDrawerToggle}
+                            sx={{
+                                position: 'fixed',
+                                top: '10px',
+                                left: '10px',
+                                display: {xs: 'block', sm: 'none'},
+                                aspectRatio: '1/1',
+                                width: '52px',
+                                height: '52px',
+                                border: (theme) => `3px solid ${theme.palette.primary.main}`,
+                                zIndex: (theme) => theme.zIndex.drawer - 1,
+                                background:
+                                    "rgba(64, 64, 64, 0.15)",
+                            }}
+                            color={'primary'}
+                >
+                    <MenuIcon/>
+                </IconButton>
+
+
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    sx={{
+                        position: 'fixed',
+                        top: '30px',
+                        left: '8px',
+                        display: {xs: 'none', sm: open ? 'none' : 'block',},
+                        width: '50px',
+                        height: '50px',
+                        zIndex: (theme) => theme.zIndex.drawer + 1,
+                    }}
+                >
+                    {open ? null : <MenuIcon/>}
+                </IconButton>
+
+                <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        display: {xs: 'block', sm: 'none'},
+                        '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
+                    }}
+                >
+                    <NavBar/>
+                </Drawer>
+
+                <DrawerPermanent
+                    variant="permanent"
+                    open={open}
+                    sx={{
+                        display: {xs: 'none', sm: 'block'},
+                    }}>
+                    <IconButton
+                        onClick={handleDrawerClose}
+                        sx={{
+                            position: 'fixed',
+                            top: '30px',
+                            left: '200px',
+                            display: {xs: 'none', sm: open ? 'block' : 'none'},
+                            width: '50px',
+                            height: '50px',
+                            zIndex: (theme) => theme.zIndex.drawer - 1,
+                        }}
                     >
-                        {collapsedNavBar ? <MenuIcon/> : <CloseIcon/>}
+                        <ChevronLeftIcon/>
                     </IconButton>
+
+                    <NavBar/>
+
+                </DrawerPermanent>
+
+                <Box
+                    component="main"
+                    sx={{
+                        flexGrow: 1,
+                    }}
+                >
                     <Outlet/>
-                </Grid>
-            </Grid>
+
+                </Box>
+            </Box>
         </>
     );
 }
