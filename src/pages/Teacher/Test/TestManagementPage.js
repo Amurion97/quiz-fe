@@ -376,8 +376,12 @@ export default function TestManagementPage() {
                                                      height: 200,
                                                      objectFit: 'cover',
                                                      padding: '10px',
-                                                 }
-                                                 }/>
+                                                 }}
+                                                 onError={(event) => {
+                                                     console.log('error img:', event.target.src);
+                                                     event.target.src = `/assets/images/default-cover.webp`
+                                                 }}
+                                            />
                                         </Grid>
 
                                         <Grid
