@@ -10,6 +10,7 @@ import {
     Backdrop,
     Box, CircularProgress, Collapse,
     Grid, IconButton,
+    Input,
     Stack,
     Typography,
 } from "@mui/material";
@@ -42,10 +43,10 @@ export default function TestStatisticPage() {
         { id: "email", label: "Email", minWidth: 150 },
         { id: "", label: "", minWidth: 1, align: "center" },
         { id: "score", label: "Score", minWidth: 100, align: "center" },
-    ]:[
-        { id: "rank", label: "Rank", minWidth: 50, align: "center" },
-        { id: "email", label: "Email", minWidth: 150 },
-        { id: "score", label: "Score", minWidth: 100, align: "center" },
+    ] : [
+        { id: "rank", label: "Rank", minWidth: 10, align: "center" },
+        { id: "email", label: "Email", maxWidth: 100 },
+        { id: "score", label: "Score", minWidth: 50, align: "center" },
     ];
     const theme = useTheme();
     const user = useSelector(selectUser);
@@ -142,7 +143,7 @@ export default function TestStatisticPage() {
         }
     }, [peopleList])
 
-    
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -173,9 +174,9 @@ export default function TestStatisticPage() {
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="flex-start"
-                sx={{
+                sx={{         
                     height: "100vh",
-                    padding: "5% 10%",
+                    padding: "4% 4%",
                     overFlow: "scroll",
                     backgroundImage:
                         'url("/assets/images/background-test-statistics.png")',
@@ -225,7 +226,7 @@ export default function TestStatisticPage() {
                     </Button>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={12} >
                     <Paper padding={2} sx={{ bgcolor: "transparent" }}>
                         <TableContainer
                             component={Paper}
@@ -279,6 +280,7 @@ export default function TestStatisticPage() {
                                                     component="th"
                                                     scope="row"
                                                     padding="none"
+                                                    className="email-cell"
                                                     style={{
                                                         color: theme.palette
                                                             .primary
@@ -293,7 +295,7 @@ export default function TestStatisticPage() {
                                                             variant="subtitle2"
                                                             noWrap>
                                                             {email}
-                                                        </Typography>
+                                                        </Typography>                           
                                                     </Stack>
                                                 </TableCell>
 
@@ -311,7 +313,8 @@ export default function TestStatisticPage() {
                                                         <Grid
                                                             container
                                                             spacing={1}
-                                                            sx={{ height: "100%" }}>
+                                                            sx={{ height: "100%" }}
+                                                        >
                                                             {[...Array(totalQuestion)].map(
                                                                 (item, index) => (
 
