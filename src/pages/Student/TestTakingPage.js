@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {Box, Button, Grid, Paper, Radio, Stack, Typography, useMediaQuery} from "@mui/material";
+import {Box, Button, Container, Grid, Paper, Radio, Stack, Typography, useMediaQuery} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import {alpha, useTheme} from "@mui/material/styles";
 import SimpleBar from 'simplebar-react';
@@ -148,6 +148,30 @@ export default function TestTakingPage() {
                             }}
                         >
 
+                            {checkBreakPointSm === true ?
+                                null
+                                : <Grid item xs={12}>
+                                    <Stack direction='row'
+                                           justifyContent='center'>
+                                        <Paper
+                                            elevation={3}
+                                            sx={{
+                                                px: 3,
+                                                // width: '10%',
+                                                textAlign: 'center',
+                                                mb: 1
+                                            }}>
+                                            {test ? <Countdown
+                                                date={startTime + (1000 * 60 * test.time)}
+                                                renderer={renderer}
+                                                onComplete={submitForm}
+                                            /> : ""}
+                                        </Paper>
+
+                                    </Stack>
+                                </Grid>}
+
+
                             <Grid item xs={12} lg={10} sx={{
                                 pr: {
                                     lg: 2
@@ -177,11 +201,9 @@ export default function TestTakingPage() {
                             </Grid>
 
                             {checkBreakPointSm === false ?
-
                                 null
-
-
-                                : <Grid item sm={12} lg={2}>
+                                :
+                                <Grid item xs={12} sm={12} lg={2}>
                                     <Paper
                                         sx={{
                                             backgroundColor: theme.palette.primary.light,
@@ -216,19 +238,19 @@ export default function TestTakingPage() {
                                                 <Paper sx={{textAlign: 'center'}}>
                                                     {test ? <Countdown
                                                         date={startTime + (1000 * 60 * test.time)}
-                                                        // date={startTime + (1000 * 5)}
                                                         renderer={renderer}
                                                         onComplete={submitForm}
                                                     /> : ""}
                                                 </Paper>
                                             </Grid>
+
                                             <Grid
                                                 sx={{
-                                                    height: {xs: '60%', sm: '70%', md: "65%", lg: '80%'},
+                                                    height: {xs: '0%', sm: '70%', md: "65%", lg: '80%'},
                                                     width: "100%",
                                                     maxHeight: '80%',
                                                 }}
-                                                xs={12}
+                                                xs={0} sm={12}
                                             >
                                                 <Paper
                                                     sx={{
@@ -290,18 +312,6 @@ export default function TestTakingPage() {
                                                     pt: 1
                                                 }}
                                             >
-                                                {/*<Grid item xs={6}>*/}
-                                                {/*    <Item>*/}
-                                                {/*        <Button*/}
-                                                {/*            variant="outlined"*/}
-                                                {/*            color="error" size="large"*/}
-                                                {/*        >*/}
-                                                {/*            Cancel*/}
-                                                {/*        </Button>*/}
-                                                {/*    </Item>*/}
-                                                {/*</Grid>*/}
-
-                                                {/*<Grid item xs={6}>*/}
                                                 <Item>
                                                     <Button
                                                         variant="outlined"
@@ -313,8 +323,6 @@ export default function TestTakingPage() {
                                                             color: theme.palette.primary.dark,
                                                             '&:hover': {
                                                                 backgroundColor: theme.palette.primary.dark,
-                                                                // borderColor: '#0062cc',
-                                                                // boxShadow: 'none',
                                                                 color: theme.palette.primary.contrastText,
                                                                 border: `3px solid ${theme.palette.primary.dark}`,
                                                             },
@@ -323,11 +331,11 @@ export default function TestTakingPage() {
                                                         Nộp bài
                                                     </Button>
                                                 </Item>
-                                                {/*</Grid>*/}
                                             </Grid>
                                         </Grid>
                                     </Paper>
-                                </Grid>}
+                                </Grid>
+                            }
                         </Grid>
 
                         {/*{JSON.stringify(values)}*/}

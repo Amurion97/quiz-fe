@@ -1,19 +1,19 @@
-import { Box, Button, Grid, Paper, Radio, Stack, Typography } from "@mui/material";
+import {Box, Button, Grid, Paper, Radio, Stack, Typography} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import { alpha, useTheme } from "@mui/material/styles";
+import {alpha, useTheme} from "@mui/material/styles";
 
 const BG_COLOR = ["#2BA687", "#1976D2", "#F0A001", "#F200BE", "#CD1E3F"];
 
 export function QuestionInActionResponsive({
-    currentQuestion,
-    handleAnswerClick,
-    currentAnswerList,
-    handleNextQuestion,
-    handlePreviousQuestion,
-    submitForm,
-    totalQuestion,
-    currentQuestionIndex
-}) {
+                                               currentQuestion,
+                                               handleAnswerClick,
+                                               currentAnswerList,
+                                               handleNextQuestion,
+                                               handlePreviousQuestion,
+                                               submitForm,
+                                               totalQuestion,
+                                               currentQuestionIndex
+                                           }) {
     const theme = useTheme()
     return (<>
         <Grid container spacing={7}>
@@ -28,11 +28,19 @@ export function QuestionInActionResponsive({
                         container
                         sx={{
                             p: 3,
+                            px: {
+                                xs: 1,
+                                sm: 2,
+                                md: 3,
+                            },
+                            pt: {
+                                xs: 0
+                            },
                             height: '100%',
                         }}
                     >
                         <Grid item xs={12} sx={{
-                            p: 2,
+                            py: 2,
                             height: '50%',
                         }}>
                             <Paper
@@ -40,11 +48,11 @@ export function QuestionInActionResponsive({
                                     height: '80%',
                                     backgroundColor: theme.palette.primary.darker,
                                     color: theme.palette.primary.contrastText,
-                                    p: 3
+                                    p: {xs: 1, sm: 2, md: 3}
                                 }}
                             >
                                 <Typography variant={'body1'}>
-                                    {currentQuestion.content}
+                                    Câu hỏi số {currentQuestionIndex}: {currentQuestion.content}
                                 </Typography>
                             </Paper>
                         </Grid>
@@ -114,7 +122,7 @@ export function QuestionInActionResponsive({
                                             </Box>
 
                                             <Typography variant={'body2'}
-                                            // sx={{ mt: 8 }}
+                                                        sx={{mr: 5}}
                                             >
                                                 {answer.content}
                                             </Typography>
@@ -139,25 +147,25 @@ export function QuestionInActionResponsive({
                 >
                     {(handlePreviousQuestion && currentQuestionIndex > 0) &&
                         <Button variant="outlined" size='large'
-                            sx={{
-                                fontSize: 20,
-                            }}
-                            onClick={handlePreviousQuestion}
+                                sx={{
+                                    fontSize: 20,
+                                }}
+                                onClick={handlePreviousQuestion}
                         >
                             Câu trước
                         </Button>}
                     {currentQuestionIndex === totalQuestion - 1 ?
-                        <Button variant="contained" size='large' sx={{ fontSize: 20, }}
-                            onClick={() => {
-                                submitForm()
-                                handleNextQuestion()
-                            }}
+                        <Button variant="contained" size='large' sx={{fontSize: 20,}}
+                                onClick={() => {
+                                    submitForm()
+                                    handleNextQuestion()
+                                }}
                         >
                             Nộp bài
                         </Button>
                         :
-                        <Button variant="contained" size='large' sx={{ fontSize: 20, }}
-                            onClick={handleNextQuestion}
+                        <Button variant="contained" size='large' sx={{fontSize: 20,}}
+                                onClick={handleNextQuestion}
                         >
                             Câu tiếp
                         </Button>}

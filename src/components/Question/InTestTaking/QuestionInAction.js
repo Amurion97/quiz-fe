@@ -32,8 +32,9 @@ export function QuestionInAction({
                 }}
             >
                 <Grid item xs={12} sx={{
-                    p: 2,
+                    // p: 2,
                     height: '50%',
+                    pb: 2,
                 }}>
                     <Paper
                         sx={{
@@ -44,10 +45,11 @@ export function QuestionInAction({
                         }}
                     >
                         <Typography variant={'h4'}>
-                            {currentQuestion.content}
+                            Câu hỏi số {currentQuestionIndex}: {currentQuestion.content}
                         </Typography>
                     </Paper>
                 </Grid>
+
                 {currentQuestion.answers && currentQuestion.answers.map((answer, index) => (
                     <Grid
                         key={index}
@@ -61,7 +63,8 @@ export function QuestionInAction({
                             sx={{
                                 height: '100%',
                                 bgcolor: BG_COLOR[index],
-                                p: 2,
+                                p: 1,
+                                pl: 2,
                                 color: theme.palette.primary.contrastText,
                                 boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
                                 overflow: 'auto',
@@ -83,8 +86,8 @@ export function QuestionInAction({
                             }}>
                                 <Paper sx={{
                                     borderRadius: `${currentQuestion.type.id <= 2 ? "50%" : theme.shape.borderRadius}`,
-                                    mr: 1,
-                                    mt: 0.5,
+                                    // mr: {sm: 0, md: 0.5, lg: 1},
+                                    // mt: {sm: 0, lg: 0.5},
                                     mb: 1,
                                     height: '48px',
                                     width: '48px',
