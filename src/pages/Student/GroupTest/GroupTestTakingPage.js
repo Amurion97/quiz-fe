@@ -1,22 +1,20 @@
-import {Button, Grid, Paper, Stack, Typography} from "@mui/material";
-import {useTheme} from "@mui/material/styles";
+import {Grid, Paper, Stack} from "@mui/material";
 import 'simplebar-react/dist/simplebar.min.css';
 import {useEffect, useState} from "react";
 import {customAPIv1} from "../../../features/customAPI";
 
 import {Form, Formik} from "formik";
-import Countdown from 'react-countdown';
 import {useLocation, useNavigate} from "react-router-dom";
 import {QuestionInAction} from "../../../components/Question/InTestTaking/QuestionInAction";
 import {socket} from "../../../app/socket";
 import {useSelector} from "react-redux";
 import {selectUser} from "../../../features/user/userSlice";
-import {renderer} from "../TestTakingPage";
+import {CountdownTimer} from "../../../components/Timer/CountdownTimer";
+import {OnStopTestInFormik} from "../../../components/OnStopTestInFormik";
 
 export default function GroupTestTakingPage() {
     const user = useSelector(selectUser)
     const navigate = useNavigate();
-    const theme = useTheme();
 
     const location = useLocation();
     console.log("location in group test taking:", location)
@@ -36,34 +34,25 @@ export default function GroupTestTakingPage() {
     console.log("answerList:", answerList)
 
     useEffect(() => {
-        socket.connect();
-
-        function onConnect() {
-            socket.emit('join-lobby',
-                {roomCode: roomCode, email: user.info.email},
-                (res) => {
-                    console.log('join-lobby', res);
-                    if (res.success !== false) {
-
-                    }
-
-                })
-        }
-
-        // socket.emit('join-room',
-        //     {roomCode: roomCode, email: user.info.email},
-        //     (res) => {
-        //         console.log('join-room', res);
-        //         if (res.success !== false) {
+        // socket.connect();
         //
-        //         }
-        //     })
+        // function onConnect() {
+        //     socket.emit('join-lobby',
+        //         {roomCode: roomCode, email: user.info.email},
+        //         (res) => {
+        //             console.log('join-lobby', res);
+        //             if (res.success !== false) {
+        //
+        //             }
+        //
+        //         })
+        // }
 
-        socket.on('connect', onConnect);
+
+        // socket.on('connect', onConnect);
 
         return () => {
-            socket.off('connect', onConnect);
-
+            console.log('return for this [] effect on student group test taking is running')
             socket.disconnect()
         }
     }, [])
@@ -157,13 +146,13 @@ export default function GroupTestTakingPage() {
                                        justifyContent='center'>
                                     <Paper sx={{
                                         px: 3,
-                                        width: '10%',
+                                        width: 'object-fit',
                                         textAlign: 'center'
                                     }}>
-                                        {test ? <Countdown
-                                            date={startTime + (1000 * 60 * test.time)}
-                                            renderer={renderer}
-                                            onComplete={submitForm}
+                                        {test ? <CountdownTimer
+                                            startTime={startTime}
+                                            testTime={test.time}
+                                            submitForm={submitForm}
                                         /> : ""}
                                     </Paper>
 
@@ -190,6 +179,7 @@ export default function GroupTestTakingPage() {
 
                         {/*{JSON.stringify(values)}*/
                         }
+                        <OnStopTestInFormik submitForm={submitForm}/>
                     </Form>
                 )}
             </Formik>

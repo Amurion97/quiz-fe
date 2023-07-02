@@ -114,6 +114,28 @@ export default function Router() {
             element: <GroupTestTakingPage/>,
         },
 
+
+        {
+            path: '/test',
+            element: <StudentLayout/>,
+            children: [
+                {element: <Navigate to="/students/quizSearch"/>, index: true},
+                {path: 'quizSearch', element: <QuizSearch/>},
+                {path: 'test', element: <TestTakingPage/>},
+                {path: 'result', element: <TestResultPage/>},
+                {
+                    path: 'groupWaitingRoom',
+                    element: <GroupWaitingRoom/>
+                },
+                {path: 'test-statistic', element: <TestStatisticPage/>},
+            ]
+        },
+
+        {
+            path: '/test2/quizSearch',
+            element: <QuizSearch/>
+        },
+
         {
             path: '*',
             element: <Navigate to="/404" replace/>,

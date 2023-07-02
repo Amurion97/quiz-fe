@@ -13,6 +13,7 @@ import Countdown from 'react-countdown';
 import {useLocation, useNavigate} from "react-router-dom";
 import {QuestionInAction} from "../../components/Question/InTestTaking/QuestionInAction";
 import {QuestionInActionResponsive} from "../../components/Question/InTestTaking/QuenstionInActionResponsive";
+import {CountdownTimer} from "../../components/Timer/CountdownTimer";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: "inherit",
@@ -21,6 +22,7 @@ const Item = styled(Paper)(({theme}) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
 }));
+
 export const renderer = (x) => {
 
     if (x.completed) {
@@ -37,7 +39,7 @@ export default function TestTakingPage() {
     const theme = useTheme();
     const checkBreakPoint = useMediaQuery(theme.breakpoints.up('xl'));
     const checkBreakPointSm = useMediaQuery(theme.breakpoints.up('sm'));
-    console.log("kiểm tra về useMediaQuery ", checkBreakPoint)
+    // console.log("kiểm tra về useMediaQuery ", checkBreakPoint)
     const location = useLocation();
     // console.log("location in test taking:", location)
     const {state} = location;
@@ -161,10 +163,10 @@ export default function TestTakingPage() {
                                                 textAlign: 'center',
                                                 mb: 1
                                             }}>
-                                            {test ? <Countdown
-                                                date={startTime + (1000 * 60 * test.time)}
-                                                renderer={renderer}
-                                                onComplete={submitForm}
+                                            {test ? <CountdownTimer
+                                                startTime={startTime}
+                                                testTime ={test.time}
+                                                submitForm={submitForm}
                                             /> : ""}
                                         </Paper>
 
@@ -236,10 +238,10 @@ export default function TestTakingPage() {
                                                 }}
                                             >
                                                 <Paper sx={{textAlign: 'center'}}>
-                                                    {test ? <Countdown
-                                                        date={startTime + (1000 * 60 * test.time)}
-                                                        renderer={renderer}
-                                                        onComplete={submitForm}
+                                                    {test ? <CountdownTimer
+                                                        startTime={startTime}
+                                                        testTime ={test.time}
+                                                        submitForm={submitForm}
                                                     /> : ""}
                                                 </Paper>
                                             </Grid>

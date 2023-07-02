@@ -1,5 +1,5 @@
 import {Outlet} from 'react-router-dom';
-import {Button, Grid, IconButton} from "@mui/material";
+import {Grid, IconButton} from "@mui/material";
 import NavBar from "../components/NavBar";
 import {useState} from "react";
 import MenuIcon from '@mui/icons-material/Menu';

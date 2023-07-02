@@ -81,8 +81,8 @@ export default function ForgotPasswordForm() {
                                     variant="filled"
                                     severity="error">
                                     {statusCode === 404
-                                        ? "Email not found"
-                                        : "Error while password reset"}
+                                        ? "Không tìm thấy email"
+                                        : "Có lỗi xảy ra, vui lòng thử lại"}
                                 </Alert>
                             </Collapse>
                             <Collapse in={openSuccess}>
@@ -101,7 +101,7 @@ export default function ForgotPasswordForm() {
                                     sx={{ mb: 2 }}
                                     variant="filled"
                                     severity="success">
-                                    Send email!
+                                    Email đặt lại mật khẩu đã được gửi đi, vui lòng kiểm tra hộp thư của bạn!
                                 </Alert>
                             </Collapse>
                             <Field
