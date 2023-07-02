@@ -78,6 +78,14 @@ export default function LoginPage() {
                     maxWidth="sm"
                 >
                     <StyledContent>
+
+                        {code && <Alert severity="info">
+                            Bạn đang tham gia phòng thi với mã {code}, vui lòng đăng nhập!
+                            Sau khi đăng kí (nếu chưa có tài khoản) và đăng nhập thành công,
+                            hệ thống sẽ tự vào phòng thi
+                        </Alert>}
+
+
                         <Typography variant="h4" gutterBottom>
                             Đăng nhập vào Quiz
                         </Typography>
