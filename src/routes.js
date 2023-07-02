@@ -20,22 +20,20 @@ import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
 import TagPage from "./pages/Teacher/TagPage";
 import TestCreatePage from "./pages/Teacher/Test/TestCreate";
 import TestStatisticPage from "./pages/Teacher/Test/TestStatisticPage";
-import TestPage from "./pages/Teacher/Test/TestPage";
+import TestManagementPage from "./pages/Teacher/Test/TestManagementPage";
 import SumStatisticPage from "./pages/Teacher/Test/SumStatisticPage";
-
+import {TeacherStartOnlineTest} from "./pages/Teacher/Test/TeacherStartOnlineTest";
 //student flow
 import StudentLayout from "./layouts/StudentLayout";
 import TestTakingPage from "./pages/Student/TestTakingPage";
 import TestResultPage from "./pages/Student/TestResultPage";
 import QuizSearch from './pages/Student/QuizSearch';
-
+import GroupTestTakingPage from "./pages/Student/GroupTest/GroupTestTakingPage";
+import GroupWaitingRoom from "./pages/Student/GroupTest/GroupWaitingRoom";
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
-import GroupWaitingRoom from "./pages/Student/GroupTest/GroupWaitingRoom";
-import {TeacherStartOnlineTest} from "./pages/Teacher/Test/TeacherStartOnlineTest";
-import Socket from "./pages/Socket/Socket";
-import GroupTestTakingPage from "./pages/Student/GroupTest/GroupTestTakingPage";
+
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +52,7 @@ export default function Router() {
                 {path: 'editQuestion', element: <QuestionEditPage/>},
 
                 {path: 'testCreate', element: <TestCreatePage/>},
-                {path: 'tests', element: <TestPage/>},
+                {path: 'tests', element: <TestManagementPage/>},
                 {path: 'test-statistic', element: <TestStatisticPage/>},
                 {path: 'sum-statistic', element: <SumStatisticPage/>},
                 {path: 'test', element: <TeacherStartOnlineTest/>},
@@ -112,13 +110,30 @@ export default function Router() {
         },
 
         {
-            path: "/socket",
-            element: <Socket/>,
+            path: "/groupTestTaking",
+            element: <GroupTestTakingPage/>,
+        },
+
+
+        {
+            path: '/test',
+            element: <StudentLayout/>,
+            children: [
+                {element: <Navigate to="/students/quizSearch"/>, index: true},
+                {path: 'quizSearch', element: <QuizSearch/>},
+                {path: 'test', element: <TestTakingPage/>},
+                {path: 'result', element: <TestResultPage/>},
+                {
+                    path: 'groupWaitingRoom',
+                    element: <GroupWaitingRoom/>
+                },
+                {path: 'test-statistic', element: <TestStatisticPage/>},
+            ]
         },
 
         {
-            path: "/groupTestTaking",
-            element: <GroupTestTakingPage/>,
+            path: '/test2/quizSearch',
+            element: <QuizSearch/>
         },
 
         {

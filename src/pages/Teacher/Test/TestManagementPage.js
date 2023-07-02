@@ -1,5 +1,3 @@
-import TableCell from "@mui/material/TableCell";
-
 import {
     Button,
     Grid,
@@ -9,7 +7,7 @@ import {
     Stack,
     Typography,
     Collapse,
-    Paper,
+    Paper, Divider, useMediaQuery,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -38,6 +36,9 @@ import Menu from '@mui/material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+
+import SimpleBar from 'simplebar-react';
+
 const columns = [
     {id: 'id', label: 'ID', minWidth: 50, align: "center"},
     {id: 'image', label: 'Image', minWidth: 100, align: "left"},
@@ -45,9 +46,11 @@ const columns = [
     {id: '', label: 'Action', minWidth: 100},
 ];
 
-export default function TestPage() {
+export default function TestManagementPage() {
     const theme = useTheme()
     const navigate = useNavigate()
+
+    const checkBreakPointMd = useMediaQuery(theme.breakpoints.up('md'));
 
     const [selectedTagIDs, setSelectedTagIDs] = useState([]);
     const [selectedTypesIDs, setSelectedTypesIDs] = useState([]);
@@ -204,66 +207,137 @@ export default function TestPage() {
             <Grid container spacing={0}>
                 <Grid
                     item
-                    xs={2}
+                    xs={12}
+                    md={2}
                     sx={{
-                        mt: 10,
+                        mt: {
+                            xs: 8,
+                            sm: 7,
+                            md: 9
+                        },
                         pl: 3,
                     }}
                 >
                     <Stack
                         direction="column"
-                        alignItems="center"
-                        justifyContent="space-between"
+                        // alignItems="center"
+                        // justifyContent="space-between"
                         mb={3}
                     >
                         <Typography variant="h4" gutterBottom>
                             Quản lý bài thi
                         </Typography>
 
-
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <Button startIcon={<HistoryIcon/>}>
-                                    <Typography>previousky used</Typography>
+                        <SimpleBar style={{maxWidth: "100vw"}}>
+                            <Stack
+                                direction={checkBreakPointMd ? 'column' : "row"}
+                                alignItems="flex-start"
+                                justifyContent="space-between"
+                                spacing={1}
+                                sx={{
+                                    pt: {
+                                        xs: 2
+                                    }
+                                }}
+                            >
+                                <Button startIcon={<HistoryIcon/>}
+                                        sx={{
+                                            minWidth: {
+                                                xs: '40vw',
+                                                sm: '20vw',
+                                                md: '100%'
+                                            },
+                                            justifyContent: 'left'
+                                        }}
+                                        variant={checkBreakPointMd ? 'text' : 'outlined'}
+                                >
+                                    <Typography>Prevously used</Typography>
                                 </Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button startIcon={<FavoriteIcon/>}>
+                                <Button startIcon={<FavoriteIcon/>}
+                                        sx={{
+                                            minWidth: {
+                                                xs: '40vw',
+                                                sm: '20vw',
+                                                md: '100%'
+                                            },
+                                            justifyContent: 'left'
+                                        }}
+                                        variant={checkBreakPointMd ? 'text' : 'outlined'}
+                                >
                                     <Typography>Like by me</Typography>
                                 </Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button startIcon={<ShareIcon/>}>Share by me</Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button startIcon={<DraftsIcon/>}>Drafts</Button>
-                            </Grid>
+                                <Button startIcon={<ShareIcon/>}
+                                        sx={{
+                                            minWidth: {
+                                                xs: '40vw',
+                                                sm: '20vw',
+                                                md: '100%'
+                                            },
+                                            justifyContent: 'left'
 
-                            <Grid item xs={12}>
-                                My collections
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button
-                                    startIcon={<CreateNewFolderIcon/>}
+                                        }}
+                                        variant={checkBreakPointMd ? 'text' : 'outlined'}
                                 >
-                                    Create New Collection
+                                    <Typography>Share by me</Typography>
                                 </Button>
-                            </Grid>
-                        </Grid>
+                                <Button startIcon={<DraftsIcon/>}
+                                        sx={{
+                                            minWidth: {
+                                                xs: '40vw',
+                                                sm: '20vw',
+                                                md: '100%'
+                                            },
+                                            height: '100%',
+                                            justifyContent: 'left'
+                                        }}
+                                        variant={checkBreakPointMd ? 'text' : 'outlined'}
+                                >
+                                    <Typography>Drafts</Typography>
+                                </Button>
+
+                            </Stack>
+                        </SimpleBar>
+
+                        <Typography>My collections</Typography>
+
+                        <SimpleBar style={{maxWidth: "100vw"}}>
+
+                            <Stack
+                                direction="row"
+                                alignItems="flex-start"
+                                justifyContent="space-between"
+                                spacing={1}
+                            >
+
+                                <Button startIcon={<CreateNewFolderIcon/>}
+                                        sx={{
+                                            minWidth: {
+                                                xs: '40vw',
+                                                md: '100%'
+                                            },
+                                            height: '100%',
+                                            justifyContent: 'left'
+                                        }}
+                                        variant={checkBreakPointMd ? 'text' : 'outlined'}
+                                >
+                                    <Typography>Create New Collection</Typography>
+                                </Button>
+                            </Stack>
+                        </SimpleBar>
+
                     </Stack>
 
                 </Grid>
 
                 <Grid
                     item
-                    xs={10}
+                    xs={12}
+                    md={10}
                     sx={{
-                        // display: "flex",
-                        // flexDirection: "column",
-                        // justifyContent: "center",
-                        // alignItems: "center",
-                        mt: 10,
-                        px: 3,
+                        mt: {
+                            md: 10
+                        },
+                        px: {xs: 1, sm: 2, md: 3},
                     }}
                 >
                     <Stack>
@@ -280,9 +354,6 @@ export default function TestPage() {
                             >
                                 Sắp xếp theo: {sortText}
                             </Button>
-                            {/*<IconButton onClick={handleClickSort}>*/}
-                            {/*    {openSort ? <ExpandLessIcon/> : <ExpandMoreIcon/>}*/}
-                            {/*</IconButton>*/}
                         </Stack>
 
 
@@ -292,10 +363,10 @@ export default function TestPage() {
                                 <Paper key={id} sx={{mb: 2}}>
                                     <Grid container spacing={1}
                                           sx={{
-                                              width: '100%'
+                                              // width: '100%'
                                           }}>
 
-                                        <Grid item xs={2} sx={{
+                                        <Grid item xs={4} md={2} sx={{
 
                                             p: 1,
                                         }}>
@@ -305,22 +376,31 @@ export default function TestPage() {
                                                      height: 200,
                                                      objectFit: 'cover',
                                                      padding: '10px',
-                                                 }
-                                                 }/>
+                                                 }}
+                                                 onError={(event) => {
+                                                     console.log('error img:', event.target.src);
+                                                     event.target.src = `/assets/images/default-cover.webp`
+                                                 }}
+                                            />
                                         </Grid>
 
                                         <Grid
                                             item
-                                            xs={6}
+                                            xs={7}
+                                            md={6}
                                         >
                                             <Stack direction={'column'} spacing={1}>
 
-                                                <Typography variant="h5" sx={{pt: 3}}>
+                                                <Typography variant="h5" sx={{pt: {xs: 1, sm: 2, md: 3}}}>
                                                     Tên bài thi: {name}
                                                 </Typography>
 
                                                 <Typography variant="body">
                                                     {row.details.length} câu hỏi
+                                                    <br/>
+                                                    Độ khó: {difficulty.name}
+                                                    <br/>
+                                                    Thời gian: {time} (phút)
                                                 </Typography>
 
                                                 <Typography>
@@ -331,27 +411,14 @@ export default function TestPage() {
                                                     )}
                                                 </Typography>
 
-                                                <Typography
-                                                >
-                                                    Độ khó: {difficulty.name}
-                                                </Typography>
-
-                                                <Typography
-                                                    sx={{
-                                                        pb: 1,
-                                                    }}
-                                                >
-                                                    Thời gian: {time} (phút)
-                                                </Typography>
-
                                             </Stack>
                                         </Grid>
 
-                                        <Grid item xs={3}
+                                        <Grid item xs={12} md={3}
                                               sx={{
                                                   pt: 15,
                                                   textAlign: 'right',
-                                                  display: 'grid',
+                                                  display: {xs: 'none', md: 'grid'},
                                               }}>
 
                                             <Button
@@ -374,7 +441,7 @@ export default function TestPage() {
 
                                         <Grid item xs={1}
                                               sx={{
-                                                  mt: 1, pr: 0,
+                                                  mt: {md: 1}, pr: {xs: 0, md: 0},
                                                   textAlign: 'right',
                                               }}>
                                             <IconButton
@@ -384,9 +451,39 @@ export default function TestPage() {
                                                     setCurrentTestId(id);
                                                     handleOpenMenu(e);
                                                 }}
+                                                sx={{
+                                                    ml: {
+                                                        xs: -2.5,
+                                                    }
+                                                }}
                                             >
                                                 <MoreVertIcon fontSize="small"/>
                                             </IconButton>
+                                        </Grid>
+
+                                        <Grid item xs={12} md={3}
+                                              sx={{
+                                                  pt: 15,
+                                                  textAlign: 'right',
+                                                  display: {xs: 'grid', md: 'none'},
+                                              }}>
+
+                                            <Button
+                                                sx={{
+                                                    alignSelf: 'center'
+                                                }
+                                                }
+                                                variant="contained"
+                                                onClick={() => {
+                                                    navigate(`/dashboard/sum-statistic`, {
+                                                        state: {
+                                                            id: id,
+                                                        },
+                                                    });
+                                                }}
+                                            >
+                                                Thống kê làm bài
+                                            </Button>
                                         </Grid>
 
                                     </Grid>

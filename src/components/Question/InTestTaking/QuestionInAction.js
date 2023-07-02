@@ -3,6 +3,7 @@ import Checkbox from "@mui/material/Checkbox";
 import {alpha, useTheme} from "@mui/material/styles";
 
 const BG_COLOR = ["#2BA687", "#1976D2", "#F0A001", "#F200BE", "#CD1E3F"];
+const BG_COLOR_SCROLL = ["#008453", "#005A94", "#945000", "#940084", "#94002D"];
 
 export function QuestionInAction({
                                      currentQuestion,
@@ -19,7 +20,7 @@ export function QuestionInAction({
         <Paper
             sx={{
                 backgroundColor: theme.palette.primary.light,
-                height: '91%',
+                height: {sx: '120%', md: '91%'},
             }}
             elevation={3}
         >
@@ -31,8 +32,9 @@ export function QuestionInAction({
                 }}
             >
                 <Grid item xs={12} sx={{
-                    p: 2,
+                    // p: 2,
                     height: '50%',
+                    pb: 2,
                 }}>
                     <Paper
                         sx={{
@@ -43,7 +45,7 @@ export function QuestionInAction({
                         }}
                     >
                         <Typography variant={'h4'}>
-                            {currentQuestion.content}
+                            Câu hỏi số {currentQuestionIndex}: {currentQuestion.content}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -61,11 +63,21 @@ export function QuestionInAction({
                             sx={{
                                 height: '100%',
                                 bgcolor: BG_COLOR[index],
-                                p: 2,
+                                p: 1,
+                                pl: 2,
                                 color: theme.palette.primary.contrastText,
                                 boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
+                                overflow: 'auto',
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    backgroundColor: BG_COLOR[index],
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: BG_COLOR_SCROLL[index],
+                                    borderRadius: '10px',
+                                },
                             }}
-                            elevation={3}
+                            elevation={2}
                         >
 
                             <Box sx={{
@@ -74,8 +86,8 @@ export function QuestionInAction({
                             }}>
                                 <Paper sx={{
                                     borderRadius: `${currentQuestion.type.id <= 2 ? "50%" : theme.shape.borderRadius}`,
-                                    mr: 1,
-                                    mt: 0.5,
+                                    // mr: {sm: 0, md: 0.5, lg: 1},
+                                    // mt: {sm: 0, lg: 0.5},
                                     mb: 1,
                                     height: '48px',
                                     width: '48px',
@@ -138,7 +150,7 @@ export function QuestionInAction({
                         }}
                         onClick={handlePreviousQuestion}
                 >
-                    Previous
+                    Câu trước
                 </Button>}
             {currentQuestionIndex === totalQuestion - 1 ?
                 <Button variant="contained" size='large' sx={{fontSize: 20,}}
@@ -147,13 +159,13 @@ export function QuestionInAction({
                             handleNextQuestion()
                         }}
                 >
-                    Submit
+                    Nộp bài
                 </Button>
                 :
                 <Button variant="contained" size='large' sx={{fontSize: 20,}}
                         onClick={handleNextQuestion}
                 >
-                    Next
+                    Câu tiếp
                 </Button>}
         </Stack>
     </>)
