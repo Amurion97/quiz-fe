@@ -76,14 +76,27 @@ export default function QuizSearch() {
     return (
         <>
             <Grid container spacing={0} >
-                <Grid item xs={12} sx={{ px:{
-                    xs: 0,
-                    md: 10
-                } }}>
+                <Grid item xs={12} sx={{
+                    px: {
+                        xs: 5,
+                        md: 10
+                    }
+                }}>
                     <CodeEnterBox />
                 </Grid>
                 <Grid item xs={12}>
-                    <Grid container spacing={2} sx={{ pl: 10, pr: 10, pb: 10 }}>
+                    <Grid container spacing={2} sx={{
+                        pl: {
+                            xs: 5,
+                            md: 10
+                        }, pr: {
+                            xs: 5,
+                            md: 10
+                        }, pb: {
+                            xs: 5,
+                            md: 10
+                        }
+                    }}>
                         {listTest.map((item, index) => {
                             const { id, name, image, details, attempts } = item;
                             return (
