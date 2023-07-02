@@ -17,7 +17,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import Button from "@mui/material/Button";
 import DoneAllTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
-import StudentsLounge from "../../Student/GroupTest/StudentsLounge";
+import StudentsLounge from "../../../components/StudentsLounge";
 import {alpha} from "@mui/material/styles";
 import React, {useEffect, useState} from "react";
 import {socket} from "../../../app/socket";
@@ -29,6 +29,7 @@ import Snackbar from "@mui/material/Snackbar";
 import {Alert} from "@mui/lab";
 import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
 import QRCode from "qrcode.react";
+import MuiAlert from '@mui/material/Alert';
 
 export function TeacherStartOnlineTest() {
     const url = new URL(window.location.href);
@@ -43,11 +44,35 @@ export function TeacherStartOnlineTest() {
 
     const user = useSelector(selectUser)
 
-    const [peopleList, setPeopleList] = useState([])
-    console.log("peopleList:", peopleList);
 
     const [isCopied, setIsCopied] = useState(false);
     const [isUrlCopied, setIsUrlCopied] = useState(false);
+    const [peopleList, setPeopleList] = useState([])
+    console.log("peopleList:", peopleList);
+
+    const [peopleIndex, setPeopleIndex] = useState("");
+    // setPeopleList()
+    console.log("peopleList:", peopleList);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+    const [open, setOpen] = React.useState(false);
+    const [out, setOut] = React.useState(false);
+    const handleCloseSnackbarIn = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const handleCloseSnackbarOut = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOut(false)
+    };
 
     const [openSuccess, setOpenSuccess] = React.useState(false);
 
@@ -76,6 +101,14 @@ export function TeacherStartOnlineTest() {
         setOpenSuccess(false)
     };
 
+    const handleKickStudent = (email) => {
+        socket.emit('kick-out',
+            {roomCode: roomCode, email: user.info.email, targetEmail: email},
+            (res) => {
+                console.log("kick-out:", res)
+            })
+    }
+
     useEffect(() => {
         socket.connect();
 
@@ -91,9 +124,13 @@ export function TeacherStartOnlineTest() {
             if (arg.join) {
                 if (arg.person.email !== user.info.email) {
                     setPeopleList((list) => [...list, arg.person])
+                    setPeopleIndex(arg.person)
+                    setOpen(true)
                 }
             } else if (arg.leave) {
                 setPeopleList((list) => list.filter(item => item.email !== arg.email))
+                setPeopleIndex(arg.email)
+                setOut(true)
             }
         }
 
@@ -141,6 +178,7 @@ export function TeacherStartOnlineTest() {
                                 width: 450,
                                 height: 425,
                             },
+                            mx: 3
                         }}
                     >
                         <Paper sx={{p: 10}} elevation={6}>
@@ -298,16 +336,18 @@ export function TeacherStartOnlineTest() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        pt: 4,
-
+                        pt: 2,
 
                     }}
                 >
                     <Button
                         sx={{
                             boxShadow: `5px 5px ${alpha('#595959', 0.4)}`,
-                            p: 5,
-                            border: '2px solid'
+                            p: {
+                                xs: 3,
+                                md: 5
+                            },
+                            border: '1px solid',
                         }}
                         variant="outlined"
                         size='large'
@@ -319,12 +359,18 @@ export function TeacherStartOnlineTest() {
                         </Typography>
                     </Button>
                 </Grid>
+
                 <Grid
                     item xs={12}
                     container
                     justifyContent="flex-end"
                     sx={{
-                        px: 10
+                        px: {
+                            xs: 2,
+                            md: 2,
+                            lg: 10
+                        },
+                        pt: 3
                     }}
                 >
                     <Card sx={{
@@ -332,21 +378,22 @@ export function TeacherStartOnlineTest() {
                         justifyContent: "center",
                         alignItems: "center",
                         height: "100%",
-                        px: 3
+                        px: 3,
                     }}>
                         <Box sx={{
                             display: "flex", alignItems: "center",
-                            py: 1
+                            py: 1,
                         }}>
                             <GroupsTwoToneIcon fontSize='large'/>
                             <Typography variant='h4' sx={{ml: "4px"}}>{peopleList.length}</Typography>
                         </Box>
                     </Card>
                 </Grid>
+
                 <Grid
                     item xs={12}
                 >
-                    <StudentsLounge peopleList={peopleList}/>
+                    <StudentsLounge peopleList={peopleList} kickStudent={handleKickStudent}/>
                 </Grid>
 
             </Grid>
@@ -354,6 +401,23 @@ export function TeacherStartOnlineTest() {
             <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
                     Đang bắt đầu cuộc thi...
+                </Alert>
+            </Snackbar>
+
+            <Snackbar open={open} autoHideDuration={2000} onClose={handleCloseSnackbarIn}>
+                <Alert onClose={handleCloseSnackbarIn} severity="info" color="primary" sx={{width: '100%'}}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex.email} vừa tham gia phòng chờ ! </span>
+                    }
+                </Alert>
+            </Snackbar>
+            <Snackbar open={out} autoHideDuration={2000} onClose={handleCloseSnackbarOut}>
+                <Alert onClose={handleCloseSnackbarOut} severity="warning" sx={{width: '100%'}}>
+                    {console.log("peopleIndex", peopleIndex)}
+                    {peopleIndex &&
+                        <span> Tài khoản {peopleIndex} vừa rời khỏi phòng chờ ! </span>
+                    }
                 </Alert>
             </Snackbar>
 
