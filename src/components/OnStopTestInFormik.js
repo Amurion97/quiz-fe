@@ -21,7 +21,9 @@ export function OnStopTestInFormik({submitForm}) {
             setSocketMessage(args.message)
             handleOpen();
             if (submitForm) {
-                submitForm();
+                setTimeout(() => {
+                    submitForm()
+                }, 3000);
             }
         }
 
