@@ -3,7 +3,7 @@ import {
     Box,
     Card,
     CardContent,
-    Grid,
+    Grid, Paper,
     Typography,
     useMediaQuery,
 } from "@mui/material";
@@ -181,35 +181,51 @@ export default function GroupWaitingRoom() {
                                     />
                                 }
                                 title={user.info.email}
-                                subheader="You"
+                                subheader="Bạn"
                                 titleTypographyProps={{
-                                    variant: 'h4'
+                                    variant: 'h4',
+                                    noWrap: true,
+                                    maxWidth: {
+                                        xs: 'calc(100% - 80px)',
+                                        sm: '550px',
+                                        md: '330px',
+                                        lg: '500px'
+                                    },
+                                    textOverflow: 'ellipsis',
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                    fontWeight: 'bold'
                                 }}
+                                disableTypography={false}
                                 subheaderTypographyProps={{
                                     variant: 'h5'
                                 }}
                                 sx={{
-                                    p: 5
+                                    p: {xs: 2, sm: 4, md: 5}
                                 }}
                             />
                         </Card>
                     </Grid>
 
                     <Grid item xs={12} md={4}>
-                        <Card sx={{height: "100%", textAlign: "center"}}>
-                            <CardContent sx={{pt: 5}}>
-                                <Typography
-                                    variant="h4"
-                                    color="text.secondary"
-                                    gutterBottom
-                                >
-                                    JOIN CODE
-                                </Typography>
-                                <Typography variant="h3" component="div">
-                                    {roomCode}
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                        <Paper
+                            elevation={1}
+                            sx={{
+                                py: {xs: 1, sm: 2, md: 3},
+                                textAlign: 'center',
+                                height: '100%'
+                            }}>
+                            <Typography
+                                variant="h4"
+                                color="text.secondary"
+                                gutterBottom
+                            >
+                                JOIN CODE
+                            </Typography>
+                            <Typography variant="h3" component="div">
+                                {roomCode}
+                            </Typography>
+                        </Paper>
                     </Grid>
 
                 </Grid>
@@ -223,7 +239,7 @@ export default function GroupWaitingRoom() {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            mt: isMd ? 0 : 3,
+                            mt: isMd ? 0 : 1,
                         }}
                     >
                         <Typography variant="h4">

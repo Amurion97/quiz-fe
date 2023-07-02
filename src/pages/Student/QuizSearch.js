@@ -117,8 +117,11 @@ export default function QuizSearch() {
                                             <CardMedia
                                                 component="img"
                                                 height="140px"
-                                                image={image}
-                                                alt="green iguana"
+                                                src={image}
+                                                onError={(event) => {
+                                                    console.log('error img:', event.target.src);
+                                                    event.target.src = `/assets/images/default-cover.webp`
+                                                }}
                                             />
                                             <CardContent>
                                                 <Typography
@@ -187,9 +190,13 @@ export default function QuizSearch() {
                         : (
                             <>
                                 <CardMedia
+                                    component="img"
                                     sx={{height: {xs: 140, sm: 200, md: 250, lg: 250}}}
-                                    image={currentTest.image}
-                                    title="green iguana"
+                                    src={currentTest.image}
+                                    onError={(event) => {
+                                        console.log('error img:', event.target.src);
+                                        event.target.src = `/assets/images/default-cover.webp`
+                                    }}
                                 />
 
                                 <Grid container sx={{pl: 2, pr: 2}}>
