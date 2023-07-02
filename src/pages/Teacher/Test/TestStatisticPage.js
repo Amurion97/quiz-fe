@@ -1,4 +1,3 @@
-//mui
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -32,6 +31,7 @@ import { customAPIv1 } from "../../../features/customAPI";
 import { socket } from "../../../app/socket";
 import { selectUser } from "../../../features/user/userSlice";
 
+import CloseIcon from "@mui/icons-material/Close";
 
 
 
@@ -43,10 +43,12 @@ export default function TestStatisticPage() {
         { id: "email", label: "Email", minWidth: 150 },
         { id: "", label: "", minWidth: 1, align: "center" },
         { id: "score", label: "Score", minWidth: 100, align: "center" },
+        {id: "action", label: "Action", minWidth: 50, align: "center"},
     ] : [
         { id: "rank", label: "Rank", minWidth: 10, align: "center" },
         { id: "email", label: "Email", maxWidth: 100 },
         { id: "score", label: "Score", minWidth: 50, align: "center" },
+        {id: "action", label: "Action", minWidth: 50, align: "center"},
     ];
     const theme = useTheme();
     const user = useSelector(selectUser);
@@ -59,7 +61,7 @@ export default function TestStatisticPage() {
     console.log("roomCode:", roomCode);
 
     const location = useLocation()
-    const { state } = location
+    const {state} = location
 
     const [peopleList, setPeopleList] = useState(state.peopleList)
     console.log("peopleList:", peopleList);
@@ -84,6 +86,15 @@ export default function TestStatisticPage() {
         setOpenBackdrop(true);
     };
 
+    const handleKickStudent = (email) => {
+        socket.emit('kick-out',
+            {roomCode: roomCode, email: user.info.email, targetEmail: email},
+            (res) => {
+                console.log("kick-out:", res);
+                setPeopleList((list) => list.filter(item => item.email !== email))
+            })
+    }
+
     useEffect(() => {
         socket.connect();
 
@@ -96,7 +107,7 @@ export default function TestStatisticPage() {
 
         function onConnect() {
             socket.emit('join-room',
-                { roomCode: roomCode, email: user.info.email },
+                {roomCode: roomCode, email: user.info.email},
                 (res) => {
                     console.log('join-room', res);
                     // if (res.success !== false) {
@@ -174,7 +185,7 @@ export default function TestStatisticPage() {
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="flex-start"
-                sx={{         
+                sx={{
                     height: "100vh",
                     padding: "4% 4%",
                     overFlow: "scroll",
@@ -226,11 +237,11 @@ export default function TestStatisticPage() {
                     </Button>
                 </Grid>
 
-                <Grid item xs={12} >
-                    <Paper padding={2} sx={{ bgcolor: "transparent" }}>
+                <Grid item xs={12}>
+                    <Paper padding={2} sx={{bgcolor: "transparent"}}>
                         <TableContainer
                             component={Paper}
-                            sx={{ maxHeight: "70vh", bgcolor: "transparent" }}>
+                            sx={{maxHeight: "70vh", bgcolor: "transparent"}}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
@@ -252,7 +263,7 @@ export default function TestStatisticPage() {
                                 </TableHead>
                                 <TableBody>
                                     {peopleList.map((row, index) => {
-                                        const { id, email, corrects, incorrects } = row;
+                                        const {id, email, corrects, incorrects} = row;
                                         let sumQuestions = corrects + incorrects;
 
                                         return (
@@ -295,7 +306,7 @@ export default function TestStatisticPage() {
                                                             variant="subtitle2"
                                                             noWrap>
                                                             {email}
-                                                        </Typography>                           
+                                                        </Typography>
                                                     </Stack>
                                                 </TableCell>
 
@@ -354,6 +365,16 @@ export default function TestStatisticPage() {
                                                     }}>
                                                     {corrects}/{sumQuestions}
                                                 </TableCell>
+
+                                                <TableCell>
+                                                    <IconButton aria-label="settings"
+                                                                onClick={() => {
+                                                                    handleKickStudent(email)
+                                                                }}
+                                                    >
+                                                        <CloseIcon/>
+                                                    </IconButton>
+                                                </TableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -388,7 +409,7 @@ export default function TestStatisticPage() {
                         handleCloseConfirm()
                         setOpenBackdrop(true);
 
-                        socket.emit('stop-test', { roomCode: roomCode, email: user.info.email }, (res) => {
+                        socket.emit('stop-test', {roomCode: roomCode, email: user.info.email}, (res) => {
                             console.log('stop-test', res);
 
                             if (res.success === true) {
@@ -404,11 +425,11 @@ export default function TestStatisticPage() {
             </Dialog>
 
             <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
                 open={openBackdrop}
             // onClick={handleCloseBackdrop}
             >
-                <CircularProgress color="primary" />
+                <CircularProgress color="primary"/>
             </Backdrop>
         </>
     );

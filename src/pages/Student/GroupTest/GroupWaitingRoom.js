@@ -22,7 +22,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 
 // React----------------------------------------------------------------
 
-import StudentsLounge from "./StudentsLounge";
+import StudentsLounge from "../../../components/StudentsLounge";
 
 //Page  ----------------------------------------------------------------
 
@@ -31,6 +31,7 @@ import {socket} from "../../../app/socket";
 
 // Feature----------------------------------------------------------------
 import {selectUser} from "../../../features/user/userSlice";
+import {OnStopTestInFormik} from "../../../components/OnStopTestInFormik";
 
 export default function GroupWaitingRoom() {
     const theme = useTheme();
@@ -291,6 +292,8 @@ export default function GroupWaitingRoom() {
                     }
                 }}>Bạn là người duy nhất trong phòng ...</Typography>
             }
+
+            <OnStopTestInFormik/>
         </>
     );
 }

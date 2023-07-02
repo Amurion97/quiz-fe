@@ -20,7 +20,7 @@ import QuestionEditPage from "./pages/Teacher/QuestionEditPage";
 import TagPage from "./pages/Teacher/TagPage";
 import TestCreatePage from "./pages/Teacher/Test/TestCreate";
 import TestStatisticPage from "./pages/Teacher/Test/TestStatisticPage";
-import TestPage from "./pages/Teacher/Test/TestPage";
+import TestManagementPage from "./pages/Teacher/Test/TestManagementPage";
 import SumStatisticPage from "./pages/Teacher/Test/SumStatisticPage";
 import {TeacherStartOnlineTest} from "./pages/Teacher/Test/TeacherStartOnlineTest";
 //student flow
@@ -52,7 +52,7 @@ export default function Router() {
                 {path: 'editQuestion', element: <QuestionEditPage/>},
 
                 {path: 'testCreate', element: <TestCreatePage/>},
-                {path: 'tests', element: <TestPage/>},
+                {path: 'tests', element: <TestManagementPage/>},
                 {path: 'test-statistic', element: <TestStatisticPage/>},
                 {path: 'sum-statistic', element: <SumStatisticPage/>},
                 {path: 'test', element: <TeacherStartOnlineTest/>},
@@ -112,6 +112,28 @@ export default function Router() {
         {
             path: "/groupTestTaking",
             element: <GroupTestTakingPage/>,
+        },
+
+
+        {
+            path: '/test',
+            element: <StudentLayout/>,
+            children: [
+                {element: <Navigate to="/students/quizSearch"/>, index: true},
+                {path: 'quizSearch', element: <QuizSearch/>},
+                {path: 'test', element: <TestTakingPage/>},
+                {path: 'result', element: <TestResultPage/>},
+                {
+                    path: 'groupWaitingRoom',
+                    element: <GroupWaitingRoom/>
+                },
+                {path: 'test-statistic', element: <TestStatisticPage/>},
+            ]
+        },
+
+        {
+            path: '/test2/quizSearch',
+            element: <QuizSearch/>
         },
 
         {

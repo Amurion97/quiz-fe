@@ -84,12 +84,6 @@ export default function GroupTestTakingPage() {
             })
         setCurrentQuestionIndex(
             (index) => index < test.details.length - 1 ? index + 1 : index);
-
-        // if (currentQuestionIndex === test.details.length - 1) {
-        //     setTimeout(() => {
-        //         navigate(`/students/test-statistic?code=${roomCode}&test=${test.id}`);
-        //     },2000)
-        // }
     }
 
     useEffect(() => {
