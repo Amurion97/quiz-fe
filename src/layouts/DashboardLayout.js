@@ -93,12 +93,12 @@ export default function DashboardLayout(props) {
                                 aspectRatio: '1/1',
                                 width: '52px',
                                 height: '52px',
-                                border: (theme) => `3px solid ${theme.palette.primary.main}`,
+                                border: (theme) => `3px solid ${theme.palette.secondary.main}`,
                                 zIndex: (theme) => theme.zIndex.drawer - 1,
                                 background:
-                                    "rgba(64, 64, 64, 0.15)",
+                                    "rgba(64, 64, 64, 0.45)",
                             }}
-                            color={'primary'}
+                            color={'secondary'}
                 >
                     <MenuIcon/>
                 </IconButton>
