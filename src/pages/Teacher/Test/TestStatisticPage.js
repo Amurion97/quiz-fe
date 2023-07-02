@@ -13,7 +13,7 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import { alpha, useTheme } from "@mui/material/styles";
+import {alpha, useTheme} from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -21,34 +21,32 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 //react
-import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Helmet} from "react-helmet-async";
+import {useSelector} from "react-redux";
+import {useLocation, useNavigate} from "react-router-dom";
 //conponents
-import { customAPIv1 } from "../../../features/customAPI";
+import {customAPIv1} from "../../../features/customAPI";
 //sockets
-import { socket } from "../../../app/socket";
-import { selectUser } from "../../../features/user/userSlice";
+import {socket} from "../../../app/socket";
+import {selectUser} from "../../../features/user/userSlice";
 
 import CloseIcon from "@mui/icons-material/Close";
-
-
 
 
 export default function TestStatisticPage() {
     const [isMobileSize, setIsMobileSize] = useState(true);
     const columns = isMobileSize ? [
-        { id: "rank", label: "Rank", minWidth: 50, align: "center" },
-        { id: "email", label: "Email", minWidth: 150 },
-        { id: "", label: "", minWidth: 1, align: "center" },
-        { id: "score", label: "Score", minWidth: 100, align: "center" },
-        {id: "action", label: "Action", minWidth: 50, align: "center"},
+        {id: "rank", label: "Rank", minWidth: 50, align: "center"},
+        {id: "email", label: "Email", minWidth: 100, maxWidth: 100},
+        {id: "", label: "", minWidth: 180, align: "center"},
+        {id: "score", label: "Score", minWidth: 100, align: "center"},
+        {id: "action", label: "Action", minWidth: 50, maxWidth: 50, align: "center"},
     ] : [
-        { id: "rank", label: "Rank", minWidth: 10, align: "center" },
-        { id: "email", label: "Email", maxWidth: 100 },
-        { id: "score", label: "Score", minWidth: 50, align: "center" },
-        {id: "action", label: "Action", minWidth: 50, align: "center"},
+        {id: "rank", label: "Rank", minWidth: 50, maxWidth: 60, align: "center"},
+        {id: "email", label: "Email", maxWidth: 100},
+        {id: "score", label: "Score", minWidth: 50, align: "center"},
+        {id: "action", label: "Action", minWidth: 50, maxWidth: 50, align: "center"},
     ];
     const theme = useTheme();
     const user = useSelector(selectUser);
@@ -155,13 +153,13 @@ export default function TestStatisticPage() {
     }, [peopleList])
 
 
-
     useEffect(() => {
         const handleResize = () => {
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
+            console.log("windowWidth:", windowWidth)
 
-            if (windowWidth <= 375 && windowHeight <= 667) {
+            if (windowWidth <= 600) {
                 setIsMobileSize(false);
             } else {
                 setIsMobileSize(true);
@@ -180,15 +178,15 @@ export default function TestStatisticPage() {
             <Helmet>
                 <title> Group Test Statistic | Quiz </title>
             </Helmet>
-            <Grid
+            <Stack
                 container
-                direction="row"
+                direction="column"
                 justifyContent="flex-start"
-                alignItems="flex-start"
+                alignItems="center"
+                spacing={2}
                 sx={{
                     height: "100vh",
-                    padding: "4% 4%",
-                    overFlow: "scroll",
+                    padding: {xs: "1% 1%", md: "4% 4%"},
                     backgroundImage:
                         'url("/assets/images/background-test-statistics.png")',
                     backgroundSize: "cover",
@@ -202,6 +200,7 @@ export default function TestStatisticPage() {
                         color: theme.palette.primary.contrastText,
                         background: "rgba(64, 64, 64, 0.85)",
                         borderRadius: "5px",
+                        px: 2,
                     }}>
                     <Typography variant="titleInTheBackground">
                         Group Test statistics
@@ -214,9 +213,6 @@ export default function TestStatisticPage() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        pt: 4,
-
-
                     }}
                 >
                     <Button
@@ -237,154 +233,181 @@ export default function TestStatisticPage() {
                     </Button>
                 </Grid>
 
-                <Grid item xs={12}>
-                    <Paper padding={2} sx={{bgcolor: "transparent"}}>
-                        <TableContainer
-                            component={Paper}
-                            sx={{maxHeight: "70vh", bgcolor: "transparent"}}>
-                            <Table stickyHeader aria-label="sticky table">
-                                <TableHead>
-                                    <TableRow>
-                                        {columns.map((column) => (
+                {/*<Grid item xs={12}>*/}
+                <Paper padding={2} sx={{
+                    bgcolor: "transparent",
+                    px: {
+                        xs: 0
+                    },
+                    width: '100%'
+                }}>
+                    <TableContainer
+                        component={Paper}
+                        sx={{maxHeight: "70vh", bgcolor: "transparent"}}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{
+                                                minWidth: column.minWidth,
+                                                background:
+                                                    "rgba(64, 64, 64, 0.85)",
+                                                color: theme.palette.primary
+                                                    .contrastText,
+                                                maxWidth: column.maxWidth,
+                                            }}>
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {peopleList.map((row, index) => {
+                                    const {id, email, corrects, incorrects} = row;
+                                    let sumQuestions = corrects + incorrects;
+
+                                    return (
+                                        <TableRow
+                                            hover
+                                            key={id}
+                                            tabIndex={-1}
+                                            role="checkbox"
+                                            style={{
+                                                backgroundColor:
+                                                    "rgba(89,89,89, 0.85)",
+                                            }}>
                                             <TableCell
-                                                key={column.id}
-                                                align={column.align}
+                                                align="center"
+                                                component="th"
+                                                scope="row"
                                                 style={{
-                                                    minWidth: column.minWidth,
-                                                    background:
-                                                        "rgba(64, 64, 64, 0.85)",
-                                                    color: theme.palette.primary
+                                                    color: theme.palette
+                                                        .primary
                                                         .contrastText,
                                                 }}>
-                                                {column.label}
+                                                {index + 1}
                                             </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {peopleList.map((row, index) => {
-                                        const {id, email, corrects, incorrects} = row;
-                                        let sumQuestions = corrects + incorrects;
-
-                                        return (
-                                            <TableRow
-                                                hover
-                                                key={id}
-                                                tabIndex={-1}
-                                                role="checkbox"
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                                padding="none"
+                                                // className="email-cell"
                                                 style={{
-                                                    backgroundColor:
-                                                        "rgba(89,89,89, 0.85)",
+                                                    color: theme.palette
+                                                        .primary
+                                                        .contrastText,
                                                 }}>
-                                                <TableCell
-                                                    align="center"
-                                                    component="th"
-                                                    scope="row"
-                                                    style={{
-                                                        color: theme.palette
-                                                            .primary
-                                                            .contrastText,
+                                                {/*<Stack*/}
+                                                {/*    direction="row"*/}
+                                                {/*    alignItems="center"*/}
+                                                {/*    spacing={2}*/}
+                                                {/*    pl={2}>*/}
+                                                {/*    <Typography*/}
+                                                {/*        variant="subtitle2"*/}
+                                                {/*        sx={{*/}
+                                                {/*            textOverflow: 'ellipsis',*/}
+                                                {/*            overflow: 'hidden',*/}
+                                                {/*            whiteSpace: 'nowrap',*/}
+                                                {/*            maxWidth: '35vw',*/}
+                                                {/*        }}*/}
+                                                {/*        noWrap>*/}
+                                                {/*        {email}*/}
+                                                {/*    </Typography>*/}
+                                                {/*</Stack>*/}
+
+                                                <Typography
+                                                    variant="subtitle2"
+                                                    sx={{
+                                                        textOverflow: 'ellipsis',
+                                                        overflow: 'hidden',
+                                                        whiteSpace: 'nowrap',
+                                                        maxWidth: {xs: '35vw', sm: '30vw', md: '30vw'},
+                                                    }}
+                                                    noWrap>
+                                                    {email}
+                                                </Typography>
+                                            </TableCell>
+
+                                            {isMobileSize && (<TableCell
+                                                component="th"
+                                                scope="row"
+                                                padding="none">
+
+                                                <Box
+                                                    sx={{
+                                                        height: "2vh",
+                                                        width: "100%",
+                                                        mt: 3,
                                                     }}>
-                                                    {index + 1}
-                                                </TableCell>
-                                                <TableCell
-                                                    component="th"
-                                                    scope="row"
-                                                    padding="none"
-                                                    className="email-cell"
-                                                    style={{
-                                                        color: theme.palette
-                                                            .primary
-                                                            .contrastText,
-                                                    }}>
-                                                    <Stack
-                                                        direction="row"
-                                                        alignItems="center"
-                                                        spacing={2}
-                                                        pl={2}>
-                                                        <Typography
-                                                            variant="subtitle2"
-                                                            noWrap>
-                                                            {email}
-                                                        </Typography>
-                                                    </Stack>
-                                                </TableCell>
-
-                                                {isMobileSize && (<TableCell
-                                                    component="th"
-                                                    scope="row"
-                                                    padding="none">
-
-                                                    <Box
-                                                        sx={{
-                                                            height: "2vh",
-                                                            width: "100%",
-                                                            mt: 3,
-                                                        }}>
-                                                        <Grid
-                                                            container
-                                                            spacing={1}
-                                                            sx={{ height: "100%" }}
-                                                        >
-                                                            {[...Array(totalQuestion)].map(
-                                                                (item, index) => (
-
-                                                                    <Grid
-                                                                        xs={12 / totalQuestion}
-                                                                        sx={{ pl: 0.2 }}
-                                                                    >
-                                                                        <Box
-                                                                            sx={{
-                                                                                bgcolor: (theme) =>
-                                                                                    index < sumQuestions ?
-                                                                                        (index < corrects
-                                                                                            ? theme.palette.success.main
-                                                                                            : theme.palette.error.main)
-                                                                                        :
-                                                                                        theme.palette.grey[500],
-                                                                                height: "100%",
-                                                                                // borderRadius: 0.5,
-                                                                                borderRadius: '2.5px',
-                                                                            }}
-                                                                        />
-                                                                    </Grid>
-
-                                                                )
-                                                            )}
-                                                        </Grid>
-                                                    </Box>
-
-                                                </TableCell>)}
-
-                                                <TableCell
-                                                    align="center"
-                                                    style={{
-                                                        color: theme.palette
-                                                            .primary
-                                                            .contrastText,
-                                                    }}>
-                                                    {corrects}/{sumQuestions}
-                                                </TableCell>
-
-                                                <TableCell>
-                                                    <IconButton aria-label="settings"
-                                                                onClick={() => {
-                                                                    handleKickStudent(email)
-                                                                }}
+                                                    <Grid
+                                                        container
+                                                        spacing={1}
+                                                        sx={{height: "100%"}}
                                                     >
-                                                        <CloseIcon/>
-                                                    </IconButton>
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                                        {[...Array(totalQuestion)].map(
+                                                            (item, index) => (
 
-                    </Paper>
-                </Grid>
-            </Grid>
+                                                                <Grid
+                                                                    xs={12 / totalQuestion}
+                                                                    sx={{pl: 0.2}}
+                                                                >
+                                                                    <Box
+                                                                        sx={{
+                                                                            bgcolor: (theme) =>
+                                                                                index < sumQuestions ?
+                                                                                    (index < corrects
+                                                                                        ? theme.palette.success.main
+                                                                                        : theme.palette.error.main)
+                                                                                    :
+                                                                                    theme.palette.grey[500],
+                                                                            height: "100%",
+                                                                            // borderRadius: 0.5,
+                                                                            borderRadius: '2.5px',
+                                                                        }}
+                                                                    />
+                                                                </Grid>
+
+                                                            )
+                                                        )}
+                                                    </Grid>
+                                                </Box>
+
+                                            </TableCell>)}
+
+                                            <TableCell
+                                                align="center"
+                                                style={{
+                                                    color: theme.palette
+                                                        .primary
+                                                        .contrastText,
+                                                }}>
+                                                {corrects}/{sumQuestions}
+                                            </TableCell>
+
+                                            <TableCell align="center">
+                                                <IconButton aria-label="settings"
+                                                            onClick={() => {
+                                                                handleKickStudent(email)
+                                                            }}
+                                                            color={'error'}
+                                                >
+                                                    <CloseIcon/>
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                </Paper>
+                {/*</Grid>*/}
+
+            </Stack>
 
 
             <Dialog
@@ -427,7 +450,7 @@ export default function TestStatisticPage() {
             <Backdrop
                 sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
                 open={openBackdrop}
-            // onClick={handleCloseBackdrop}
+                // onClick={handleCloseBackdrop}
             >
                 <CircularProgress color="primary"/>
             </Backdrop>
