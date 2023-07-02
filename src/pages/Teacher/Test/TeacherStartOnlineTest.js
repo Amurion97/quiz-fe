@@ -37,7 +37,7 @@ export function TeacherStartOnlineTest() {
     const searchParams = new URLSearchParams(url.search);
     const roomCode = searchParams.get("code");
     const testId = searchParams.get("test");
-    const urlToJoin = `${url.origin}?code=${roomCode}`
+    const urlToJoin = `${url.origin}/students?code=${roomCode}`
     console.log("roomCode:", roomCode);
 
     const navigate = useNavigate()

@@ -3,7 +3,7 @@ import * as React from "react";
 import {useState} from "react";
 import {useEffect} from "react";
 import {useContext} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 //M-UI
 import {styled} from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
@@ -25,7 +25,7 @@ import {NameContext} from "../../layouts/StudentLayout";
 //component
 import {CodeEnterBox} from "../../components/CodeEnterBox";
 import SimpleBar from "simplebar-react";
-import {Skeleton} from "@mui/lab";
+import {Skeleton} from "@mui/material";
 
 const ButtonHover = styled(Button)(({theme}) => ({
     borderColor: theme.palette.primary.darker,
@@ -41,6 +41,11 @@ const ButtonHover = styled(Button)(({theme}) => ({
 export default function QuizSearch() {
     const inforNeedFind = useContext(NameContext);
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+    const roomCode = searchParams.get("code");
+    console.log("roomCode:", roomCode);
+
     const [currentTestId, setCurrentTestId] = useState(null);
     const [currentTest, setCurrentTest] = useState();
     const [listTest, setListTest] = useState([]);
@@ -89,7 +94,7 @@ export default function QuizSearch() {
                         md: 10
                     }
                 }}>
-                    <CodeEnterBox/>
+                    <CodeEnterBox code={roomCode}/>
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2} sx={{
@@ -167,120 +172,124 @@ export default function QuizSearch() {
                 setIsLoadingChosenTest(true)
             }} maxWidth="md">
 
-                <Card sx={{width: {xs: 310, sm: 400, md: 550, lg: 700}}}>
+                <SimpleBar style={{maxHeight: '90vh'}}>
 
-                    {isLoadingChosenTest
-                        ? <>
-                            {/* For variant="text", adjust the height via font-size */}
-                            {/*<Skeleton variant="text" sx={{fontSize: '1rem'}}/>*/}
+                    <Card sx={{width: {xs: 310, sm: 400, md: 550, lg: 700}}}>
 
-                            {/* For other variants, adjust the size with `width` and `height` */}
-                            {/*<Skeleton variant="circular" width={40} height={40}/>*/}
-                            <Skeleton variant="rectangular" sx={{height: {xs: 140, sm: 200, md: 250, lg: 250}}}/>
-                            <br/>
-                            <Skeleton variant="text" sx={{fontSize: '2rem'}}/>
-                            <Skeleton variant="text" sx={{fontSize: '0.8rem'}}/>
-                            <Skeleton variant="text" sx={{fontSize: '0.8rem'}}/>
-                            <br/>
-                            <Skeleton variant="text" sx={{fontSize: '1rem'}}/>
-                            <Skeleton variant="text" sx={{fontSize: '1rem'}}/>
-                            <Skeleton variant="text" sx={{fontSize: '1rem'}}/>
-                            <Skeleton variant="text" sx={{fontSize: '1rem'}}/>
-                        </>
-                        : (
-                            <>
-                                <CardMedia
-                                    component="img"
-                                    sx={{height: {xs: 140, sm: 200, md: 250, lg: 250}}}
-                                    src={currentTest.image}
-                                    onError={(event) => {
-                                        console.log('error img:', event.target.src);
-                                        event.target.src = `/assets/images/default-cover.webp`
-                                    }}
-                                />
+                        {isLoadingChosenTest
+                            ? <>
+                                {/* For variant="text", adjust the height via font-size */}
+                                {/*<Skeleton variant="text" sx={{fontSize: '1rem'}}/>*/}
 
-                                <Grid container sx={{pl: 2, pr: 2}}>
-                                    <Grid item xs={4} lg={1.5} sx={{textAlign: "center"}}>
-                                        <Paper elevation={2} fontSize={15}>
-                                            {currentTest.details.length} Câu hỏi
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs></Grid>
-                                    <Grid item xs={4} lg={2} sx={{textAlign: "center"}}>
-                                        <Paper elevation={2} fontSize={15}>
-                                            {currentTest.attempts.length} Lượt làm
-                                        </Paper>
-                                    </Grid>
-                                </Grid>
-
-
-                                <CardContent>
-                                    <Typography
-                                        gutterBottom
-                                        variant="h5"
-                                        component="div">
-                                        {currentTest.name}
-                                    </Typography>
-
-                                    <hr/>
-
-                                    <Typography variant="body2" color="text.secondary">
-                                        Độ khó: {currentTest.difficulty.name}
-                                    </Typography>
-
-                                    <Typography variant="body2" color="text.secondary">
-                                        Thẻ : {currentTest.tags.map((tag, index) => {
-                                        if (index === currentTest.tags.length - 1) {
-                                            return tag.name + "."
-                                        } else {
-                                            return tag.name + ", ";
-                                        }
-                                    }).join("")}
-                                    </Typography>
-
-                                    <br/>
-                                    <SimpleBar style={{maxHeight: '30vh'}}>
-                                        {currentTest.details &&
-                                            currentTest.details
-                                                .slice(0, 3)
-                                                .map((item, index) => (
-                                                    <Typography key={item.id}>
-                                                        {index + 1}. {item.question.content}
-                                                    </Typography>
-                                                ))
-                                        }
-                                    </SimpleBar>
-
-                                </CardContent>
-
-
+                                {/* For other variants, adjust the size with `width` and `height` */}
+                                {/*<Skeleton variant="circular" width={40} height={40}/>*/}
+                                <Skeleton variant="rectangular" sx={{height: {xs: 140, sm: 200, md: 250, lg: 250}}}/>
+                                <br/>
+                                <Skeleton variant="text" sx={{fontSize: '2rem'}}/>
+                                <Skeleton variant="text" sx={{fontSize: '0.8rem'}}/>
+                                <Skeleton variant="text" sx={{fontSize: '0.8rem'}}/>
+                                <br/>
+                                <Skeleton variant="text" sx={{fontSize: '1rem'}}/>
+                                <Skeleton variant="text" sx={{fontSize: '1rem'}}/>
+                                <Skeleton variant="text" sx={{fontSize: '1rem'}}/>
+                                <Skeleton variant="text" sx={{fontSize: '1rem'}}/>
                             </>
-                        )}
+                            : (
+                                <>
+                                    <CardMedia
+                                        component="img"
+                                        sx={{height: {xs: 140, sm: 200, md: 250, lg: 250}}}
+                                        src={currentTest.image}
+                                        onError={(event) => {
+                                            console.log('error img:', event.target.src);
+                                            event.target.src = `/assets/images/default-cover.webp`
+                                        }}
+                                    />
 
-                    <CardActions>
-                        <ButtonHover
-                            variant="outlined"
-                            sx={{
-                                marginLeft: auto,
-                                marginRight: auto,
-                                p: 2,
-                            }}
-                            onClick={() => {
-                                navigate('/students/test', {
-                                    state: {
-                                        id: currentTestId
-                                    }
-                                })
-                            }}
-                        >
-                            <Typography variant="h4">
-                                Bắt đầu thi
-                            </Typography>
+                                    <Grid container sx={{pl: 2, pr: 2}}>
+                                        <Grid item xs={4} lg={1.5} sx={{textAlign: "center"}}>
+                                            <Paper elevation={2} fontSize={15}>
+                                                {currentTest.details.length} Câu hỏi
+                                            </Paper>
+                                        </Grid>
+                                        <Grid item xs></Grid>
+                                        <Grid item xs={4} lg={2} sx={{textAlign: "center"}}>
+                                            <Paper elevation={2} fontSize={15}>
+                                                {currentTest.attempts.length} Lượt làm
+                                            </Paper>
+                                        </Grid>
+                                    </Grid>
 
-                        </ButtonHover>
-                    </CardActions>
 
-                </Card>
+                                    <CardContent>
+                                        <Typography
+                                            gutterBottom
+                                            variant="h5"
+                                            component="div">
+                                            {currentTest.name}
+                                        </Typography>
+
+                                        <hr/>
+
+                                        <Typography variant="body2" color="text.secondary">
+                                            Độ khó: {currentTest.difficulty.name}
+                                        </Typography>
+
+                                        <Typography variant="body2" color="text.secondary">
+                                            Thẻ : {currentTest.tags.map((tag, index) => {
+                                            if (index === currentTest.tags.length - 1) {
+                                                return tag.name + "."
+                                            } else {
+                                                return tag.name + ", ";
+                                            }
+                                        }).join("")}
+                                        </Typography>
+
+                                        <br/>
+                                        <SimpleBar style={{maxHeight: '20vh'}}>
+                                            {currentTest.details &&
+                                                currentTest.details
+                                                    .slice(0, 3)
+                                                    .map((item, index) => (
+                                                        <Typography key={item.id}>
+                                                            {index + 1}. {item.question.content}
+                                                        </Typography>
+                                                    ))
+                                            }
+                                        </SimpleBar>
+
+                                    </CardContent>
+
+
+                                </>
+                            )}
+
+                        <CardActions>
+                            <ButtonHover
+                                variant="outlined"
+                                sx={{
+                                    marginLeft: auto,
+                                    marginRight: auto,
+                                    p: 2,
+                                }}
+                                onClick={() => {
+                                    navigate('/students/test', {
+                                        state: {
+                                            id: currentTestId
+                                        }
+                                    })
+                                }}
+                            >
+                                <Typography variant="h4">
+                                    Bắt đầu thi
+                                </Typography>
+
+                            </ButtonHover>
+                        </CardActions>
+
+                    </Card>
+
+                </SimpleBar>
 
             </Dialog>
 

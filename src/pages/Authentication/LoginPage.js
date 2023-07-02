@@ -7,6 +7,7 @@ import {Link, Container, Typography} from "@mui/material";
 import Logo from "../../components/logo";
 import LoginForm from "../../components/Forms/Authentication/LoginForm";
 import {Alert} from "@mui/lab";
+import {useLocation} from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +41,10 @@ export const StyledContent = styled("div")(({theme}) => ({
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
+    const location = useLocation()
+    console.log("location in login:", location);
+    const {state} = location;
+    let code = state && state['code'] ? state['code'] : undefined;
     return (
         <>
             <Helmet>
@@ -78,7 +83,7 @@ export default function LoginPage() {
                             <Link href="/register">Tạo tài khoản mới...</Link>
                         </Typography>
 
-                        <LoginForm/>
+                        <LoginForm code={code}/>
                     </StyledContent>
                 </Container>
             </StyledRoot>

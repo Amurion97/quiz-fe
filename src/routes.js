@@ -1,4 +1,4 @@
-import {Navigate, useRoutes} from 'react-router-dom';
+import {Navigate, useRoutes, useSearchParams} from 'react-router-dom';
 
 //layouts
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -39,11 +39,13 @@ import {selectUser} from "./features/user/userSlice";
 
 export default function Router() {
     let user = useSelector(selectUser);
+    const [searchParams, setSearchParams] = useSearchParams();
+
     return useRoutes([
         {
             path: '/dashboard',
             element: user.info ? <DashboardLayout/> : <Navigate to={'/login'}/>,
-            children: user.info ? [
+            children: [
                 {element: <Navigate to="/dashboard/questions"/>, index: true},
                 {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
 
@@ -61,12 +63,14 @@ export default function Router() {
 
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
-            ] : [],
+            ],
         },
 
         {
             path: '/students',
-            element: user.info ? <StudentLayout/> : <Navigate to={'/login'}/>,
+            element: user.info ? <StudentLayout/> : <Navigate to={'/login'} state={{
+                code: searchParams.get("code")
+            }}/>,
             children: [
                 {element: <Navigate to="/students/quizSearch"/>, index: true},
                 {path: 'quizSearch', element: <QuizSearch/>},

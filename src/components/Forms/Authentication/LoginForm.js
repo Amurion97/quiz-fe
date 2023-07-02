@@ -27,7 +27,7 @@ const SchemaError = Yup.object().shape({
 });
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+export default function LoginForm({code}) {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch()
@@ -61,8 +61,14 @@ export default function LoginForm() {
                                     navigate("/dashboard/users")
                                 else if (role === 2)
                                     navigate("/dashboard/questions")
-                                else
-                                    navigate("/students")
+                                else {
+                                    if (code) {
+                                        navigate(`/students/quizSearch?code=${code}`)
+                                    } else {
+                                        navigate("/students")
+                                    }
+                                }
+
                             }
 
                         })
