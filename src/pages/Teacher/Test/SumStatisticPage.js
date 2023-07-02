@@ -13,7 +13,12 @@ export default function TestStatisticPage() {
     const isMobi = useMediaQuery(`(max-width:375px)`)
     return (
         <>
-            <Grid container spacing={4} sx={{ mt: 9, px: 3 }}>
+            <Grid container spacing={4} sx={{ mt: 9, px: {
+                xs: 1,
+                sm: 2,
+                md: 3,
+        
+            }}}>
                 <Grid item xs={12} >
                     <Card>
                         <CardActionArea>
@@ -22,7 +27,7 @@ export default function TestStatisticPage() {
                                     <Grid item xs={12} md={8}>
                                         <Tags />
                                     </Grid>
-                                    <Grid item xs={12} md={4}  >
+                                    <Grid item xs={12} md={4} sx={{mb:3}} >
                                         <Icons sx={{display: "flex", justifyContent: "space-between"}}
                                             accurac={accurac}
                                             question={question}
@@ -39,17 +44,17 @@ export default function TestStatisticPage() {
                   >
                     <Card>
                         <CardActionArea>
-                            <CardContent>
-                                <Grid container spacing={2}>
-                                    <Grid item xs>
+                            <CardContent sx={{p:1}}>
+                                {/* <Grid container spacing={2}>
+                                    <Grid item xs> */}
                                         <ResulTest
                                             setAccurac={setAccurac}
                                             setQuestion={setQuestion}
                                             setAnswer={setAnswer}
                                         />
 
-                                    </Grid>
-                                </Grid>
+                                    {/* </Grid>
+                                </Grid> */}
                             </CardContent>
                         </CardActionArea>
                     </Card>

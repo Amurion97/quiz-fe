@@ -43,7 +43,7 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
 
-            if (windowWidth <= 375 && windowHeight <= 667) {
+            if (windowWidth <= 376 && windowHeight <= 668) {
                 setIsMobileSize(false);
             } else {
                 setIsMobileSize(true);
