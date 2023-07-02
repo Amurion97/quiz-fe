@@ -1,21 +1,21 @@
 //React
-import { useEffect } from "react";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import {useEffect} from "react";
+import {useState} from "react";
+import {useLocation} from "react-router-dom";
 
 //Mui
-import {   Typography } from "@mui/material";
+import {Typography} from "@mui/material";
 //Component
-import { customAPIv1 } from "../../features/customAPI";
+import {customAPIv1} from "../../features/customAPI";
 
 
 export default function Tags() {
     const location = useLocation();
     console.log("location in Icon of Result-Static:", location)
-    const { state } = location;
+    const {state} = location;
     let id;
     if (state) {
-        ({ id } = state);
+        ({id} = state);
     }
     const [attempts, setAttempts] = useState([]);
     const updateAttempts = () => {
@@ -34,18 +34,21 @@ export default function Tags() {
     console.log("attemp page", attempts)
     return (
         <>
-            <Typography variant="h3" sx={{ textAlign: "left" }}>
+            <Typography variant="h3" sx={{textAlign: "left"}}>
                 {attempts.map((item, index) => (
                     index == 0 ? item.test.name : ""
                 ))}
             </Typography>
-            <hr />
-            <Typography variant="h7" sx={{ textAlign: "left" }}>
-                {attempts.map((item, index) => (
-                    index == 0 ? item.finish : ""
-                ))}
-            </Typography>
-            <Typography variant="h6" sx={{ textAlign: "left" }}>
+            <hr/>
+
+            {/*<Typography variant="h7" sx={{ textAlign: "left" }}>*/}
+            {/*    {attempts.map((item, index) => (*/}
+            {/*        index == 0 ? item.finish : ""*/}
+            {/*    ))}*/}
+            {/*</Typography>*/}
+
+            <Typography variant="h6" sx={{textAlign: "left"}}>
+                Thẻ: {' '}
                 {attempts.map((item, index) => {
                     if (index === 0) {
                         return item.test.tags.map((tag, tagIndex) => {
@@ -60,7 +63,7 @@ export default function Tags() {
                     }
                 })}
             </Typography>
-        
+
         </>
     );
 }

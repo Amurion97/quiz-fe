@@ -5,39 +5,38 @@ import {
     Paper,
     Table,
     TableBody,
-    TableContainer,
+    TableContainer, Typography,
 } from "@mui/material";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import { useTheme } from "@mui/material/styles";
+import {useTheme} from "@mui/material/styles";
 //react
-import { useLocation } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
+import {useLocation} from "react-router-dom";
+import {useState} from "react";
+import {useEffect} from "react";
 //components
-import { customAPIv1 } from "../../features/customAPI";
+import {customAPIv1} from "../../features/customAPI";
 
 
-
-export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
+export default function ResulTest({setAccurac, setAnswer, setQuestion}) {
     const theme = useTheme();
     const [isMobileSize, setIsMobileSize] = useState(true);
 
     let columns = [
-        { id: "email", label: "Email", minWidth: 100,align: 'center' },
-        { id: "accuracy", label: "Chính xác", minWidth: 50,align: 'center' },
-      ];
-      
-      if (isMobileSize) {
+        {id: "email", label: "Email", minWidth: 100, align: 'center'},
+        {id: "accuracy", label: "Chính xác", minWidth: 50, align: 'center'},
+    ];
+
+    if (isMobileSize) {
         columns = [
-          ...columns,
-          { id: "", label: "", minWidth: 300 },
-          { id: "point", label: " Điểm", minWidth: 50,align: 'center' },
-          { id: "finish", label: "Thời gian", minWidth: 100, align: 'center' },
+            ...columns,
+            {id: "", label: "", minWidth: 300},
+            {id: "point", label: " Điểm", minWidth: 50, align: 'center'},
+            {id: "finish", label: "Thời gian", minWidth: 100, align: 'center'},
         ];
-      }
-    
+    }
+
     useEffect(() => {
         const handleResize = () => {
             const windowWidth = window.innerWidth;
@@ -59,10 +58,10 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
 
     const location = useLocation();
     console.log("location in Icon of Result-Static:", location);
-    const { state } = location;
+    const {state} = location;
     let id;
     if (state) {
-        ({ id } = state);
+        ({id} = state);
     }
     const [attempts, setAttempts] = useState([]);
     const updateAttempts = () => {
@@ -91,7 +90,7 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
 
     return (
         <>
-            <TableContainer component={Paper} sx={{ maxHeight: "70vh" }}>
+            <TableContainer component={Paper} sx={{maxHeight: "70vh"}}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -102,7 +101,7 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
                                     style={{
                                         minWidth: column.minWidth,
                                         backgroundColor:
-                                            theme.palette.primary.dark,
+                                        theme.palette.primary.dark,
                                         color: theme.palette.primary
                                             .contrastText,
                                     }}
@@ -122,9 +121,22 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
                             console.log('sumQuestions', sumQuestions);
                             return (
                                 <TableRow key={index}>
-                                    <TableCell>{item.user.email}</TableCell>
-                                
-                                    <TableCell sx={{textAlign:"center"}}>{item.score}%</TableCell>
+                                    <TableCell>
+                                        <Typography
+                                            variant={'body2'}
+                                            sx={{
+                                                textOverflow: 'ellipsis',
+                                                overflow: 'hidden',
+                                                whiteSpace: 'nowrap',
+                                                maxWidth: '60vw',
+                                            }}
+                                        >
+                                            {item.user.email}
+                                        </Typography>
+
+                                    </TableCell>
+
+                                    <TableCell sx={{textAlign: "center"}}>{item.score}%</TableCell>
                                     {isMobileSize && (
                                         <TableCell>
                                             <Box
@@ -134,13 +146,13 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
                                                     // mt: 3,
                                                 }}
                                             >
-                                                <Grid container spacing={0} sx={{ height: "100%" }}>
+                                                <Grid container spacing={0} sx={{height: "100%"}}>
                                                     {[...Array(sumQuestions)].map((item, index) => (
                                                         <Grid
                                                             key={item}
                                                             item
                                                             xs={12 / sumQuestions}
-                                                            sx={{ pl: 0.2 }}
+                                                            sx={{pl: 0.2}}
                                                         >
                                                             <Box
                                                                 sx={{
@@ -159,8 +171,10 @@ export default function ResulTest({ setAccurac, setAnswer, setQuestion }) {
 
                                         </TableCell>
                                     )}
-                                    {isMobileSize && (<TableCell sx={{textAlign:"center"}}>{corrects}/{incorrects}</TableCell> )}
-                                    {isMobileSize && (<TableCell align="center">{date.toLocaleDateString()} {date.getHours()}:{date.getMinutes()}</TableCell> )}
+                                    {isMobileSize && (
+                                        <TableCell sx={{textAlign: "center"}}>{corrects}/{incorrects}</TableCell>)}
+                                    {isMobileSize && (<TableCell
+                                        align="center">{date.toLocaleDateString()} {date.getHours()}:{date.getMinutes()}</TableCell>)}
                                 </TableRow>
                             );
                         })}

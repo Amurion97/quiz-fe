@@ -92,7 +92,7 @@ export default function Icons(props) {
                                 }}
                             />
                         </CircularProgressbarWithChildren>
-                        <Typography sx={{textAlign:"center"}}>Chính xác</Typography>
+                        <Typography sx={{textAlign:"center", lineHeight: 'normal'}}>Chính xác</Typography>
 
                     </Paper>
                 </Grid>
