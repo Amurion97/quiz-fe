@@ -21,8 +21,8 @@ const SchemaError = Yup.object().shape({
     email: Yup.string().email()
         .required('Bạn hãy nhập email để đăng ký'),
     password: Yup.string()
-        .min(6,'Mật khẩu phải từ 6-8 ký tự')
-        .max(8,'Mật khẩu phải từ 6-8 ký tự')
+        .min(6, 'Mật khẩu phải từ 6-8 ký tự')
+        .max(8, 'Mật khẩu phải từ 6-8 ký tự')
         .required('Bạn hãy nhập mật khẩu để đăng ký'),
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng khớp')
@@ -31,7 +31,7 @@ const SchemaError = Yup.object().shape({
 
 // ----------------------------------------------------------------------
 
-export default function RegisterForm() {
+export default function RegisterForm({code}) {
     const [showPassword, setShowPassword] = useState(false);
     const [open, setOpen] = useState(false);
     const [statusCode, setStatusCode] = useState(0);
@@ -42,7 +42,7 @@ export default function RegisterForm() {
         if (openSuccess && countdown > 0) {
             // Giảm thời gian đếm ngược sau mỗi giây khi openSuccess là true và countdown > 0
             const timer = setInterval(() => {
-                console.log("countdown",countdown)
+                console.log("countdown", countdown)
                 setCountdown(prevCountdown => prevCountdown - 1);
             }, 1000);
             // Xóa timer khi countdown đạt giá trị 0
@@ -50,8 +50,12 @@ export default function RegisterForm() {
                 clearInterval(timer);
 
             };
-        }else if (openSuccess && countdown === 0) {
-            navigate('/login')
+        } else if (openSuccess && countdown === 0) {
+            navigate('/login', {
+                state: {
+                    code: code
+                }
+            })
         }
     }, [openSuccess, countdown]);
 

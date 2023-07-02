@@ -17,8 +17,15 @@ import RegisterForm from "../../components/Forms/Authentication/RegisterForm";
 import ForgotPasswordForm from "../../components/Forms/Authentication/ResetRequestForm";
 // Componnet-------------------------------------------------------------------
 import {StyledContent, StyledRoot, StyledSection} from "./LoginPage";
+import {useLocation} from "react-router-dom";
 
 export default function RegisterPage() {
+
+    const location = useLocation()
+    console.log("location in register:", location);
+    const {state} = location;
+    let code = state && state['code'] ? state['code'] : undefined;
+
     return (
         <>
             <Helmet>
@@ -52,7 +59,7 @@ export default function RegisterPage() {
                             <Link href="/login">Hãy đăng nhập nào...</Link>
                         </Typography>
 
-                        <RegisterForm/>
+                        <RegisterForm code={code}/>
                     </StyledContent>
                 </Container>
             </StyledRoot>

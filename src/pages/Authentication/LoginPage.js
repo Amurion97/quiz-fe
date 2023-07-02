@@ -1,13 +1,13 @@
 import {Helmet} from "react-helmet-async";
 // @mui
-import {styled} from "@mui/material/styles";
+import {styled, useTheme} from "@mui/material/styles";
 import {Link, Container, Typography} from "@mui/material";
 // hooks
 // components
 import Logo from "../../components/logo";
 import LoginForm from "../../components/Forms/Authentication/LoginForm";
 import {Alert} from "@mui/lab";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -41,6 +41,10 @@ export const StyledContent = styled("div")(({theme}) => ({
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
+    const theme = useTheme()
+
+    const navigate = useNavigate()
+
     const location = useLocation()
     console.log("location in login:", location);
     const {state} = location;
@@ -80,7 +84,21 @@ export default function LoginPage() {
 
                         <Typography variant="body2">
                             Bạn không có tài khoản? {""}
-                            <Link href="/register">Tạo tài khoản mới...</Link>
+                            <span
+                                onClick={() => {
+                                    console.log("clicked");
+                                    navigate('/register', {
+                                        state: {
+                                            code: code
+                                        }
+                                    })
+                                }}
+                                style={{
+                                    cursor: 'pointer',
+                                    color: theme.palette.primary.main,
+                                    textDecoration: 'underline'
+                                }}
+                            >Tạo tài khoản mới...</span>
                         </Typography>
 
                         <LoginForm code={code}/>
