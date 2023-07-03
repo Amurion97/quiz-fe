@@ -132,7 +132,13 @@ export default function TagPage() {
                 direction={"column"}
                 sx={{
                     height: "100vh",
-                    padding: "5% 10%",
+                    padding:{
+                        xs:2,
+                        sm:4,
+                        md:7,
+                    }
+                    
+
                 }}
             >
                 <Stack
