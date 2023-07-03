@@ -60,7 +60,7 @@ export default function LoginForm({code}) {
                                 if (role === 1)
                                     navigate("/dashboard/users")
                                 else if (role === 2)
-                                    navigate("/dashboard/questions")
+                                    navigate("/dashboard/tests")
                                 else {
                                     if (code) {
                                         navigate(`/students/quizSearch?code=${code}`)
