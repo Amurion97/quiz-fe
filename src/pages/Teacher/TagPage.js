@@ -29,7 +29,7 @@ import { customAPIv1 } from "../../features/customAPI";
 import AddTagForm from "../../components/Forms/AddTagForm";
 import { Alert } from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
-
+import AddIcon from '@mui/icons-material/Add';
 const columns = [
     { id: "id", label: "ID", minWidth: 70, align: "center" },
     { id: "name", label: "Tên chủ để", minWidth: 150 },
@@ -94,7 +94,7 @@ export default function TagPage() {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 600);
+            setIsMobile(window.innerWidth <= 1200);
         };
 
         handleResize();
@@ -131,7 +131,7 @@ export default function TagPage() {
             <Stack
                 direction={"column"}
                 sx={{
-                     height: "100vh",
+                    height: "100vh",
                     padding: "5% 10%",
                 }}
             >
@@ -146,8 +146,9 @@ export default function TagPage() {
                     </Typography>
                     {isMobile && (
                         <Button
-                            variant="outlined"
+                            variant="contained"
                             onClick={handleClickOpenAddTags}
+                            startIcon={<AddIcon />}
                         >
                             Thêm thẻ mới
                         </Button>
@@ -155,13 +156,15 @@ export default function TagPage() {
                 </Stack>
                 {/* </Grid> */}
 
-                <Grid container spacing={2}
-                sx={{
-                    pt:4
-                }}>
-                    <Grid item xs={12} lg={6}
-                    >
-                        <Paper padding={2} >
+                <Grid
+                    container
+                    spacing={2}
+                    sx={{
+                        pt: 4,
+                    }}
+                >
+                    <Grid item xs={12} lg={6}>
+                        <Paper padding={2}>
                             <TableContainer
                                 component={Paper}
                                 sx={{ maxHeight: "70vh" }}
