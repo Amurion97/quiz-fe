@@ -6,24 +6,31 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Stack from '@mui/material/Stack';
-import {IconButton, Paper} from "@mui/material";
+import {IconButton, Paper, useMediaQuery} from "@mui/material";
 //Mui-icon
 import FileDownloadDoneTwoToneIcon from '@mui/icons-material/FileDownloadDoneTwoTone';
 
 
-
-export default function QuestionListManagement({setCurrentQuestionId, listQuestion, openOnClick, addToQuestionList}) {
+export default function QuestionListManagement({
+                                                   setCurrentQuestionId,
+                                                   listQuestion,
+                                                   openOnClick,
+                                                   addToQuestionList,
+                                                   handleClick
+                                               }) {
+    const isMd = useMediaQuery(theme => theme.breakpoints.up('md'))
     const props = (id) => {
         return {
             [openOnClick ? 'onClick' : 'onMouseOver']: (e) => {
                 console.log("question id", id)
                 setCurrentQuestionId(id);
+                handleClick(e)
             }
         }
     }
     return (
         <>
-            <SimpleBar style={{maxHeight: "85vh"}}>
+            <SimpleBar style={{maxHeight: isMd ? "85vh" : '200vh'}}>
 
                 <Stack spacing={1}>
 

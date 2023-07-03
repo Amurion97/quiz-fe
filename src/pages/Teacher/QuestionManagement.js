@@ -1,5 +1,4 @@
-
-import {Box, Grid, IconButton, Paper} from "@mui/material";
+import {Box, Grid, IconButton, Paper, Popover, TextField, Typography} from "@mui/material";
 import {GroupFilter} from "../../components/Question/GroupFilter";
 import {useEffect, useState} from "react";
 import QuestionListManagement from "../../components/Question/QuestionListManagement";
@@ -90,63 +89,123 @@ export default function QuestionManagement() {
     const handleInputChange = (event) => {
         setContentQuery(event.target.value);
     };
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [openDown, setOpenDown] = useState(true);
+    console.log("openDown:", openDown)
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+        let currentTargetRect = event.currentTarget.getBoundingClientRect();
+        console.log(currentTargetRect.left, currentTargetRect.top, window.innerHeight / 2);
+        if (currentTargetRect.top > window.innerHeight / 2) {
+            setOpenDown(false);
+        } else {
+            setOpenDown(true);
+        }
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+
     return (
-        <Box sx={{
-            width: '100%',
-            height: '100vh',
-            p: 3,
+        <>
+            <Box sx={{
+                width: '100%',
+                height: '100vh',
+                p: {xs: 1, sm: 2, md: 3},
+                pt: {xs: 7, sm: 5, md: 3}
 
-        }}>
+            }}>
 
-            <Grid container spacing={3}>
-                <Grid item xs={3}>
-                    <Paper
-                        component="form"
-                        sx={{p: '2px 4px', display: 'flex', alignItems: 'center',}}
-                    >
-                        <IconButton
-                            type="button"
-                            sx={{p: '10px'}}
-                            aria-label="search" disabled>
-                            <SearchIcon/>
-                        </IconButton>
-                        <InputBase
-                            sx={{ml: 3, flex: 1, width: 200}}
-                            placeholder="Search Here"
-                            inputProps={{'label': 'search '}}
-                            onChange={handleInputChange}
-                            value={contentQuery}
+                <Grid container spacing={3}
+                      justifyContent="space-around">
+                    <Grid item xs={12} sm={4} md={3}>
+                        <Paper
+                            component="form"
+                            sx={{p: '2px 4px', display: 'flex', alignItems: 'center',}}
+                        >
+                            <IconButton
+                                type="button"
+                                sx={{p: '10px'}}
+                                aria-label="search" disabled>
+                                <SearchIcon/>
+                            </IconButton>
+                            <TextField
+                                variant="standard"
+                                sx={{flex: 1, width: 200}}
+                                placeholder="Search Here"
+                                inputProps={{'label': 'search '}}
+                                onChange={handleInputChange}
+                                value={contentQuery}
+                            />
+
+                        </Paper>
+
+                        <GroupFilter
+                            handleCheckTags={handleCheckTags} selectedTagIDs={selectedTagIDs}
+                            handleCheckTypes={handleCheckTypes} selectedTypesIDs={selectedTypesIDs}
+                            handleCheckDifficulties={handleCheckDifficulties} difficultiesIDs={difficultiesIDs}
+
+                        >
+                        </GroupFilter>
+                    </Grid>
+
+                    <Grid item xs={12} sm={8} md={4}>
+                        <Pagination
+                            count={Math.ceil(resultNumber / rowsPerPage)}
+                            page={page} onChange={handleChangePage}
+                            sx={{width: '100%'}}
                         />
+                        <QuestionListManagement
+                            setCurrentQuestionId={setCurrentQuestionId}
+                            listQuestion={listQuestion}
+                            openOnClick={true}
+                            handleClick={handleClick}
+                        />
+                    </Grid>
 
-                    </Paper>
+                    <Grid item md={5}
+                          sx={{
+                              display: {
+                                  xs: 'none',
+                                  md: 'inherit'
+                              }
+                          }}>
+                        <QuestionDetails
+                            currentQuestionId={currentQuestionId}
+                            updateQuestions={updateQuestions}/>
+                    </Grid>
 
-                    <GroupFilter
-                        handleCheckTags={handleCheckTags} selectedTagIDs={selectedTagIDs}
-                        handleCheckTypes={handleCheckTypes} selectedTypesIDs={selectedTypesIDs}
-                        handleCheckDifficulties={handleCheckDifficulties} difficultiesIDs={difficultiesIDs}
-
-                    >
-                    </GroupFilter>
                 </Grid>
+            </Box>
 
-                <Grid item xs={4}>
-                    <Pagination
-                        count={Math.ceil(resultNumber / rowsPerPage)}
-                        page={page} onChange={handleChangePage}/>
-                    <QuestionListManagement
-                        setCurrentQuestionId={setCurrentQuestionId}
-                        listQuestion={listQuestion}
-                        openOnClick={true}
-                    />
-                </Grid>
-
-                <Grid item xs={5}>
-                    <QuestionDetails
-                        currentQuestionId={currentQuestionId}
-                        updateQuestions={updateQuestions}/>
-                </Grid>
-
-            </Grid>
-        </Box>
+            <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: openDown ? 'top' : 'center',
+                    horizontal: 'left',
+                }}
+                transformOrigin={{
+                    vertical: openDown ? 'top' : 'bottom',
+                    horizontal: 'left',
+                }}
+                sx={{
+                    display: {
+                        md: 'none'
+                    }
+                }}
+            >
+                <QuestionDetails
+                    currentQuestionId={currentQuestionId}
+                    updateQuestions={updateQuestions}/>
+            </Popover>
+        </>
     );
 }

@@ -37,24 +37,24 @@ const FilterDifficulty = ({handleCheckDifficulties,difficultiesIDs}) => {
 
     return (
         <List
-            sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
+            sx={{width: '100%', bgcolor: 'background.paper'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
-            subheader={
-                <ListSubheader
-                    component="div"
-                    id="nested-list-subheader"
-                    sx={{mt: 1}}
-                >
-                    Tìm kiếm theo Độ khó
-                </ListSubheader>
-            }
+            // subheader={
+            //     <ListSubheader
+            //         component="div"
+            //         id="nested-list-subheader"
+            //         sx={{mt: 1}}
+            //     >
+            //         Tìm kiếm theo Độ khó
+            //     </ListSubheader>
+            // }
         >
             <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                     <YoutubeSearchedForTwoToneIcon/>
                 </ListItemIcon>
-                <ListItemText primary="Tìm kiếm theo"/>
+                <ListItemText primary="Tìm kiếm theo độ khó"/>
                 {open ? <ExpandLess/> : <ExpandMore/>}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>

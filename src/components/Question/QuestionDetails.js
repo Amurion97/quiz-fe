@@ -37,13 +37,6 @@ import CloseIcon from "@mui/icons-material/Close";
 //Components
 import {customAPIv1} from "../../features/customAPI";
 
-
-
-
-
-
-
-
 export default function QuestionDetails({currentQuestionId, setCurrentQuestionId, updateQuestions}) {
     console.log("question details rendering:", currentQuestionId)
     const navigate = useNavigate()
@@ -106,8 +99,25 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
             <Card>
                 <CardContent>
                     {!currentQuestion ?
-                        <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                            Chọn 1 câu hỏi để hiển thị chi tiết
+                        <Typography sx={{fontSize: 14, minHeight: '50vh'}} color="text.secondary" gutterBottom >
+                            <Typography sx={{
+                                display: {
+                                    xs: 'inherit',
+                                    md: 'none'
+                                }
+                            }}>
+                                Loading...
+                            </Typography>
+
+                            <Typography sx={{
+                                display: {
+                                    xs: 'none',
+                                    md: 'inherit'
+                                }
+                            }}>
+                                Chọn 1 câu hỏi để hiển thị chi tiết
+                            </Typography>
+
                         </Typography>
                         :
                         <>
@@ -120,7 +130,8 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                                         Dạng câu hỏi: {type.name}
                                     </Typography>
                                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                        Liên quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
+                                        Liên
+                                        quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
                                         "",)}
                                     </Typography>
                                 </Grid>

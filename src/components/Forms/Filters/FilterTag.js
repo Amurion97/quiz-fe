@@ -32,24 +32,25 @@ const FilterTags = ({handleCheckTags, selectedTagIDs}) => {
 
     return (
         <List
-            sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
+            sx={{width: '100%', bgcolor: 'background.paper'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
-                <ListSubheader
-                    component="div"
-                    id="nested-list-subheader"
-                    sx={{mt: 1}}
-                >
-                    Tìm kiếm theo môn học
-                </ListSubheader>
+                <></>
+                // <ListSubheader
+                //     component="div"
+                //     id="nested-list-subheader"
+                //     sx={{mt: 1}}
+                // >
+                //     Tìm kiếm theo thẻ
+                // </ListSubheader>
             }
         >
             <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                     <YoutubeSearchedForTwoToneIcon/>
                 </ListItemIcon>
-                <ListItemText primary="Sắp xếp"/>
+                <ListItemText primary="Tìm kiếm theo thẻ"/>
                 {open ? <ExpandLess/> : <ExpandMore/>}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>

@@ -35,18 +35,18 @@ const FilterTypes = ({handleCheckTypes, selectedTypesIDs}) => {
     }, []);
     return (
         <List
-            sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
+            sx={{width: '100%', bgcolor: 'background.paper'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
-            subheader={
-                <ListSubheader
-                    component="div"
-                    id="nested-list-subheader"
-                    sx={{mt: 1}}
-                >
-                    Lọc theo loại câu hỏi
-                </ListSubheader>
-            }
+            // subheader={
+            //     <ListSubheader
+            //         component="div"
+            //         id="nested-list-subheader"
+            //         sx={{mt: 1}}
+            //     >
+            //         Lọc theo loại câu hỏi
+            //     </ListSubheader>
+            // }
         >
             <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
