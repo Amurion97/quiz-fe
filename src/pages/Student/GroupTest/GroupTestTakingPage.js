@@ -137,14 +137,16 @@ export default function GroupTestTakingPage() {
                         <Grid
                             container
                             sx={{
-                                p: 4,
+                                p: {xs: 1, sm: 2, md: 4},
                                 height: '100vh',
                             }}
                         >
                             <Grid item xs={12}>
                                 <Stack direction='row'
                                        justifyContent='center'>
-                                    <Paper sx={{
+                                    <Paper
+                                        elevation={3}
+                                        sx={{
                                         px: 3,
                                         width: 'object-fit',
                                         textAlign: 'center'

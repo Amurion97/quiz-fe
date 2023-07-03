@@ -1,4 +1,4 @@
-import {Box, Button, Grid, Paper, Radio, Stack, Typography} from "@mui/material";
+import {Box, Button, Grid, Paper, Radio, Stack, Typography, useMediaQuery} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import {alpha, useTheme} from "@mui/material/styles";
 
@@ -16,6 +16,7 @@ export function QuestionInAction({
                                      currentQuestionIndex
                                  }) {
     const theme = useTheme()
+    const isMd = useMediaQuery(theme => theme.breakpoints.up('md'))
     return (<>
         <Paper
             sx={{
@@ -50,87 +51,175 @@ export function QuestionInAction({
                     </Paper>
                 </Grid>
 
-                {currentQuestion.answers && currentQuestion.answers.map((answer, index) => (
-                    <Grid
-                        key={index}
-                        item xs={12 / currentQuestion.answers.length}
-                        sx={{
-                            pl: (index === 0) ? 0 : 2,
-                            height: '50%',
-                        }}
-                    >
-                        <Paper
+                {isMd ?
+                    currentQuestion.answers && currentQuestion.answers.map((answer, index) => (
+                        <Grid
+                            key={index}
+                            item xs={12} md={12 / currentQuestion.answers.length}
                             sx={{
-                                height: '100%',
-                                bgcolor: BG_COLOR[index],
-                                p: 1,
-                                pl: 2,
-                                color: theme.palette.primary.contrastText,
-                                boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
-                                overflow: 'auto',
-                                '&::-webkit-scrollbar': {
-                                    width: '8px',
-                                    backgroundColor: BG_COLOR[index],
-                                },
-                                '&::-webkit-scrollbar-thumb': {
-                                    backgroundColor: BG_COLOR_SCROLL[index],
-                                    borderRadius: '10px',
-                                },
+                                pl: (index === 0) ? 0 : 2,
+                                height: '50%',
                             }}
-                            elevation={2}
+                        >
+                            <Paper
+                                sx={{
+                                    height: '100%',
+                                    bgcolor: BG_COLOR[index],
+                                    p: 1,
+                                    pl: 2,
+                                    color: theme.palette.primary.contrastText,
+                                    boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
+                                    overflow: 'auto',
+                                    '&::-webkit-scrollbar': {
+                                        width: '8px',
+                                        backgroundColor: BG_COLOR[index],
+                                    },
+                                    '&::-webkit-scrollbar-thumb': {
+                                        backgroundColor: BG_COLOR_SCROLL[index],
+                                        borderRadius: '10px',
+                                    },
+                                }}
+                                elevation={2}
+                            >
+
+                                <Box sx={{
+                                    width: '100%',
+                                    position: 'relative',
+                                }}>
+                                    <Paper sx={{
+                                        borderRadius: `${currentQuestion.type.id <= 2 ? "50%" : theme.shape.borderRadius}`,
+                                        // mr: {sm: 0, md: 0.5, lg: 1},
+                                        // mt: {sm: 0, lg: 0.5},
+                                        mb: 1,
+                                        height: '48px',
+                                        width: '48px',
+                                        position: 'absolute',
+                                        right: 0,
+                                        textAlign: 'center'
+                                    }}>
+                                        {currentQuestion.type.id <= 2 ?
+                                            <Radio
+                                                onClick={() => {
+                                                    handleAnswerClick(answer.id)
+                                                }
+                                                }
+                                                checked={currentAnswerList === answer.id}
+                                                sx={{
+                                                    height: '48px',
+                                                    width: '48px',
+                                                }}
+                                            />
+                                            :
+                                            <Checkbox
+                                                checked={currentAnswerList.includes(answer.id)}
+                                                color="success"
+                                                onClick={() => {
+                                                    handleAnswerClick(answer.id)
+                                                }}
+                                                sx={{
+                                                    height: '48px',
+                                                    width: '48px',
+                                                }}
+                                            />
+                                        }
+                                    </Paper>
+                                </Box>
+
+                                <Typography variant={'h5'}
+                                            sx={{mt: 8}}>
+                                    {answer.content}
+                                </Typography>
+
+                            </Paper>
+                        </Grid>
+                    ))
+                    : <>
+                        <Stack
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={1.5}
+                            sx={{width: '100%'}}
                         >
 
-                            <Box sx={{
-                                width: '100%',
-                                position: 'relative',
-                            }}>
-                                <Paper sx={{
-                                    borderRadius: `${currentQuestion.type.id <= 2 ? "50%" : theme.shape.borderRadius}`,
-                                    // mr: {sm: 0, md: 0.5, lg: 1},
-                                    // mt: {sm: 0, lg: 0.5},
-                                    mb: 1,
-                                    height: '48px',
-                                    width: '48px',
-                                    position: 'absolute',
-                                    right: 0,
-                                    textAlign: 'center'
-                                }}>
-                                    {currentQuestion.type.id <= 2 ?
-                                        <Radio
-                                            onClick={() => {
-                                                handleAnswerClick(answer.id)
+
+                            {currentQuestion.answers && currentQuestion.answers.map((answer, index) => (
+
+                                <Paper
+                                    sx={{
+                                        height: '100%',
+                                        width: '100%',
+                                        bgcolor: BG_COLOR[index],
+                                        p: 1,
+                                        color: theme.palette.primary.contrastText,
+                                        boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
+                                        overflow: 'auto',
+                                        '&::-webkit-scrollbar': {
+                                            width: '8px',
+                                            backgroundColor: BG_COLOR[index],
+                                        },
+                                        '&::-webkit-scrollbar-thumb': {
+                                            backgroundColor: BG_COLOR_SCROLL[index],
+                                            borderRadius: '10px',
+                                        },
+                                    }}
+                                    elevation={2}
+                                >
+
+                                    <Box sx={{
+                                        width: '100%',
+                                        position: 'relative',
+                                    }}>
+                                        <Paper sx={{
+                                            borderRadius: `${currentQuestion.type.id <= 2 ? "50%" : theme.shape.borderRadius}`,
+                                            // mr: {sm: 0, md: 0.5, lg: 1},
+                                            // mt: {sm: 0, lg: 0.5},
+                                            mb: 1,
+                                            height: '48px',
+                                            width: '48px',
+                                            position: 'absolute',
+                                            right: -1,
+                                            textAlign: 'center'
+                                        }}>
+                                            {currentQuestion.type.id <= 2 ?
+                                                <Radio
+                                                    onClick={() => {
+                                                        handleAnswerClick(answer.id)
+                                                    }
+                                                    }
+                                                    checked={currentAnswerList === answer.id}
+                                                    sx={{
+                                                        height: '48px',
+                                                        width: '48px',
+                                                    }}
+                                                />
+                                                :
+                                                <Checkbox
+                                                    checked={currentAnswerList.includes(answer.id)}
+                                                    color="success"
+                                                    onClick={() => {
+                                                        handleAnswerClick(answer.id)
+                                                    }}
+                                                    sx={{
+                                                        height: '48px',
+                                                        width: '48px',
+                                                    }}
+                                                />
                                             }
-                                            }
-                                            checked={currentAnswerList === answer.id}
-                                            sx={{
-                                                height: '48px',
-                                                width: '48px',
-                                            }}
-                                        />
-                                        :
-                                        <Checkbox
-                                            checked={currentAnswerList.includes(answer.id)}
-                                            color="success"
-                                            onClick={() => {
-                                                handleAnswerClick(answer.id)
-                                            }}
-                                            sx={{
-                                                height: '48px',
-                                                width: '48px',
-                                            }}
-                                        />
-                                    }
+                                        </Paper>
+                                    </Box>
+
+                                    <Typography variant={'h5'}
+                                                sx={{mt: 2, mr: 5}}>
+                                        {answer.content}
+                                    </Typography>
+
                                 </Paper>
-                            </Box>
 
-                            <Typography variant={'h5'}
-                                        sx={{mt: 8}}>
-                                {answer.content}
-                            </Typography>
+                            ))}
+                        </Stack>
 
-                        </Paper>
-                    </Grid>
-                ))}
+                    </>}
             </Grid>
         </Paper>
         <Stack
