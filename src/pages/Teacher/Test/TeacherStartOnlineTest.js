@@ -10,7 +10,8 @@ import {
     Box, Card,
     Dialog,
     DialogTitle,
-    DialogContent,
+    DialogContent, Stack,
+    Container
 } from "@mui/material";
 // import { Box, Stack } from "@mui/system";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -160,174 +161,140 @@ export function TeacherStartOnlineTest() {
     return (
         <>
             <Helmet>
-                <title> Teacher Lobby | Quiz </title>
+                <title> Sảnh chờ thi | Quiz </title>
             </Helmet>
+
 
             <Grid container>
 
                 <Grid item xs={12}>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            pt: 8,
-                            "& > :not(style)": {
-                                width: 450,
-                                height: 425,
-                            },
-                            mx: 3
-                        }}
+                    <Container maxWidth="xs"
+                               sx={{
+                                   // display: "flex",
+                                   // flexWrap: "wrap",
+                                   // flex: 1,
+                                   // justifyContent: "center",
+                                   // alignItems: "center",
+                                   pt: 8,
+
+                               }}
                     >
-                        <Paper sx={{p: 10}} elevation={6}>
-                            <Grid container spacing={1}>
-                                <Grid
-                                    item
-                                    xs={12}
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        mt: -5,
-                                    }}
-                                >
-                                    <Typography fontSize={20}>Online Test</Typography>
-                                </Grid>
+                        <Paper sx={{
 
-                                <Grid item xs={12} sx={{textAlign: "center"}}>
-                                    <FormControl
-                                        sx={{
-                                            display: "flex",
-                                            flexDirection: "row-reverse",
-                                            alignItems: "center",
-                                            justifyContent: "flex-end",
-                                        }}
-                                        variant="outlined"
-                                    >
-                                        <OutlinedInput
-                                            sx={{
-                                                mx: 1,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                            }}
-                                            endAdornment={
-                                                <InputAdornment>
-                                                    <IconButton
-                                                        aria-label="copy url to join"
-                                                        edge="end"
-                                                        sx={{bgcolor: "#EDEDF6"}}
-                                                        onClick={handleCopyUrlClick}
-                                                    >
-                                                        {isUrlCopied ? (
-                                                            <DoneAllTwoToneIcon sx={{maxHeight: "100%"}}/>
-                                                        ) : (
-                                                            <ContentCopyIcon sx={{maxHeight: "100%"}}/>
-                                                        )}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            }
+                            px: {xs: 2, sm: 4, md: 6},
+                            py: 6,
+                        }} elevation={6}>
 
-                                            value={urlToJoin}
-                                        />
-                                    </FormControl>
-                                </Grid>
-                                <Grid
-                                    item
-                                    xs={12}
+                            <Stack
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="center"
+                                spacing={1}>
+
+                                <Typography fontSize={20}>Online Test</Typography>
+
+                                <FormControl
                                     sx={{
                                         display: "flex",
-                                        flexDirection: "column",
-                                        justifyContent: "center",
+                                        flexDirection: "row-reverse",
                                         alignItems: "center",
+                                        justifyContent: "flex-end",
                                     }}
+                                    variant="outlined"
                                 >
-                                    <Typography>2: Enter join code</Typography>
-                                </Grid>
-                                <Grid item xs={12} sx={{textAlign: "center"}}>
-                                    <FormControl
+                                    <OutlinedInput
                                         sx={{
+                                            mx: 1,
                                             display: "flex",
-                                            flexDirection: "row-reverse",
                                             alignItems: "center",
-                                            justifyContent: "flex-end",
-                                        }}
-                                        variant="outlined"
-                                    >
-                                        <OutlinedInput
-                                            sx={{
-                                                mx: 1,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                '& input': {
-                                                    textAlign: 'center',
-                                                },
-                                            }}
-                                            endAdornment={
-                                                <InputAdornment>
-                                                    <IconButton
-                                                        aria-label="copy join code"
-                                                        edge="end"
-                                                        sx={{bgcolor: "#EDEDF6"}}
-                                                        onClick={handleCopyClick}
-                                                    >
-                                                        {isCopied ? (
-                                                            <DoneAllTwoToneIcon sx={{maxHeight: "100%"}}/>
-                                                        ) : (
-                                                            <ContentCopyIcon sx={{maxHeight: "100%"}}/>
-                                                        )}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            }
-                                            value={roomCode}
-                                        />
-                                    </FormControl>
-                                </Grid>
-                                <Grid
-                                    item
-                                    xs={12}
-                                    sx={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        mt: 1,
-                                    }}
-                                >
-                                    <Typography>3: Or</Typography>
-                                </Grid>
-                                <Grid
-                                    item
-                                    xs={12}
-                                    sx={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <Button
-                                        sx={{
-                                            width: "70%",
-                                            height: 50,
-                                            display: "flex",
                                             justifyContent: "center",
-                                            alignItems: "center",
-                                            mt: 2,
+                                            textAlign: "center",
                                         }}
-                                        variant="outlined"
-                                        startIcon={<QrCodeIcon/>}
-                                        onClick={handleOpenQr}
-                                    >
-                                        QrCode
-                                    </Button>
-                                </Grid>
-                            </Grid>
+                                        endAdornment={
+                                            <InputAdornment>
+                                                <IconButton
+                                                    aria-label="copy url to join"
+                                                    edge="end"
+                                                    sx={{bgcolor: "#EDEDF6"}}
+                                                    onClick={handleCopyUrlClick}
+                                                >
+                                                    {isUrlCopied ? (
+                                                        <DoneAllTwoToneIcon sx={{maxHeight: "100%"}}/>
+                                                    ) : (
+                                                        <ContentCopyIcon sx={{maxHeight: "100%"}}/>
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+
+                                        value={urlToJoin}
+                                    />
+                                </FormControl>
+
+                                <Typography>2: Enter join code</Typography>
+
+                                <FormControl
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                        justifyContent: "flex-end",
+                                    }}
+                                    variant="outlined"
+                                >
+                                    <OutlinedInput
+                                        sx={{
+                                            mx: 1,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            '& input': {
+                                                textAlign: 'center',
+                                            },
+                                        }}
+                                        endAdornment={
+                                            <InputAdornment>
+                                                <IconButton
+                                                    aria-label="copy join code"
+                                                    edge="end"
+                                                    sx={{bgcolor: "#EDEDF6"}}
+                                                    onClick={handleCopyClick}
+                                                >
+                                                    {isCopied ? (
+                                                        <DoneAllTwoToneIcon sx={{maxHeight: "100%"}}/>
+                                                    ) : (
+                                                        <ContentCopyIcon sx={{maxHeight: "100%"}}/>
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        value={roomCode}
+                                    />
+                                </FormControl>
+
+                                <Typography>3: Or</Typography>
+
+                                <Button
+                                    sx={{
+                                        width: "70%",
+                                        height: 50,
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        mt: 2,
+                                    }}
+                                    variant="outlined"
+                                    startIcon={<QrCodeIcon/>}
+                                    onClick={handleOpenQr}
+                                >
+                                    QrCode
+                                </Button>
+
+                            </Stack>
+
+
                         </Paper>
-                    </Box>
+                    </Container>
                 </Grid>
 
                 <Grid
