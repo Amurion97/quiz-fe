@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 // redux
-import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../features/user/userSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {logout, selectUser} from "../features/user/userSlice";
 // @mui
-import { alpha, styled, useTheme } from "@mui/material/styles";
+import {alpha, styled, useTheme} from "@mui/material/styles";
 import {
     Avatar,
     Button,
@@ -43,7 +43,7 @@ import * as React from "react";
 import InputBase from "@mui/material/InputBase";
 
 // sections
-const Search = styled("div")(({ theme }) => ({
+const Search = styled("div")(({theme}) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -59,7 +59,7 @@ const Search = styled("div")(({ theme }) => ({
     },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({theme}) => ({
     padding: theme.spacing(0, 2),
     height: "100%",
     position: "absolute",
@@ -69,7 +69,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
     justifyContent: "center",
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({theme}) => ({
     color: "inherit",
     "& .MuiInputBase-input": {
         padding: theme.spacing(1, 1, 1, 0),
@@ -120,7 +120,7 @@ export default function TopBar(props) {
 
     return (
         <>
-            <Box sx={{ flexGrow: 1, mb: 2 }}>
+            <Box sx={{flexGrow: 1, mb: 2}}>
                 <AppBar
                     position="fixed"
                     sx={{
@@ -141,11 +141,11 @@ export default function TopBar(props) {
                             <Stack direction={"row"}>
                                 <Search>
                                     <SearchIconWrapper>
-                                        <SearchIcon />
+                                        <SearchIcon/>
                                     </SearchIconWrapper>
                                     <StyledInputBase
                                         placeholder="Nhập để tìm kiếm..."
-                                        inputProps={{ "aria-label": "search" }}
+                                        inputProps={{"aria-label": "search"}}
                                         value={props.contentQuery}
                                         onChange={(e) => {
                                             props.setContentQuery(
@@ -162,8 +162,13 @@ export default function TopBar(props) {
                             </Stack>
                         </Paper>
 
-                        <Box sx={{ flexGrow: 1 }} />
-                        <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                        <Box sx={{flexGrow: 1}}/>
+                        <Box sx={{
+                            // display: {
+                            //     // xs: "none",
+                            //     xs: "flex"
+                            // }
+                        }}>
                             <IconButton
                                 size="large"
                                 edge="end"
@@ -171,7 +176,7 @@ export default function TopBar(props) {
                                 aria-haspopup="true"
                                 color="inherit"
                                 onClick={handleClick}>
-                                <AccountCircle color={"primary"} />
+                                <AccountCircle color={"primary"}/>
                             </IconButton>
                         </Box>
                     </Toolbar>
@@ -216,7 +221,7 @@ export default function TopBar(props) {
                         Mật khẩu dài tối đa 8 kí tự, mật khẩu mới phải khác mật
                         khẩu cũ
                     </DialogContentText>
-                    <ChangePasswordForm />
+                    <ChangePasswordForm/>
                 </DialogContent>
                 <DialogActions></DialogActions>
             </Dialog>
