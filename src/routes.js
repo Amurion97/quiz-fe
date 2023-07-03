@@ -33,6 +33,7 @@ import GroupWaitingRoom from "./pages/Student/GroupTest/GroupWaitingRoom";
 // redux
 import {useSelector} from 'react-redux';
 import {selectUser} from "./features/user/userSlice";
+import TagPage2 from "./pages/Teacher/TagPage2";
 
 
 // ----------------------------------------------------------------------
@@ -59,7 +60,8 @@ export default function Router() {
                 {path: 'sum-statistic', element: <SumStatisticPage/>},
                 {path: 'test', element: <TeacherStartOnlineTest/>},
 
-                {path: 'tag', element: <TagPage/>},
+                // {path: 'tag', element: <TagPage/>},
+                {path: 'tag', element: <TagPage2/>},
 
                 {path: '404', element: <Page404/>},
                 {path: '*', element: <Navigate to="/dashboard/404"/>},
