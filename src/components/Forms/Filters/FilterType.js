@@ -55,7 +55,7 @@ const FilterTypes = ({handleCheckTypes, selectedTypesIDs}) => {
                 <ListItemText primary="Lọc theo loại câu hỏi"/>
                 {open ? <ExpandLess/> : <ExpandMore/>}
             </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={open} timeout="auto">
                 <List component="div" sx={{pl: 3}}>
                     <FormGroup>
                         {questionTypes.map((item) => (

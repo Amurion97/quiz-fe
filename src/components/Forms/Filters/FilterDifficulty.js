@@ -57,7 +57,7 @@ const FilterDifficulty = ({handleCheckDifficulties,difficultiesIDs}) => {
                 <ListItemText primary="Tìm kiếm theo độ khó"/>
                 {open ? <ExpandLess/> : <ExpandMore/>}
             </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={open} timeout="auto">
                 <List component="div" sx={{pl: 3}}>
                     <FormGroup>
                         {listDifficulties.map((item) => (
