@@ -45,7 +45,11 @@ export default function Router() {
     return useRoutes([
         {
             path: '/dashboard',
-            element: user.info ? <DashboardLayout/> : <Navigate to={'/login'}/>,
+            element: user.info
+                ?
+                (user.info.role <= 2 ? <DashboardLayout/> : <Navigate to={'/404'}/>)
+                :
+                <Navigate to={'/login'}/>,
             children: [
                 {element: <Navigate to="/dashboard/questions"/>, index: true},
                 {path: 'users', element: (user.info ? (user.info.role === 1 ? <UsersPage/> : <Page404/>) : <Page404/>)},
@@ -111,8 +115,15 @@ export default function Router() {
         {
             path: "/",
             // element: <Navigate to="/login"/>,
-            element: (user.info ? (user.info.role <= 2 ? <Navigate to="/dashboard"/> :
-                <Navigate to="/students"/>) : <Navigate to="/login"/>),
+            element: user.info
+                ?
+                (user.info.role <= 2
+                    ?
+                    <Navigate to="/dashboard"/>
+                    :
+                    (user.info.role === 3 ? <Navigate to="/students"/> : <Navigate to="/login"/>))
+                :
+                <Navigate to="/login"/>,
         },
 
         {

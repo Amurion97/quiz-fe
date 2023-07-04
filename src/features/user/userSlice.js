@@ -43,8 +43,8 @@ export const userSlice = createSlice({
     reducers: {
         logout: (state) => {
             localStorage.removeItem("user");
-            state.info = {};
-            state.token = {};
+            state.info = null;
+            state.token = null;
             state.status = 'idle';
         },
     },

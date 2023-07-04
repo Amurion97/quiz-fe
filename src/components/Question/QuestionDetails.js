@@ -17,7 +17,8 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
-    Popover
+    Popover,
+    Paper
 } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -96,77 +97,84 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
 
     return (
         <>
-            <Card>
-                <CardContent>
-                    {!currentQuestion ?
-                        <Typography sx={{fontSize: 14, minHeight: '50vh'}} color="text.secondary" gutterBottom >
-                            <Typography sx={{
-                                display: {
-                                    xs: 'inherit',
-                                    md: 'none'
-                                }
-                            }}>
-                                Loading...
-                            </Typography>
-
-                            <Typography sx={{
-                                display: {
-                                    xs: 'none',
-                                    md: 'inherit'
-                                }
-                            }}>
-                                Chọn 1 câu hỏi để hiển thị chi tiết
-                            </Typography>
-
+            <Paper
+                sx={{width: '100%', p: {xs: 2, md: 3}}}
+            elevation={2}>
+                {/*<CardContent sx={{width: '100%'}}>*/}
+                {!currentQuestion ?
+                    <Typography sx={{fontSize: 14, minHeight: '50vh'}} color="text.secondary" gutterBottom>
+                        <Typography sx={{
+                            display: {
+                                xs: 'inherit',
+                                md: 'none'
+                            }
+                        }}>
+                            Loading...
                         </Typography>
-                        :
-                        <>
-                            <Grid container>
-                                <Grid item xs={11}>
-                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                        Độ khó: {difficulty.name}
-                                    </Typography>
-                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                        Dạng câu hỏi: {type.name}
-                                    </Typography>
-                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                        Liên
-                                        quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
-                                        "",)}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <IconButton
-                                        size="large"
-                                        color="inherit"
-                                        onClick={(e) => {
-                                            handleOpenMenu(e);
-                                        }}>
-                                        <MoreVertIcon fontSize="small"/>
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
 
-                            <Typography variant="h6" component="div">
-                                Đề bài: {content}
-                            </Typography>
-                            <Divider/>
-                            <List>
-                                {answers.map((item) => (
-                                    <ListItem key={item.id}>
-                                        <ListItemIcon>
-                                            {item.isTrue === false ?
-                                                <ClearIcon sx={{color: "red"}}></ClearIcon> :
-                                                <CheckIcon sx={{color: "green"}}></CheckIcon>}
-                                        </ListItemIcon>
-                                        <ListItemText primary={item.content}/>
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </>
-                    }
-                </CardContent>
-            </Card>
+                        <Typography sx={{
+                            display: {
+                                xs: 'none',
+                                md: 'inherit'
+                            }
+                        }}>
+                            Chọn 1 câu hỏi để hiển thị chi tiết
+                        </Typography>
+
+                    </Typography>
+                    :
+                    <>
+                        <Grid container>
+                            <Grid item xs={11}>
+                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                    Độ khó: {difficulty.name}
+                                </Typography>
+                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                    Dạng câu hỏi: {type.name}
+                                </Typography>
+                                <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                    Liên
+                                    quan: {tags.reduce((accumulator, currentValue) => accumulator + currentValue.name + ", ",
+                                    "",)}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={1}>
+                                <IconButton
+                                    size="large"
+                                    color="inherit"
+                                    onClick={(e) => {
+                                        handleOpenMenu(e);
+                                    }}
+                                    sx={{
+                                        position: 'relative',
+                                        left: {md: 6},
+                                    }}>
+                                    <MoreVertIcon fontSize="small"/>
+                                </IconButton>
+                            </Grid>
+                        </Grid>
+
+                        <Typography variant="h6" component="div">
+                            Đề bài: {content}
+                        </Typography>
+                        <Divider/>
+                        <List>
+                            {answers.map((item) => (
+                                <ListItem key={item.id}>
+                                    <ListItemIcon>
+                                        {item.isTrue === false ?
+                                            <ClearIcon sx={{color: "red"}}></ClearIcon> :
+                                            <CheckIcon sx={{color: "green"}}></CheckIcon>}
+                                    </ListItemIcon>
+                                    <ListItemText primary={item.content}/>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </>
+                }
+                {/*</CardContent>*/}
+            </Paper>
+
 
             <Popover
                 open={Boolean(openMenu)}

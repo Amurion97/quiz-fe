@@ -299,7 +299,11 @@ export default function NavBar(props) {
                     <Button
                         onClick={() => {
                             dispatch(logout())
-                            navigate("/login")
+                            setTimeout(() => {
+                                navigate("/login")
+                            }, 200)
+
+
                         }}
                         autoFocus variant="contained" color="primary">
                         OK
