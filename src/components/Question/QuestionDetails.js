@@ -18,7 +18,7 @@ import {
     ListItemText,
     MenuItem,
     Popover,
-    Paper
+    Paper, Tooltip
 } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -46,6 +46,8 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
     const [openConfirm, setOpenConfirm] = useState(false);
     const [open, setOpen] = useState(false);
     const [openSuccess, setOpenSuccess] = useState(false);
+    const [editable, setEditable] = useState(false)
+    const [tooltipTitle, setTooltipTitle] = useState('')
 
 
     const handleOpenMenu = (event) => {
@@ -92,6 +94,16 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                 .catch(e => {
                     console.log('error in get question details:', e)
                 })
+
+            customAPIv1().get(`questions/check/${currentQuestionId}`)
+                .then(res => {
+                    setEditable(true);
+                })
+                .catch(e => {
+                    console.log("error while check question:", e)
+                    setEditable(false);
+                    setTooltipTitle(e.response.data.message)
+                })
         }
     }, [currentQuestionId])
 
@@ -99,7 +111,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
         <>
             <Paper
                 sx={{width: '100%', p: {xs: 2, md: 3}}}
-            elevation={2}>
+                elevation={2}>
                 {/*<CardContent sx={{width: '100%'}}>*/}
                 {!currentQuestion ?
                     <Typography sx={{fontSize: 14, minHeight: '50vh'}} color="text.secondary" gutterBottom>
@@ -193,27 +205,48 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                         },
                     },
                 }}>
+                {editable ?
+                    <>
+                        <MenuItem
+                            onClick={() => {
+                                navigate("/dashboard/editQuestion", {
+                                    state: {question: currentQuestion}
+                                })
+                                handleCloseMenu();
+                            }}>
+                            <EditIcon fontSize="small"/>
+                            Sửa
+                        </MenuItem>
 
-                <MenuItem
-                    onClick={() => {
-                        navigate("/dashboard/editQuestion", {
-                            state: {question: currentQuestion}
-                        })
-                        handleCloseMenu();
-                    }}>
-                    <EditIcon fontSize="small"/>
-                    Sửa
-                </MenuItem>
+                        <MenuItem
+                            sx={{color: "error.main"}}
+                            onClick={(e) => {
+                                handleCloseMenu();
+                                handleClickOpenConfirm();
+                            }}>
+                            <DeleteOutlineIcon fontSize="small"/>
+                            Xóa
+                        </MenuItem>
+                    </>
+                    :
+                    <Tooltip title={tooltipTitle}>
+                          <span>
+                              <>
+                                  <MenuItem>
+                                  <EditIcon fontSize="small"/>
+                            Sửa
+                        </MenuItem>
 
-                <MenuItem
-                    sx={{color: "error.main"}}
-                    onClick={(e) => {
-                        handleCloseMenu();
-                        handleClickOpenConfirm();
-                    }}>
-                    <DeleteOutlineIcon fontSize="small"/>
-                    Xóa
-                </MenuItem>
+                        <MenuItem>
+                        <DeleteOutlineIcon fontSize="small"/>
+                            Xóa
+                    </MenuItem>
+                    </>
+
+                    </span>
+                    </Tooltip>
+                }
+
             </Popover>
 
             <Dialog
