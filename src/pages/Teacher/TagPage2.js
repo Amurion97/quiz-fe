@@ -299,7 +299,7 @@ export default function TagPage2() {
                     <Dialog
                         open={openDialog}
                         onClose={handleCloseDialog}
-                        fullWidth="md"
+                        maxWidth="md"
                     >
                         <DialogTitle>Xóa thẻ</DialogTitle>
                         <DialogContent>

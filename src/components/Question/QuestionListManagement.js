@@ -24,7 +24,10 @@ export default function QuestionListManagement({
             [openOnClick ? 'onClick' : 'onMouseOver']: (e) => {
                 console.log("question id", id)
                 setCurrentQuestionId(id);
-                handleClick(e)
+                if (handleClick) {
+                    handleClick(e)
+                }
+
             }
         }
     }

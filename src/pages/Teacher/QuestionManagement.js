@@ -10,6 +10,8 @@ import * as React from "react";
 import {Pagination} from "@mui/lab";
 
 export default function QuestionManagement() {
+    console.log("component is rendering")
+
     const [selectedTagIDs, setSelectedTagIDs] = useState([]);
     const [selectedTypesIDs, setSelectedTypesIDs] = useState([]);
     const [difficultiesIDs, setDifficulties] = useState([]);
@@ -18,6 +20,12 @@ export default function QuestionManagement() {
     const [contentQuery, setContentQuery] = useState('');
     const [page, setPage] = useState(1);
     const [resultNumber, setResultNumber] = useState(0);
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [openDown, setOpenDown] = useState(true);
+    console.log("openDown:", openDown)
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -82,17 +90,18 @@ export default function QuestionManagement() {
             .catch(e => console.log("error in get questions:", e))
     };
     useEffect(() => {
-        console.log("edit form did mount");
+        console.log("QuestionManagement  did mount");
         updateQuestions();
+        return () => {
+            console.log('useEffect return ')
+        }
     }, [selectedTagIDs, selectedTypesIDs, difficultiesIDs, contentQuery, page])
 
     const handleInputChange = (event) => {
         setContentQuery(event.target.value);
     };
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [openDown, setOpenDown] = useState(true);
-    console.log("openDown:", openDown)
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
         let currentTargetRect = event.currentTarget.getBoundingClientRect();
@@ -108,8 +117,7 @@ export default function QuestionManagement() {
         setAnchorEl(null);
     };
 
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
+
 
     return (
         <>

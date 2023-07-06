@@ -114,26 +114,31 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                 elevation={2}>
                 {/*<CardContent sx={{width: '100%'}}>*/}
                 {!currentQuestion ?
-                    <Typography sx={{fontSize: 14, minHeight: '50vh'}} color="text.secondary" gutterBottom>
-                        <Typography sx={{
-                            display: {
-                                xs: 'inherit',
-                                md: 'none'
-                            }
-                        }}>
+                    <>
+                        <Typography
+                            color="text.secondary"
+                            sx={{
+                                fontSize: 14, minHeight: '50vh',
+                                display: {
+                                    xs: 'inherit',
+                                    md: 'none'
+                                }
+                            }}>
                             Loading...
                         </Typography>
 
-                        <Typography sx={{
-                            display: {
-                                xs: 'none',
-                                md: 'inherit'
-                            }
-                        }}>
+                        <Typography
+                            color="text.secondary"
+                            sx={{
+                                fontSize: 14, minHeight: '50vh',
+                                display: {
+                                    xs: 'none',
+                                    md: 'inherit'
+                                }
+                            }}>
                             Chọn 1 câu hỏi để hiển thị chi tiết
                         </Typography>
-
-                    </Typography>
+                    </>
                     :
                     <>
                         <Grid container>

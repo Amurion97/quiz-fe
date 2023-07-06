@@ -13,7 +13,7 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Paper, Typography,
+    Paper, Typography, useMediaQuery,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
@@ -50,9 +50,11 @@ const UserInfoBox = styled(Paper)(({theme}) => ({
     backgroundColor: theme.palette.secondary.light,
     textAlign: 'center',
     color: theme.palette.text.primary,
-    padding: "5%",
+    padding: "1% 0",
     // height: "70%",
-    minHeight: '40px',
+    // minHeight: '40px',
+    height: '100%',
+    margin: '0 20px'
 }));
 const StyledListItemButton = styled(ListItemButton)(({theme}) => ({
     borderRadius: "10px",
@@ -65,11 +67,12 @@ const StyledListItemButton = styled(ListItemButton)(({theme}) => ({
 }));
 // ----------------------------------------------------------------------
 
-export default function NavBar(props) {
+export default function NavBar({openNav, mobileOpen}) {
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const user = useSelector(selectUser);
+    const isSmUp = useMediaQuery(theme.breakpoints.up('sm'))
     // console.log("user:", user)
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [openConfirm, setOpenConfirm] = useState(false);
@@ -112,17 +115,28 @@ export default function NavBar(props) {
                     {/*    }}*/}
                     {/*/>*/}
                 </div>
+
                 <div className="navbar-item2">
-                    <UserInfoBox>
+                    <UserInfoBox sx={{
+                        width: theme => openNav === false && isSmUp ? `calc(${theme.spacing(6)})` : 'inherit',
+                        py: '1%',
+                        mx: theme => openNav === false && isSmUp ? 0.5 : 1,
+                        px: theme => openNav === false && isSmUp ? 0.5 : 3,
+                    }}>
                         <Grid container spacing={0} justifyContent="center" direction="row"
                               alignItems="center"
                               style={{
                                   height: "100%"
                               }}>
-                            <Grid item xs={3}>
-                                <Avatar src='/assets/images/avatars/avatar_default.jpg' alt="photoURL"/>
+                            <Grid item xs={openNav === false && isSmUp ? 12 : 3}>
+                                <Avatar src='/assets/images/avatars/avatar_default.jpg'
+                                        alt="photoURL"/>
                             </Grid>
-                            <Grid item xs={7}>
+                            <Grid item xs={7}
+                                  sx={openNav === false && isSmUp ? {
+                                      display: 'none'
+                                  } : {}
+                                  }>
                                 <Typography
                                     sx={{
                                         textOverflow: 'ellipsis',
@@ -133,7 +147,11 @@ export default function NavBar(props) {
                                     {user.info.email}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={2}
+                                  sx={openNav === false && isSmUp ? {
+                                      display: 'none'
+                                  } : {}
+                                  }>
                                 <IconButton size="large" color="inherit" onClick={handleClick}>
                                     <MoreVertIcon fontSize="small"/>
                                 </IconButton>
@@ -311,6 +329,5 @@ export default function NavBar(props) {
                 </DialogActions>
             </Dialog>
         </>
-    )
-        ;
+    );
 }

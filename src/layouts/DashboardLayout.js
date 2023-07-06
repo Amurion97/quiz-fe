@@ -66,7 +66,7 @@ export default function DashboardLayout(props) {
         setMobileOpen(!mobileOpen);
     };
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -110,7 +110,7 @@ export default function DashboardLayout(props) {
                     onClick={handleDrawerOpen}
                     sx={{
                         position: 'fixed',
-                        top: '30px',
+                        top: '10px',
                         left: '8px',
                         display: {xs: 'none', sm: open ? 'none' : 'block',},
                         width: '50px',
@@ -134,7 +134,7 @@ export default function DashboardLayout(props) {
                         '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
                     }}
                 >
-                    <NavBar/>
+                    <NavBar mobileOpen={mobileOpen} openNav={open}/>
                 </Drawer>
 
                 <DrawerPermanent
@@ -147,7 +147,7 @@ export default function DashboardLayout(props) {
                         onClick={handleDrawerClose}
                         sx={{
                             position: 'fixed',
-                            top: '30px',
+                            top: '10px',
                             left: '200px',
                             display: {xs: 'none', sm: open ? 'block' : 'none'},
                             width: '50px',
@@ -158,7 +158,7 @@ export default function DashboardLayout(props) {
                         <ChevronLeftIcon/>
                     </IconButton>
 
-                    <NavBar/>
+                    <NavBar openNav={open}/>
 
                 </DrawerPermanent>
 

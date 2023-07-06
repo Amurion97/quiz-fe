@@ -276,22 +276,11 @@ export default function QuestionCreationForm() {
                                 <Field
                                     component={TextField}
                                     type="text"
-                                    // label="Flight name"
                                     name="content"
                                     sx={{
                                         border: `5px solid ${theme.palette.primary.main}`,
                                         borderRadius: `${theme.shape.borderRadius + 2}px`,
-                                        // height: "300px",
-                                        // '& .MuiOutlinedInput-root': {
-                                        //     backgroundColor: theme.palette.primary.contrastText,
-                                        //     // height: "2.5rem",
-                                        //     color: theme.palette.primary.main,
-                                        // }
                                         "& .MuiFilledInput-root": {
-                                            // bgcolor: 'secondary.darker',
-                                            // bgcolor: 'primary.lighter',
-                                            // bgcolor: 'primary.main',
-                                            // bgcolor: 'secondary.main',
                                             bgcolor: 'inherit',
                                             textAlign: 'center',
                                             borderRadius: "8px",
@@ -342,7 +331,7 @@ export default function QuestionCreationForm() {
                                         {parseInt(values.type) === 1 && (
                                             <>
                                                 {[...Array(2)].map((x, index) =>
-                                                    <Grid item xs={6} sm={6} md={6}>
+                                                    <Grid item xs={6} sm={6} md={6} key={index}>
                                                         <Card sx={{
                                                             boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
                                                             mb: 1,
@@ -406,12 +395,13 @@ export default function QuestionCreationForm() {
                                                 {[...Array(answerNumber)].map((x, index) =>
                                                     <Slide direction="left" in={true}
                                                            mountOnEnter
-                                                           unmountOnExit>
+                                                           unmountOnExit
+                                                           key={index}
+                                                    >
                                                         <Grid
                                                             key={(index > values['deleteIndex']) ? 10 - index : index}
                                                             item
                                                             xs={12 / answerNumber}
-                                                            // sm={6} md={6}
                                                         >
                                                             <Card sx={{
                                                                 boxShadow: `5px 8px ${alpha('#595959', 0.4)}`,
@@ -421,9 +411,7 @@ export default function QuestionCreationForm() {
                                                             >
                                                                 <CardHeader
                                                                     avatar={
-                                                                        <Paper sx={{
-                                                                            // borderRadius: "50%",
-                                                                        }}>
+                                                                        <Paper>
                                                                             <IconButton
                                                                                 aria-label="settings"
                                                                                 color={"error"}
@@ -439,11 +427,7 @@ export default function QuestionCreationForm() {
                                                                     action={
                                                                         <Paper sx={{
                                                                             borderRadius: `${parseInt(values.type) === 2 ? "50%" : theme.shape.borderRadius}`,
-                                                                            // width: '80%',
                                                                             aspectRatio: "1/1",
-                                                                            // pl: 1.25,
-                                                                            // pr: -0.5,
-                                                                            // pt: 0.5,
                                                                             mr: 1,
                                                                             mt: 0.5,
                                                                         }}>
@@ -457,9 +441,6 @@ export default function QuestionCreationForm() {
                                                                                     labelPlacement={'end'}
                                                                                     disabled={isSubmitting}
                                                                                     size={"large"}
-                                                                                    // onChange={(event) => {
-                                                                                    //     setFieldValue("trueIndex", parseInt(event.target.value))
-                                                                                    // }}
                                                                                     sx={{
                                                                                         m: 0
                                                                                     }}
@@ -473,36 +454,6 @@ export default function QuestionCreationForm() {
 
                                                                                 />
 
-                                                                                // <ToggleButton
-                                                                                //     value={index}
-                                                                                //     aria-label="left aligned"
-                                                                                //     onClick={(e) => {
-                                                                                //         // console.log(e.target.value);
-                                                                                //         // console.log(handleFormat(index, setFieldValue));
-                                                                                //         setFieldValue("trueIndexes", handleFormat(index, setFieldValue));
-                                                                                //         // setFieldValue("trueIndexes", trueIndexes)
-                                                                                //
-                                                                                //         // setTimeout(() => {
-                                                                                //         //     // console.log("trueIndexes", trueIndexes);
-                                                                                //         //     setFieldValue("trueIndexes", trueIndexes)
-                                                                                //         // }, 100);
-                                                                                //     }}
-                                                                                //     selected={trueIndexes.includes(index)}
-                                                                                //     color={'success'}
-                                                                                // >
-                                                                                //     <CheckIcon
-                                                                                //             sx={{
-                                                                                //                 pointerEvents: 'none',
-                                                                                //             }}
-                                                                                //     />
-                                                                                // </ToggleButton>
-
-                                                                                // <Field
-                                                                                //     component={Checkbox}
-                                                                                //     type="checkbox"
-                                                                                //     // name={`isTrue-${index}`}
-                                                                                //     name={`trueList`}
-                                                                                // />
                                                                             }
 
                                                                         </Paper>
@@ -639,7 +590,7 @@ export default function QuestionCreationForm() {
                                 </Paper>
                             </Grid>
 
-                            <Grid item xs={4}>
+                            <Grid item xs={12} sm={6} md={4}>
                                 <Paper sx={{
                                     bgcolor: theme.palette.primary.main,
                                     borderRadius: `${theme.shape.borderRadius}px`,
@@ -676,18 +627,20 @@ export default function QuestionCreationForm() {
                                             {/*<MenuItem value={3}>More than one correct*/}
                                             {/*    option</MenuItem>*/}
                                             {typeOptions.map(item => (
-                                                <MenuItem value={item.id}>{item.name}</MenuItem>
+                                                <MenuItem value={item.id}
+                                                          key={item.id}
+                                                >{item.name}</MenuItem>
                                             ))}
                                         </Field>
                                     </FormControl>
                                 </Paper>
                             </Grid>
 
-                            <Grid item xs={1}>
+                            <Grid item xs={0} sm={1}>
 
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={5} md={3}>
                                 <Paper sx={{
                                     p: 1,
                                     pt: 2,
@@ -702,18 +655,20 @@ export default function QuestionCreationForm() {
                                         >
 
                                             {diffcultyOptions.map(item => (
-                                                <MenuItem value={item.id}>{item.name}</MenuItem>
+                                                <MenuItem
+                                                    key={item.id}
+                                                    value={item.id}>{item.name}</MenuItem>
                                             ))}
                                         </Field>
                                     </FormControl>
                                 </Paper>
                             </Grid>
 
-                            <Grid item xs={1}>
+                            <Grid item xs={0} md={1}>
 
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} md={3}>
                                 <LoadingButton fullWidth size="large" type="button"
                                                variant="contained"
                                                color="primary"
@@ -753,12 +708,12 @@ export default function QuestionCreationForm() {
                 </DialogActions>
             </Dialog>
             <Stack spacing={2} sx={{width: '100%'}}>
-                            <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
-                                <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
-                                Thêm câu hỏi thành công!
-                                </Alert>
-                            </Snackbar>
-                        </Stack>
+                <Snackbar open={openSuccess} autoHideDuration={1000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
+                        Thêm câu hỏi thành công!
+                    </Alert>
+                </Snackbar>
+            </Stack>
 
         </>
     )
