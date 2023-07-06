@@ -14,8 +14,6 @@ import {useEffect, useState} from "react";
 import * as React from "react";
 
 
-
-
 export default function QuestionSelection({addToQuestionList}) {
     const [selectedTagIDs, setSelectedTagIDs] = useState([]);
     const [selectedTypesIDs, setSelectedTypesIDs] = useState([]);
@@ -121,59 +119,49 @@ export default function QuestionSelection({addToQuestionList}) {
             <Grid container spacing={3}>
                 <Grid item xs={5}>
                     {isHovered ? (
-                        <Grid item xs={5}
-                              elevation={3}
-                              sx={{
-                                  position: 'absolute',
-                                  zIndex: 99,
-                                  width: 300,
-
-
-                              }}>
                             <QuestionDetails
                                 setshow
                                 currentQuestionId={currentQuestionId}
                                 updateQuestions={updateQuestions}
-
-
-                            />
-                        </Grid>
-                    ) : <Grid>
-                        <Paper
-                            component="form"
-                            sx={{
-                                p: '2px 4px',
-                                display: 'flex',
-                                alignItems: 'center',
-
-                            }}
-                        >
-                            <IconButton
-                                type="button"
-                                sx={{p: '10px'}}
-                                aria-label="search" disabled>
-                                <SearchIcon/>
-                            </IconButton>
-                            <InputBase
-                                sx={{ml: 3, flex: 1, width: 200}}
-                                placeholder="Tìm bài thi"
-                                inputProps={{'label': 'search '}}
-                                onChange={handleInputChange}
-                                value={contentQuery}
                             />
 
+                        ) :
+                        <>
+                            <Paper
+                                sx={{
+                                    p: '2px 4px',
+                                    display: 'flex',
+                                    alignItems: 'center',
 
-                        </Paper>
+                                }}
+                            >
+                                <IconButton
+                                    type="button"
+                                    sx={{p: '10px'}}
+                                    aria-label="search" disabled>
+                                    <SearchIcon/>
+                                </IconButton>
+                                <InputBase
+                                    sx={{ml: 3, flex: 1, width: 200}}
+                                    placeholder="Tìm bài thi"
+                                    inputProps={{'label': 'search '}}
+                                    onChange={handleInputChange}
+                                    value={contentQuery}
+                                />
 
-                        <GroupFilter
-                            handleCheckTags={handleCheckTags} selectedTagIDs={selectedTagIDs}
-                            handleCheckTypes={handleCheckTypes} selectedTypesIDs={selectedTypesIDs}
-                            handleCheckDifficulties={handleCheckDifficulties} difficultiesIDs={difficultiesIDs}
 
-                        >
+                            </Paper>
 
-                        </GroupFilter>
-                    </Grid>}
+                            <GroupFilter
+                                handleCheckTags={handleCheckTags} selectedTagIDs={selectedTagIDs}
+                                handleCheckTypes={handleCheckTypes} selectedTypesIDs={selectedTypesIDs}
+                                handleCheckDifficulties={handleCheckDifficulties} difficultiesIDs={difficultiesIDs}
+
+                            >
+
+                            </GroupFilter>
+                        </>
+                    }
                 </Grid>
                 <Grid item xs={7}>
                     <Grid item xs={12}>

@@ -13,7 +13,7 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Paper, Typography, useMediaQuery,
+    Paper, Typography, useMediaQuery, Container
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
@@ -118,19 +118,32 @@ export default function NavBar({openNav, mobileOpen}) {
 
                 <div className="navbar-item2">
                     <UserInfoBox sx={{
-                        width: theme => openNav === false && isSmUp ? `calc(${theme.spacing(6)})` : 'inherit',
+                        width: theme => openNav === false && isSmUp ? `calc(${theme.spacing(6.8)})` : 'inherit',
                         py: '1%',
                         mx: theme => openNav === false && isSmUp ? 0.5 : 1,
-                        px: theme => openNav === false && isSmUp ? 0.5 : 3,
+                        px: theme => openNav === false && isSmUp ? 0.5 : 1,
                     }}>
                         <Grid container spacing={0} justifyContent="center" direction="row"
                               alignItems="center"
                               style={{
                                   height: "100%"
                               }}>
-                            <Grid item xs={openNav === false && isSmUp ? 12 : 3}>
+                            <Grid item xs={openNav === false && isSmUp ? 12 : 3}
+                                  sx={{
+                                      position: 'relative',
+                                  }}
+                            >
+
                                 <Avatar src='/assets/images/avatars/avatar_default.jpg'
-                                        alt="photoURL"/>
+                                        alt="photoURL"
+                                        sx={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            left: '50%',
+                                            transform: 'translate(-50%, -50%)'
+                                        }}/>
+
+
                             </Grid>
                             <Grid item xs={7}
                                   sx={openNav === false && isSmUp ? {
