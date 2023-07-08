@@ -96,52 +96,54 @@ export default function RegisterForm({code}) {
                   }) => {
                     return (
                         <Form>
+                            <Collapse in={open}>
+                                <Alert
+                                    action={
+                                        <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => {
+                                                setOpen(false);
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="inherit"/>
+                                        </IconButton>
+                                    }
+                                    sx={{mb: 2}}
+                                    variant="filled" severity="error"
+                                >
+                                    {statusCode === 409 ?
+                                        "Đã có tài khoản sử dụng email này, bạn hãy dùng một email khác"
+                                        :
+                                        "Lỗi máy chủ trong quá trình đăng ký, vui lòng thử lại"
+                                    }
+                                </Alert>
+                            </Collapse>
+                            <Collapse in={openSuccess}>
+                                <Alert
+                                    action={
+                                        <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => {
+                                                setOpenSuccess(false);
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="inherit"/>
+                                        </IconButton>
+                                    }
+                                    sx={{mb: 2}}
+                                    variant="filled" severity="success"
+                                >
+                                    Đăng ký thành công
+                                    Bạn sẽ được trở lại trăng đăng nhập trong {countdown} giây...
+                                </Alert>
+                            </Collapse>
+
                             <Stack spacing={3}>
-                                <Collapse in={open}>
-                                    <Alert
-                                        action={
-                                            <IconButton
-                                                aria-label="close"
-                                                color="inherit"
-                                                size="small"
-                                                onClick={() => {
-                                                    setOpen(false);
-                                                }}
-                                            >
-                                                <CloseIcon fontSize="inherit"/>
-                                            </IconButton>
-                                        }
-                                        sx={{mb: 2}}
-                                        variant="filled" severity="error"
-                                    >
-                                        {statusCode === 409 ?
-                                            "Đã có tài khoản sử dụng email này, bạn hãy dùng một email khác"
-                                            :
-                                            "Lỗi máy chủ trong quá trình đăng ký, vui lòng thử lại"
-                                        }
-                                    </Alert>
-                                </Collapse>
-                                <Collapse in={openSuccess}>
-                                    <Alert
-                                        action={
-                                            <IconButton
-                                                aria-label="close"
-                                                color="inherit"
-                                                size="small"
-                                                onClick={() => {
-                                                    setOpenSuccess(false);
-                                                }}
-                                            >
-                                                <CloseIcon fontSize="inherit"/>
-                                            </IconButton>
-                                        }
-                                        sx={{mb: 2}}
-                                        variant="filled" severity="success"
-                                    >
-                                        Đăng ký thành công
-                                        Bạn sẽ được trở lại trăng đăng nhập trong {countdown} giây...
-                                    </Alert>
-                                </Collapse>
+
 
                                 <Field
                                     component={TextField}

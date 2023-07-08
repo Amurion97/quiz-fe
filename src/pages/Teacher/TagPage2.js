@@ -49,6 +49,7 @@ export default function TagPage2() {
     const [openTags, setOpenTags] = useState(false);
     const [openAddTags, setOpenAddTags] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('')
 
     const handleClickOpenAddTags = () => {
         setOpenAddTags(true);
@@ -339,7 +340,7 @@ export default function TagPage2() {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Bạn chắc chắn muốn xóa thẻ này ??"}
+                    {"Bạn chắc chắn muốn xóa thẻ này?"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -361,9 +362,10 @@ export default function TagPage2() {
                                 variant="filled"
                                 severity="error"
                             >
-                                {statusCode === 500
-                                    ? "Thẻ này đang được dùng, không thể xóa!!"
-                                    : "Server đang lỗi, hãy thử lại sau"}
+                                {/*{statusCode === 500*/}
+                                {/*    ? "Thẻ này đang được dùng, không thể xóa!!"*/}
+                                {/*    : "Server đang lỗi, hãy thử lại sau"}*/}
+                                {errorMessage}
                             </Alert>
                         </Collapse>
                         Hành động này không thể hoàn tác
@@ -381,7 +383,9 @@ export default function TagPage2() {
                                     handleClickOpenDialog();
                                 })
                                 .catch((e) => {
+                                    console.log("error while deleting tag:", e)
                                     setStatusCode(e.response?.status || 500);
+                                    setErrorMessage(e.response?.data.message)
                                     setOpen(true);
                                 });
                         }}

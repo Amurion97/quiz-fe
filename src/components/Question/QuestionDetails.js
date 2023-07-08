@@ -48,6 +48,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
     const [openSuccess, setOpenSuccess] = useState(false);
     const [editable, setEditable] = useState(false)
     const [tooltipTitle, setTooltipTitle] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
 
 
     const handleOpenMenu = (event) => {
@@ -303,7 +304,7 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                         sx={{mb: 2}}
                         variant="filled" severity="error"
                     >
-                        Lỗi khi xóa câu hỏi
+                        {errorMessage}
                     </Alert>
                 </Collapse>
                 <DialogContent>
@@ -325,8 +326,10 @@ export default function QuestionDetails({currentQuestionId, setCurrentQuestionId
                                     setCurrentQuestion(null);
                                 })
                                 .catch((e) => {
-                                    setOpen(true);
+
                                     console.log("error in delete:", e);
+                                    setErrorMessage(e.response?.data.message);
+                                    setOpen(true);
                                 });
                         }}
                         autoFocus

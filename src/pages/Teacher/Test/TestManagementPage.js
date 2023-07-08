@@ -63,7 +63,8 @@ export default function TestManagementPage() {
     const [contentQuery, setContentQuery] = useState('');
     const [page, setPage] = useState(1);
     const [resultNumber, setResultNumber] = useState(0);
-    const [sortText, setSortText] = useState('')
+    const [sortText, setSortText] = useState('');
+    const [errorMessage, setErrorMessage] = useState('')
 
     const [orderQuery, setOrderQuery] = useState({
         sortKey: '',
@@ -636,11 +637,13 @@ export default function TestManagementPage() {
                                 sx={{mb: 2}}
                                 variant="filled" severity="error"
                             >
-                                {statusCode === 500 ?
-                                    "Bài thi đang được dùng, không thể xóa!!"
-                                    :
-                                    "Server lỗi trong quá trình xóa bài thi, thử lại!"
-                                }
+                                {/*{statusCode === 500 ?*/}
+                                {/*    "Bài thi đang được dùng, không thể xóa!!"*/}
+                                {/*    :*/}
+                                {/*    "Server lỗi trong quá trình xóa bài thi, thử lại!"*/}
+                                {/*}*/}
+
+                                {errorMessage}
                             </Alert>
                         </Collapse>
                         Hành động này không thể hoàn tác
@@ -657,12 +660,17 @@ export default function TestManagementPage() {
                                 handleClickOpenDialog()
                             })
                             .catch(e => {
+                                // setOpen(true);
+                                // if (e.message.includes("500")) {
+                                //     setStatusCode(500);
+                                // } else {
+                                //     console.log("Error:", e);
+                                // }
+
+                                console.log("error while deleting tag:", e)
+                                // setStatusCode(e.response?.status || 500);
+                                setErrorMessage(e.response?.data.message)
                                 setOpen(true);
-                                if (e.message.includes("500")) {
-                                    setStatusCode(500);
-                                } else {
-                                    console.log("Error:", e);
-                                }
                             })
                     }} autoFocus variant="contained" color="error">
                         Xóa bài thi
