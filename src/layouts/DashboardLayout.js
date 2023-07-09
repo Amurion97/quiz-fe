@@ -17,7 +17,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import NavBar from "../components/NavBar";
 //----------------------------------------------------------------------------------------------------------------------
 
-const drawerWidth = 270;
+const drawerWidth = 307;
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -148,7 +148,7 @@ export default function DashboardLayout(props) {
                         sx={{
                             position: 'fixed',
                             top: '10px',
-                            left: '200px',
+                            left: '250px',
                             display: {xs: 'none', sm: open ? 'block' : 'none'},
                             width: '50px',
                             height: '50px',

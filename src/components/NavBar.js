@@ -118,7 +118,7 @@ export default function NavBar({openNav, mobileOpen}) {
 
                 <div className="navbar-item2">
                     <UserInfoBox sx={{
-                        width: theme => openNav === false && isSmUp ? `calc(${theme.spacing(6.8)})` : 'inherit',
+                        width: theme => openNav === false && isSmUp ? `calc(${theme.spacing(6.8)})` : 'initial',
                         py: '1%',
                         mx: theme => openNav === false && isSmUp ? 0.5 : 1,
                         px: theme => openNav === false && isSmUp ? 0.5 : 1,

@@ -48,6 +48,7 @@ code {
   position: sticky;
 }
 .navbar-item1 {
+  width: 100%;
   grid-area: a;
 }
 .navbar-item2 {
