@@ -1,12 +1,12 @@
 import {Helmet} from "react-helmet-async";
 // @mui
-import {styled} from "@mui/material/styles";
-import {Link, Container, Typography} from "@mui/material";
+import { Container, Typography} from "@mui/material";
 // hooks
 // components
 import Logo from "../../components/logo";
 import ForgotPasswordForm from "../../components/Forms/Authentication/ResetRequestForm";
 import {StyledContent, StyledRoot, StyledSection} from "./LoginPage";
+import {Link} from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ export default function ForgotPasswordPage() {
                         <Typography variant="body2">
                             Hãy nhập email để tìm tài khoản của bạn <br/>
                             Bạn đã nhớ lại mật khẩu rồi?  {""}
-                            <Link href="/login">Đăng nhập lại nào...</Link>
+                            <Link to="/login">Đăng nhập lại nào...</Link>
                         </Typography>
 
                         <ForgotPasswordForm/>

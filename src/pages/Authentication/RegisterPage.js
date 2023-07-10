@@ -1,4 +1,4 @@
-import {Link, Container, Typography, Grid, MenuItem, Tooltip} from "@mui/material";
+import {Container, Typography, Grid, MenuItem, Tooltip} from "@mui/material";
 import {styled, useTheme} from "@mui/material/styles";
 // MUI----------------------------------------------------------------
 
@@ -11,25 +11,12 @@ import Logo from "../../components/logo";
 
 
 import RegisterForm from "../../components/Forms/Authentication/RegisterForm";
-import ForgotPasswordForm from "../../components/Forms/Authentication/ResetRequestForm";
 // Componnet-------------------------------------------------------------------
 import {StyledContent, StyledRoot, StyledSection} from "./LoginPage";
-import {useLocation} from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
+import {Link, useLocation} from "react-router-dom";
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import {red} from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {useState} from "react";
 import {Alert} from "@mui/lab";
 
@@ -91,7 +78,7 @@ export default function RegisterPage() {
 
                         <Typography variant="body2">
                             Bạn đã có sẵn một tài khoản? {''}
-                            <Link href="/login">Hãy đăng nhập nào...</Link>
+                            <Link to="/login">Hãy đăng nhập nào...</Link>
                         </Typography>
 
                         <Alert severity="info" sx={{mb: 1}}>

@@ -1,8 +1,8 @@
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 // @mui
 import {
-    Link,
+
     Stack,
     IconButton,
     InputAdornment,
@@ -143,7 +143,7 @@ export default function LoginForm({code}) {
                         <Stack direction="row" alignItems="center" justifyContent="space-between"
                                sx={{my: 2}}>
                             <Grid></Grid>
-                            <Link variant="subtitle2" underline="hover" href="/forgot-password">
+                            <Link to="/forgot-password">
                                 Bạn quên mật khẩu?
                             </Link>
                         </Stack>
